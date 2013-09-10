@@ -43,7 +43,7 @@ Feel free to use the support option on the main page of the plugin.
 
 == Changelog ==
 
-= 0.1 (September 1, 2013)=
+= 0.1 (September 1, 2013) =
 * Begun Development
 * Added ability to create/edit/delete quizzes
 * Added ability to create/edit/delete questions
