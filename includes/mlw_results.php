@@ -84,9 +84,13 @@ function mlw_generate_quiz_results()
 		{
 			$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->correct ." out of ".$mlw_quiz_info->total." or ".$mlw_quiz_info->correct_score."%</span></td>";
 		}
-		else
+		if ($mlw_quiz_info->quiz_system == 1)
 		{
-		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->point_score . " Points</span></td>";
+			$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->point_score . " Points</span></td>";
+		}
+		if ($mlw_quiz_info->quiz_system == 2)
+		{
+			$quotes_list .= "<td><span style='font-size:16px;'>Not Graded</span></td>";
 		}
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->name ."</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->business ."</span></td>";

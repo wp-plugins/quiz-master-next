@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.6.1
-Stable tag: 0.2
+Stable tag: 0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,8 +22,9 @@ Features include:
 * Can ask for user's contact information
 * Can email user after taking the quiz
 * Can email an admin after a user takes the quiz
-* Can score the quiz using either an incorrect/correct system or a points based system
+* Can score the quiz using an incorrect/correct system, a points based system, or a not-graded system
 * Saves the results after a user takes the quiz
+* Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
 
 == Installation ==
 
@@ -44,6 +45,10 @@ Feel free to use the support option on the main page of the plugin.
 
 == Changelog ==
 
+= 0.3 (September 12, 2013) =
+* Increased Scoring Systems To Three: Correct, Points, Or Not Graded
+* Error Fixes
+
 = 0.2 (September 9, 2013) =
 * Added New Quiz Dashboard Page
 * Created Audit Trail
@@ -59,6 +64,9 @@ Feel free to use the support option on the main page of the plugin.
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.3 =
+Upgrade to enjoy the new Not Graded scoring system and some error fixes!
 
 = 0.2 =
 Upgrade to enjoy three new features and some minor fixes!

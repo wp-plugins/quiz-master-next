@@ -83,7 +83,7 @@ function mlw_generate_main_page()
 	<div class="wrap">
 	<h2>Quiz Master Next Support <a id="opener" href="">(?)</a></h2>
 	
-	<h3>Version 0.2</h3>
+	<h3>Version 0.3</h3>
 	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
@@ -160,19 +160,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.2 (September 9, 2013)</td>
+	<td align='left'>0.3 (September 12, 2013)</td>
 	</tr>
 	<tr>
-	<td align='left'>* Added New Quiz Dashboard Page</td>
+	<td align='left'>* Increased Scoring Systems To Three: Correct, Points, Or Not Graded</td>
 	</tr>
 	<tr>
-	<td align='left'>* Created Audit Trail</td>
-	</tr>
-	<tr>
-	<td align='left'>* Added Ability to Add Questions/Answers to Templates</td>
-	</tr>
-	<tr>
-	<td align='left'>* Minor Spelling/Grammer Fixes</td>
+	<td align='left'>* Error Fixes</td>
 	</tr>
 	</table>
 	</div>
