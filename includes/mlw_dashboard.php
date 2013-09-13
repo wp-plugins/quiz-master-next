@@ -53,7 +53,7 @@ function mlw_generate_quiz_dashboard(){
 	<div class="wrap">
 	<h2>Quiz Master Next Dashboard<a id="opener" href="">(?)</a></h2>
 	
-	<h3>Version 0.3.1</h3>
+	<h3>Version 0.4</h3>
 	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">

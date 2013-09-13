@@ -83,7 +83,7 @@ function mlw_generate_main_page()
 	<div class="wrap">
 	<h2>Quiz Master Next Support <a id="opener" href="">(?)</a></h2>
 	
-	<h3>Version 0.3.1</h3>
+	<h3>Version 0.4</h3>
 	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
@@ -160,10 +160,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.3.1 (September 13, 2013)</td>
+	<td align='left'>0.4 (September 13, 2013)</td>
 	</tr>
 	<tr>
-	<td align='left'>* Bug Fixes</td>
+	<td align='left'>* Add The Ability To Require Contact Information</td>
+	</tr>
+	<tr>
+	<td align='left'>* Add Email Validating To Email Field</td>
 	</tr>
 	</table>
 	</div>
@@ -183,7 +186,7 @@ function quiz_wpss_mrt_meta_box3()
 	$quiz_master_email_message = "";
 	if ($quiz_master_email_success == update and $user_email != "" and $user_message != "")
 	{
-		wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message);
+		wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version 0.4");
 		$quiz_master_email_message = "<h3>Message Sent</h3>";
 	}
 	else if ($quiz_master_email_success == update and $user_email == "")

@@ -60,12 +60,71 @@ function mlw_quiz_shortcode($atts)
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views='".$mlw_views."' WHERE quiz_id=".$mlw_quiz_id;
 		$results = $wpdb->query( $update );
 
+		//Form validation script
+		$mlw_display .= "
+		<script>
+			function validateForm()
+			{
+		";
+		if ($mlw_quiz_options->user_name == 1)
+		{
+		$mlw_display .= "
+				var x=document.forms['quizForm']['mlwUserName'].value;
+				if (x==null || x=='')
+				  {
+					  alert('Name must be filled out');
+					  return false;
+				  }";
+		}
+		if ($mlw_quiz_options->user_comp == 1)
+		{
+		$mlw_display .= "
+				var x=document.forms['quizForm']['mlwUserComp'].value;
+				if (x==null || x=='')
+				  {
+					  alert('Business must be filled out');
+					  return false;
+				  }";
+		}
+		if ($mlw_quiz_options->user_email == 1)
+		{
+		$mlw_display .= "
+				var x=document.forms['quizForm']['mlwUserEmail'].value;
+				if (x==null || x=='')
+				  {
+					  alert('Email must be filled out');
+					  return false;
+				  }";
+		}
+		if ($mlw_quiz_options->user_phone == 1)
+		{
+		$mlw_display .= "
+				var x=document.forms['quizForm']['mlwUserPhone'].value;
+				if (x==null || x=='')
+				  {
+					  alert('Phone number must be filled out');
+					  return false;
+				  }";
+		}
+		$mlw_display .= "
+				var x=document.forms['quizForm']['mlwUserEmail'].value;
+				var atpos=x.indexOf('@');
+				var dotpos=x.lastIndexOf('.');
+				if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
+				  {
+				  alert('Not a valid e-mail address');
+				  return false;
+				  }
+			}		
+		</script>";
+		
+		
 		//Begin the quiz
 		$mlw_message_before = $mlw_quiz_options->message_before;
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
 		$mlw_display .= "<p>".$mlw_message_before."</p>";
 		$mlw_display .= "<br />";
-		$mlw_display .= "<form action='" . $PHP_SELF . "' method='post'>";
+		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return validateForm()' >";
 		$mlw_display .= "<table>";
 		$mlw_display .= "<thead>";
 
