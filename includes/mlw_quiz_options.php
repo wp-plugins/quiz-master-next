@@ -112,12 +112,14 @@ function mlw_generate_quiz_options()
 	}
 
 	//Get table of questions for this quiz
-	global $wpdb;
-	$table_name = $wpdb->prefix . "mlw_questions";
-	$sql = "SELECT * FROM " . $table_name . " WHERE quiz_id=".$quiz_id." AND deleted=0";
-	$sql .= " ORDER BY question_id ASC";
-	$mlw_question_data = $wpdb->get_results($sql);
-	
+	if ($quiz_id != "")
+	{
+		global $wpdb;
+		$table_name = $wpdb->prefix . "mlw_questions";
+		$sql = "SELECT * FROM " . $table_name . " WHERE quiz_id=".$quiz_id." AND deleted=0";
+		$sql .= " ORDER BY question_id ASC";
+		$mlw_question_data = $wpdb->get_results($sql);
+	}
 
 	/*
 	Code for Quiz Text tab
@@ -193,12 +195,15 @@ function mlw_generate_quiz_options()
 	*/
 
 	//Load all quiz data
-	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes" . " WHERE quiz_id=".$quiz_id;
-	$mlw_quiz_options = $wpdb->get_results($sql);
-
-	foreach($mlw_quiz_options as $testing) {
-		$mlw_quiz_options = $testing;
-		break;
+	if ($quiz_id != "")
+	{
+		$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes" . " WHERE quiz_id=".$quiz_id;
+		$mlw_quiz_options = $wpdb->get_results($sql);
+	
+		foreach($mlw_quiz_options as $testing) {
+			$mlw_quiz_options = $testing;
+			break;
+		}
 	}
 	?>
 	<!-- css -->
