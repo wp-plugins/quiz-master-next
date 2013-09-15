@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.6.1
-Stable tag: 0.4
+Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,9 @@ Feel free to use the support option on the main page of the plugin.
 3. Quiz Dashboard Page
 
 == Changelog ==
+
+= 0.4.1 (September 15, 2013) =
+ * Bug Fixes
 
 = 0.4 (September 13, 2013) =
  * Add The Ability To Require Contact Information

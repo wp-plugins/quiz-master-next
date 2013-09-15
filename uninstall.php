@@ -24,4 +24,6 @@ global $wpdb;
 	$sql = "DROP TABLE IF EXISTS ".$table_name;
 	
 	$results = $wpdb->query( $sql );
+	
+	delete_option('mlw_quiz_master_version');
 ?>

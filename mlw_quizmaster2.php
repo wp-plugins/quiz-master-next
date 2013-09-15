@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: This adds a quiz function to your website. This is the new version of the wildly popular Quiz Master.
-Version: 0.4
+Version: 0.4.1
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
