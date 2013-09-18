@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: This adds a quiz function to your website. This is the new version of the wildly popular Quiz Master.
-Version: 0.4.1
+Version: 0.5
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -29,6 +29,7 @@ include("includes/mlw_quiz_admin.php");
 include("includes/mlw_quiz_options.php");
 include("includes/mlw_quiz_install.php");
 include("includes/mlw_results.php");
+include("includes/mlw_tools.php");
 
 
 ///Activation Actions
@@ -47,7 +48,8 @@ function mlw_add_menu()
 		add_submenu_page(__FILE__, 'Quizzes', 'Quizzes', 8, 'mlw_quiz_admin', 'mlw_generate_quiz_admin');
 		add_submenu_page(__FILE__, 'Quiz Options', 'Quiz Options', 8, 'mlw_quiz_options', 'mlw_generate_quiz_options');
 		add_submenu_page(__FILE__, 'Quiz Results', 'Quiz Results', 8, 'mlw_quiz_results', 'mlw_generate_quiz_results');
-		add_submenu_page(__FILE__, 'Support', 'Support', 8, 'mlw_quiz_tools', 'mlw_generate_main_page');
+		add_submenu_page(__FILE__, 'Tools', 'Tools', 8, 'mlw_quiz_tools', 'mlw_generate_quiz_tools');
+		add_submenu_page(__FILE__, 'Support', 'Support', 8, 'mlw_quiz_support', 'mlw_generate_main_page');
 	}
 }
 /*

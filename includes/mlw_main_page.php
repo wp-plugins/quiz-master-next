@@ -9,6 +9,7 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_main_page()
 {	
+	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	add_meta_box("wpss_mrts", 'Quiz Master Next', "quiz_wpss_mrt_meta_box", "quiz_wpss");  
 	add_meta_box("wpss_mrts", 'In This Update', "quiz_wpss_mrt_meta_box2", "quiz_wpss2"); 
 	add_meta_box("wpss_mrts", 'Support', "quiz_wpss_mrt_meta_box3", "quiz_wpss3");
@@ -83,9 +84,8 @@ function mlw_generate_main_page()
 	<div class="wrap">
 	<h2>Quiz Master Next Support <a id="opener" href="">(?)</a></h2>
 	
-	<h3>Version 0.4.1</h3>
-	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website.</p>
-	<p>Please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
+	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
+	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website. Please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss3','advanced','');  ?>	
@@ -161,10 +161,22 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.4.1 (September 13, 2013)</td>
+	<td align='left'>0.5 (September 18, 2013)</td>
 	</tr>
 	<tr>
-	<td align='left'>* Bug Fixes</td>
+	<td align='left'>* Created New Tools Page And Moved Audit Trail To It</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added Ability For Comment Section At End Of Quiz</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added Ability To Have Hints</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added Option To Have Comment Boxes On Questions</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added More Statistics To Main Page</td>
 	</tr>
 	</table>
 	</div>
@@ -182,16 +194,16 @@ function quiz_wpss_mrt_meta_box3()
 	$user_email = $_POST["email"];
 	$user_message = $_POST["message"];
 	$quiz_master_email_message = "";
-	if ($quiz_master_email_success == update and $user_email != "" and $user_message != "")
+	if ($quiz_master_email_success == 'update' and $user_email != "" and $user_message != "")
 	{
-		wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version 0.4");
+		wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version ".$mlw_quiz_version);
 		$quiz_master_email_message = "<h3>Message Sent</h3>";
 	}
-	else if ($quiz_master_email_success == update and $user_email == "")
+	else if ($quiz_master_email_success == 'update' and $user_email == "")
 	{
 		$quiz_master_email_message = "<h3>Please Enter Email</h3>";
 	}
-	else if ($quiz_master_email_success == update and $user_message == "")
+	else if ($quiz_master_email_success == 'update' and $user_message == "")
 	{
 		$quiz_master_email_message = "<h3>Please Enter In Your Message</h3>";
 	}

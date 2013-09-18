@@ -2,7 +2,6 @@
 /*
 These functions are used for installing and uninstalling all necessary databases, options, page, etc.. for the plugin to work properly.
 */
-
 function mlw_quiz_activate()
 {
 	global $wpdb;
@@ -22,6 +21,8 @@ function mlw_quiz_activate()
 			message_before TEXT NOT NULL,
 			
 			message_after TEXT NOT NULL,
+			
+			message_comment TEXT NOT NULL,
 
 			user_email_template TEXT NOT NULL,
 			
@@ -36,6 +37,8 @@ function mlw_quiz_activate()
 			email_field_text TEXT NOT NULL,
 			
 			phone_field_text TEXT NOT NULL,
+			
+			comment_field_text TEXT NOT NULL,
 
 			system INT NOT NULL,
 
@@ -54,6 +57,8 @@ function mlw_quiz_activate()
 			user_phone INT NOT NULL,
 
 			admin_email TEXT NOT NULL,
+			
+			comment_section INT NOT NULL,
 
 			quiz_views INT NOT NULL,
 
@@ -69,6 +74,29 @@ function mlw_quiz_activate()
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
+	}
+	
+	else
+	
+	{
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'comment_section'") != "comment_section")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD comment_field_text TEXT NOT NULL AFTER phone_field_text";
+			
+			$results = $wpdb->query( $sql );
+			
+			$sql = "ALTER TABLE ".$table_name." ADD comment_section INT NOT NULL AFTER admin_email";
+			
+			$results = $wpdb->query( $sql );
+			
+			$sql = "ALTER TABLE ".$table_name." ADD message_comment TEXT NOT NULL AFTER message_after";
+			
+			$results = $wpdb->query( $sql );
+			
+			$update_sql = "UPDATE ".$table_name." SET comment_field_text='Comments', comment_section=0, message_comment='Enter You Text Here'";
+			
+			$results = $wpdb->query( $update_sql );
+		}		
 	}
 
 	global $wpdb;
@@ -112,6 +140,10 @@ function mlw_quiz_activate()
 			answer_six_points INT NOT NULL,
 
 			correct_answer INT NOT NULL,
+			
+			comments INT NOT NULL,
+			
+			hints TEXT NOT NULL,
 
 			deleted INT NOT NULL,
 
@@ -123,6 +155,25 @@ function mlw_quiz_activate()
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
+	}
+	
+	else
+	
+	{
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'comments'") != "comments")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD comments INT NOT NULL AFTER correct_answer";
+			
+			$results = $wpdb->query( $sql );
+			
+			$sql = "ALTER TABLE ".$table_name." ADD hints TEXT NOT NULL AFTER comments";
+			
+			$results = $wpdb->query( $sql );
+			
+			$update_sql = "UPDATE ".$table_name." SET comments=0, hints=''";
+			
+			$results = $wpdb->query( $update_sql );
+		}		
 	}
 
 	global $wpdb;
@@ -201,10 +252,14 @@ function mlw_quiz_activate()
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	$data = "0.4.1";
+	$data = "0.5";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
+	}
+	else
+	{
+		update_option('mlw_quiz_master_version' , $data);
 	}
 }
 

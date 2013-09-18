@@ -12,14 +12,16 @@ function mlw_generate_quiz_admin()
 	$table_name = $wpdb->prefix . "mlw_quizzes";
 	$success = $_POST["create_quiz"];
 	$quiz_name = $_POST["quiz_name"];
+	$hasCreatedQuiz = false;
+	$hasDeletedQuiz = false;
 
 	//Create new quiz
 	if ($success == "confirmation")
 	{
 		//Insert New Quiz Into Table
 		$insert = "INSERT INTO " . $table_name .
-			"(quiz_id, quiz_name, message_before, message_after, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, system, show_score, send_user_email, send_admin_email, user_name, user_comp, user_email, user_phone, admin_email, quiz_views, quiz_taken, deleted) " .
-			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0)";
+			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, system, show_score, send_user_email, send_admin_email, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
+			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
 		$results = $wpdb->query( $insert );
 		$hasCreatedQuiz = true;
 		

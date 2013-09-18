@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.6.1
-Stable tag: 0.4.1
+Stable tag: 0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,8 +23,11 @@ Features include:
 * Can email user after taking the quiz
 * Can email an admin after a user takes the quiz
 * Can score the quiz using an incorrect/correct system, a points based system, or a not-graded system
+* Can enable comment boxes for each question and/or comment section at the end of the quiz
+* Can enable hints for questions
 * Saves the results after a user takes the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
+* Create surveys by utilizing the comment boxes instead of answers
 
 == Installation ==
 
@@ -45,6 +48,13 @@ Feel free to use the support option on the main page of the plugin.
 
 == Changelog ==
 
+= 0.5 (September 18, 2013) =
+ * Created New Tools Page And Moved Audit Trail To It
+ * Added Ability For Comment Section At End Of Quiz
+ * Added Ability To Have Hints
+ * Added Option To Have Comment Boxes On Questions
+ * Added More Statistics To Main Page
+ 
 = 0.4.1 (September 15, 2013) =
  * Bug Fixes
 

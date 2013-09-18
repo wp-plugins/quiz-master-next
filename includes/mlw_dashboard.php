@@ -7,9 +7,9 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 */
 
 function mlw_generate_quiz_dashboard(){
+	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	add_meta_box("wpss_mrts", 'Quiz Stats', "mlw_dashboard_box", "quiz_wpss");  
-	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2"); 
-	add_meta_box("wpss_mrts", 'Audit Trail', "mlw_dashboard_box_three", "quiz_wpss3"); 
+	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2");
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -53,7 +53,7 @@ function mlw_generate_quiz_dashboard(){
 	<div class="wrap">
 	<h2>Quiz Master Next Dashboard<a id="opener" href="">(?)</a></h2>
 	
-	<h3>Version 0.4.1</h3>
+	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
 	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
@@ -65,19 +65,12 @@ function mlw_generate_quiz_dashboard(){
 	</div>
 			
 	<!--<div style="clear:both"></div>-->
-						
-	<div style="float:left; width:100%;" class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss3','advanced','');  ?>	
-	</div>
-	
-	<!--<div style="clear:both"></div>-->
 
 	<div id="dialog" title="Help">
 	<h3><b>Help</b></h3>
 	<p>This page is the main admin page for the Quiz Master Next.</p>
 	<p>The first widget lists all the statistics collected so far.</p>
-	<p>The second widget lists all the new features added in this update.</p>
-	<p>The third widget lists the audit trail.</p>
+	<p>The second widget gives tips to better use the plugin.</p>
 	</div>
 
 	</div>
@@ -102,6 +95,22 @@ function mlw_dashboard_box()
 		$mlw_quiz_taken = $mlw_eaches->QuizTaken;
 		break;
 	}
+	
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes ORDER BY quiz_views DESC LIMIT 1";
+	$mlw_quiz_most_viewed = $wpdb->get_results($sql);
+
+	foreach($mlw_quiz_most_viewed as $mlw_eaches) {
+		$mlw_quiz_most_viewed = $mlw_eaches->quiz_name;
+		break;
+	}
+	
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes ORDER BY quiz_taken DESC LIMIT 1";
+	$mlw_quiz_most_taken = $wpdb->get_results($sql);
+
+	foreach($mlw_quiz_most_taken as $mlw_eaches) {
+		$mlw_quiz_most_taken = $mlw_eaches->quiz_name;
+		break;
+	}
 	?>
 	<div>
 	<table width='100%'>
@@ -112,6 +121,14 @@ function mlw_dashboard_box()
 	<tr>
 	<td align='left'>Total Times All Quizzes Have Been Taken</td>
 	<td align='right'><?php echo $mlw_quiz_taken; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Quiz That Has Been Viewed The Most</td>
+	<td align='right'><?php echo $mlw_quiz_most_viewed; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Quiz That Has Been Taken The Most</td>
+	<td align='right'><?php echo $mlw_quiz_most_taken; ?></td>
 	</tr>
 	</table>
 	</div>
@@ -143,50 +160,6 @@ function mlw_dashboard_box_two()
 	</tr>
 	<tr>
 	<td align='left'></td>
-	</tr>
-	</table>
-	</div>
-	<?php
-}
-
-function mlw_dashboard_box_three()
-{
-	global $wpdb;
-
-	$sql = "SELECT trail_id, action_user, action, time 
-		FROM " . $wpdb->prefix . "mlw_qm_audit_trail ";
-	$sql .= "ORDER BY trail_id DESC";
-
-	$audit_trails = $wpdb->get_results($sql);
-	$quotes_list = "";
-	$display = "";
-	foreach($audit_trails as $quote_data) {
-		if($alternate) $alternate = "";
-		else $alternate = " class=\"alternate\"";
-		$quotes_list .= "<tr{$alternate}>";
-		$quotes_list .= "<td>" . $quote_data->trail_id . "</td>";
-		$quotes_list .= "<td>" . $quote_data->action_user . "</td>";
-		$quotes_list .= "<td>" . $quote_data->action ."</td>";
-		$quotes_list .= "<td>" . $quote_data->time . "</td>";
-		$quotes_list .= "</tr>";
-	}
-	
-	$display .= "<table class=\"widefat\">";
-		$display .= "<thead><tr>
-			<th>ID</th>
-			<th>User</th>
-			<th>Action</th>
-			<th>Time</th>
-		</tr></thead>";
-		$display .= "<tbody id=\"the-list\">{$quotes_list}</tbody>";
-		$display .= "</table>";
-	?>
-	<div>
-	<table width='100%'>
-	<tr>
-	<td align='left'>
-	<?php echo $display; ?>
-	</td>
 	</tr>
 	</table>
 	</div>
