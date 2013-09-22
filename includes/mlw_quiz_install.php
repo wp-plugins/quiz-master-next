@@ -93,7 +93,7 @@ function mlw_quiz_activate()
 			
 			$results = $wpdb->query( $sql );
 			
-			$update_sql = "UPDATE ".$table_name." SET comment_field_text='Comments', comment_section=0, message_comment='Enter You Text Here'";
+			$update_sql = "UPDATE ".$table_name." SET comment_field_text='Comments', comment_section=1, message_comment='Enter You Text Here'";
 			
 			$results = $wpdb->query( $update_sql );
 		}		
@@ -170,7 +170,7 @@ function mlw_quiz_activate()
 			
 			$results = $wpdb->query( $sql );
 			
-			$update_sql = "UPDATE ".$table_name." SET comments=0, hints=''";
+			$update_sql = "UPDATE ".$table_name." SET comments=1, hints=''";
 			
 			$results = $wpdb->query( $update_sql );
 		}		
@@ -252,7 +252,7 @@ function mlw_quiz_activate()
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	$data = "0.5";
+	$data = "0.5.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);

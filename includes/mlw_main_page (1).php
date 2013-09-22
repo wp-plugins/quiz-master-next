@@ -161,13 +161,22 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.5.1 (September 22, 2013)</td>
+	<td align='left'>0.5 (September 18, 2013)</td>
 	</tr>
 	<tr>
-	<td align='left'>* Added More Statistics To Quiz Dashboard</td>
+	<td align='left'>* Created New Tools Page And Moved Audit Trail To It</td>
 	</tr>
 	<tr>
-	<td align='left'>* Bug Fixes</td>
+	<td align='left'>* Added Ability For Comment Section At End Of Quiz</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added Ability To Have Hints</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added Option To Have Comment Boxes On Questions</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added More Statistics To Main Page</td>
 	</tr>
 	</table>
 	</div>

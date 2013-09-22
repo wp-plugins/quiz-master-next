@@ -3,11 +3,11 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.6.1
-Stable tag: 0.5
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Use this plugin to add multiple quizzes or tests to your website.
+Use this plugin to add multiple quizzes, tests, or surveys to your website.
 
 == Description ==
 
@@ -17,7 +17,7 @@ Use this plugin to add multiple quizzes or tests to your website. This plugin al
 
 Features include:
 
-* Allows for Unlimited Quizzes
+* Allows for Unlimited Quizzes, Tests, or Surveys
 * Allows for Unlimited Questions in each Quiz
 * Can ask for user's contact information
 * Can email user after taking the quiz
@@ -45,9 +45,15 @@ Feel free to use the support option on the main page of the plugin.
 1. Quiz Admin Page
 2. Quiz Options Page
 3. Quiz Dashboard Page
+4. Example Quiz
+5. Example Survey
 
 == Changelog ==
 
+= 0.5.1 (September 22, 2013) =
+ * Added More Statistics To Quiz Dashboard
+ * Bug Fixes
+ 
 = 0.5 (September 18, 2013) =
  * Created New Tools Page And Moved Audit Trail To It
  * Added Ability For Comment Section At End Of Quiz
@@ -84,6 +90,15 @@ Feel free to use the support option on the main page of the plugin.
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.5.1 =
+Upgrade to fix some minor bug fixes.
+
+= 0.5 =
+Upgrade to enjoy several new features including surveys!
+
+= 0.4 =
+Upgrade to enjoy being able to require contact information.
 
 = 0.3 =
 Upgrade to enjoy the new Not Graded scoring system and some error fixes!

@@ -220,7 +220,7 @@ function mlw_quiz_shortcode($atts)
 		if ($mlw_quiz_options->comment_section == 0)
 		{
 			$mlw_display .= "<label for='mlwQuizComments'>".$mlw_quiz_options->message_comment."</label>";
-			$mlw_display .= "<textarea cols='80' rows='15' id='mlwQuizComments' name='mlwQuizComments' ></textarea>";
+			$mlw_display .= "<textarea cols='70' rows='15' id='mlwQuizComments' name='mlwQuizComments' ></textarea>";
 			$mlw_display .= "<br />";
 		}
 		$mlw_display .= "<input type='hidden' name='complete_quiz' value='confirmation' />";

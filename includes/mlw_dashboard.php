@@ -96,6 +96,22 @@ function mlw_dashboard_box()
 		break;
 	}
 	
+	$sql = "SELECT AVG(quiz_views) AS AvgViews FROM " . $wpdb->prefix . "mlw_quizzes";
+	$mlw_average_views = $wpdb->get_results($sql);
+
+	foreach($mlw_average_views as $mlw_eaches) {
+		$mlw_average_views = $mlw_eaches->AvgViews;
+		break;
+	}
+	
+	$sql = "SELECT AVG(quiz_taken) AS AvgTaken FROM " . $wpdb->prefix . "mlw_quizzes";
+	$mlw_average_taken = $wpdb->get_results($sql);
+
+	foreach($mlw_average_taken as $mlw_eaches) {
+		$mlw_average_taken = $mlw_eaches->AvgTaken;
+		break;
+	}
+	
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes ORDER BY quiz_views DESC LIMIT 1";
 	$mlw_quiz_most_viewed = $wpdb->get_results($sql);
 
@@ -121,6 +137,14 @@ function mlw_dashboard_box()
 	<tr>
 	<td align='left'>Total Times All Quizzes Have Been Taken</td>
 	<td align='right'><?php echo $mlw_quiz_taken; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Average Views Per Quiz</td>
+	<td align='right'><?php echo $mlw_average_views; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Average Times Taken Per Quiz</td>
+	<td align='right'><?php echo $mlw_average_taken; ?></td>
 	</tr>
 	<tr>
 	<td align='left'>Quiz That Has Been Viewed The Most</td>
