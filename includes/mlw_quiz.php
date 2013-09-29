@@ -68,7 +68,7 @@ function mlw_quiz_shortcode($atts)
 				if (field.defaultValue == field.value) field.value = '';
 			}
 			
-			function validateForm()
+			function mlw_validateForm()
 			{
 		";
 		if ($mlw_quiz_options->user_name == 1)
@@ -112,14 +112,17 @@ function mlw_quiz_shortcode($atts)
 				  }";
 		}
 		$mlw_display .= "
-				var x=document.forms['quizForm']['mlwUserEmail'].value;
-				var atpos=x.indexOf('@');
-				var dotpos=x.lastIndexOf('.');
-				if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
-				  {
-				  alert('Not a valid e-mail address');
-				  return false;
-				  }
+				if (document.forms['quizForm']['mlwUserEmail'].defaultValue != document.forms['quizForm']['mlwUserEmail'].value)
+				{
+					var x=document.forms['quizForm']['mlwUserEmail'].value;
+					var atpos=x.indexOf('@');
+					var dotpos=x.lastIndexOf('.');
+					if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
+					  {
+					  alert('Not a valid e-mail address');
+					  return false;
+					  }
+				}
 			}		
 		</script>";
 		
@@ -129,7 +132,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
 		$mlw_display .= "<p>".$mlw_message_before."</p>";
 		$mlw_display .= "<br />";
-		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return validateForm()' >";
+		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return mlw_validateForm()' >";
 		$mlw_display .= "<table>";
 		$mlw_display .= "<thead>";
 

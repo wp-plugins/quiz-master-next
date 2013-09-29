@@ -9,6 +9,31 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_main_page()
 {	
+	echo "
+		<script>
+		function mlw_validateForm()
+		{
+			var x=document.forms['emailForm']['email'].value;
+			if (x==null || x=='')
+			{
+			  	alert('Email must be filled out');
+				return false;
+			};
+			var x=document.forms['emailForm']['username'].value;
+			if (x==null || x=='')
+			{
+				alert('Name must be filled out');
+				return false;
+			};
+			var x=document.forms['emailForm']['message'].value;
+			if (x==null || x=='')
+			{
+				alert('There must be a message to send!');
+				return false;
+			};
+		}
+	</script>
+	";
 	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	add_meta_box("wpss_mrts", 'Quiz Master Next', "quiz_wpss_mrt_meta_box", "quiz_wpss");  
 	add_meta_box("wpss_mrts", 'In This Update', "quiz_wpss_mrt_meta_box2", "quiz_wpss2"); 
@@ -161,10 +186,7 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.5.1 (September 22, 2013)</td>
-	</tr>
-	<tr>
-	<td align='left'>* Added More Statistics To Quiz Dashboard</td>
+	<td align='left'>0.5.2 (September 29, 2013)</td>
 	</tr>
 	<tr>
 	<td align='left'>* Bug Fixes</td>
@@ -180,27 +202,22 @@ function quiz_wpss_mrt_meta_box3()
 	Copyright 2013, My Local Webstop
 	Please do not re-use this email script without contacting me.
 	*/
-	$quiz_master_email_success = $_POST["action"];
-	$user_name = $_POST["username"];
-	$user_email = $_POST["email"];
-	$user_message = $_POST["message"];
 	$quiz_master_email_message = "";
-	if ($quiz_master_email_success == 'update' and $user_email != "" and $user_message != "")
+	if(isset($_POST["action"]))
 	{
-		wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version ".$mlw_quiz_version);
-		$quiz_master_email_message = "<h3>Message Sent</h3>";
-	}
-	else if ($quiz_master_email_success == 'update' and $user_email == "")
-	{
-		$quiz_master_email_message = "<h3>Please Enter Email</h3>";
-	}
-	else if ($quiz_master_email_success == 'update' and $user_message == "")
-	{
-		$quiz_master_email_message = "<h3>Please Enter In Your Message</h3>";
+		$quiz_master_email_success = $_POST["action"];
+		$user_name = $_POST["username"];
+		$user_email = $_POST["email"];
+		$user_message = $_POST["message"];
+		if ($quiz_master_email_success == 'update' and $user_email != "" and $user_message != "")
+		{
+			wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version ".$mlw_quiz_version);
+			$quiz_master_email_message = "<h3>Message Sent</h3>";
+		}
 	}
 	?>
 	<div class='quiz_email_support'>
-	<form action="<?php echo $PHP_SELF; ?>" method='post'>
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>?page=mlw_quiz_support" method='post' name='emailForm' onsubmit='return mlw_validateForm()'>
 	<input type='hidden' name='action' value='update' />
 	<table width='100%'>
 	<tr>
@@ -211,10 +228,10 @@ function quiz_wpss_mrt_meta_box3()
 	<td><?php echo $quiz_master_email_message; ?></td>
 	</tr>
 	<tr>
-	<td align='left'><p>Name: <input type='text' name='username'/></p></td>
+	<td align='left'><p>Name: <input type='text' name='username' value='' /></p></td>
 	</tr>
 	<tr>
-	<td align='left'><p>Email: <input type='text' name='email'/></p></td>
+	<td align='left'><p>Email: <input type='text' name='email' value='' /></p></td>
 	</tr>
 	<tr>
 	<td align='left'><p>Message: </p></td>
