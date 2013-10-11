@@ -77,7 +77,8 @@ function mlw_quiz_shortcode($atts)
 				var x=document.forms['quizForm']['mlwUserName'].value;
 				if (x==null || x=='')
 				  {
-					  alert('Name must be filled out');
+				  	  document.getElementById('mlw_error_message').innerHTML = '**Name must be filled out!**';
+				  	  document.getElementById('mlw_error_message_bottom').innerHTML = '**Name must be filled out!**';
 					  return false;
 				  }";
 		}
@@ -87,7 +88,8 @@ function mlw_quiz_shortcode($atts)
 				var x=document.forms['quizForm']['mlwUserComp'].value;
 				if (x==null || x=='')
 				  {
-					  alert('Business must be filled out');
+				  	document.getElementById('mlw_error_message').innerHTML = '**Business must be filled out!**';
+				  	document.getElementById('mlw_error_message_bottom').innerHTML = '**Business must be filled out!**';
 					  return false;
 				  }";
 		}
@@ -97,7 +99,8 @@ function mlw_quiz_shortcode($atts)
 				var x=document.forms['quizForm']['mlwUserEmail'].value;
 				if (x==null || x=='')
 				  {
-					  alert('Email must be filled out');
+				  	document.getElementById('mlw_error_message').innerHTML = '**Email must be filled out!**';
+				  	document.getElementById('mlw_error_message_bottom').innerHTML = '**Email must be filled out!**';
 					  return false;
 				  }";
 		}
@@ -107,7 +110,8 @@ function mlw_quiz_shortcode($atts)
 				var x=document.forms['quizForm']['mlwUserPhone'].value;
 				if (x==null || x=='')
 				  {
-					  alert('Phone number must be filled out');
+				  	document.getElementById('mlw_error_message').innerHTML = '**Phone number must be filled out!**';
+				  	document.getElementById('mlw_error_message_bottom').innerHTML = '**Phone number must be filled out!**';
 					  return false;
 				  }";
 		}
@@ -119,7 +123,8 @@ function mlw_quiz_shortcode($atts)
 					var dotpos=x.lastIndexOf('.');
 					if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
 					  {
-					  alert('Not a valid e-mail address');
+					  	document.getElementById('mlw_error_message').innerHTML = '**Not a valid e-mail address!**';
+					  	document.getElementById('mlw_error_message_bottom').innerHTML = '**Not a valid e-mail address!**';
 					  return false;
 					  }
 				}
@@ -132,6 +137,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
 		$mlw_display .= "<p>".$mlw_message_before."</p>";
 		$mlw_display .= "<br />";
+		$mlw_display .= "<span name='mlw_error_message' id='mlw_error_message' style='color: red;'></span><br />";
 		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return mlw_validateForm()' >";
 		$mlw_display .= "<table>";
 		$mlw_display .= "<thead>";
@@ -228,6 +234,7 @@ function mlw_quiz_shortcode($atts)
 		}
 		$mlw_display .= "<input type='hidden' name='complete_quiz' value='confirmation' />";
 		$mlw_display .= "<input type='submit' value='".$mlw_quiz_options->submit_button_text."' />";
+		$mlw_display .= "<span name='mlw_error_message_bottom' id='mlw_error_message_bottom' style='color: red;'></span><br />";
 		$mlw_display .= "</form>";
 		
 	}

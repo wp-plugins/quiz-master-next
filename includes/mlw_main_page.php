@@ -16,21 +16,29 @@ function mlw_generate_main_page()
 			var x=document.forms['emailForm']['email'].value;
 			if (x==null || x=='')
 			{
-			  	alert('Email must be filled out');
+				document.getElementById('mlw_support_message').innerHTML = '**Email must be filled out!**';
 				return false;
 			};
 			var x=document.forms['emailForm']['username'].value;
 			if (x==null || x=='')
 			{
-				alert('Name must be filled out');
+				document.getElementById('mlw_support_message').innerHTML = '**Name must be filled out!**';
 				return false;
 			};
 			var x=document.forms['emailForm']['message'].value;
 			if (x==null || x=='')
 			{
-				alert('There must be a message to send!');
+				document.getElementById('mlw_support_message').innerHTML = '**There must be a message to send!**';
 				return false;
 			};
+			var x=document.forms['emailForm']['email'].value;
+			var atpos=x.indexOf('@');
+			var dotpos=x.lastIndexOf('.');
+			if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
+			{
+				document.getElementById('mlw_support_message').innerHTML = '**Not a valid e-mail address!**';
+				return false;
+			}
 		}
 	</script>
 	";
@@ -186,10 +194,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.5.2 (September 29, 2013)</td>
+	<td align='left'>0.5.3 (October 11, 2013)</td>
 	</tr>
 	<tr>
 	<td align='left'>* Bug Fixes</td>
+	</tr>
+	<tr>
+	<td align='left'>* Started Redesigning Quiz Look</td>
 	</tr>
 	</table>
 	</div>
@@ -212,7 +223,7 @@ function quiz_wpss_mrt_meta_box3()
 		if ($quiz_master_email_success == 'update' and $user_email != "" and $user_message != "")
 		{
 			wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version ".$mlw_quiz_version);
-			$quiz_master_email_message = "<h3>Message Sent</h3>";
+			$quiz_master_email_message = "**Message Sent**";
 		}
 	}
 	?>
@@ -225,7 +236,7 @@ function quiz_wpss_mrt_meta_box3()
 	to let me know if you like the plugin or not, feel free to use the email form below.</td>
 	</tr>
 	<tr>
-	<td><?php echo $quiz_master_email_message; ?></td>
+	<td><span name='mlw_support_message' id='mlw_support_message' style="color: red;"><?php echo $quiz_master_email_message; ?></span></td>
 	</tr>
 	<tr>
 	<td align='left'><p>Name: <input type='text' name='username' value='' /></p></td>
@@ -299,7 +310,7 @@ function quiz_wpss_mrt_meta_box5()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'><?php include("http://www.mylocalwebstop.com/mlw_news.html"); ?></td>
+	<td align='left'><iframe src="http://www.mylocalwebstop.com/mlw_news.html" seamless="seamless" style="width: 100%; height: 550px;"></iframe></td>
 	</tr>
 	</table>
 	</div>
