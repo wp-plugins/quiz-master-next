@@ -211,6 +211,10 @@ function mlw_quiz_activate()
 			phone TEXT NOT NULL,
 
 			time_taken TEXT NOT NULL,
+			
+			time_taken_real DATETIME NOT NULL,
+			
+			quiz_results TEXT NOT NULL,
 
 			deleted INT NOT NULL,
 
@@ -222,6 +226,25 @@ function mlw_quiz_activate()
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
+	}
+	
+	else
+	
+	{
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'time_taken_real'") != "time_taken_real")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD time_taken_real DATETIME NOT NULL AFTER time_taken";
+			
+			$results = $wpdb->query( $sql );
+			
+			$sql = "ALTER TABLE ".$table_name." ADD quiz_results TEXT NOT NULL AFTER time_taken_real";
+			
+			$results = $wpdb->query( $sql );
+			
+			$update_sql = "UPDATE ".$table_name." SET quiz_results='This quiz was taken before this plugin began saving answers.', hints=''";
+			
+			$results = $wpdb->query( $update_sql );
+		}		
 	}
 	
 	global $wpdb;
@@ -252,7 +275,7 @@ function mlw_quiz_activate()
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	$data = "0.5.3";
+	$data = "0.6";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);

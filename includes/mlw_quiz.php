@@ -47,7 +47,7 @@ function mlw_quiz_shortcode($atts)
 	//If there is no quiz for the shortcode provided
 	if ($mlw_quiz_options->quiz_name == "")
 	{
-		$mlw_display .= "It appears this quiz is not set up correctly.";
+		$mlw_display .= "It appears that this quiz is not set up correctly.";
 		return $mlw_display;
 	}
 
@@ -228,7 +228,9 @@ function mlw_quiz_shortcode($atts)
 		//Display comment box if needed
 		if ($mlw_quiz_options->comment_section == 0)
 		{
-			$mlw_display .= "<label for='mlwQuizComments'>".$mlw_quiz_options->message_comment."</label>";
+			$mlw_message_comments = $mlw_quiz_options->message_comment;
+			$mlw_message_comments = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_comments);
+			$mlw_display .= "<label for='mlwQuizComments'>".$mlw_message_comments."</label>";
 			$mlw_display .= "<textarea cols='70' rows='15' id='mlwQuizComments' name='mlwQuizComments' ></textarea>";
 			$mlw_display .= "<br />";
 		}
@@ -256,22 +258,55 @@ function mlw_quiz_shortcode($atts)
 
 		//See which answers were correct and award points if necessary
 		foreach($mlw_questions as $mlw_question) {
+			$mlw_user_text;
+			$mlw_correct_text;
 			$mlw_total_questions += 1;
 			$mlw_user_answer = $_POST["question".$mlw_question->question_id];
 			if ($mlw_user_answer == $mlw_question->correct_answer)
 			{
 				$mlw_correct += 1;
 			}
-			if ($mlw_user_answer == 1) {$mlw_points += $mlw_question->answer_one_points;}
-			if ($mlw_user_answer == 2) {$mlw_points += $mlw_question->answer_two_points;}
-			if ($mlw_user_answer == 3) {$mlw_points += $mlw_question->answer_three_points;}
-			if ($mlw_user_answer == 4) {$mlw_points += $mlw_question->answer_four_points;}
-			if ($mlw_user_answer == 5) {$mlw_points += $mlw_question->answer_five_points;}
-			if ($mlw_user_answer == 6) {$mlw_points += $mlw_question->answer_six_points;}
+			if ($mlw_user_answer == 1) 
+			{
+				$mlw_points += $mlw_question->answer_one_points;
+				$mlw_user_text = $mlw_question->answer_one;
+			}
+			if ($mlw_user_answer == 2) 
+			{
+				$mlw_points += $mlw_question->answer_two_points;
+				$mlw_user_text = $mlw_question->answer_two;
+			}
+			if ($mlw_user_answer == 3) 
+			{
+				$mlw_points += $mlw_question->answer_three_points;
+				$mlw_user_text = $mlw_question->answer_three;
+			}
+			if ($mlw_user_answer == 4) 
+			{
+				$mlw_points += $mlw_question->answer_four_points;
+				$mlw_user_text = $mlw_question->answer_four;
+			}
+			if ($mlw_user_answer == 5) 
+			{
+				$mlw_points += $mlw_question->answer_five_points;
+				$mlw_user_text = $mlw_question->answer_five;
+			}
+			if ($mlw_user_answer == 6) 
+			{
+				$mlw_points += $mlw_question->answer_six_points;
+				$mlw_user_text = $mlw_question->answer_six;
+			}
+			
+			if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
+			if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
+			if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
+			if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
+			if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
+			if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
 			
 			$mlw_question_answers .= $mlw_question->question_name . "\n";
-			$mlw_question_answers .= "Your Answer: " . $mlw_user_answer . "\n";
-			$mlw_question_answers .= "Correct Answer: " . $mlw_question->correct_answer . "\n";
+			$mlw_question_answers .= "Your Answer: " . $mlw_user_text . "\n";
+			$mlw_question_answers .= "Correct Answer: " . $mlw_correct_text . "\n";
 			if ($mlw_question->comments == 0)
 			{
 				$mlw_question_answers .= "Your Comments: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
@@ -341,11 +376,13 @@ function mlw_quiz_shortcode($atts)
 		}
 
 		//Save the results into database
+		$mlw_quiz_results = $mlw_question_answers."\n".$_POST["mlwQuizComments"];
+		$mlw_quiz_results = str_replace( "\n" , "<br>", $mlw_quiz_results);
 		global $wpdb;
 		$table_name = $wpdb->prefix . "mlw_results";
 		$insert = "INSERT INTO " . $table_name .
-			"(result_id, quiz_id, quiz_name, quiz_system, point_score, correct_score, correct, total, name, business, email, phone, time_taken, deleted) " .
-			"VALUES (NULL , " . $mlw_quiz_id . " , '".$mlw_quiz_options->quiz_name."', ".$mlw_quiz_options->system.", ".$mlw_points.", ".$mlw_total_score.", ".$mlw_correct.", ".$mlw_total_questions.", '".$mlw_user_name."', '".$mlw_user_comp."', '".$mlw_user_email."', '".$mlw_user_phone."', '".date("h:i:s A m/d/Y")."', 0)";
+			"(result_id, quiz_id, quiz_name, quiz_system, point_score, correct_score, correct, total, name, business, email, phone, time_taken, time_taken_real, quiz_results, deleted) " .
+			"VALUES (NULL , " . $mlw_quiz_id . " , '".$mlw_quiz_options->quiz_name."', ".$mlw_quiz_options->system.", ".$mlw_points.", ".$mlw_total_score.", ".$mlw_correct.", ".$mlw_total_questions.", '".$mlw_user_name."', '".$mlw_user_comp."', '".$mlw_user_email."', '".$mlw_user_phone."', '".date("h:i:s A m/d/Y")."', '".date("Y-m-d H:i:s")."', '".$mlw_quiz_results."', 0)";
 		$results = $wpdb->query( $insert );
 	}
 return $mlw_display;

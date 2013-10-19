@@ -161,7 +161,7 @@ function mlw_generate_quiz_admin()
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<strong>Hey!</strong> Your new quiz has been created successfully.</p>
+		<strong>Hey!</strong> Your new quiz has been created successfully. To begin editing option and adding questions to your quiz, click on the edit link for that quiz.</p>
 	</div>
 	<?php
 		}
@@ -187,6 +187,7 @@ function mlw_generate_quiz_admin()
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_id . "</span></td>";
 		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ."</span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a></span></div></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
+		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster_leaderboard mlw_quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_views . "</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_taken ."</span></td>";
 		$quotes_list .= "</tr>";
@@ -196,7 +197,8 @@ function mlw_generate_quiz_admin()
 		$display .= "<thead><tr>
 			<th>Quiz ID</th>
 			<th>Quiz Name</th>
-			<th>Shortcode</th>
+			<th>Quiz Shortcode</th>
+			<th>Leaderboard Shortcode</th>
 			<th>Quiz Views</th>
 			<th>Quiz Taken</th>
 		</tr></thead>";

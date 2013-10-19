@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.6.1
-Stable tag: 0.5.3
+Stable tag: 0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,7 @@ Features include:
 * Can enable comment boxes for each question and/or comment section at the end of the quiz
 * Can enable hints for questions
 * Saves the results after a user takes the quiz
+* Now saves the users answers and comments after taking the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
 * Create surveys by utilizing the comment boxes instead of answers
 
@@ -49,6 +50,12 @@ Feel free to use the support option on the main page of the plugin or from the c
 
 == Changelog ==
 
+= 0.6 (October 19, 2013) =
+ * Started Developing Quiz Leaderboards
+ * Added Ability To Save User Answers And Comments
+ * Added More Statistics To Quiz Dashboard
+ * Bug Fixes
+ 
 = 0.5.3 (October 11, 2013) =
  * Bug Fixes
  * Started Redesigning Quiz Look
@@ -96,6 +103,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.6 =
+Upgrade to enjoy several new features including saved results and leaderboards!
 
 = 0.5.3 =
 Upgrade to fix some minor bug fixes.

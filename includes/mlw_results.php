@@ -78,7 +78,7 @@ function mlw_generate_quiz_results()
 		if($alternate) $alternate = "";
 		else $alternate = " class=\"alternate\"";
 		$quotes_list .= "<tr{$alternate}>";
-		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->result_id . "</span></td>";
+		$quotes_list .= "<td><span style='font-size:16px;'><a href='admin.php?page=mlw_quiz_result_details&&result_id=".$mlw_quiz_info->result_id."'>View</a></span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name . "</span></td>";
 		if ($mlw_quiz_info->quiz_system == 0)
 		{
@@ -102,7 +102,7 @@ function mlw_generate_quiz_results()
 
 	$display .= "<table class=\"widefat\">";
 		$display .= "<thead><tr>
-			<th>Result ID</th>
+			<th>View Answers</th>
 			<th>Quiz Name</th>
 			<th>Score</th>
 			<th>Name</th>

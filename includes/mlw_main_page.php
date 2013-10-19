@@ -194,13 +194,19 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.5.3 (October 11, 2013)</td>
+	<td align='left'>0.6 (October 19, 2013)</td>
+	</tr>
+	<tr>
+	<td align='left'>* Started Developing Quiz Leaderboards</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added Ability To Save User Answers And Comments</td>
+	</tr>
+	<tr>
+	<td align='left'>* Added More Statistics To Quiz Dashboard</td>
 	</tr>
 	<tr>
 	<td align='left'>* Bug Fixes</td>
-	</tr>
-	<tr>
-	<td align='left'>* Started Redesigning Quiz Look</td>
 	</tr>
 	</table>
 	</div>
@@ -310,7 +316,7 @@ function quiz_wpss_mrt_meta_box5()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'><iframe src="http://www.mylocalwebstop.com/mlw_news.html" seamless="seamless" style="width: 100%; height: 550px;"></iframe></td>
+	<td align='left'><iframe src="http://www.mylocalwebstop.com/mlw_news.html?cache=<?php echo rand(); ?>" seamless="seamless" style="width: 100%; height: 550px;"></iframe></td>
 	</tr>
 	</table>
 	</div>

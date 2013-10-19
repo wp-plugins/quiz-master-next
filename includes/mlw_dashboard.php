@@ -127,6 +127,16 @@ function mlw_dashboard_box()
 		$mlw_quiz_most_taken = $mlw_eaches->quiz_name;
 		break;
 	}
+	
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".date("Y-m-d")." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$mlw_quiz_taken_today = $wpdb->get_results($sql);
+	$mlw_quiz_taken_today = $wpdb->num_rows;
+	
+	$mlw_yesterday =  mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));
+	$mlw_yesterday = date("Y-m-d", $mlw_yesterday);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_yesterday." 00:00:00' AND '".$mlw_yesterday." 23:59:59')";
+	$mlw_quiz_taken_yesterday = $wpdb->get_results($sql);
+	$mlw_quiz_taken_yesterday = $wpdb->num_rows;
 	?>
 	<div>
 	<table width='100%'>
@@ -153,6 +163,14 @@ function mlw_dashboard_box()
 	<tr>
 	<td align='left'>Quiz That Has Been Taken The Most</td>
 	<td align='right'><?php echo $mlw_quiz_most_taken; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Times Taken Today</td>
+	<td align='right'><?php echo $mlw_quiz_taken_today; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Times Taken Yesterday</td>
+	<td align='right'><?php echo $mlw_quiz_taken_yesterday; ?></td>
 	</tr>
 	</table>
 	</div>
