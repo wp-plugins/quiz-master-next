@@ -194,16 +194,7 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.6 (October 19, 2013)</td>
-	</tr>
-	<tr>
-	<td align='left'>* Started Developing Quiz Leaderboards</td>
-	</tr>
-	<tr>
-	<td align='left'>* Added Ability To Save User Answers And Comments</td>
-	</tr>
-	<tr>
-	<td align='left'>* Added More Statistics To Quiz Dashboard</td>
+	<td align='left'>0.6.1 (November 2, 2013)</td>
 	</tr>
 	<tr>
 	<td align='left'>* Bug Fixes</td>

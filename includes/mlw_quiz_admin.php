@@ -8,6 +8,16 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_quiz_admin()
 {
+	$data = "0.6.1";
+	if ( ! get_option('mlw_quiz_master_version'))
+	{
+		add_option('mlw_quiz_master_version' , $data);
+	}
+	else
+	{
+		update_option('mlw_quiz_master_version' , $data);
+	}
+	
 	global $wpdb;
 	$table_name = $wpdb->prefix . "mlw_quizzes";
 	$success = $_POST["create_quiz"];
@@ -161,7 +171,7 @@ function mlw_generate_quiz_admin()
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<strong>Hey!</strong> Your new quiz has been created successfully. To begin editing option and adding questions to your quiz, click on the edit link for that quiz.</p>
+		<strong>Hey!</strong> Your new quiz has been created successfully. To begin editing options and adding questions to your quiz, click on the edit link for that quiz.</p>
 	</div>
 	<?php
 		}
