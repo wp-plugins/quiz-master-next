@@ -110,7 +110,7 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added questions admin page
 * Added results page
 
-== Upgrade Notice ==
+== Upgrade Notice === 0.6.2 =Upgrade for bug fixes 
 
 = 0.6 =
 Upgrade to enjoy several new features including saved results and leaderboards!
