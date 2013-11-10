@@ -11,6 +11,7 @@ function mlw_generate_quiz_options()
 	$quiz_id = $_GET["quiz_id"];
 	global $wpdb;
 	$table_name = $wpdb->prefix . "mlw_questions";
+	$is_new_quiz = 0;
 	
 	/*
 	Code for quiz questions tab
@@ -123,6 +124,7 @@ function mlw_generate_quiz_options()
 		$sql = "SELECT * FROM " . $table_name . " WHERE quiz_id=".$quiz_id." AND deleted=0";
 		$sql .= " ORDER BY question_id ASC";
 		$mlw_question_data = $wpdb->get_results($sql);
+		$is_new_quiz = $wpdb->num_rows;
 	}
 
 	/*
@@ -1037,7 +1039,7 @@ function mlw_generate_quiz_options()
 	<p>The Message Display Before Comment Box is shown to the user right before the section the user can type in comments if that option is enabled.</p>
 	<p>The Message Displayed After Quiz text is show to the user at the end of the quiz.</p>
 	<p>The Email sent to user after completion text is the email that is sent to the user after completing the quiz. (This is only used if you have turned on the option on the options tab.)</p>
-	<p>The Email sent to admin after completion text is the email that is sent to the admin after the quiz has been completed. Along with this text, the answers to the quiz will also be attached in the email.</p>
+	<p>The Email sent to admin after completion text is the email that is sent to the admin after the quiz has been completed.</p>
 	<p>The other templates section is for customizing the text on the submit button as well as the fields where are user can input his or her information.</p>
 	<p>Some templates are able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
 	</div>

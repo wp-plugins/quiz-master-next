@@ -194,10 +194,16 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.6.1 (November 2, 2013)</td>
+	<td align='left'>0.6.2 (November 10, 2013)</td>
 	</tr>
 	<tr>
-	<td align='left'>* Bug Fixes</td>
+		<td align='left'>* Bug Fixes</td>
+	</tr>
+	<tr>
+		<td align='left'>* Added More Stats</td>
+	</tr>
+	<tr>
+		<td align='left'>* Started Redesigning Plugin Dashboard</td>
 	</tr>
 	</table>
 	</div>
@@ -206,11 +212,8 @@ function quiz_wpss_mrt_meta_box2()
 
 function quiz_wpss_mrt_meta_box3()
 {
-	/*
-	Copyright 2013, My Local Webstop
-	Please do not re-use this email script without contacting me.
-	*/
 	$quiz_master_email_message = "";
+	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	if(isset($_POST["action"]))
 	{
 		$quiz_master_email_success = $_POST["action"];

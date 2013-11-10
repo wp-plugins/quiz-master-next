@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.7.1
-Stable tag: 0.6.1
+Stable tag: 0.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,6 +50,11 @@ Feel free to use the support option on the main page of the plugin or from the c
 
 == Changelog ==
 
+= 0.6.2 (November 10, 2013) =
+ * Bug Fixes
+ * Added More Stats
+ * Started Redesigning Plugin Dashboard
+ 
 = 0.6.1 (November 2, 2013) =
  * Bug Fixes
  

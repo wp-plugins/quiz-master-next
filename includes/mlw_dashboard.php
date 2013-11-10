@@ -54,7 +54,7 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next Dashboard<a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website.</p>
+	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website. If it is, please consider donating from the suppot page. Or, please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
@@ -137,8 +137,35 @@ function mlw_dashboard_box()
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_yesterday." 00:00:00' AND '".$mlw_yesterday." 23:59:59')";
 	$mlw_quiz_taken_yesterday = $wpdb->get_results($sql);
 	$mlw_quiz_taken_yesterday = $wpdb->num_rows;
+	
+	$mlw_last_week =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
+	$mlw_last_week = date("Y-m-d", $mlw_last_week);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$mlw_quiz_taken_week = $wpdb->get_results($sql);
+	$mlw_quiz_taken_week = $wpdb->num_rows;
+	
+	$mlw_last_month =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
+	$mlw_last_month = date("Y-m-d", $mlw_last_month);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$mlw_quiz_taken_month = $wpdb->get_results($sql);
+	$mlw_quiz_taken_month = $wpdb->num_rows;
 	?>
 	<div>
+	<table cellpadding="10">
+		<tr>
+			<td>Taken Today: </td>
+			<td style="padding: 10px; text-align: right;"><?php echo $mlw_quiz_taken_today; ?></td>
+			<td>Taken Yesterday: </td>
+			<td style="padding: 10px; text-align: right;"><?php echo $mlw_quiz_taken_yesterday; ?></td>
+		</tr>
+		<tr>
+			<td>Taken Last 7 Days: </td>
+			<td style="padding: 10px; text-align: right;"><?php echo $mlw_quiz_taken_week; ?></td>
+			<td>Taken Last 30 Days: </td>
+			<td style="padding: 10px; text-align: right;"><?php echo $mlw_quiz_taken_month; ?></td>
+		</tr>
+	</table>
+	<br />
 	<table width='100%'>
 	<tr>
 	<td align='left'>Total Times All Quizzes Have Been Viewed</td>
@@ -163,14 +190,6 @@ function mlw_dashboard_box()
 	<tr>
 	<td align='left'>Quiz That Has Been Taken The Most</td>
 	<td align='right'><?php echo $mlw_quiz_most_taken; ?></td>
-	</tr>
-	<tr>
-	<td align='left'>Times Taken Today</td>
-	<td align='right'><?php echo $mlw_quiz_taken_today; ?></td>
-	</tr>
-	<tr>
-	<td align='left'>Times Taken Yesterday</td>
-	<td align='right'><?php echo $mlw_quiz_taken_yesterday; ?></td>
 	</tr>
 	</table>
 	</div>
