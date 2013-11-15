@@ -16,6 +16,7 @@ function mlw_generate_quiz_dashboard(){
 	<!-- jquery scripts -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="<?php echo plugin_dir_url( $file ); ?>quiz-master-next/includes/jquery_sparkline.js"></script>
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
 		// increase the default animation speed to exaggerate the effect
@@ -36,6 +37,9 @@ function mlw_generate_quiz_dashboard(){
 				$j('#dialog').dialog('open');
 				return false;
 		}	);
+		});
+		$j(function() {
+        	$j('.inlinesparkline').sparkline('html', {type: 'line', width: '200', height: '200'}); 
 		});
 	</script>
 	<style type="text/css">
@@ -138,6 +142,12 @@ function mlw_dashboard_box()
 	$mlw_quiz_taken_yesterday = $wpdb->get_results($sql);
 	$mlw_quiz_taken_yesterday = $wpdb->num_rows;
 	
+	$mlw_three_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-2, date("Y"));
+	$mlw_three_days_ago = date("Y-m-d", $mlw_three_days_ago);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_days_ago." 00:00:00' AND '".$mlw_three_days_ago." 23:59:59')";
+	$mlw_quiz_taken_three_days = $wpdb->get_results($sql);
+	$mlw_quiz_taken_three_days = $wpdb->num_rows;
+	
 	$mlw_last_week =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
 	$mlw_last_week = date("Y-m-d", $mlw_last_week);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
@@ -192,6 +202,8 @@ function mlw_dashboard_box()
 	<td align='right'><?php echo $mlw_quiz_most_taken; ?></td>
 	</tr>
 	</table>
+	<p>Beginnings of line graph for stats. Times all quizzes have been taken over last three days:</p>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_three_days.",".$mlw_quiz_taken_yesterday.",".$mlw_quiz_taken_today; ?></span>.
 	</div>
 	<?php
 }

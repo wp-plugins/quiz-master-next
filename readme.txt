@@ -3,15 +3,12 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.7.1
-Stable tag: 0.6.2
-License: GPLv2 or later
+Stable tag: 0.7
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, or surveys to your website.
 
 == Description ==
-
-This is the successor plugin to the wildly popular Quiz Master plugin. Re-wrote from the ground up.
 
 Use this plugin to add multiple quizzes or tests to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results.
 
@@ -50,6 +47,11 @@ Feel free to use the support option on the main page of the plugin or from the c
 
 == Changelog ==
 
+= 0.7 (November 15, 2013) =
+ * Bug Fixes
+ * Begun Work On New How-To Page
+ * Continued Redesigning Plugin Dashboard
+ 
 = 0.6.2 (November 10, 2013) =
  * Bug Fixes
  * Added More Stats
@@ -110,7 +112,13 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added questions admin page
 * Added results page
 
-== Upgrade Notice === 0.6.2 =Upgrade for bug fixes 
+== Upgrade Notice ==
+
+= 0.7 =
+Upgrade to fix minor bugs, view new how-to page, and new stats on main page.
+
+= 0.6.2 =
+Upgrade to fix some minor bug fixes.
 
 = 0.6 =
 Upgrade to enjoy several new features including saved results and leaderboards!

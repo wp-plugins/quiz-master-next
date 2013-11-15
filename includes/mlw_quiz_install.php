@@ -275,7 +275,7 @@ function mlw_quiz_activate()
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	$data = "0.6.2";
+	$data = "0.7";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
