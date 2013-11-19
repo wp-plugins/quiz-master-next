@@ -41,9 +41,12 @@ function mlw_generate_help_page()
 		$j(function() {
 			$j("button").button();
 		});
-		$j(function() {
-    		$j( "#tabs" ).tabs();
-  		});
+  		$j(function() {
+			$j("#accordion").accordion({
+				heightStyle: "content"
+			});
+
+		});
 	</script>
 	<style>
 		label {
@@ -61,21 +64,26 @@ function mlw_generate_help_page()
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
 	<h2>How-To<a id="opener" href="">(?)</a></h2>
-	<div id="tabs">
-		<ul>
-		    <li><a href="#tabs-1">How To Create A Quiz</a></li>
-		    <li><a href="#tabs-2">How To Add A Question To Your Quiz</a></li>
-		</ul>
-  		<div id="tabs-1">
+	<div id="accordion">
+		<h3><a href="#">How To Create A Quiz</a></h3>
+		<div>
   		In order to create a quiz, test, or survey you must first click on the Quizzes link from the side menu. Once you are on the page, you will see a Create New Quiz button. Click on this button.
   		Doing so will open a pop-up that will ask for the name of the quiz you would like to create. Once you entered the name in, click on the button that says Create Quiz. You should your
   		new quiz added to the table.
   		</div>
-  		<div id="tabs-2">
+  		<h3><a href="#">How To Add A Question To Your Quiz</a></h3>
+  		<div>
   		In order to add a question, you must first click on the Quizzes link from the side menu. Once you are on the page, click the edit link on the quiz you wish to add a question to. Once you are on the
   		Quiz Options page, navigate to the Quiz Questions tab. On the Quiz Questions tab, click on the button that says Add Question. Doing so will open a pop-up that will ask for the question, answers, hint, 
   		correct answer, points, and whether you want a comment box. Once you fill in all the necessary information, click the button that says Create Question. Your question will be added to the list of questions 
   		on the Quiz Questions tab.
+  		</div>
+  		<h3><a href="#">How To Edit The Text Shown Before A Quiz Or After Quiz Has Been Taken</a></h3>
+  		<div>
+  		First, go to the Quizzes page. From there, click edit on the quiz you would like to edit.  Once the Quiz Options page loads, click on the Quiz Text tab. This tab is used to edit all the text that can be customized 
+  		on the quiz. At the top of the page, you will see a list of variables. If you put a variable in a section of text, it will be replaced by its corresponding values when the quiz is taken by the user.  Go to 
+  		the section labeled Message Templates. In this section you will see a text box for the Message Displayed Before Quiz and the text box for the Message Displayed After Quiz. By customizing these boxes, you will 
+  		edit the text shown to the user before the quiz and after the quiz has been taken. Once finished, click the Save Templates button.
   		</div>
   	</div>
 	<div id="dialog" title="Help">
