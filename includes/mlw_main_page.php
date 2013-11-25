@@ -194,16 +194,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.7.1 (November 19, 2013)</td>
+	<td align='left'>0.7.2 (November 24, 2013)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Changed Design For How-To Page</td>
+		<td align='left'>* Bug Fixes</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added New Section In How-To Page</td>
-	</tr>
-	<tr>
-		<td align='left'>* Added New Widget On Plugin Dashboard For Daily Stats</td>
+		<td align='left'>* Added New Section On How-To Page</td>
 	</tr>
 	</table>
 	</div>

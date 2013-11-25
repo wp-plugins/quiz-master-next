@@ -85,6 +85,11 @@ function mlw_generate_help_page()
   		the section labeled Message Templates. In this section you will see a text box for the Message Displayed Before Quiz and the text box for the Message Displayed After Quiz. By customizing these boxes, you will 
   		edit the text shown to the user before the quiz and after the quiz has been taken. Once finished, click the Save Templates button.
   		</div>
+  		<h3><a href="#">How To Add Your Quiz To A Post Or Page</a></h3>
+		<div>
+  		First go to the Quizzes page. Once there, copy the shortcode for your quiz from the Quiz Shortcode column. It should look similar to [mlw_quizmaster quiz=1]. Once you have copied your shortcode, go edit the post or 
+  		page you would like to add the quiz to. Once on the edit page, paste the shortcode into the textbox. Then click Update. Now when you visit that post or page, your quiz will appear in place of the shortcode.
+  		</div>
   	</div>
 	<div id="dialog" title="Help">
 	<h3><b>Help</b></h3>
