@@ -85,6 +85,12 @@ function mlw_generate_help_page()
   		the section labeled Message Templates. In this section you will see a text box for the Message Displayed Before Quiz and the text box for the Message Displayed After Quiz. By customizing these boxes, you will 
   		edit the text shown to the user before the quiz and after the quiz has been taken. Once finished, click the Save Templates button.
   		</div>
+  		<h3><a href="#">How To Set-Up Your Quiz For A Correct/Incorrect System</a></h3>
+		<div>
+  		First, go to the Quizzes page. From there, click edit on the quiz you would like to edit.  Once the Quiz Options page loads, click on the Quiz Options tab. Ensure that the "Which system is this quiz graded on?" 
+  		option is set to Correct. Now, go back to the Quiz Question tab. When you add or edit a question, fill in the question and the answers. Leave the points fields at 0, and then select the correct answer using 
+  		the radio buttons to the right of the answers. Fill out the rest of the question options any way you need to. Your quiz will now be graded on a correct or incorrect system.
+  		</div>
   		<h3><a href="#">How To Add Your Quiz To A Post Or Page</a></h3>
 		<div>
   		First go to the Quizzes page. Once there, copy the shortcode for your quiz from the Quiz Shortcode column. It should look similar to [mlw_quizmaster quiz=1]. Once you have copied your shortcode, go edit the post or 

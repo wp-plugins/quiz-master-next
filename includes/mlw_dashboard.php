@@ -10,7 +10,7 @@ function mlw_generate_quiz_dashboard(){
 	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	
 	///Creates the widgets
-	add_meta_box("wpss_mrts", 'Quiz Weekly Stats', "mlw_dashboard_box", "quiz_wpss");  
+	add_meta_box("wpss_mrts", 'Quiz Daily Stats', "mlw_dashboard_box", "quiz_wpss");  
 	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2");
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
 	?>

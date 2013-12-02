@@ -8,7 +8,7 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_quiz_admin()
 {
-	$data = "0.7.2";
+	$data = "0.8";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);

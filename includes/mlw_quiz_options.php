@@ -55,12 +55,13 @@ function mlw_generate_quiz_options()
 	$mlw_edit_question_id = $_POST["edit_question_id"];
 	$edit_comments = $_POST["edit_comments"];
 	$edit_hint = $_POST["edit_hint"];
+	$edit_question_order = $_POST["edit_question_order"];
 
 	//Edit question
 	if ($edit_question_success == "confirmation")
 	{
 		$quiz_id = $_POST["quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."', answer_one='".$edit_answer_one."', answer_one_points='".$edit_answer_one_points."', answer_two='".$edit_answer_two."', answer_two_points='".$edit_answer_two_points."', answer_three='".$edit_answer_three."', answer_three_points='".$edit_answer_three_points."', answer_four='".$edit_answer_four."', answer_four_points='".$edit_answer_four_points."', answer_five='".$edit_answer_five."', answer_five_points='".$edit_answer_five_points."', answer_six='".$edit_answer_six."', answer_six_points='".$edit_answer_six_points."', correct_answer='".$edit_correct_answer."', comments='".$edit_comments."', hints='".$edit_hint."' WHERE question_id=".$mlw_edit_question_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."', answer_one='".$edit_answer_one."', answer_one_points='".$edit_answer_one_points."', answer_two='".$edit_answer_two."', answer_two_points='".$edit_answer_two_points."', answer_three='".$edit_answer_three."', answer_three_points='".$edit_answer_three_points."', answer_four='".$edit_answer_four."', answer_four_points='".$edit_answer_four_points."', answer_five='".$edit_answer_five."', answer_five_points='".$edit_answer_five_points."', answer_six='".$edit_answer_six."', answer_six_points='".$edit_answer_six_points."', correct_answer='".$edit_correct_answer."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."' WHERE question_id=".$mlw_edit_question_id;
 		$results = $wpdb->query( $update );
 		$hasUpdatedQuestion = true;
 		
@@ -102,7 +103,7 @@ function mlw_generate_quiz_options()
 		$quiz_id = $_POST["quiz_id"];
 		$table_name = $wpdb->prefix . "mlw_questions";
 		$insert = "INSERT INTO " . $table_name .
-			" (question_id, quiz_id, question_name, answer_one, answer_one_points, answer_two, answer_two_points, answer_three, answer_three_points, answer_four, answer_four_points, answer_five, answer_five_points, answer_six, answer_six_points, correct_answer, comments, hints, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '" . $answer_one . "', ".$answer_one_points.", '" . $answer_two . "', ".$answer_two_points.", '" . $answer_three . "', ".$answer_three_points.", '" . $answer_four . "', ".$answer_four_points.", '" . $answer_five . "', ".$answer_five_points.", '" . $answer_six . "', ".$answer_six_points.", ".$correct_answer.", '".$comments."', '".$hint."', 0)";
+			" (question_id, quiz_id, question_name, answer_one, answer_one_points, answer_two, answer_two_points, answer_three, answer_three_points, answer_four, answer_four_points, answer_five, answer_five_points, answer_six, answer_six_points, correct_answer, comments, hints, question_order, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '" . $answer_one . "', ".$answer_one_points.", '" . $answer_two . "', ".$answer_two_points.", '" . $answer_three . "', ".$answer_three_points.", '" . $answer_four . "', ".$answer_four_points.", '" . $answer_five . "', ".$answer_five_points.", '" . $answer_six . "', ".$answer_six_points.", ".$correct_answer.", '".$comments."', '".$hint."', 1, 0)";
 		$results = $wpdb->query( $insert );
 		$hasCreatedQuestion = true;
 		
@@ -122,7 +123,7 @@ function mlw_generate_quiz_options()
 		global $wpdb;
 		$table_name = $wpdb->prefix . "mlw_questions";
 		$sql = "SELECT * FROM " . $table_name . " WHERE quiz_id=".$quiz_id." AND deleted=0";
-		$sql .= " ORDER BY question_id ASC";
+		$sql .= " ORDER BY question_order ASC";
 		$mlw_question_data = $wpdb->get_results($sql);
 		$is_new_quiz = $wpdb->num_rows;
 	}
@@ -373,7 +374,7 @@ function mlw_generate_quiz_options()
 			idText.innerHTML = id;
 			idHidden.value = id;		
 		};
-		function editQuestion(id, question, answerOne, answerOnePoints, answerTwo, answerTwoPoints, answerThree, answerThreePoints, answerFour, answerFourPoints, answerFive, answerFivePoints, answerSix, answerSixPoints, correctAnswer, comments, hint){
+		function editQuestion(id, question, answerOne, answerOnePoints, answerTwo, answerTwoPoints, answerThree, answerThreePoints, answerFour, answerFourPoints, answerFive, answerFivePoints, answerSix, answerSixPoints, correctAnswer, comments, hint, question_order){
 			$j("#edit_question_dialog").dialog({
 				autoOpen: false,
 				show: 'blind',
@@ -401,6 +402,7 @@ function mlw_generate_quiz_options()
 			document.getElementById("edit_answer_five_points").value = answerFivePoints;
 			document.getElementById("edit_answer_six_points").value = answerSixPoints;
 			document.getElementById("edit_hint").value = hint;
+			document.getElementById("edit_question_order").value = question_order;
 			if (correctAnswer == 1) document.getElementById("edit_correct_one").checked = true;
 			if (correctAnswer == 2) document.getElementById("edit_correct_two").checked = true;
 			if (correctAnswer == 3) document.getElementById("edit_correct_three").checked = true;
@@ -495,8 +497,8 @@ function mlw_generate_quiz_options()
 				if($alternate) $alternate = "";
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
-				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_id . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".$mlw_question_info->question_name."','".$mlw_question_info->answer_one."','".$mlw_question_info->answer_one_points."','".$mlw_question_info->answer_two."','".$mlw_question_info->answer_two_points."','".$mlw_question_info->answer_three."','".$mlw_question_info->answer_three_points."','".$mlw_question_info->answer_four."','".$mlw_question_info->answer_four_points."','".$mlw_question_info->answer_five."','".$mlw_question_info->answer_five_points."','".$mlw_question_info->answer_six."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".$mlw_question_info->question_name."','".$mlw_question_info->answer_one."','".$mlw_question_info->answer_one_points."','".$mlw_question_info->answer_two."','".$mlw_question_info->answer_two_points."','".$mlw_question_info->answer_three."','".$mlw_question_info->answer_three_points."','".$mlw_question_info->answer_four."','".$mlw_question_info->answer_four_points."','".$mlw_question_info->answer_five."','".$mlw_question_info->answer_five_points."','".$mlw_question_info->answer_six."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 			}
 
@@ -766,6 +768,14 @@ function mlw_generate_quiz_options()
 				cursor:hand;"/>
 			</td>
 			</tr>
+			<tr valign="top">
+			<th scope="row">Question Order</th>
+			<td>
+			<input type="text" name="edit_question_order" value="" id="edit_question_order" style="border-color:#000000;
+				color:#3300CC; 
+				cursor:hand;"/>
+			</td>
+			</tr>
 			</thead>
 			</table>
 			<?php
@@ -996,15 +1006,15 @@ function mlw_generate_quiz_options()
 				</div></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><label for="adminEmail">What email should we send the answers to?</label></th>
-				<td><input name="adminEmail" type="email" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
-			</tr>
-			<tr valign="top">
 				<th scope="row"><label for="commentSection">Would you like a place for the user to enter comments?</label></th>
 				<td><div id="commentSection">
 				    <input type="radio" id="radio21" name="commentSection" <?php if ($mlw_quiz_options->comment_section == 0) {echo 'checked="checked"';} ?> value='0' /><label for="radio21">Yes</label>
 				    <input type="radio" id="radio22" name="commentSection" <?php if ($mlw_quiz_options->comment_section == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio22">No</label>
 				</div></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="adminEmail">What email should we send the answers to?</label></th>
+				<td><input name="adminEmail" type="email" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
 			</tr>
 		</table>
 		<?php echo "</form>"; ?>

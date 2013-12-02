@@ -29,7 +29,7 @@ function mlw_quiz_shortcode($atts)
 
 
 	//Load questions
-	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_questions" . " WHERE quiz_id=".$mlw_quiz_id." AND deleted='0'";
+	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_questions" . " WHERE quiz_id=".$mlw_quiz_id." AND deleted='0' ORDER BY question_order ASC";
 	$mlw_questions = $wpdb->get_results($sql);
 
 
@@ -39,6 +39,7 @@ function mlw_quiz_shortcode($atts)
 	$mlw_user_comp = $_POST["mlwUserComp"];
 	$mlw_user_email = $_POST["mlwUserEmail"];
 	$mlw_user_phone = $_POST["mlwUserPhone"];
+	$mlw_spam_email = $_POST["email"];
 
 	/*
 	The following code is for displaying the quiz and completion screen
@@ -142,7 +143,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<table>";
 		$mlw_display .= "<thead>";
 
-		//See if the site wants to ask for anything, then ask for it
+		//See if the site wants to ask for any contact information, then ask for it
 		if ($mlw_quiz_options->user_name != 2)
 		{
 			$mlw_display .= "<tr valign='top'>";
@@ -234,6 +235,8 @@ function mlw_quiz_shortcode($atts)
 			$mlw_display .= "<textarea cols='70' rows='15' id='mlwQuizComments' name='mlwQuizComments' ></textarea>";
 			$mlw_display .= "<br />";
 		}
+		$mlw_display .= "<span style='display: none;'>If you are human, leave this field blank or you will be considered spam:</span>";
+		$mlw_display .= "<input style='display: none;' type='text' name='email' id='email' />";
 		$mlw_display .= "<input type='hidden' name='complete_quiz' value='confirmation' />";
 		$mlw_display .= "<input type='submit' value='".$mlw_quiz_options->submit_button_text."' />";
 		$mlw_display .= "<span name='mlw_error_message_bottom' id='mlw_error_message_bottom' style='color: red;'></span><br />";
@@ -243,6 +246,8 @@ function mlw_quiz_shortcode($atts)
 	//Display Completion Screen
 	else
 	{
+		if (empty($mlw_spam_email))
+		{
 		//Variables needed for scoring
 		$mlw_points = 0;
 		$mlw_correct = 0;
@@ -384,6 +389,11 @@ function mlw_quiz_shortcode($atts)
 			"(result_id, quiz_id, quiz_name, quiz_system, point_score, correct_score, correct, total, name, business, email, phone, time_taken, time_taken_real, quiz_results, deleted) " .
 			"VALUES (NULL , " . $mlw_quiz_id . " , '".$mlw_quiz_options->quiz_name."', ".$mlw_quiz_options->system.", ".$mlw_points.", ".$mlw_total_score.", ".$mlw_correct.", ".$mlw_total_questions.", '".$mlw_user_name."', '".$mlw_user_comp."', '".$mlw_user_email."', '".$mlw_user_phone."', '".date("h:i:s A m/d/Y")."', '".date("Y-m-d H:i:s")."', '".$mlw_quiz_results."', 0)";
 		$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_display .= "Thank you.";	
+		}
 	}
 return $mlw_display;
 }

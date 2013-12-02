@@ -144,6 +144,8 @@ function mlw_quiz_activate()
 			comments INT NOT NULL,
 			
 			hints TEXT NOT NULL,
+			
+			question_order INT NOT NULL,
 
 			deleted INT NOT NULL,
 
@@ -173,7 +175,19 @@ function mlw_quiz_activate()
 			$update_sql = "UPDATE ".$table_name." SET comments=1, hints=''";
 			
 			$results = $wpdb->query( $update_sql );
-		}		
+		}
+		
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'question_order'") != "question_order")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD question_order INT NOT NULL AFTER hints";
+			
+			$results = $wpdb->query( $sql );
+			
+			$update_sql = "UPDATE ".$table_name." SET question_order=0";
+			
+			$results = $wpdb->query( $update_sql );
+			
+		}
 	}
 
 	global $wpdb;
@@ -275,7 +289,7 @@ function mlw_quiz_activate()
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	$data = "0.7.2";
+	$data = "0.8";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
