@@ -8,16 +8,6 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_quiz_admin()
 {
-	$data = "0.8.1";
-	if ( ! get_option('mlw_quiz_master_version'))
-	{
-		add_option('mlw_quiz_master_version' , $data);
-	}
-	else
-	{
-		update_option('mlw_quiz_master_version' , $data);
-	}
-	
 	global $wpdb;
 	$table_name = $wpdb->prefix . "mlw_quizzes";
 	$success = $_POST["create_quiz"];

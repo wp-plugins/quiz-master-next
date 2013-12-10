@@ -194,10 +194,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8.1 (December 9, 2013)</td>
+	<td align='left'>0.8.2 (December 10, 2013)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed Disappearing Question Bug</td>
+		<td align='left'>* Fixed Disappearing Question Bug Completely</td>
+	</tr>
+	<tr>
+		<td align='left'>* Updated Update Process</td>
 	</tr>
 	</table>
 	</div>
