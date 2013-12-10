@@ -159,37 +159,33 @@ function mlw_quiz_activate()
 		dbDelta($sql);
 	}
 	
-	else
-	
+	if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'comments'") != "comments")
 	{
-		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'comments'") != "comments")
-		{
-			$sql = "ALTER TABLE ".$table_name." ADD comments INT NOT NULL AFTER correct_answer";
-			
-			$results = $wpdb->query( $sql );
-			
-			$sql = "ALTER TABLE ".$table_name." ADD hints TEXT NOT NULL AFTER comments";
-			
-			$results = $wpdb->query( $sql );
-			
-			$update_sql = "UPDATE ".$table_name." SET comments=1, hints=''";
-			
-			$results = $wpdb->query( $update_sql );
-		}
+		$sql = "ALTER TABLE ".$table_name." ADD comments INT NOT NULL AFTER correct_answer";
 		
-		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'question_order'") != "question_order")
-		{
-			$sql = "ALTER TABLE ".$table_name." ADD question_order INT NOT NULL AFTER hints";
-			
-			$results = $wpdb->query( $sql );
-			
-			$update_sql = "UPDATE ".$table_name." SET question_order=0";
-			
-			$results = $wpdb->query( $update_sql );
-			
-		}
+		$results = $wpdb->query( $sql );
+		
+		$sql = "ALTER TABLE ".$table_name." ADD hints TEXT NOT NULL AFTER comments";
+		
+		$results = $wpdb->query( $sql );
+		
+		$update_sql = "UPDATE ".$table_name." SET comments=1, hints=''";
+		
+		$results = $wpdb->query( $update_sql );
 	}
-
+		
+	if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'question_order'") != "question_order")
+	{
+		$sql = "ALTER TABLE ".$table_name." ADD question_order INT NOT NULL AFTER hints";
+		
+		$results = $wpdb->query( $sql );
+		
+		$update_sql = "UPDATE ".$table_name." SET question_order=0";
+		
+		$results = $wpdb->query( $update_sql );
+		
+	}
+	
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . "mlw_results";
@@ -289,7 +285,7 @@ function mlw_quiz_activate()
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 	}
-	$data = "0.8";
+	$data = "0.8.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);

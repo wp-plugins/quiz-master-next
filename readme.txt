@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.7.1
-Stable tag: 0.8
+Stable tag: 0.8.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, or surveys to your website.
@@ -47,6 +47,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 
 == Changelog ==
 
+= 0.8.1 (December 9, 2013) =
+ * Fixed Disappearing Question Bug
+ 
 = 0.8 (December 1, 2013) =
  * Added Spam Prevention Techniques To Backend
  * Added Ability To Reorder Questions
@@ -128,6 +131,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.8.1 =
+Upgrade to fix bug that made questions vanish.
 
 = 0.8 =
 Upgrade to enjoy several new features and minor bug fixes.

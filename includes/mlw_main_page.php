@@ -194,19 +194,10 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8 (December 1, 2013)</td>
+	<td align='left'>0.8.1 (December 9, 2013)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Spam Prevention Techniques To Backend</td>
-	</tr>
-	<tr>
-		<td align='left'>* Added Ability To Reorder Questions</td>
-	</tr>
-	<tr>
-		<td align='left'>* Added New Section On How-To Page</td>
-	</tr>
-	<tr>
-		<td align='left'>* Bug Fixes</td>
+		<td align='left'>* Fixed Disappearing Question Bug</td>
 	</tr>
 	</table>
 	</div>
