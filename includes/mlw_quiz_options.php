@@ -433,10 +433,6 @@ function mlw_generate_quiz_options()
 	{
 	?>
 	<h2>Quiz Options For <?php echo $mlw_quiz_options->quiz_name; ?><a id="opener" href="">(?)</a></h2>
-	<div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
-		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<strong></strong>If you are experiencing an error where your questions are missing and cannot add more, try deactivating and re-activating the plugin.</p>
-	</div>
 	<?php if ($hasCreatedQuestion)
 		{
 	?>
@@ -526,10 +522,11 @@ function mlw_generate_quiz_options()
 			?>
 			<tr valign="top">
 			<th scope="row">Question</th>
-			<td>
+			<td colspan="3">
 			<input type="text" name="question_name" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 100%;"/>
 			</td>
 			</tr>
 			<tr valign="top">
@@ -626,6 +623,8 @@ function mlw_generate_quiz_options()
 			</td>
 			<td><input type="radio" name="correct_answer" value=6 /></td>
 			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
 			<th scope="row">Comments?</th>
 			<td><input type="radio" id="commentsRadio1" name="comments" checked="checked" value=0 /><label for="commentsRadio1">Yes</label></td>
@@ -659,10 +658,11 @@ function mlw_generate_quiz_options()
 			?>
 			<tr valign="top">
 			<th scope="row">Question</th>
-			<td>
+			<td colspan="3">
 			<input type="text" name="edit_question_name" id="edit_question_name" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 100%;"/>
 			</td>
 			</tr>
 			<tr valign="top">
@@ -759,6 +759,8 @@ function mlw_generate_quiz_options()
 			</td>
 			<td><input type="radio" id="edit_correct_six" name="edit_correct_answer" value=6 /></td>
 			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
 			<th scope="row">Comments?</th>
 			<td><input type="radio" id="editCommentRadio1" name="edit_comments" value=0 /><label for="editCommentRadio1">Yes</label></td>

@@ -13,6 +13,7 @@ function mlw_generate_quiz_dashboard(){
 	add_meta_box("wpss_mrts", 'Quiz Daily Stats', "mlw_dashboard_box", "quiz_wpss");  
 	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2");
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
+	add_meta_box("wpss_mrts", 'Quiz Weekly Stats', "mlw_dashboard_box_four", "quiz_wpss4");
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -67,14 +68,18 @@ function mlw_generate_quiz_dashboard(){
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
 	</div>
 	
-	<div style="float:right; width:36%; " class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss2','advanced',''); ?>	
+	<div style="float:right; width:36%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss3','advanced','');  ?>	
 	</div>
 			
 	<!--<div style="clear:both"></div>-->
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss3','advanced','');  ?>	
+		<?php do_meta_boxes('quiz_wpss4','advanced','');  ?>	
+	</div>
+	
+	<div style="float:right; width:36%; " class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss2','advanced',''); ?>	
 	</div>
 	
 	<!--<div style="clear:both"></div>-->
@@ -149,10 +154,10 @@ function mlw_dashboard_box_two()
 	<td align='left'>There is a (?) next to the title of each page.  Click on it to bring up the help for that page.</td>
 	</tr>
 	<tr>
-	<td align='left'></td>
+	<td align='left'>If the help does not answer your question, take a look at the How-To section from the menu.</td>
 	</tr>
 	<tr>
-	<td align='left'></td>
+	<td align='left'>If you still are having trouble, feel free to use the support section from the support page to contact me.</td>
 	</tr>
 	<tr>
 	<td align='left'></td>
@@ -251,5 +256,28 @@ function mlw_dashboard_box_three()
 	</table>
 	</div>
 <?php	
+}
+function mlw_dashboard_box_four()
+{
+	//Gather the weekly stats, one variable for each day for the graph
+	global $wpdb;	
+	$mlw_this_week =  mktime(0, 0, 0, date("m")  , date("d")-6, date("Y"));
+	$mlw_this_week = date("Y-m-d", $mlw_this_week);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_week." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$mlw_quiz_taken_this_week = $wpdb->get_results($sql);
+	$mlw_quiz_taken_this_week = $wpdb->num_rows;
+	
+	$mlw_last_week_first =  mktime(0, 0, 0, date("m")  , date("d")-13, date("Y"));
+	$mlw_last_week_first = date("Y-m-d", $mlw_last_week_first);
+	$mlw_last_week_last =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
+	$mlw_last_week_last = date("Y-m-d", $mlw_last_week_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week_first." 00:00:00' AND '".$mlw_last_week_last." 23:59:59')";
+	$mlw_quiz_taken_last_week = $wpdb->get_results($sql);
+	$mlw_quiz_taken_last_week = $wpdb->num_rows;
+	?>
+	<div>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_last_week.",".$mlw_quiz_taken_this_week; ?></span>
+	</div>
+	<?php
 }
 ?>

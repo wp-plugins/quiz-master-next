@@ -43,7 +43,6 @@ function mlw_generate_main_page()
 	</script>
 	";
 	$mlw_quiz_version = get_option('mlw_quiz_master_version');
-	add_meta_box("wpss_mrts", 'Quiz Master Next', "quiz_wpss_mrt_meta_box", "quiz_wpss");  
 	add_meta_box("wpss_mrts", 'In This Update', "quiz_wpss_mrt_meta_box2", "quiz_wpss2"); 
 	add_meta_box("wpss_mrts", 'Support', "quiz_wpss_mrt_meta_box3", "quiz_wpss3");
 	add_meta_box("wpss_mrts", 'Contribution', "quiz_wpss_mrt_meta_box4", "quiz_wpss4");
@@ -154,53 +153,25 @@ function mlw_generate_main_page()
 	<?php
 }
 
-function quiz_wpss_mrt_meta_box()
-{
-	global $wpdb;
-	$sql = "SELECT SUM(quiz_views) AS QuizViews FROM " . $wpdb->prefix . "mlw_quizzes";
-	$mlw_quiz_views = $wpdb->get_results($sql);
-
-	foreach($mlw_quiz_views as $mlw_eaches) {
-		$mlw_quiz_views = $mlw_eaches->QuizViews;
-		break;
-	}
-
-	$sql = "SELECT SUM(quiz_taken) AS QuizTaken FROM " . $wpdb->prefix . "mlw_quizzes";
-	$mlw_quiz_taken = $wpdb->get_results($sql);
-
-	foreach($mlw_quiz_taken as $mlw_eaches) {
-		$mlw_quiz_taken = $mlw_eaches->QuizTaken;
-		break;
-	}
-	?>
-	<div>
-	<table width='100%'>
-	<tr>
-	<td align='left'>Total Times All Quizzes Have Been Viewed</td>
-	<td align='right'><?php echo $mlw_quiz_views; ?></td>
-	</tr>
-	<tr>
-	<td align='left'>Total Times All Quizzes Have Been Taken</td>
-	<td align='right'><?php echo $mlw_quiz_taken; ?></td>
-	</tr>
-	</table>
-	</div>
-	<?php
-}
-
 function quiz_wpss_mrt_meta_box2()
 {
 	?>
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8.2 (December 10, 2013)</td>
+	<td align='left'>0.8.3 (December 14, 2013)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed Disappearing Question Bug Completely</td>
+		<td align='left'>* Fixed Leaderboard Bug</td>
 	</tr>
 	<tr>
-		<td align='left'>* Updated Update Process</td>
+		<td align='left'>* Started Work On Weekly Stat Widget</td>
+	</tr>
+	<tr>
+		<td align='left'>* Tweaked Some Design Throughout Admin Side</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Bug Fixes</td>
 	</tr>
 	</table>
 	</div>
@@ -298,6 +269,11 @@ function quiz_wpss_mrt_meta_box4()
 	</td>
 	</tr>
 	</table>
+	<p>Thank you to those who have contributed so far.</p>
+	<h3>Supporters</h3>
+	<ul>
+		<li>Tracy B</li>
+	</ul>
 	</div>
 	<?php
 }
