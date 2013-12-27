@@ -182,7 +182,7 @@ function mlw_quiz_shortcode($atts)
 		
 		//Display the questions
 		foreach($mlw_questions as $mlw_question) {
-			$mlw_display .= "<p>".$mlw_question->question_name."</p>";
+			$mlw_display .= "<h4>".$mlw_question->question_name."</h4>";
 			if ($mlw_question->answer_one != "")
 			{
 				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' />".$mlw_question->answer_one;
@@ -216,6 +216,11 @@ function mlw_quiz_shortcode($atts)
 			if ($mlw_question->comments == 0)
 			{
 				$mlw_display .= "<input type='text' id='mlwComment".$mlw_question->question_id."' name='mlwComment".$mlw_question->question_id."' value='".$mlw_quiz_options->comment_field_text."' onclick='clear_field(this)'/>";
+				$mlw_display .= "<br />";
+			}
+			if ($mlw_question->comments == 2)
+			{
+				$mlw_display .= "<textarea cols='70' rows='5' id='mlwComment".$mlw_question->question_id."' name='mlwComment".$mlw_question->question_id."' onclick='clear_field(this)'>".$mlw_quiz_options->comment_field_text."</textarea>";
 				$mlw_display .= "<br />";
 			}
 			if ($mlw_question->hints != "")
@@ -313,6 +318,10 @@ function mlw_quiz_shortcode($atts)
 			$mlw_question_answers .= "Your Answer: " . $mlw_user_text . "\n";
 			$mlw_question_answers .= "Correct Answer: " . $mlw_correct_text . "\n";
 			if ($mlw_question->comments == 0)
+			{
+				$mlw_question_answers .= "Your Comments: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
+			}
+			if ($mlw_question->comments == 2)
 			{
 				$mlw_question_answers .= "Your Comments: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
 			}

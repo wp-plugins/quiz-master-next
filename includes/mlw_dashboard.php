@@ -274,9 +274,17 @@ function mlw_dashboard_box_four()
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week_first." 00:00:00' AND '".$mlw_last_week_last." 23:59:59')";
 	$mlw_quiz_taken_last_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_last_week = $wpdb->num_rows;
+	
+	$mlw_two_week_first =  mktime(0, 0, 0, date("m")  , date("d")-20, date("Y"));
+	$mlw_two_week_first = date("Y-m-d", $mlw_two_week_first);
+	$mlw_two_week_last =  mktime(0, 0, 0, date("m")  , date("d")-14, date("Y"));
+	$mlw_two_week_last = date("Y-m-d", $mlw_two_week_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_week_first." 00:00:00' AND '".$mlw_two_week_last." 23:59:59')";
+	$mlw_quiz_taken_two_week = $wpdb->get_results($sql);
+	$mlw_quiz_taken_two_week = $wpdb->num_rows;
 	?>
 	<div>
-	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_last_week.",".$mlw_quiz_taken_this_week; ?></span>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_two_week.",".$mlw_quiz_taken_last_week.",".$mlw_quiz_taken_this_week; ?></span>
 	</div>
 	<?php
 }

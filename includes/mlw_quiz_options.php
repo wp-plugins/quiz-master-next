@@ -411,6 +411,7 @@ function mlw_generate_quiz_options()
 			if (correctAnswer == 6) document.getElementById("edit_correct_six").checked = true;
 			if (comments == 0) document.getElementById("editCommentRadio1").checked = true;
 			if (comments == 1) document.getElementById("editCommentRadio2").checked = true;
+			if (comments == 2) document.getElementById("editCommentRadio3").checked = true;
 		};
 	</script>
 	<style>
@@ -626,9 +627,10 @@ function mlw_generate_quiz_options()
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
-			<th scope="row">Comments?</th>
-			<td><input type="radio" id="commentsRadio1" name="comments" checked="checked" value=0 /><label for="commentsRadio1">Yes</label></td>
-			<td><input type="radio" id="commentsRadio2" name="comments" value=1 /><label for="commentsRadio2">No</label></td>
+			<th scope="row">Comment Field?</th>
+			<td><input type="radio" id="commentsRadio1" name="comments" checked="checked" value=0 /><label for="commentsRadio1">Small Text Field</label></td>
+			<td><input type="radio" id="commentsRadio3" name="comments" value=2 /><label for="commentsRadio3">Large Text Field</label></td>
+			<td><input type="radio" id="commentsRadio2" name="comments" value=1 /><label for="commentsRadio2">None</label></td>
 			</tr>
 			<tr valign="top">
 			<th scope="row">Hint</th>
@@ -762,9 +764,10 @@ function mlw_generate_quiz_options()
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
-			<th scope="row">Comments?</th>
-			<td><input type="radio" id="editCommentRadio1" name="edit_comments" value=0 /><label for="editCommentRadio1">Yes</label></td>
-			<td><input type="radio" id="editCommentRadio2" name="edit_comments" value=1 /><label for="editCommentRadio2">No</label></td>
+			<th scope="row">Comment Field?</th>
+			<td><input type="radio" id="editCommentRadio1" name="edit_comments" value=0 /><label for="editCommentRadio1">Small Text Field</label></td>
+			<td><input type="radio" id="editCommentRadio3" name="edit_comments" value=2 /><label for="editCommentRadio3">Large Text Field</label></td>
+			<td><input type="radio" id="editCommentRadio2" name="edit_comments" value=1 /><label for="editCommentRadio2">None</label></td>
 			</tr>
 			<tr valign="top">
 			<th scope="row">Hint</th>

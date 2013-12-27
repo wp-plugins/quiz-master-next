@@ -159,16 +159,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8.3 (December 14, 2013)</td>
+	<td align='left'>0.8.4 (December 22, 2013)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed Leaderboard Bug</td>
+		<td align='left'>* New Option To Change Size Of Comment Field</td>
 	</tr>
 	<tr>
-		<td align='left'>* Started Work On Weekly Stat Widget</td>
-	</tr>
-	<tr>
-		<td align='left'>* Tweaked Some Design Throughout Admin Side</td>
+		<td align='left'>* Enhanced Weekly Stat Chart</td>
 	</tr>
 	<tr>
 		<td align='left'>* Minor Bug Fixes</td>

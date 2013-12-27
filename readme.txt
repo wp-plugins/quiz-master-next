@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.7.1
-Stable tag: 0.8.3
+Stable tag: 0.8.4
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, or surveys to your website.
@@ -46,6 +46,11 @@ Feel free to use the support option on the main page of the plugin or from the c
 5. Example Survey
 
 == Changelog ==
+
+= 0.8.4 (December 22, 2013) =
+ * New Option To Change Size Of Comment Field
+ * Enhanced Weekly Stat Chart
+ * Bug Fixes
 
 = 0.8.3 (December 14, 2013) =
  * Fixed Leaderboard Bug
@@ -141,6 +146,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.8.4 =
+Upgrade to enjoy small tweaks throughout admin side
 
 = 0.8.3 =
 Upgrade to enjoy small tweaks throughout admin side
