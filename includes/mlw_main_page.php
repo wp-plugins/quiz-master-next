@@ -159,13 +159,13 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8.4 (December 22, 2013)</td>
+	<td align='left'>0.8.5 (January 1, 2013)</td>
 	</tr>
 	<tr>
-		<td align='left'>* New Option To Change Size Of Comment Field</td>
+		<td align='left'>* New Screenshots Added</td>
 	</tr>
 	<tr>
-		<td align='left'>* Enhanced Weekly Stat Chart</td>
+		<td align='left'>* Minor Design Changes</td>
 	</tr>
 	<tr>
 		<td align='left'>* Minor Bug Fixes</td>

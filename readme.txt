@@ -2,15 +2,15 @@
 Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
-Tested up to: 3.7.1
-Stable tag: 0.8.4
+Tested up to: 3.8
+Stable tag: 0.8.5
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, or surveys to your website.
 
 == Description ==
 
-Use this plugin to add multiple quizzes or tests to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results.
+Use this plugin to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results.
 
 Features include:
 
@@ -25,6 +25,7 @@ Features include:
 * Saves the results after a user takes the quiz
 * Now saves the users answers and comments after taking the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
+* Features useful statistics for how quizzes been taken
 * Create surveys by utilizing the comment boxes instead of answers
 
 == Installation ==
@@ -44,8 +45,14 @@ Feel free to use the support option on the main page of the plugin or from the c
 3. Quiz Dashboard Page
 4. Example Quiz
 5. Example Survey
+6. Quiz Results Page
 
 == Changelog ==
+
+= 0.8.5 (January 1, 2013) =
+ * New Screenshots Added
+ * Minor Design Changes
+ * Bug Fixes
 
 = 0.8.4 (December 22, 2013) =
  * New Option To Change Size Of Comment Field
@@ -146,6 +153,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.8.5 =
+Upgrade to fix minor bugs
 
 = 0.8.4 =
 Upgrade to enjoy small tweaks throughout admin side

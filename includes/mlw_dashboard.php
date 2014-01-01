@@ -3,17 +3,17 @@
 This page creates the main dashboard for the Quiz Master Next plugin
 */
 /* 
-Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
+Copyright 2014, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 */
 
 function mlw_generate_quiz_dashboard(){
 	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	
 	///Creates the widgets
-	add_meta_box("wpss_mrts", 'Quiz Daily Stats', "mlw_dashboard_box", "quiz_wpss");  
+	add_meta_box("wpss_mrts", 'Quiz Daily Stats - Times Taken', "mlw_dashboard_box", "quiz_wpss");  
 	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2");
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
-	add_meta_box("wpss_mrts", 'Quiz Weekly Stats', "mlw_dashboard_box_four", "quiz_wpss4");
+	add_meta_box("wpss_mrts", 'Quiz Weekly Stats - Times Taken', "mlw_dashboard_box_four", "quiz_wpss4");
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
