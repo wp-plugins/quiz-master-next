@@ -3,7 +3,7 @@
 Generates the support for Quiz Master Next
 */
 /* 
-Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
+Copyright 2014, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 */
 
 
@@ -159,13 +159,7 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8.5 (January 1, 2013)</td>
-	</tr>
-	<tr>
-		<td align='left'>* New Screenshots Added</td>
-	</tr>
-	<tr>
-		<td align='left'>* Minor Design Changes</td>
+	<td align='left'>0.8.6 (January 2, 2013))</td>
 	</tr>
 	<tr>
 		<td align='left'>* Minor Bug Fixes</td>

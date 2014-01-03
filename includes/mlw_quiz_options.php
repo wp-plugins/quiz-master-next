@@ -3,7 +3,7 @@
 This page allows for the editing of quizzes selected from the quiz admin page.
 */
 /* 
-Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
+Copyright 2014, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 */
 
 function mlw_generate_quiz_options()
@@ -19,18 +19,18 @@ function mlw_generate_quiz_options()
 
 	//Variables from new question form
 	$success = $_POST["create_question"];
-	$question_name = $_POST["question_name"];
-	$answer_one = $_POST["answer_one"];
+	$question_name = htmlspecialchars($_POST["question_name"], ENT_QUOTES);
+	$answer_one = htmlspecialchars($_POST["answer_one"], ENT_QUOTES);
 	$answer_one_points = $_POST["answer_one_points"];
-	$answer_two = $_POST["answer_two"];
+	$answer_two = htmlspecialchars($_POST["answer_two"], ENT_QUOTES);
 	$answer_two_points = $_POST["answer_two_points"];
-	$answer_three = $_POST["answer_three"];
+	$answer_three = htmlspecialchars($_POST["answer_three"], ENT_QUOTES);
 	$answer_three_points = $_POST["answer_three_points"];
-	$answer_four = $_POST["answer_four"];
+	$answer_four = htmlspecialchars($_POST["answer_four"], ENT_QUOTES);
 	$answer_four_points = $_POST["answer_four_points"];
-	$answer_five = $_POST["answer_five"];
+	$answer_five = htmlspecialchars($_POST["answer_five"], ENT_QUOTES);
 	$answer_five_points = $_POST["answer_five_points"];
-	$answer_six = $_POST["answer_six"];
+	$answer_six = htmlspecialchars($_POST["answer_six"], ENT_QUOTES);
 	$answer_six_points = $_POST["answer_six_points"];
 	$correct_answer = $_POST["correct_answer"];
 	$comments = $_POST["comments"];
@@ -38,18 +38,18 @@ function mlw_generate_quiz_options()
 
 	//Variables from edit question form
 	$edit_question_success = $_POST["edit_question"];
-	$edit_question_name = $_POST["edit_question_name"];
-	$edit_answer_one = $_POST["edit_answer_one"];
+	$edit_question_name = htmlspecialchars($_POST["edit_question_name"], ENT_QUOTES);
+	$edit_answer_one = htmlspecialchars($_POST["edit_answer_one"], ENT_QUOTES);
 	$edit_answer_one_points = $_POST["edit_answer_one_points"];
-	$edit_answer_two = $_POST["edit_answer_two"];
+	$edit_answer_two = htmlspecialchars($_POST["edit_answer_two"], ENT_QUOTES);
 	$edit_answer_two_points = $_POST["edit_answer_two_points"];
-	$edit_answer_three = $_POST["edit_answer_three"];
+	$edit_answer_three = htmlspecialchars($_POST["edit_answer_three"], ENT_QUOTES);
 	$edit_answer_three_points = $_POST["edit_answer_three_points"];
-	$edit_answer_four = $_POST["edit_answer_four"];
+	$edit_answer_four = htmlspecialchars($_POST["edit_answer_four"], ENT_QUOTES);
 	$edit_answer_four_points = $_POST["edit_answer_four_points"];
-	$edit_answer_five = $_POST["edit_answer_five"];
+	$edit_answer_five = htmlspecialchars($_POST["edit_answer_five"], ENT_QUOTES);
 	$edit_answer_five_points = $_POST["edit_answer_five_points"];
-	$edit_answer_six = $_POST["edit_answer_six"];
+	$edit_answer_six = htmlspecialchars($_POST["edit_answer_six"], ENT_QUOTES);
 	$edit_answer_six_points = $_POST["edit_answer_six_points"];
 	$edit_correct_answer = $_POST["edit_correct_answer"];
 	$mlw_edit_question_id = $_POST["edit_question_id"];
@@ -499,7 +499,7 @@ function mlw_generate_quiz_options()
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".$mlw_question_info->question_name."','".$mlw_question_info->answer_one."','".$mlw_question_info->answer_one_points."','".$mlw_question_info->answer_two."','".$mlw_question_info->answer_two_points."','".$mlw_question_info->answer_three."','".$mlw_question_info->answer_three_points."','".$mlw_question_info->answer_four."','".$mlw_question_info->answer_four_points."','".$mlw_question_info->answer_five."','".$mlw_question_info->answer_five_points."','".$mlw_question_info->answer_six."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES))."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 			}
 
