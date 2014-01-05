@@ -60,9 +60,29 @@ function mlw_generate_quiz_admin()
 		$results = $wpdb->query( $insert );
 	}	
 
+	//Edit Quiz Name
+	if ($_POST["quiz_name_editted"] == "confirmation")
+	{
+		$mlw_edit_quiz_id = $_POST["edit_quiz_id"];
+		$mlw_edit_quiz_name = $_POST["edit_quiz_name"];
+		$mlw_update_quiz_table = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_name='".$mlw_edit_quiz_name."' WHERE quiz_id=".$mlw_edit_quiz_id;
+		$results = $wpdb->query( $mlw_update_quiz_table );
+		$hasUpdatedQuizName = true;
+		
+		//Insert Action Into Audit Trail
+		global $current_user;
+		get_currentuserinfo();
+		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+		$insert = "INSERT INTO " . $table_name .
+			"(trail_id, action_user, action, time) " .
+			"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Name Has Been Edited: ".$mlw_edit_quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
+		$results = $wpdb->query( $insert );
+		
+		
+	}
 
+	//Retrieve list of quizzes
 	global $wpdb;
-
 	$sql = "SELECT quiz_id, quiz_name, quiz_views, quiz_taken
 		FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted='0'";
 	$sql .= "ORDER BY quiz_id DESC";
@@ -139,6 +159,21 @@ function mlw_generate_quiz_admin()
 			idHidden.value = id;
 			idHiddenName = quizName;
 		};
+		function editQuizName(id, quizName){
+			$j("#edit_dialog").dialog({
+				autoOpen: false,
+				show: 'blind',
+				hide: 'explode',
+				buttons: {
+				Cancel: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+			$j("#edit_dialog").dialog('open');
+			document.getElementById("edit_quiz_name").value = quizName;
+			document.getElementById("edit_quiz_id"). value = id;			
+		}
 	</script>
 	<style>
   		label {
@@ -176,6 +211,16 @@ function mlw_generate_quiz_admin()
 	<?php
 		}
 	?>
+	<?php if ($hasUpdatedQuizName)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Hey!</strong> The quiz name has been updated.</p>
+	</div>
+	<?php
+		}
+	?>
 
 	<?php 
 	$quotes_list = "";
@@ -185,7 +230,7 @@ function mlw_generate_quiz_admin()
 		else $alternate = " class=\"alternate\"";
 		$quotes_list .= "<tr{$alternate}>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_id . "</span></td>";
-		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ."</span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a></span></div></td>";
+		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a></span></div></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster_leaderboard mlw_quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_views . "</span></td>";
@@ -242,7 +287,17 @@ function mlw_generate_quiz_admin()
 	echo "</form>";
 	?>
 	</div>	
-
+	<div id="edit_dialog" title="Edit Quiz Name" style="display:none;">
+		<h3>Quiz Name:</h3><br />
+		<?php
+			echo "<form action='" . $PHP_SELF . "' method='post'>";
+		?>
+		<input type="text" id="edit_quiz_name" name="edit_quiz_name" />
+		<input type="hidden" id="edit_quiz_id" name="edit_quiz_id" />
+		<input type='hidden' name='quiz_name_editted' value='confirmation' />
+		<input type="submit" class="button-primary" value="Edit" />
+		</form>
+	</div>
 	<div id="delete_dialog" title="Delete Quiz?" style="display:none;">
 	<h3><b>Are you sure you want to delete Quiz <span id="delete_quiz_id"></span>?</b></h3>
 	<?php

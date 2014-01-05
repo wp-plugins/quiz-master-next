@@ -159,10 +159,22 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.8.6 (January 2, 2013))</td>
+	<td align='left'>0.9 (January 5, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Bug Fixes</td>
+		<td align='left'>* Added Ability To Edit Quiz Name</td>
+	</tr>
+	<tr>
+		<td align='left'>* Added Ability To Display Question As Drop Down</td>
+	</tr>
+	<tr>
+		<td align='left'>* Added Quiz Name To Completion Email's Subject</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Design Changes To Quiz Options Page</td>
+	</tr>
+	<tr>
+		<td align='left'>* Design Changes To Quiz</td>
 	</tr>
 	</table>
 	</div>

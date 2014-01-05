@@ -140,77 +140,130 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<br />";
 		$mlw_display .= "<span name='mlw_error_message' id='mlw_error_message' style='color: red;'></span><br />";
 		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return mlw_validateForm()' >";
-		$mlw_display .= "<table>";
-		$mlw_display .= "<thead>";
 
 		//See if the site wants to ask for any contact information, then ask for it
 		if ($mlw_quiz_options->user_name != 2)
 		{
-			$mlw_display .= "<tr valign='top'>";
-			$mlw_display .= "<th scope='row'>".$mlw_quiz_options->name_field_text."</th>";
-			$mlw_display .= "<td><input type='text' name='mlwUserName' value='' /></td>";
-			$mlw_display .= "</tr>";
+			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+			$mlw_display .= "<input type='text' name='mlwUserName' value='' />";
+			$mlw_display .= "<br /><br />";
 
 		}
 		if ($mlw_quiz_options->user_comp != 2)
 		{
-			$mlw_display .= "<tr valign='top'>";
-			$mlw_display .= "<th scope='row'>".$mlw_quiz_options->business_field_text."</th>";
-			$mlw_display .= "<td><input type='text' name='mlwUserComp' value='' /></td>";
-			$mlw_display .= "</tr>";
+			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+			$mlw_display .= "<input type='text' name='mlwUserComp' value='' />";
+			$mlw_display .= "<br /><br />";
 
 		}
 		if ($mlw_quiz_options->user_email != 2)
 		{
-			$mlw_display .= "<tr valign='top'>";
-			$mlw_display .= "<th scope='row'>".$mlw_quiz_options->email_field_text."</th>";
-			$mlw_display .= "<td><input type='text' name='mlwUserEmail' value='' /></td>";
-			$mlw_display .= "</tr>";
+			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+			$mlw_display .= "<input type='text' name='mlwUserEmail' value='' />";
+			$mlw_display .= "<br /><br />";
 
 		}
 		if ($mlw_quiz_options->user_phone != 2)
 		{
-			$mlw_display .= "<tr valign='top'>";
-			$mlw_display .= "<th scope='row'>".$mlw_quiz_options->phone_field_text."</th>";
-			$mlw_display .= "<td><input type='text' name='mlwUserPhone' value='' /></td>";
-			$mlw_display .= "</tr>";
+			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+			$mlw_display .= "<input type='text' name='mlwUserPhone' value='' />";
+			$mlw_display .= "<br /><br />";
 
 		}
-		$mlw_display .= "</thead>";
-		$mlw_display .= "</table>";
 		$mlw_display .= "<br />";
 		
 		//Display the questions
 		foreach($mlw_questions as $mlw_question) {
-			$mlw_display .= "<h4>".$mlw_question->question_name."</h4>";
-			if ($mlw_question->answer_one != "")
+			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_question->question_name."</span><br />";
+			if ($mlw_question->question_type == 0)
 			{
-				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' />".$mlw_question->answer_one;
+				if ($mlw_question->answer_one != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' />".$mlw_question->answer_one;
+					$mlw_display .= "<br />";
+				}
+				if ($mlw_question->answer_two != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='2' />".$mlw_question->answer_two;
+					$mlw_display .= "<br />";
+				}
+				if ($mlw_question->answer_three != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='3' />".$mlw_question->answer_three;
+					$mlw_display .= "<br />";
+				}
+				if ($mlw_question->answer_four != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='4' />".$mlw_question->answer_four;
+					$mlw_display .= "<br />";
+				}
+				if ($mlw_question->answer_five != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='5' />".$mlw_question->answer_five;
+					$mlw_display .= "<br />";
+				}
+				if ($mlw_question->answer_six != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='6' />".$mlw_question->answer_six;
+					$mlw_display .= "<br />";
+				}
+			}
+			elseif ($mlw_question->question_type == 1)
+			{
+				if ($mlw_question->answer_one != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' />".$mlw_question->answer_one;
+				}
+				if ($mlw_question->answer_two != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='2' />".$mlw_question->answer_two;
+				}
+				if ($mlw_question->answer_three != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='3' />".$mlw_question->answer_three;
+				}
+				if ($mlw_question->answer_four != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='4' />".$mlw_question->answer_four;
+				}
+				if ($mlw_question->answer_five != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='5' />".$mlw_question->answer_five;
+				}
+				if ($mlw_question->answer_six != "")
+				{
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='6' />".$mlw_question->answer_six;
+				}
 				$mlw_display .= "<br />";
 			}
-			if ($mlw_question->answer_two != "")
+			else
 			{
-				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='2' />".$mlw_question->answer_two;
-				$mlw_display .= "<br />";
-			}
-			if ($mlw_question->answer_three != "")
-			{
-				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='3' />".$mlw_question->answer_three;
-				$mlw_display .= "<br />";
-			}
-			if ($mlw_question->answer_four != "")
-			{
-				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='4' />".$mlw_question->answer_four;
-				$mlw_display .= "<br />";
-			}
-			if ($mlw_question->answer_five != "")
-			{
-				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='5' />".$mlw_question->answer_five;
-				$mlw_display .= "<br />";
-			}
-			if ($mlw_question->answer_six != "")
-			{
-				$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='6' />".$mlw_question->answer_six;
+				$mlw_display .= "<select name='question".$mlw_question->question_id."'>";
+				if ($mlw_question->answer_one != "")
+				{
+					$mlw_display .= "<option value='1'>".$mlw_question->answer_one."</option>";
+				}
+				if ($mlw_question->answer_two != "")
+				{
+					$mlw_display .= "<option value='2'>".$mlw_question->answer_two."</option>";
+				}
+				if ($mlw_question->answer_three != "")
+				{
+					$mlw_display .= "<option value='3'>".$mlw_question->answer_three."</option>";
+				}
+				if ($mlw_question->answer_four != "")
+				{
+					$mlw_display .= "<option value='4'>".$mlw_question->answer_four."</option>";
+				}
+				if ($mlw_question->answer_five != "")
+				{
+					$mlw_display .= "<option value='5'>".$mlw_question->answer_five."</option>";
+				}
+				if ($mlw_question->answer_six != "")
+				{
+					$mlw_display .= "<option value='6'>".$mlw_question->answer_six."</option>";
+				}						
+				$mlw_display .= "</select>";
 				$mlw_display .= "<br />";
 			}
 			if ($mlw_question->comments == 0)
@@ -365,7 +418,7 @@ function mlw_quiz_shortcode($atts)
 				$mlw_message = str_replace( "%USER_EMAIL%" , $mlw_user_email, $mlw_message);
 				$mlw_message = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message);
 				$mlw_message = str_replace( "%COMMENT_SECTION%" , $_POST["mlwQuizComments"], $mlw_message);
-				wp_mail($mlw_user_email, "Quiz Results", $mlw_message);
+				wp_mail($mlw_user_email, "Quiz Results For ".$mlw_quiz_options->quiz_name, $mlw_message);
 			}
 		}
 
@@ -386,7 +439,7 @@ function mlw_quiz_shortcode($atts)
 			$mlw_message = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message);
 			$mlw_message = str_replace( "%COMMENT_SECTION%" , $_POST["mlwQuizComments"], $mlw_message);
 			$mlw_message .= " This email was generated by the Quiz Master Next script by Frank Corso";
-			wp_mail($mlw_quiz_options->admin_email, "Quiz Results", $mlw_message);
+			wp_mail($mlw_quiz_options->admin_email, "Quiz Results For ".$mlw_quiz_options->quiz_name, $mlw_message);
 		}
 
 		//Save the results into database

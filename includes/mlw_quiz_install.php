@@ -122,6 +122,8 @@ function mlw_quiz_activate()
 			hints TEXT NOT NULL,
 			
 			question_order INT NOT NULL,
+			
+			question_type INT NOT NULL,
 
 			deleted INT NOT NULL,
 
