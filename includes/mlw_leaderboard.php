@@ -27,11 +27,11 @@ function mlw_quiz_leaderboard_shortcode($atts)
 		$leader_count++;
 		if ($mlw_quiz_options->system == 0)
 		{
-			$mlw_quiz_leaderboard_display .= "<p>".$leader_count.".&nbsp;".$mlw_eaches->name."&nbsp; - ".$mlw_eaches->correct_score."%</p>";
+			$mlw_quiz_leaderboard_display .= "".$leader_count.".&nbsp;".$mlw_eaches->name."&nbsp; - ".$mlw_eaches->correct_score."%";
 		}
 		if ($mlw_quiz_options->system == 1)
 		{
-			$mlw_quiz_leaderboard_display .= "<p>".$leader_count.".&nbsp;".$mlw_eaches->name."&nbsp; - ".$mlw_eaches->point_score." Points</p>";
+			$mlw_quiz_leaderboard_display .= "".$leader_count.".&nbsp;".$mlw_eaches->name."&nbsp; - ".$mlw_eaches->point_score." Points";
 		}
 		$mlw_quiz_leaderboard_display .= "<br />";
 	}

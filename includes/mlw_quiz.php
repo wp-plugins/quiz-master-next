@@ -136,41 +136,50 @@ function mlw_quiz_shortcode($atts)
 		//Begin the quiz
 		$mlw_message_before = $mlw_quiz_options->message_before;
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
-		$mlw_display .= "<p>".$mlw_message_before."</p>";
-		$mlw_display .= "<br />";
+		$mlw_display .= "<span>".$mlw_message_before."</span><br />";
 		$mlw_display .= "<span name='mlw_error_message' id='mlw_error_message' style='color: red;'></span><br />";
 		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return mlw_validateForm()' >";
 
-		//See if the site wants to ask for any contact information, then ask for it
-		if ($mlw_quiz_options->user_name != 2)
+		//Check to see if user is logged in, then ask for contact if not
+		if ( is_user_logged_in() )
 		{
-			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
-			$mlw_display .= "<input type='text' name='mlwUserName' value='' />";
-			$mlw_display .= "<br /><br />";
-
+			//Retrieve current user information and save into hidden fields for contact information
+			$current_user = wp_get_current_user();
+			$mlw_display .= "<input type='hidden' name='mlwUserName' value='".$current_user->display_name."' />";
+			$mlw_display .= "<input type='hidden' name='mlwUserEmail' value='".$current_user->user_email."' />";	
 		}
-		if ($mlw_quiz_options->user_comp != 2)
+		else
 		{
-			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
-			$mlw_display .= "<input type='text' name='mlwUserComp' value='' />";
-			$mlw_display .= "<br /><br />";
-
+			//See if the site wants to ask for any contact information, then ask for it
+			if ($mlw_quiz_options->user_name != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserName' value='' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_comp != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserComp' value='' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_email != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserEmail' value='' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_phone != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserPhone' value='' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
 		}
-		if ($mlw_quiz_options->user_email != 2)
-		{
-			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
-			$mlw_display .= "<input type='text' name='mlwUserEmail' value='' />";
-			$mlw_display .= "<br /><br />";
-
-		}
-		if ($mlw_quiz_options->user_phone != 2)
-		{
-			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
-			$mlw_display .= "<input type='text' name='mlwUserPhone' value='' />";
-			$mlw_display .= "<br /><br />";
-
-		}
-		$mlw_display .= "<br />";
 		
 		//Display the questions
 		foreach($mlw_questions as $mlw_question) {
@@ -368,15 +377,15 @@ function mlw_quiz_shortcode($atts)
 			if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
 			
 			$mlw_question_answers .= $mlw_question->question_name . "\n";
-			$mlw_question_answers .= "Your Answer: " . $mlw_user_text . "\n";
+			$mlw_question_answers .= "Answer Provided: " . $mlw_user_text . "\n";
 			$mlw_question_answers .= "Correct Answer: " . $mlw_correct_text . "\n";
 			if ($mlw_question->comments == 0)
 			{
-				$mlw_question_answers .= "Your Comments: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
+				$mlw_question_answers .= "Comments Entered: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
 			}
 			if ($mlw_question->comments == 2)
 			{
-				$mlw_question_answers .= "Your Comments: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
+				$mlw_question_answers .= "Comments Entered: " . $_POST["mlwComment".$mlw_question->question_id] . "\n";
 			}
 			$mlw_question_answers .= "\n";
 		}

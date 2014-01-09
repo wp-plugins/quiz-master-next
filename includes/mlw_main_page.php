@@ -159,22 +159,16 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.9 (January 5, 2014)</td>
+	<td align='left'>0.9.1 (January 8, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Edit Quiz Name</td>
+		<td align='left'>* Fixed Leaderboard Design Bug</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Display Question As Drop Down</td>
+		<td align='left'>* Fixed Contact Information Design Bug</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Quiz Name To Completion Email's Subject</td>
-	</tr>
-	<tr>
-		<td align='left'>* Minor Design Changes To Quiz Options Page</td>
-	</tr>
-	<tr>
-		<td align='left'>* Design Changes To Quiz</td>
+		<td align='left'>* Added Ability To Not Need Contact Info For Logged In Users</td>
 	</tr>
 	</table>
 	</div>
@@ -276,6 +270,7 @@ function quiz_wpss_mrt_meta_box4()
 	<h3>Supporters</h3>
 	<ul>
 		<li>Tracy B</li>
+		<li>Bobby L</li>
 	</ul>
 	</div>
 	<?php

@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 0.9
+Stable tag: 0.9.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -50,6 +50,11 @@ Feel free to use the support option on the main page of the plugin or from the c
 7. Example Contact Form
 
 == Changelog ==
+
+= 0.9.1 (January 8, 2014) =
+ * Fixed Leaderboard Design Bug
+ * Fixed Contact Information Design Bug
+ * Added Ability To Not Need Contact Info For Logged In Users
 
 = 0.9 (January 5, 2014) =
  * Added Ability To Edit Quiz Name
@@ -165,6 +170,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.1 =
+Upgrade for several bug fixes and new ability to have logged in users not have to enter contact information
 
 = 0.9 =
 Upgrade for several new features and bug fixes
