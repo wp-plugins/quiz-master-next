@@ -1,9 +1,9 @@
 === Quiz Master Next ===
 Contributors: fpcorso
-Tags: quiz, test, score, survey
+Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 0.9.1
+Stable tag: 0.9.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -50,6 +50,12 @@ Feel free to use the support option on the main page of the plugin or from the c
 7. Example Contact Form
 
 == Changelog ==
+
+= 0.9.2 (January 12, 2014) =
+ * Updated Weekly Stat Widget
+ * Begun Work On Monthly Stat Widget
+ * Added Ability To Edit Leaderboard Template
+ * Bug Fixes
 
 = 0.9.1 (January 8, 2014) =
  * Fixed Leaderboard Design Bug
@@ -170,6 +176,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.2 =
+Upgrade for several enhanced stat widgets and the ability to edit leaderboard templates!
 
 = 0.9.1 =
 Upgrade for several bug fixes and new ability to have logged in users not have to enter contact information

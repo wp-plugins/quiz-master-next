@@ -19,9 +19,15 @@ function mlw_generate_quiz_admin()
 	if ($success == "confirmation")
 	{
 		//Insert New Quiz Into Table
+		$mlw_leaderboard_default = "<h3>Leaderboard for %QUIZ_NAME%</h3>
+			1. %FIRST_PLACE_NAME%-%FIRST_PLACE_SCORE%<br />
+			2. %SECOND_PLACE_NAME%-%SECOND_PLACE_SCORE%<br />
+			3. %THIRD_PLACE_NAME%-%THIRD_PLACE_SCORE%<br />
+			4. %FOURTH_PLACE_NAME%-%FOURTH_PLACE_SCORE%<br />
+			5. %FIFTH_PLACE_NAME%-%FIFTH_PLACE_SCORE%<br />";
 		$insert = "INSERT INTO " . $table_name .
-			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, system, show_score, send_user_email, send_admin_email, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
-			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
+			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, leaderboard_template, system, show_score, send_user_email, send_admin_email, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
+			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
 		$results = $wpdb->query( $insert );
 		$hasCreatedQuiz = true;
 		

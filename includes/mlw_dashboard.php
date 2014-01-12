@@ -14,6 +14,7 @@ function mlw_generate_quiz_dashboard(){
 	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2");
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
 	add_meta_box("wpss_mrts", 'Quiz Weekly Stats - Times Taken', "mlw_dashboard_box_four", "quiz_wpss4");
+	add_meta_box("wpss_mrts", 'Quiz Monthly Stats - Times Taken', "mlw_dashboard_box_five", "quiz_wpss5");
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -83,6 +84,13 @@ function mlw_generate_quiz_dashboard(){
 	</div>
 	
 	<!--<div style="clear:both"></div>-->
+	
+	<div style="float:left; width:60%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss5','advanced','');  ?>	
+	</div>
+	
+	<!--<div style="clear:both"></div>-->
+	
 	<div id="dialog" title="Help">
 	<h3><b>Help</b></h3>
 	<p>This page is the main admin page for the Quiz Master Next.</p>
@@ -282,9 +290,41 @@ function mlw_dashboard_box_four()
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_week_first." 00:00:00' AND '".$mlw_two_week_last." 23:59:59')";
 	$mlw_quiz_taken_two_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_two_week = $wpdb->num_rows;
+	
+	$mlw_three_week_first =  mktime(0, 0, 0, date("m")  , date("d")-27, date("Y"));
+	$mlw_three_week_first = date("Y-m-d", $mlw_three_week_first);
+	$mlw_three_week_last =  mktime(0, 0, 0, date("m")  , date("d")-21, date("Y"));
+	$mlw_three_week_last = date("Y-m-d", $mlw_three_week_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_week_first." 00:00:00' AND '".$mlw_three_week_last." 23:59:59')";
+	$mlw_quiz_taken_three_week = $wpdb->get_results($sql);
+	$mlw_quiz_taken_three_week = $wpdb->num_rows;
 	?>
 	<div>
-	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_two_week.",".$mlw_quiz_taken_last_week.",".$mlw_quiz_taken_this_week; ?></span>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_three_week.",".$mlw_quiz_taken_two_week.",".$mlw_quiz_taken_last_week.",".$mlw_quiz_taken_this_week; ?></span>
+	</div>
+	<?php
+}
+function mlw_dashboard_box_five()
+{
+	//Gather the monthly stats, one variable for each day for the graph
+	global $wpdb;	
+	$mlw_this_month =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
+	$mlw_this_month = date("Y-m-d", $mlw_this_month);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$mlw_quiz_taken_this_month = $wpdb->get_results($sql);
+	$mlw_quiz_taken_this_month = $wpdb->num_rows;
+	
+	$mlw_last_month_first =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
+	$mlw_last_month_first = date("Y-m-d", $mlw_last_month_first);
+	$mlw_last_month_last =  mktime(0, 0, 0, date("m")  , date("d")-31, date("Y"));
+	$mlw_last_month_last = date("Y-m-d", $mlw_last_month_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_month_first." 00:00:00' AND '".$mlw_last_month_last." 23:59:59')";
+	$mlw_quiz_taken_last_month = $wpdb->get_results($sql);
+	$mlw_quiz_taken_last_month = $wpdb->num_rows;
+	
+	?>
+	<div>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_last_month.",".$mlw_quiz_taken_this_month; ?></span>
 	</div>
 	<?php
 }

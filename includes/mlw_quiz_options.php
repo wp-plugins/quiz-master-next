@@ -200,6 +200,32 @@ function mlw_generate_quiz_options()
 			"VALUES (NULL , '" . $current_user->display_name . "' , 'Options Have Been Edited For Quiz Number ".$quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
 		$results = $wpdb->query( $insert );
 	}
+	
+	/*
+	Code For Leaderboard Options tab
+	*/
+	
+	///Variables for save leaderboard options form
+	$mlw_leaderboard_template = $_POST["mlw_quiz_leaderboard_template"];
+	$mlw_leaderboard_quiz_id = $_POST["leaderboard_quiz_id"];
+	$mlw_leaderboard_saved = $_POST["save_leaderboard_options"];
+	
+	///Submit saved options into database
+	if ($mlw_leaderboard_saved == "confirmation")
+	{
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET leaderboard_template='".$mlw_leaderboard_template."' WHERE quiz_id=".$mlw_leaderboard_quiz_id;
+		$results = $wpdb->query( $update );
+		$hasUpdatedLeaderboardOptions = true;
+		
+		//Insert Action Into Audit Trail
+		global $current_user;
+		get_currentuserinfo();
+		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+		$insert = "INSERT INTO " . $table_name .
+			"(trail_id, action_user, action, time) " .
+			"VALUES (NULL , '" . $current_user->display_name . "' , 'Leaderboard Options Have Been Edited For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
+		$results = $wpdb->query( $insert );
+	}
 
 
 	/*
@@ -292,6 +318,23 @@ function mlw_generate_quiz_options()
 		
 			$j('#options_tab_help').click(function() {
 				$j('#options_help_dialog').dialog('open');
+				return false;
+		}	);
+		});
+		$j(function() {
+			$j('#leaderboard_help_dialog').dialog({
+				autoOpen: false,
+				show: 'blind',
+				hide: 'explode',
+				buttons: {
+				Ok: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+		
+			$j('#leaderboard_tab_help').click(function() {
+				$j('#leaderboard_help_dialog').dialog('open');
 				return false;
 		}	);
 		});
@@ -434,6 +477,16 @@ function mlw_generate_quiz_options()
 	{
 	?>
 	<h2>Quiz Options For <?php echo $mlw_quiz_options->quiz_name; ?><a id="opener" href="">(?)</a></h2>
+	<?php if ($hasUpdatedLeaderboardOptions)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> Your leaderboard options for this quiz have been saved.</p>
+	</div>
+	<?php
+		}
+	?>
 	<?php if ($hasCreatedQuestion)
 		{
 	?>
@@ -489,6 +542,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-1">Quiz Questions</a></li>
 		    <li><a href="#tabs-2">Quiz Text</a></li>
 		    <li><a href="#tabs-3">Quiz Options</a></li>
+		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>
 		</ul>
   		<div id="tabs-1">
 			<?php
@@ -1040,8 +1094,69 @@ function mlw_generate_quiz_options()
 		</table>
 		<?php echo "</form>"; ?>
   		</div>
+	<div id="tabs-4">
+		<h3>Template Variables</h3>
+		<table class="form-table">
+			<tr>
+				<td><strong>%FIRST_PLACE_NAME%</strong> - The name of the user who is in first place</td>
+				<td><strong>%FIRST_PLACE_SCORE%</strong> - The score from the first place's quiz</td>
+			</tr>
+		
+			<tr>
+				<td><strong>%SECOND_PLACE_NAME%</strong> - The name of the user who is in second place</td>
+				<td><strong>%SECOND_PLACE_SCORE%</strong> - The score from the second place's quiz</td>
+			</tr>
+		
+			<tr>
+				<td><strong>%THIRD_PLACE_NAME%</strong> - The name of the user who is in third place</td>
+				<td><strong>%THIRD_PLACE_SCORE%</strong> - The score from the third place's quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%FOURTH_PLACE_NAME%</strong> - The name of the user who is in fourth place</td>
+				<td><strong>%FOURTH_PLACE_SCORE%</strong> - The score from the fourth place's quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%FIFTH_PLACE_NAME%</strong> - The name of the user who is in fifth place</td>
+				<td><strong>%FIFTH_PLACE_SCORE%</strong> - The score from the fifth place's quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%QUIZ_NAME%</strong> - The name of the quiz</td>
+			</tr>
+		</table>
+		<button id="save_template_button" onclick="javascript: document.quiz_leaderboard_options_form.submit();">Save Leaderboard Options</button><button id="leaderboard_tab_help">Help</button>
+		<?php
+			echo "<form action='" . $PHP_SELF . "' method='post' name='quiz_leaderboard_options_form'>";
+			echo "<input type='hidden' name='save_leaderboard_options' value='confirmation' />";
+			echo "<input type='hidden' name='leaderboard_quiz_id' value='".$quiz_id."' />";
+		?>
+    	<table class="form-table">
+			<tr>
+				<td width="30%">
+					<strong>Leaderboard Template</strong>
+					<br />
+					<p>Allowed Variables: </p>
+					<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+					<p style="margin: 2px 0">- %FIRST_PLACE_NAME%</p>
+					<p style="margin: 2px 0">- %FIRST_PLACE_SCORE%</p>
+					<p style="margin: 2px 0">- %SECOND_PLACE_NAME%</p>
+					<p style="margin: 2px 0">- %SECOND_PLACE_SCORE%</p>
+					<p style="margin: 2px 0">- %THIRD_PLACE_NAME%</p>
+					<p style="margin: 2px 0">- %THIRD_PLACE_SCORE%</p>
+					<p style="margin: 2px 0">- %FOURTH_PLACE_NAME%</p>
+					<p style="margin: 2px 0">- %FOURTH_PLACE_SCORE%</p>
+					<p style="margin: 2px 0">- %FIFTH_PLACE_NAME%</p>
+					<p style="margin: 2px 0">- %FIFTH_PLACE_SCORE%</p>
+				</td>
+				<td><textarea cols="80" rows="15" id="mlw_quiz_leaderboard_template" name="mlw_quiz_leaderboard_template"><?php echo $mlw_quiz_options->leaderboard_template; ?></textarea>
+				</td>
+			</tr>
+		</table>
+		</form>
 	</div>
-
+	</div>
 
 	<div id="delete_dialog" title="Delete Question?" style="display:none;">
 	<h3><b>Are you sure you want to delete Question <span id="delete_question_id"></span>?</b></h3>
@@ -1054,17 +1169,17 @@ function mlw_generate_quiz_options()
 	echo "</form>";	
 	?>
 	</div>
-	<div id="dialog" title="Help">
+	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page is used edit the questions and options for your quiz.  Use the help buttons on each tab for assistance.</p>
 	</div>
-	<div id="questions_help_dialog" title="Help">
+	<div id="questions_help_dialog" title="Help" style="display:none;">
 	<p>The question table lists the ID of the question and the question itself.</p>
 	<p>To edit a question, use the Edit link below the question.</p>
 	<p>To add a question, click on the Add Question button. This will open a window for you to add a question. The window will ask for the question and up to 6 answers. If you are using the points system, enter in the amount of points each answer is worth. If you are using the correct system, check the answer that is the correct answer. 
 	You can choose if you would like a comment field after the question be selecting yes to the Comment question. You can also have a hint displayed to the user. Click create question when you are finished.</p>
 	</div>
-	<div id="templates_help_dialog" title="Help">
+	<div id="templates_help_dialog" title="Help" style="display:none;">
 	<p>This tab is used to edit the different messages the user and admin may see.</p>
 	<p>The Message Displayed Before Quiz text is shown to the user at the beginning of the quiz.</p>
 	<p>The Message Display Before Comment Box is shown to the user right before the section the user can type in comments if that option is enabled.</p>
@@ -1074,7 +1189,7 @@ function mlw_generate_quiz_options()
 	<p>The other templates section is for customizing the text on the submit button as well as the fields where are user can input his or her information.</p>
 	<p>Some templates are able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
 	</div>
-	<div id="options_help_dialog" title="Help">
+	<div id="options_help_dialog" title="Help" style="display:none;">
 	<p>This tab is used to edit the different options for the quiz.</p>
 	<p>The system option allows you to have the quiz be graded using a correct/incorrect system or the quiz can have each answer worth different amount of points.</p>
 	<p>The second option asks whether you want the user to his or her score after completing the quiz.</p>
@@ -1083,6 +1198,11 @@ function mlw_generate_quiz_options()
 	<p>The next option asks if you want the admin to receive an email after a quiz has been taken.</p>
 	<p>The next option asks for the email address of the admin you would like the quiz to email.</p>
 	<p>The last option asks if you would like for the user to be able to leave comments at the end of the quiz.</p>
+	</div>
+	<div id="leaderboard_help_dialog" title="Help" style="display:none;">
+	<p>This tab is used to edit the options for the leaderboard for this quiz.</p>
+	<p>Currently, you can edit the template for the leaderboard.</p>
+	<p>The template is able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
 	</div>
 
 	<?php

@@ -39,6 +39,8 @@ function mlw_quiz_activate()
 			phone_field_text TEXT NOT NULL,
 			
 			comment_field_text TEXT NOT NULL,
+			
+			leaderboard_template TEXT NOT NULL,
 
 			system INT NOT NULL,
 
