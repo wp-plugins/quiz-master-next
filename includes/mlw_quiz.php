@@ -60,7 +60,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_views += 1;
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views='".$mlw_views."' WHERE quiz_id=".$mlw_quiz_id;
 		$results = $wpdb->query( $update );
-
+		
 		//Form validation script
 		$mlw_display .= "
 		<script>
@@ -143,10 +143,36 @@ function mlw_quiz_shortcode($atts)
 		//Check to see if user is logged in, then ask for contact if not
 		if ( is_user_logged_in() )
 		{
-			//Retrieve current user information and save into hidden fields for contact information
+			//Retrieve current user information and save into text fields for contact information
 			$current_user = wp_get_current_user();
-			$mlw_display .= "<input type='hidden' name='mlwUserName' value='".$current_user->display_name."' />";
-			$mlw_display .= "<input type='hidden' name='mlwUserEmail' value='".$current_user->user_email."' />";	
+			if ($mlw_quiz_options->user_name != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserName' value='".$current_user->display_name."' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_comp != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserComp' value='' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_email != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserEmail' value='".$current_user->user_email."' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_phone != 2)
+			{
+				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+				$mlw_display .= "<input type='text' name='mlwUserPhone' value='' />";
+				$mlw_display .= "<br /><br />";
+	
+			}
 		}
 		else
 		{
@@ -287,7 +313,7 @@ function mlw_quiz_shortcode($atts)
 			}
 			if ($mlw_question->hints != "")
 			{
-				$mlw_display .= "<p>Hint: ".$mlw_question->hints."</p>";
+				$mlw_display .= "<span>Hint: ".$mlw_question->hints."</span>";
 				$mlw_display .= "<br />";
 			}
 			$mlw_display .= "<br />";

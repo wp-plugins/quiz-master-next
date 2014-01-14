@@ -2,7 +2,7 @@
 
 function mlw_quiz_update()
 {
-	$data = "0.9.2";
+	$data = "0.9.3";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);

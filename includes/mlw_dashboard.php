@@ -63,7 +63,7 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next Dashboard<a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website. If it is, please consider donating from the suppot page. Or, please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
+	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website. If it is, please consider donating from the support page. Or, please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	

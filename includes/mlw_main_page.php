@@ -159,16 +159,10 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.9.2 (January 12, 2014)</td>
+	<td align='left'>0.9.3 (January 14, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Updated Weekly Stat Widget</td>
-	</tr>
-	<tr>
-		<td align='left'>* Begun Work On Monthly Stat Widget</td>
-	</tr>
-	<tr>
-		<td align='left'>* Added Ability To Edit Leaderboard Template</td>
+		<td align='left'>* Logged-In Users Now See Contact Information</td>
 	</tr>
 	<tr>
 		<td align='left'>* Bug Fixes</td>
