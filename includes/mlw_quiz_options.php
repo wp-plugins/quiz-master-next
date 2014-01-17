@@ -174,6 +174,7 @@ function mlw_generate_quiz_options()
 	//Variables for save options form
 	$save_options_success = $_POST["save_options"];
 	$mlw_system = $_POST["system"];
+	$mlw_randomness_order = $_POST["randomness_order"];
 	$mlw_send_user_email = $_POST["sendUserEmail"];
 	$mlw_send_admin_email = $_POST["sendAdminEmail"];
 	$mlw_user_name = $_POST["userName"];
@@ -187,7 +188,7 @@ function mlw_generate_quiz_options()
 	if ($save_options_success == "confirmation")
 	{
 		$quiz_id = $_POST["quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		$hasUpdatedOptions = true;
 		
@@ -210,7 +211,7 @@ function mlw_generate_quiz_options()
 	$mlw_leaderboard_quiz_id = $_POST["leaderboard_quiz_id"];
 	$mlw_leaderboard_saved = $_POST["save_leaderboard_options"];
 	
-	///Submit saved options into database
+	///Submit saved leaderboard template into database
 	if ($mlw_leaderboard_saved == "confirmation")
 	{
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET leaderboard_template='".$mlw_leaderboard_template."' WHERE quiz_id=".$mlw_leaderboard_quiz_id;
@@ -352,6 +353,9 @@ function mlw_generate_quiz_options()
 		});
 		$j(function() {
     			$j( "#system" ).buttonset();
+  		});
+  		$j(function() {
+    			$j( "#randomness_order" ).buttonset();
   		});
 		$j(function() {
     			$j( "#sendUserEmail" ).buttonset();
@@ -1032,6 +1036,13 @@ function mlw_generate_quiz_options()
 				    <input type="radio" id="radio1" name="system" <?php if ($mlw_quiz_options->system == 0) {echo 'checked="checked"';} ?> value='0' /><label for="radio1">Correct/Incorrect</label>
 				    <input type="radio" id="radio2" name="system" <?php if ($mlw_quiz_options->system == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio2">Points</label>
 				    <input type="radio" id="radio3" name="system" <?php if ($mlw_quiz_options->system == 2) {echo 'checked="checked"';} ?> value='2' /><label for="radio3">Not Graded</label>
+				</div></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="randomness_order">Are the questions random? (Question Order will not apply if this is yes)</label></th>
+				<td><div id="randomness_order">
+				    <input type="radio" id="radio23" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 0) {echo 'checked="checked"';} ?> value='0' /><label for="radio23">No</label>
+				    <input type="radio" id="radio24" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio24">Yes</label>
 				</div></td>
 			</tr>
 			<tr valign="top">

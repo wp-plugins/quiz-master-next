@@ -29,7 +29,15 @@ function mlw_quiz_shortcode($atts)
 
 
 	//Load questions
-	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_questions" . " WHERE quiz_id=".$mlw_quiz_id." AND deleted='0' ORDER BY question_order ASC";
+	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_questions" . " WHERE quiz_id=".$mlw_quiz_id." AND deleted='0' "; 
+	if ($mlw_quiz_options->randomness_order == 0)
+	{
+		$sql .= "ORDER BY question_order ASC";
+	}
+	if ($mlw_quiz_options->randomness_order == 1)
+	{
+		$sql .= "ORDER BY rand()";
+	}
 	$mlw_questions = $wpdb->get_results($sql);
 
 

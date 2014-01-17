@@ -63,7 +63,7 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next Dashboard<a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website. If it is, please consider donating from the support page. Or, please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
+	<p>Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating from the support page. Or, please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
@@ -322,9 +322,17 @@ function mlw_dashboard_box_five()
 	$mlw_quiz_taken_last_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_last_month = $wpdb->num_rows;
 	
+	$mlw_two_month_first =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
+	$mlw_two_month_first = date("Y-m-d", $mlw_two_month_first);
+	$mlw_two_month_last =  mktime(0, 0, 0, date("m")  , date("d")-31, date("Y"));
+	$mlw_two_month_last = date("Y-m-d", $mlw_two_month_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_month_first." 00:00:00' AND '".$mlw_two_month_last." 23:59:59')";
+	$mlw_quiz_taken_two_month = $wpdb->get_results($sql);
+	$mlw_quiz_taken_two_month = $wpdb->num_rows;
+	
 	?>
 	<div>
-	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_last_month.",".$mlw_quiz_taken_this_month; ?></span>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_two_month.",".$mlw_quiz_taken_last_month.",".$mlw_quiz_taken_this_month; ?></span>
 	</div>
 	<?php
 }

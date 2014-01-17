@@ -2,7 +2,7 @@
 
 function mlw_quiz_update()
 {
-	$data = "0.9.3";
+	$data = "0.9.4";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -36,6 +36,15 @@ function mlw_quiz_update()
 			4. %FOURTH_PLACE_NAME%-%FOURTH_PLACE_SCORE%<br />
 			5. %FIFTH_PLACE_NAME%-%FIFTH_PLACE_SCORE%<br />";
 			$update_sql = "UPDATE ".$table_name." SET leaderboard_template='".$mlw_leaderboard_default."'";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 0.9.4
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'randomness_order'") != "randomness_order")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD randomness_order INT NOT NULL AFTER system";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET randomness_order=0";
 			$results = $wpdb->query( $update_sql );
 		}
 		

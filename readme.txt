@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 0.9.3
+Stable tag: 0.9.4
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -14,7 +14,7 @@ Use this plugin to add multiple quizzes, tests, and surveys to your website. Thi
 
 Features include:
 
-* Allows for Unlimited Quizzes, Tests, or Surveys
+* Allows for Unlimited Quizzes, Tests, Surveys, Contact Forms, etc..
 * Allows for Unlimited Questions in each Quiz
 * Can ask for user's contact information
 * Can email user after taking the quiz
@@ -23,11 +23,15 @@ Features include:
 * Can enable comment boxes for each question and/or comment section at the end of the quiz
 * Can enable hints for questions
 * Saves the results after a user takes the quiz
-* Now saves the users answers and comments after taking the quiz
+* Saves the users answers and comments after taking the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
 * Features useful statistics for how quizzes been taken
 * Create surveys by utilizing the comment boxes instead of answers
 * Create Contact Forms
+* Customize templates for landing page after the quiz has been taken
+* Customize emails that are sent to users and admins
+* Questions can be in predetermined order or random
+* Leaderboards for every quiz
 
 == Installation ==
 
@@ -36,8 +40,14 @@ Features include:
 
 == Frequently Asked Questions ==
 
+= What does the option does on that page? =
+On each page, there is a "?" next to the page title. Clicking on it will bring up a small help window that will assist you on that page.
+
+= How do you use that feature? =
+There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the support page to contact me and I will help you.
+
 = I have an idea, how do I contact you? =
-Feel free to use the support option on the main page of the plugin or from the contact page at mylocalwebstop.com.
+Feel free to use the support page of the plugin or from the contact page at mylocalwebstop.com.
 
 == Screenshots ==
 
@@ -50,6 +60,10 @@ Feel free to use the support option on the main page of the plugin or from the c
 7. Example Contact Form
 
 == Changelog ==
+
+= 0.9.4 (January 16, 2014) =
+ * Added Ability To Randomly Order Questions
+ * Updated Monthly Stat Widget
 
 = 0.9.3 (January 14, 2014) =
  * Logged-In Users Now See Contact Information
@@ -180,6 +194,9 @@ Feel free to use the support option on the main page of the plugin or from the c
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.4 =
+Upgrade to set up your quizzes to randomize the questions
 
 = 0.9.3 =
 Upgrade for minor bug fixes.

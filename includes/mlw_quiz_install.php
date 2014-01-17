@@ -43,6 +43,8 @@ function mlw_quiz_activate()
 			leaderboard_template TEXT NOT NULL,
 
 			system INT NOT NULL,
+			
+			randomness_order INT NOT NULL,
 
 			show_score INT NOT NULL,
 
