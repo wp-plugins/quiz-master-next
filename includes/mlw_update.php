@@ -2,7 +2,7 @@
 
 function mlw_quiz_update()
 {
-	$data = "0.9.4";
+	$data = "0.9.5";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -45,6 +45,16 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD randomness_order INT NOT NULL AFTER system";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET randomness_order=0";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 0.9.5
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'question_answer_template'") != "question_answer_template")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD question_answer_template TEXT NOT NULL AFTER comment_field_text";
+			$results = $wpdb->query( $sql );
+			$mlw_question_answer_default = "%QUESTION%<br /> Answer Provided: %USER_ANSWER%<br /> Correct Answer: %CORRECT_ANSWER%<br /> Comments Entered: %USER_COMMENTS%<br />";
+			$update_sql = "UPDATE ".$table_name." SET question_answer_template='".$mlw_question_answer_default."'";
 			$results = $wpdb->query( $update_sql );
 		}
 		

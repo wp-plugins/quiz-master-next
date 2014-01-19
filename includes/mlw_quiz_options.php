@@ -147,12 +147,13 @@ function mlw_generate_quiz_options()
 	$mlw_phone_field_text = $_POST["mlw_phoneText"];
 	$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
 	$mlw_comment_field_text = $_POST["mlw_commentText"];
+	$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 
 	//Submit saved templates into database
 	if ($save_template_success == "confirmation")
 	{
 		$quiz_id = $_POST["quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		$hasUpdatedTemplates = true;
 		
@@ -405,6 +406,10 @@ function mlw_generate_quiz_options()
 				$j('#new_question_dialog').dialog('open');
 				return false;
 		}	);
+			$j('#new_question_button_two').click(function() {
+				$j('#new_question_dialog').dialog('open');
+				return false;
+		}	);
 		});
 		function deleteQuestion(id){
 			$j("#delete_dialog").dialog({
@@ -549,6 +554,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>
 		</ul>
   		<div id="tabs-1">
+  			<button id="new_question_button_two">Add Question</button><button id="question_tab_help">Help</button>
 			<?php
 			$question_list = "";
 			$display = "";
@@ -563,14 +569,14 @@ function mlw_generate_quiz_options()
 
 			$display .= "<table class=\"widefat\">";
 				$display .= "<thead><tr>
-					<th>Question ID</th>
+					<th>Question Order</th>
 					<th>Question Name</th>
 				</tr></thead>";
 				$display .= "<tbody id=\"the-list\">{$question_list}</tbody>";
 				$display .= "</table>";
 			echo $display;
 			?>
-			<button id="new_question_button">Add Question</button><button id="question_tab_help">Help</button>
+			<button id="new_question_button">Add Question</button>
 			<div id="new_question_dialog" title="Create New Question" style="display:none;">
 			<table class="wide" style="text-align: left; white-space: nowrap;">
 			<thead>
@@ -891,6 +897,14 @@ function mlw_generate_quiz_options()
 			</tr>
 			<tr>
 			<td><strong>%COMMENT_SECTION%</strong> - The comments the user entered into comment box if enabled</td>
+			<td><strong>%QUESTION%</strong> - The question that the user answered</td>
+			</tr>
+			<tr>
+			<td><strong>%USER_ANSWER%</strong> - The answer the user gave for the question</td>
+			<td><strong>%CORRECT_ANSWER%</strong> - The correct answer for the question</td>
+			</tr>
+			<tr>
+			<td><strong>%USER_COMMENTS%</strong> - The comments the user provided in the comment field for the question</td>
 			</tr>
 			</table>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
@@ -937,6 +951,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %USER_BUSINESS%</p>
 						<p style="margin: 2px 0">- %USER_PHONE%</p>
 						<p style="margin: 2px 0">- %USER_EMAIL%</p>
+						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_after_message" name="mlw_quiz_after_message"><?php echo $mlw_quiz_options->message_after; ?></textarea>
@@ -962,6 +977,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %USER_BUSINESS%</p>
 						<p style="margin: 2px 0">- %USER_PHONE%</p>
 						<p style="margin: 2px 0">- %USER_EMAIL%</p>
+						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_user_email_template" name="mlw_quiz_user_email_template"><?php echo $mlw_quiz_options->user_email_template; ?></textarea>
@@ -969,7 +985,7 @@ function mlw_generate_quiz_options()
 				</tr>
 				<tr>
 					<td width="30%">
-						<strong>Email sent to admin after completion</strong>
+						<strong>Email sent to admin after completion (If turned on in options)</strong>
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %POINT_SCORE%</p>
@@ -981,6 +997,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %USER_PHONE%</p>
 						<p style="margin: 2px 0">- %USER_EMAIL%</p>
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_admin_email_template" name="mlw_quiz_admin_email_template"><?php echo $mlw_quiz_options->admin_email_template; ?></textarea>
@@ -1015,6 +1032,21 @@ function mlw_generate_quiz_options()
 				<tr valign="top">
 					<th scope="row"><label for="mlw_commentText">Text for comments field</label></th>
 					<td><input name="mlw_commentText" type="text" id="mlw_commentText" value="<?php echo $mlw_quiz_options->comment_field_text; ?>" class="regular-text" /></td>
+				</tr>
+			</table>
+			<table class="form-table">
+				<tr>
+					<td width="30%">
+						<strong>%QUESTIONS_ANSWERS% Text</strong>
+						<br />
+						<p>Allowed Variables: </p>
+						<p style="margin: 2px 0">- %QUESTION%</p>
+						<p style="margin: 2px 0">- %USER_ANSWER%</p>
+						<p style="margin: 2px 0">- %CORRECT_ANSWER%</p>
+						<p style="margin: 2px 0">- %USER_COMMENTS%</p>
+					</td>
+					<td><textarea cols="80" rows="15" id="mlw_quiz_question_answer_template" name="mlw_quiz_question_answer_template"><?php echo $mlw_quiz_options->question_answer_template; ?></textarea>
+					</td>
 				</tr>
 			</table>
 

@@ -40,6 +40,8 @@ function mlw_quiz_activate()
 			
 			comment_field_text TEXT NOT NULL,
 			
+			question_answer_template TEXT NOT NULL,
+			
 			leaderboard_template TEXT NOT NULL,
 
 			system INT NOT NULL,

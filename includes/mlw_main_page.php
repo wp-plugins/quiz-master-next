@@ -114,7 +114,7 @@ function mlw_generate_main_page()
 		}
 	</style>
 	<div class="wrap">
-	<h2>Quiz Master Next Support <a id="opener" href="">(?)</a></h2>
+	<h2>Quiz Master Next Help And Support <a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
 	<p>Thank you for trying out my new plugin. I hope you find it beneficial to your website. Please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
@@ -141,7 +141,7 @@ function mlw_generate_main_page()
 
 	<div id="dialog" title="Help">
 	<h3><b>Help</b></h3>
-	<p>This page is the main admin page for the Quiz Master Next.</p>
+	<p>This page is the main support page for the Quiz Master Next.</p>
 	<p>The first widget lists all the statistics collected so far.</p>
 	<p>The second widget lists all the new features added in this update.</p>
 	<p>The third widget contains a contact form for emailing the developer.</p>
@@ -159,13 +159,16 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.9.4 (January 16, 2014)</td>
+	<td align='left'>0.9.5 (January 19, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Randomly Order Questions</td>
+		<td align='left'>* Added Ability To Edit %QUESTIONS_ANSWERS% Template</td>
 	</tr>
 	<tr>
-		<td align='left'>* Updated Monthly Stat Widget</td>
+		<td align='left'>* Changed Name Of Support Page To Help Page</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Design Changes On Quiz Options Page</td>
 	</tr>
 	</table>
 	</div>

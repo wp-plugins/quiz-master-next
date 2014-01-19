@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 0.9.4
+Stable tag: 0.9.5
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -25,7 +25,7 @@ Features include:
 * Saves the results after a user takes the quiz
 * Saves the users answers and comments after taking the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
-* Features useful statistics for how quizzes been taken
+* Features useful statistics for how many have quizzes been taken
 * Create surveys by utilizing the comment boxes instead of answers
 * Create Contact Forms
 * Customize templates for landing page after the quiz has been taken
@@ -44,10 +44,10 @@ Features include:
 On each page, there is a "?" next to the page title. Clicking on it will bring up a small help window that will assist you on that page.
 
 = How do you use that feature? =
-There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the support page to contact me and I will help you.
+There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the help page within the plugin to contact me and I will help you.
 
 = I have an idea, how do I contact you? =
-Feel free to use the support page of the plugin or from the contact page at mylocalwebstop.com.
+Feel free to use the help page within the plugin or from the contact page at mylocalwebstop.com.
 
 == Screenshots ==
 
@@ -60,6 +60,11 @@ Feel free to use the support page of the plugin or from the contact page at mylo
 7. Example Contact Form
 
 == Changelog ==
+
+= 0.9.5 (January 19, 2014) =
+ * Added Ability To Edit %QUESTIONS_ANSWERS% Template
+ * Changed Name Of Support Page To Help Page
+ * Minor Design Changes On Quiz Options Page
 
 = 0.9.4 (January 16, 2014) =
  * Added Ability To Randomly Order Questions
@@ -194,6 +199,9 @@ Feel free to use the support page of the plugin or from the contact page at mylo
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.5 =
+Upgrade to be able to edit the %QUESTIONS_ANSWERS% template. Also, minor design changes on Quiz Options page.
 
 = 0.9.4 =
 Upgrade to set up your quizzes to randomize the questions

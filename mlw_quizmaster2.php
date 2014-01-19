@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 0.9.4
+Version: 0.9.5
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -57,7 +57,7 @@ function mlw_add_menu()
 		add_submenu_page(__FILE__, 'Quiz Result Details', 'Quiz Result Details', 8, 'mlw_quiz_result_details', 'mlw_generate_result_details');
 		add_submenu_page(__FILE__, 'Tools', 'Tools', 8, 'mlw_quiz_tools', 'mlw_generate_quiz_tools');
 		add_submenu_page(__FILE__, 'How-To', 'How-To', 8, 'mlw_how_to', 'mlw_generate_help_page');
-		add_submenu_page(__FILE__, 'Support', 'Support', 8, 'mlw_quiz_support', 'mlw_generate_main_page');
+		add_submenu_page(__FILE__, 'Help', 'Help', 8, 'mlw_quiz_support', 'mlw_generate_main_page');
 	}
 }
 /*
