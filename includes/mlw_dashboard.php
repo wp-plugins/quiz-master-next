@@ -203,7 +203,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 	
-	$sql = "SELECT AVG(quiz_views) AS AvgViews FROM " . $wpdb->prefix . "mlw_quizzes";
+	$sql = "SELECT ROUND(AVG(quiz_views), 0) AS AvgViews FROM " . $wpdb->prefix . "mlw_quizzes";
 	$mlw_average_views = $wpdb->get_results($sql);
 
 	foreach($mlw_average_views as $mlw_eaches) {
@@ -211,7 +211,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 	
-	$sql = "SELECT AVG(quiz_taken) AS AvgTaken FROM " . $wpdb->prefix . "mlw_quizzes";
+	$sql = "SELECT ROUND(AVG(quiz_taken), 0) AS AvgTaken FROM " . $wpdb->prefix . "mlw_quizzes";
 	$mlw_average_taken = $wpdb->get_results($sql);
 
 	foreach($mlw_average_taken as $mlw_eaches) {
@@ -246,11 +246,11 @@ function mlw_dashboard_box_three()
 	<td align='right'><?php echo $mlw_quiz_taken; ?></td>
 	</tr>
 	<tr>
-	<td align='left'>Average Views Per Quiz</td>
+	<td align='left'>Average Amount Each Quiz Has Been Viewed</td>
 	<td align='right'><?php echo $mlw_average_views; ?></td>
 	</tr>
 	<tr>
-	<td align='left'>Average Times Taken Per Quiz</td>
+	<td align='left'>Average Amount Each Quiz Has Been Taken</td>
 	<td align='right'><?php echo $mlw_average_taken; ?></td>
 	</tr>
 	<tr>
@@ -330,9 +330,25 @@ function mlw_dashboard_box_five()
 	$mlw_quiz_taken_two_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_two_month = $wpdb->num_rows;
 	
+	$mlw_three_month_first =  mktime(0, 0, 0, date("m")  , date("d")-90, date("Y"));
+	$mlw_three_month_first = date("Y-m-d", $mlw_three_month_first);
+	$mlw_three_month_last =  mktime(0, 0, 0, date("m")  , date("d")-61, date("Y"));
+	$mlw_three_month_last = date("Y-m-d", $mlw_three_month_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_month_first." 00:00:00' AND '".$mlw_three_month_last." 23:59:59')";
+	$mlw_quiz_taken_three_month = $wpdb->get_results($sql);
+	$mlw_quiz_taken_three_month = $wpdb->num_rows;
+	
+	$mlw_four_month_first =  mktime(0, 0, 0, date("m")  , date("d")-120, date("Y"));
+	$mlw_four_month_first = date("Y-m-d", $mlw_four_month_first);
+	$mlw_four_month_last =  mktime(0, 0, 0, date("m")  , date("d")-91, date("Y"));
+	$mlw_four_month_last = date("Y-m-d", $mlw_four_month_last);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_month_first." 00:00:00' AND '".$mlw_four_month_last." 23:59:59')";
+	$mlw_quiz_taken_four_month = $wpdb->get_results($sql);
+	$mlw_quiz_taken_four_month = $wpdb->num_rows;
+	
 	?>
 	<div>
-	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_two_month.",".$mlw_quiz_taken_last_month.",".$mlw_quiz_taken_this_month; ?></span>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_four_month.",".$mlw_quiz_taken_three_month.",".$mlw_quiz_taken_two_month.",".$mlw_quiz_taken_last_month.",".$mlw_quiz_taken_this_month; ?></span>
 	</div>
 	<?php
 }

@@ -2,7 +2,7 @@
 
 function mlw_quiz_update()
 {
-	$data = "0.9.5";
+	$data = "0.9.6";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -55,6 +55,15 @@ function mlw_quiz_update()
 			$results = $wpdb->query( $sql );
 			$mlw_question_answer_default = "%QUESTION%<br /> Answer Provided: %USER_ANSWER%<br /> Correct Answer: %CORRECT_ANSWER%<br /> Comments Entered: %USER_COMMENTS%<br />";
 			$update_sql = "UPDATE ".$table_name." SET question_answer_template='".$mlw_question_answer_default."'";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 0.9.6
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'contact_info_location'") != "contact_info_location")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD contact_info_location INT NOT NULL AFTER send_admin_email";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET contact_info_location=0";
 			$results = $wpdb->query( $update_sql );
 		}
 		

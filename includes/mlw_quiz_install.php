@@ -53,6 +53,8 @@ function mlw_quiz_activate()
 			send_user_email INT NOT NULL,
 
 			send_admin_email INT NOT NULL,
+			
+			contact_info_location INT NOT NULL,
 
 			user_name INT NOT NULL,
 

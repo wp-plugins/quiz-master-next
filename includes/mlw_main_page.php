@@ -159,16 +159,28 @@ function quiz_wpss_mrt_meta_box2()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.9.5 (January 19, 2014)</td>
+	<td align='left'>0.9.6 (January 21, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Edit %QUESTIONS_ANSWERS% Template</td>
+		<td align='left'>* Added Ability To Edit Question Order When Adding Questions</td>
 	</tr>
 	<tr>
-		<td align='left'>* Changed Name Of Support Page To Help Page</td>
+		<td align='left'>* Added Ability To Choose Whether Contact Info Is Asked For At Beginning Or End Of Quiz</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Design Changes On Quiz Options Page</td>
+		<td align='left'>* Defaulted Question Comment Field To None On New Questions</td>
+	</tr>
+	<tr>
+		<td align='left'>* Fixed Double Quote Bug</td>
+	</tr>
+	<tr>
+		<td align='left'>* Enhanced Monthly Stat Widget</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Design Change To Quiz Total Stats Widget</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Design Changes To Quiz Options Page</td>
 	</tr>
 	</table>
 	</div>
@@ -185,9 +197,12 @@ function quiz_wpss_mrt_meta_box3()
 		$user_name = $_POST["username"];
 		$user_email = $_POST["email"];
 		$user_message = $_POST["message"];
-		if ($quiz_master_email_success == 'update' and $user_email != "" and $user_message != "")
+		$user_quiz_url = $_POST["quiz_url"];
+		$current_user = wp_get_current_user();
+		if ($quiz_master_email_success == 'update')
 		{
-			wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin','Message from ' . $user_name . ' at ' . $user_email . " It says: " . "\n" . $user_message . "\n" . "Version ".$mlw_quiz_version);
+			$mlw_message = "Message from ".$user_name." at ".$user_email." It says: \n \n ".$user_message."\n Version: ".$mlw_quiz_version."\n Quiz URL Provided: ".$user_quiz_url."\n User ".$current_user->display_name." from ".$current_user->user_email;
+			wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin', $mlw_message);
 			$quiz_master_email_message = "**Message Sent**";
 		}
 	}
@@ -195,7 +210,7 @@ function quiz_wpss_mrt_meta_box3()
 	<div class='quiz_email_support'>
 	<form action="<?php echo $_SERVER['PHP_SELF']; ?>?page=mlw_quiz_support" method='post' name='emailForm' onsubmit='return mlw_validateForm()'>
 	<input type='hidden' name='action' value='update' />
-	<table width='100%'>
+	<table>
 	<tr>
 	<td>If there is something you would like to suggest to add or even if you just want 
 	to let me know if you like the plugin or not, feel free to use the email form below.</td>
@@ -204,16 +219,28 @@ function quiz_wpss_mrt_meta_box3()
 	<td><span name='mlw_support_message' id='mlw_support_message' style="color: red;"><?php echo $quiz_master_email_message; ?></span></td>
 	</tr>
 	<tr>
-	<td align='left'><p>Name: <input type='text' name='username' value='' /></p></td>
+	<td align='left'><span style='font-weight:bold;';>Name (Required): </span></td>
 	</tr>
 	<tr>
-	<td align='left'><p>Email: <input type='text' name='email' value='' /></p></td>
+	<td><input type='text' name='username' value='' /></td>
 	</tr>
 	<tr>
-	<td align='left'><p>Message: </p></td>
+	<td align='left'><span style='font-weight:bold;';>Email (Required): </span></td>
 	</tr>
 	<tr>
-	<td align='left'><p><TEXTAREA NAME="message" COLS=40 ROWS=6></TEXTAREA></p></td>
+	<td><input type='text' name='email' value='' /></td>
+	</tr>
+	<tr>
+	<td align='left'><span style='font-weight:bold;';>URL To Quiz (Not Required): </span></td>
+	</tr>
+	<tr>
+	<td><input type='text' name='quiz_url' value='' /></td>
+	</tr>
+	<tr>
+	<td align='left'><span style='font-weight:bold;';>Message (Required): </span></td>
+	</tr>
+	<tr>
+	<td align='left'><TEXTAREA NAME="message" COLS=40 ROWS=6></TEXTAREA></td>
 	</tr>
 	<tr>
 	<td align='left'><input type='submit' value='Send Email' /></td>

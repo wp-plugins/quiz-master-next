@@ -48,6 +48,78 @@ function mlw_quiz_shortcode($atts)
 	$mlw_user_email = $_POST["mlwUserEmail"];
 	$mlw_user_phone = $_POST["mlwUserPhone"];
 	$mlw_spam_email = $_POST["email"];
+	
+	function mlwDisplayContactInfo($mlw_quiz_options)
+	{
+		$mlw_contact_display = "";
+		//Check to see if user is logged in, then ask for contact if not
+		if ( is_user_logged_in() )
+		{
+			//Retrieve current user information and save into text fields for contact information
+			$current_user = wp_get_current_user();
+			if ($mlw_quiz_options->user_name != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserName' value='".$current_user->display_name."' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_comp != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserComp' value='' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_email != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserEmail' value='".$current_user->user_email."' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_phone != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserPhone' value='' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+		}
+		else
+		{
+			//See if the site wants to ask for any contact information, then ask for it
+			if ($mlw_quiz_options->user_name != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserName' value='' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_comp != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserComp' value='' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_email != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserEmail' value='' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+			if ($mlw_quiz_options->user_phone != 2)
+			{
+				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+				$mlw_contact_display .= "<input type='text' name='mlwUserPhone' value='' />";
+				$mlw_contact_display .= "<br /><br />";
+	
+			}
+		}
+		return $mlw_contact_display;
+	}
 
 	/*
 	The following code is for displaying the quiz and completion screen
@@ -148,71 +220,9 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<span name='mlw_error_message' id='mlw_error_message' style='color: red;'></span><br />";
 		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return mlw_validateForm()' >";
 
-		//Check to see if user is logged in, then ask for contact if not
-		if ( is_user_logged_in() )
+		if ($mlw_quiz_options->contact_info_location == 0)
 		{
-			//Retrieve current user information and save into text fields for contact information
-			$current_user = wp_get_current_user();
-			if ($mlw_quiz_options->user_name != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserName' value='".$current_user->display_name."' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_comp != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserComp' value='' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_email != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserEmail' value='".$current_user->user_email."' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_phone != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserPhone' value='' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-		}
-		else
-		{
-			//See if the site wants to ask for any contact information, then ask for it
-			if ($mlw_quiz_options->user_name != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserName' value='' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_comp != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserComp' value='' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_email != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserEmail' value='' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_phone != 2)
-			{
-				$mlw_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
-				$mlw_display .= "<input type='text' name='mlwUserPhone' value='' />";
-				$mlw_display .= "<br /><br />";
-	
-			}
+			$mlw_display .= mlwDisplayContactInfo($mlw_quiz_options);
 		}
 		
 		//Display the questions
@@ -222,32 +232,32 @@ function mlw_quiz_shortcode($atts)
 			{
 				if ($mlw_question->answer_one != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' />".$mlw_question->answer_one;
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' /> ".$mlw_question->answer_one;
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_two != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='2' />".$mlw_question->answer_two;
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='2' /> ".$mlw_question->answer_two;
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_three != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='3' />".$mlw_question->answer_three;
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='3' /> ".$mlw_question->answer_three;
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_four != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='4' />".$mlw_question->answer_four;
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='4' /> ".$mlw_question->answer_four;
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_five != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='5' />".$mlw_question->answer_five;
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='5' /> ".$mlw_question->answer_five;
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_six != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='6' />".$mlw_question->answer_six;
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='6' /> ".$mlw_question->answer_six;
 					$mlw_display .= "<br />";
 				}
 			}
@@ -334,7 +344,11 @@ function mlw_quiz_shortcode($atts)
 			$mlw_message_comments = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_comments);
 			$mlw_display .= "<label for='mlwQuizComments'>".$mlw_message_comments."</label>";
 			$mlw_display .= "<textarea cols='70' rows='15' id='mlwQuizComments' name='mlwQuizComments' ></textarea>";
-			$mlw_display .= "<br />";
+			$mlw_display .= "<br /><br />";
+		}
+		if ($mlw_quiz_options->contact_info_location == 1)
+		{
+			$mlw_display .= mlwDisplayContactInfo($mlw_quiz_options);
 		}
 		$mlw_display .= "<span style='display: none;'>If you are human, leave this field blank or you will be considered spam:</span>";
 		$mlw_display .= "<input style='display: none;' type='text' name='email' id='email' />";

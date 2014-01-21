@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
 Tested up to: 3.8
-Stable tag: 0.9.5
+Stable tag: 0.9.6
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -16,7 +16,7 @@ Features include:
 
 * Allows for Unlimited Quizzes, Tests, Surveys, Contact Forms, etc..
 * Allows for Unlimited Questions in each Quiz
-* Can ask for user's contact information
+* Can ask for user's contact information at beginning or end of quiz
 * Can email user after taking the quiz
 * Can email an admin after a user takes the quiz
 * Can score the quiz using an incorrect/correct system, a points based system, or a not-graded system
@@ -60,6 +60,15 @@ Feel free to use the help page within the plugin or from the contact page at myl
 7. Example Contact Form
 
 == Changelog ==
+
+= 0.9.6 (January 21, 2014) =
+ * Added Ability To Edit Question Order When Adding Questions
+ * Added Ability To Choose Whether Contact Info Is Asked For At Beginning Or End Of Quiz
+ * Defaulted Question Comment Field To None On New Questions
+ * Fixed Double Quote Bug
+ * Enhanced Monthly Stat Widget
+ * Minor Design Change To Quiz Total Stats Widget
+ * Minor Design Changes To Quiz Options Page
 
 = 0.9.5 (January 19, 2014) =
  * Added Ability To Edit %QUESTIONS_ANSWERS% Template
@@ -199,6 +208,9 @@ Feel free to use the help page within the plugin or from the contact page at myl
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.6 =
+Upgrade to be able to choose whether contact information is asked for at beginning or end of the quiz. Also, added ability to edit question order when adding new questions. Several minor design changes on admin side. Fixed double quote bug.
 
 = 0.9.5 =
 Upgrade to be able to edit the %QUESTIONS_ANSWERS% template. Also, minor design changes on Quiz Options page.
