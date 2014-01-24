@@ -323,9 +323,12 @@ function mlw_generate_quiz_admin()
 	<div id="dialog" title="Help">
 	<h3><b>Help</b></h3>
 	<p>This page shows all of the quizzes currently on your website.</p>
-	<p>The table shows the quiz id, the name of your quiz, the shortcode to use on your post or page, the amount of views the quiz has had, and the amount of times the quiz was finished</p>
+	<p>The table shows the quiz id, the name of your quiz, the shortcode to use on your post or page to add the quiz, the shortcode to use on your post or page to add the leaderboard, the amount of views the quiz has had, and the amount of times the quiz was finished</p>
 	<p>To create a new quiz, click the Create New Quiz button and fill out the name.</p>
 	<p>To edit a quiz, click the Edit link underneath the name of the quiz.</p>
+	<p>To edit a quiz's name, click the Edit Name link next to the name of the quiz.</p>
+	<p>To delete a quiz, click the Delete link underneath the name of the quiz.</p>
+	<p>To view the results of a quiz, click the Results link underneath the name of the quiz.</p>
 	</div>	
 	</div>
 	</div>

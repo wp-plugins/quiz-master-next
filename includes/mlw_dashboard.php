@@ -7,14 +7,51 @@ Copyright 2014, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 */
 
 function mlw_generate_quiz_dashboard(){
+	
+	echo "
+		<script>
+		function mlw_validateForm()
+		{
+			var x=document.forms['emailForm']['email'].value;
+			if (x==null || x=='')
+			{
+				document.getElementById('mlw_support_message').innerHTML = '**Email must be filled out!**';
+				return false;
+			};
+			var x=document.forms['emailForm']['username'].value;
+			if (x==null || x=='')
+			{
+				document.getElementById('mlw_support_message').innerHTML = '**Name must be filled out!**';
+				return false;
+			};
+			var x=document.forms['emailForm']['message'].value;
+			if (x==null || x=='')
+			{
+				document.getElementById('mlw_support_message').innerHTML = '**There must be a message to send!**';
+				return false;
+			};
+			var x=document.forms['emailForm']['email'].value;
+			var atpos=x.indexOf('@');
+			var dotpos=x.lastIndexOf('.');
+			if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length)
+			{
+				document.getElementById('mlw_support_message').innerHTML = '**Not a valid e-mail address!**';
+				return false;
+			}
+		}
+	</script>
+	";
 	$mlw_quiz_version = get_option('mlw_quiz_master_version');
 	
 	///Creates the widgets
 	add_meta_box("wpss_mrts", 'Quiz Daily Stats - Times Taken', "mlw_dashboard_box", "quiz_wpss");  
-	add_meta_box("wpss_mrts", 'Help', "mlw_dashboard_box_two", "quiz_wpss2");
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
 	add_meta_box("wpss_mrts", 'Quiz Weekly Stats - Times Taken', "mlw_dashboard_box_four", "quiz_wpss4");
 	add_meta_box("wpss_mrts", 'Quiz Monthly Stats - Times Taken', "mlw_dashboard_box_five", "quiz_wpss5");
+	add_meta_box("wpss_mrts", 'In This Update', "mlw_dashboard_box_six", "quiz_wpss6"); 
+	add_meta_box("wpss_mrts", 'Support', "mlw_dashboard_box_seven", "quiz_wpss7");
+	add_meta_box("wpss_mrts", 'Contribution', "mlw_dashboard_box_eight", "quiz_wpss8");
+	add_meta_box("wpss_mrts", 'News From My Local Webstop', "mlw_dashboard_box_nine", "quiz_wpss9");
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -58,12 +95,37 @@ function mlw_generate_quiz_dashboard(){
 		color: #555;
 		font-weight: bold;
 		}
+		div.quiz_email_support {
+		text-align: left;
+		}
+		div.quiz_email_support input[type='text'] {
+		border-color:#000000;
+		color:#3300CC; 
+		cursor:hand;
+		}
+		div.donation {
+		border-width: 1px;
+		border-style: solid;
+		padding: 0 0.6em;
+		margin: 5px 0 15px;
+		-moz-border-radius: 3px;
+		-khtml-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		background-color: #ffffe0;
+		border-color: #e6db55;
+		text-align: center;
+		}
+		donation.p {	margin: 0.5em 0;
+		line-height: 1;
+		padding: 2px;
+		}
 	</style>
 	<div class="wrap">
-	<h2>Quiz Master Next Dashboard<a id="opener" href="">(?)</a></h2>
+	<h2>Quiz Master Next <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p>Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating from the support page. Or, please consider rating this plugin <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">here</a>.</p>
+	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating from the support page. Or, please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
@@ -80,7 +142,7 @@ function mlw_generate_quiz_dashboard(){
 	</div>
 	
 	<div style="float:right; width:36%; " class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss2','advanced',''); ?>	
+		<?php do_meta_boxes('quiz_wpss6','advanced',''); ?>	
 	</div>
 	
 	<!--<div style="clear:both"></div>-->
@@ -89,14 +151,33 @@ function mlw_generate_quiz_dashboard(){
 		<?php do_meta_boxes('quiz_wpss5','advanced','');  ?>	
 	</div>
 	
+	<div style="float:right; width:36%; " class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss7','advanced',''); ?>	
+	</div>
+	
+	<!--<div style="clear:both"></div>-->
+	
+	<div style="float:left; width:60%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss9','advanced','');  ?>	
+	</div>
+	
+	<div style="float:right; width:36%; " class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss8','advanced',''); ?>	
+	</div>
+	
 	<!--<div style="clear:both"></div>-->
 	
 	<div id="dialog" title="Help">
 	<h3><b>Help</b></h3>
-	<p>This page is the main admin page for the Quiz Master Next.</p>
-	<p>The first widget shows the times all quizzes have been taken over the last week.</p>
-	<p>The second widget gives tips to better use the plugin.</p>
-	<p>The third widget lists the total quiz statistics.</p>
+	<p>This page is the main admin dashboard for the Quiz Master Next. It contains many useful widgets for the admin.</p>
+	<p>Quiz Daily Stats -> This widget shows the times all quizzes have been taken each day over the last week.</p>
+	<p>Quiz Weekly Stats -> This widget shows the times all quizzes have been taken each week over the last few weeks.</p>
+	<p>Quiz Monthly Stats -> This widget shows the times all quizzes have been taken each month over the last few months.</p>
+	<p>Quiz Total Stats -> This widget shows several different stats that has been collected.</p>
+	<p>In This Update -> This widget shows what is new in the most recent update of the plugin.</p>
+	<p>Support -> This widget allows you to send a message to the developer of the plugin.</p>
+	<p>News From My Local Webstop -> This widget allows you to keep up with the latest news from My Local Webstop, the developer behind Quiz Master Next.</p>
+	<p>Contribution -> This widget allows you to make a contribution to the developer.</p>
 	</div>
 
 	</div>
@@ -153,36 +234,6 @@ function mlw_dashboard_box()
 	<?php
 }
 
-function mlw_dashboard_box_two()
-{
-	?>
-	<div>
-	<table width='100%'>
-	<tr>
-	<td align='left'>There is a (?) next to the title of each page.  Click on it to bring up the help for that page.</td>
-	</tr>
-	<tr>
-	<td align='left'>If the help does not answer your question, take a look at the How-To section from the menu.</td>
-	</tr>
-	<tr>
-	<td align='left'>If you still are having trouble, feel free to use the support section from the support page to contact me.</td>
-	</tr>
-	<tr>
-	<td align='left'></td>
-	</tr>
-	<tr>
-	<td align='left'></td>
-	</tr>
-	<tr>
-	<td align='left'></td>
-	</tr>
-	<tr>
-	<td align='left'></td>
-	</tr>
-	</table>
-	</div>
-	<?php
-}
 function mlw_dashboard_box_three()
 {
 	//Gather some other useful stats
@@ -349,6 +400,159 @@ function mlw_dashboard_box_five()
 	?>
 	<div>
 	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_four_month.",".$mlw_quiz_taken_three_month.",".$mlw_quiz_taken_two_month.",".$mlw_quiz_taken_last_month.",".$mlw_quiz_taken_this_month; ?></span>
+	</div>
+	<?php
+}
+
+function mlw_dashboard_box_six()
+{
+	?>
+	<div>
+	<table width='100%'>
+	<tr>
+	<td align='left'>0.9.7 (January 24, 2014)</td>
+	</tr>
+	<tr>
+		<td align='left'>* Started Setting Plugin Up For Translations</td>
+	</tr>
+	<tr>
+		<td align='left'>* Relocated Widgets From Help Page To Quiz Dashboard Page</td>
+	</tr>
+	<tr>
+		<td align='left'>* Updated Several Of The Help Sections Through Plugin</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Bug Fixes</td>
+	</tr>
+	</table>
+	</div>
+	<?php
+}
+
+function mlw_dashboard_box_seven()
+{
+	$quiz_master_email_message = "";
+	$mlw_quiz_version = get_option('mlw_quiz_master_version');
+	if(isset($_POST["action"]))
+	{
+		$quiz_master_email_success = $_POST["action"];
+		$user_name = $_POST["username"];
+		$user_email = $_POST["email"];
+		$user_message = $_POST["message"];
+		$user_quiz_url = $_POST["quiz_url"];
+		$current_user = wp_get_current_user();
+		if ($quiz_master_email_success == 'update')
+		{
+			$mlw_message = "Message from ".$user_name." at ".$user_email." It says: \n \n ".$user_message."\n Version: ".$mlw_quiz_version."\n Quiz URL Provided: ".$user_quiz_url."\n User ".$current_user->display_name." from ".$current_user->user_email;
+			wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin', $mlw_message);
+			$quiz_master_email_message = "**Message Sent**";
+		}
+	}
+	?>
+	<div class='quiz_email_support'>
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>?page=quiz-master-next/mlw_quizmaster2.php" method='post' name='emailForm' onsubmit='return mlw_validateForm()'>
+	<input type='hidden' name='action' value='update' />
+	<table>
+	<tr>
+	<td>If there is something you would like to suggest to add or even if you just want 
+	to let me know if you like the plugin or not, feel free to use the email form below.</td>
+	</tr>
+	<tr>
+	<td><span name='mlw_support_message' id='mlw_support_message' style="color: red;"><?php echo $quiz_master_email_message; ?></span></td>
+	</tr>
+	<tr>
+	<td align='left'><span style='font-weight:bold;';>Name (Required): </span></td>
+	</tr>
+	<tr>
+	<td><input type='text' name='username' value='' /></td>
+	</tr>
+	<tr>
+	<td align='left'><span style='font-weight:bold;';>Email (Required): </span></td>
+	</tr>
+	<tr>
+	<td><input type='text' name='email' value='' /></td>
+	</tr>
+	<tr>
+	<td align='left'><span style='font-weight:bold;';>URL To Quiz (Not Required): </span></td>
+	</tr>
+	<tr>
+	<td><input type='text' name='quiz_url' value='' /></td>
+	</tr>
+	<tr>
+	<td align='left'><span style='font-weight:bold;';>Message (Required): </span></td>
+	</tr>
+	<tr>
+	<td align='left'><TEXTAREA NAME="message" COLS=40 ROWS=6></TEXTAREA></td>
+	</tr>
+	<tr>
+	<td align='left'><input type='submit' value='Send Email' /></td>
+	</tr>
+	<tr>
+	<td align='left'></td>
+	</tr>
+	</table>
+	</form>
+	</div>
+	<?php
+}
+
+function mlw_dashboard_box_eight()
+{
+	?>
+	<div>
+	<table width='100%'>
+	<tr>
+	<td align='left'>
+	Quiz Master Next is and always will be a free plugin. I have spent a lot of time and effort developing and maintaining this plugin. If it has been beneficial to your site, please consider supporting this plugin by making a donation.
+	</td>
+	</tr>
+	<tr>
+	<td>&nbsp;</td>
+	</tr>
+	<tr>
+	<td></td>
+	</tr>
+	<tr>
+	<td>&nbsp;</td>
+	</tr>
+	<tr>
+	<td>
+	<div class="donation">
+	<p>
+	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+	<input type="hidden" name="cmd" value="_donations">
+	<input type="hidden" name="business" value="fpcorso@gmail.com">
+	<input type="hidden" name="lc" value="US">
+	<input type="hidden" name="no_note" value="0">
+	<input type="hidden" name="currency_code" value="USD">
+	<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+	</form>
+
+	</p>
+	</div>
+	</td>
+	</tr>
+	</table>
+	<p>Thank you to those who have contributed so far.</p>
+	<h3>Supporters</h3>
+	<ul>
+		<li>Tracy B</li>
+		<li>Bobby L</li>
+	</ul>
+	</div>
+	<?php
+}
+function mlw_dashboard_box_nine()
+{
+	?>
+	<div>
+	<table width='100%'>
+	<tr>
+	<td align='left'><iframe src="http://www.mylocalwebstop.com/mlw_news.html?cache=<?php echo rand(); ?>" seamless="seamless" style="width: 100%; height: 550px;"></iframe></td>
+	</tr>
+	</table>
 	</div>
 	<?php
 }

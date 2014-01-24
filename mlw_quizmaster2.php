@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 0.9.6
+Version: 0.9.7
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -22,7 +22,6 @@ You understand that you install, operate, and unistall the plugin at your own di
 
 
 ///Files to Include
-include("includes/mlw_main_page.php");
 include("includes/mlw_quiz.php");
 include("includes/mlw_dashboard.php");
 include("includes/mlw_quiz_admin.php");
@@ -44,6 +43,12 @@ add_shortcode('mlw_quizmaster_leaderboard', 'mlw_quiz_leaderboard_shortcode');
 register_activation_hook( __FILE__, 'mlw_quiz_activate');
 register_deactivation_hook( __FILE__, 'mlw_quiz_deactivate');
 
+//Setup Translations
+function mlw_qmn_translation_setup() {
+  load_plugin_textdomain( 'mlw_qmn_text_domain', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+}
+add_action('plugins_loaded', 'mlw_qmn_translation_setup');
+
 
 ///Create Admin Pages
 function mlw_add_menu()
@@ -57,7 +62,6 @@ function mlw_add_menu()
 		add_submenu_page(__FILE__, 'Quiz Result Details', 'Quiz Result Details', 8, 'mlw_quiz_result_details', 'mlw_generate_result_details');
 		add_submenu_page(__FILE__, 'Tools', 'Tools', 8, 'mlw_quiz_tools', 'mlw_generate_quiz_tools');
 		add_submenu_page(__FILE__, 'How-To', 'How-To', 8, 'mlw_how_to', 'mlw_generate_help_page');
-		add_submenu_page(__FILE__, 'Help', 'Help', 8, 'mlw_quiz_support', 'mlw_generate_main_page');
 	}
 }
 /*

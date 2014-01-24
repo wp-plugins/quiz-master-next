@@ -278,6 +278,7 @@ function mlw_generate_quiz_options()
 			$j('#questions_help_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
+				width:700,
 				hide: 'explode',
 				buttons: {
 				Ok: function() {
@@ -295,6 +296,7 @@ function mlw_generate_quiz_options()
 			$j('#templates_help_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
+				width:700,
 				hide: 'explode',
 				buttons: {
 				Ok: function() {
@@ -312,6 +314,7 @@ function mlw_generate_quiz_options()
 			$j('#options_help_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
+				width:700,
 				hide: 'explode',
 				buttons: {
 				Ok: function() {
@@ -329,6 +332,7 @@ function mlw_generate_quiz_options()
 			$j('#leaderboard_help_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
+				width:700,
 				hide: 'explode',
 				buttons: {
 				Ok: function() {
@@ -1240,30 +1244,36 @@ function mlw_generate_quiz_options()
 	<p>This page is used edit the questions and options for your quiz.  Use the help buttons on each tab for assistance.</p>
 	</div>
 	<div id="questions_help_dialog" title="Help" style="display:none;">
-	<p>The question table lists the ID of the question and the question itself.</p>
+	<p>The question table lists the order the question appears in and the question itself.</p>
 	<p>To edit a question, use the Edit link below the question.</p>
 	<p>To add a question, click on the Add Question button. This will open a window for you to add a question. The window will ask for the question and up to 6 answers. If you are using the points system, enter in the amount of points each answer is worth. If you are using the correct system, check the answer that is the correct answer. 
-	You can choose if you would like a comment field after the question be selecting yes to the Comment question. You can also have a hint displayed to the user. Click create question when you are finished.</p>
+	You can then choose which style of question you would like by selecting an option for the "Question Type?" option. You can choose if you would like a comment field after the question by selecting an option to the "Comment Field?" question. You can also have a hint displayed to the user. You can then choose the order which the question is 
+	asked by editing the "Question Order" option. Click create question when you are finished.</p>
 	</div>
 	<div id="templates_help_dialog" title="Help" style="display:none;">
 	<p>This tab is used to edit the different messages the user and admin may see.</p>
 	<p>The Message Displayed Before Quiz text is shown to the user at the beginning of the quiz.</p>
 	<p>The Message Display Before Comment Box is shown to the user right before the section the user can type in comments if that option is enabled.</p>
-	<p>The Message Displayed After Quiz text is show to the user at the end of the quiz.</p>
+	<p>The Message Displayed After Quiz text is show to the user after the quiz has been taken.</p>
 	<p>The Email sent to user after completion text is the email that is sent to the user after completing the quiz. (This is only used if you have turned on the option on the options tab.)</p>
 	<p>The Email sent to admin after completion text is the email that is sent to the admin after the quiz has been completed.</p>
 	<p>The other templates section is for customizing the text on the submit button as well as the fields where are user can input his or her information.</p>
+	<p>The %QUESTIONS_ANSWERS% Text area is where you can change the test shown in place of the %QUESTIONS_ANSWERS% variable.</p>
 	<p>Some templates are able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
 	</div>
 	<div id="options_help_dialog" title="Help" style="display:none;">
 	<p>This tab is used to edit the different options for the quiz.</p>
 	<p>The system option allows you to have the quiz be graded using a correct/incorrect system or the quiz can have each answer worth different amount of points.</p>
-	<p>The second option asks whether you want the user to his or her score after completing the quiz.</p>
-	<p>The third option asks whether you want the user to be emailed after completing the quiz.</p>
-	<p>The next four options asks whether you want the quiz to ask for the user's name, business, email, and phone number.</p>
-	<p>The next option asks if you want the admin to receive an email after a quiz has been taken.</p>
-	<p>The next option asks for the email address of the admin you would like the quiz to email.</p>
-	<p>The last option asks if you would like for the user to be able to leave comments at the end of the quiz.</p>
+	<p>Are the questions random? -> If set to yes, the questions will be random. If set to no, the questions will be shown in the order you have set using the Question Order option.</p>
+	<p>Would you like to ask for the contact information at the beginning or at the end of the quiz? -> This option will allow you to choose when to ask for contact information if asked.</p>
+	<p>Should we ask for -> The next four options asks whether you want the quiz to ask for the user's name, business, email, and phone number.</p>
+	<p>Would you like a place for the user to enter comments? -> If set to yes, a comment section will appear at the end of the quiz for the user to fill out. Customize the text shown above the field by editing 
+	the "Message Display Before Comment Box" field on the "Quiz Text" tab.</p>
+	<p>Send user email upon completion?-> If set to yes, the user will be sent an email after taking the quiz. To customize the text of the email, edit the "Email sent to user after completion" 
+	field on the "Quiz Text" tab.</p>
+	<p>Send admin email upon completion? -> If set to yes, the admin will be sent an email when a quiz has been taken. To customize the text of the email, edit the "Email sent to admin after completion" 
+	field on the "Quiz Text" tab.</p>
+	<p>What email should we send the admin email to? -> This field allows you to set what email address to send the admin emails to.</p>
 	</div>
 	<div id="leaderboard_help_dialog" title="Help" style="display:none;">
 	<p>This tab is used to edit the options for the leaderboard for this quiz.</p>

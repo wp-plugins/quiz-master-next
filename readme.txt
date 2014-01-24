@@ -2,8 +2,8 @@
 Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
-Tested up to: 3.8
-Stable tag: 0.9.6
+Tested up to: 3.8.1
+Stable tag: 0.9.7
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -44,10 +44,10 @@ Features include:
 On each page, there is a "?" next to the page title. Clicking on it will bring up a small help window that will assist you on that page.
 
 = How do you use that feature? =
-There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the help page within the plugin to contact me and I will help you.
+There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the widget on the quiz dashboard within the plugin to contact me and I will help you.
 
 = I have an idea, how do I contact you? =
-Feel free to use the help page within the plugin or from the contact page at mylocalwebstop.com.
+Feel free to use the widget on the quiz dashboard within the plugin or from the contact page at mylocalwebstop.com.
 
 == Screenshots ==
 
@@ -60,6 +60,12 @@ Feel free to use the help page within the plugin or from the contact page at myl
 7. Example Contact Form
 
 == Changelog ==
+
+= 0.9.7 (January 24, 2014) =
+ * Started Setting Plugin Up For Translations
+ * Relocated Widgets From Help Page To Quiz Dashboard Page
+ * Updated Several Of The Help Sections Through Plugin
+ * Minor Bug Fixes
 
 = 0.9.6 (January 21, 2014) =
  * Added Ability To Edit Question Order When Adding Questions
@@ -208,6 +214,9 @@ Feel free to use the help page within the plugin or from the contact page at myl
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.7 =
+Upgrade to see widgets relocated from help page to quiz dashboard page. Also, began setting plugin up for translations. Updated many help sections throughout plugin. Minor bug fixes.
 
 = 0.9.6 =
 Upgrade to be able to choose whether contact information is asked for at beginning or end of the quiz. Also, added ability to edit question order when adding new questions. Several minor design changes on admin side. Fixed double quote bug.
