@@ -168,7 +168,7 @@ function mlw_generate_quiz_admin()
 			var idHiddenName = document.getElementById("delete_quiz_name");
 			idText.innerHTML = id;
 			idHidden.value = id;
-			idHiddenName = quizName;
+			idHiddenName.value = quizName;
 		};
 		function editQuizName(id, quizName){
 			$j("#edit_dialog").dialog({

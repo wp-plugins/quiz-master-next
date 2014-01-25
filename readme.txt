@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
 Tested up to: 3.8.1
-Stable tag: 0.9.7
+Stable tag: 0.9.8
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -31,7 +31,8 @@ Features include:
 * Customize templates for landing page after the quiz has been taken
 * Customize emails that are sent to users and admins
 * Questions can be in predetermined order or random
-* Leaderboards for every quiz
+* Leaderboards for every quiz which can be used as shortcode or in included widget
+
 
 == Installation ==
 
@@ -61,6 +62,13 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 
 == Changelog ==
 
+= 0.9.8 (January 25, 2014) =
+ * Added Leaderboard Widget
+ * Added Ability To Reset Quiz Stats On Each Quiz
+ * Added Ability To Delete Results
+ * Minor Design Changes
+ * Minor Bug Fixes 
+ 
 = 0.9.7 (January 24, 2014) =
  * Started Setting Plugin Up For Translations
  * Relocated Widgets From Help Page To Quiz Dashboard Page
@@ -214,6 +222,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 0.9.8 =
+Upgrade to use new leaderboard widet! Also, added ability to reset stats for quizzes from Quiz Options page. Added ability to delete results as well. Minor design changes and bug fixes.
 
 = 0.9.7 =
 Upgrade to see widgets relocated from help page to quiz dashboard page. Also, began setting plugin up for translations. Updated many help sections throughout plugin. Minor bug fixes.

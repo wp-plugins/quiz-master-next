@@ -125,7 +125,7 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating from the support page. Or, please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
+	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating Or, please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
@@ -188,43 +188,43 @@ function mlw_dashboard_box()
 {
 	//Gather the weekly stats, one variable for each day for the graph
 	global $wpdb;
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".date("Y-m-d")." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".date("Y-m-d")." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_today = $wpdb->get_results($sql);
 	$mlw_quiz_taken_today = $wpdb->num_rows;
 	
 	$mlw_yesterday =  mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));
 	$mlw_yesterday = date("Y-m-d", $mlw_yesterday);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_yesterday." 00:00:00' AND '".$mlw_yesterday." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_yesterday." 00:00:00' AND '".$mlw_yesterday." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_yesterday = $wpdb->get_results($sql);
 	$mlw_quiz_taken_yesterday = $wpdb->num_rows;
 	
 	$mlw_three_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-2, date("Y"));
 	$mlw_three_days_ago = date("Y-m-d", $mlw_three_days_ago);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_days_ago." 00:00:00' AND '".$mlw_three_days_ago." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_days_ago." 00:00:00' AND '".$mlw_three_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_three_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_three_days = $wpdb->num_rows;
 	
 	$mlw_four_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-3, date("Y"));
 	$mlw_four_days_ago = date("Y-m-d", $mlw_four_days_ago);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_days_ago." 00:00:00' AND '".$mlw_four_days_ago." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_days_ago." 00:00:00' AND '".$mlw_four_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_four_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_four_days = $wpdb->num_rows;
 	
 	$mlw_five_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-4, date("Y"));
 	$mlw_five_days_ago = date("Y-m-d", $mlw_five_days_ago);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_five_days_ago." 00:00:00' AND '".$mlw_five_days_ago." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_five_days_ago." 00:00:00' AND '".$mlw_five_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_five_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_five_days = $wpdb->num_rows;
 	
 	$mlw_six_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-5, date("Y"));
 	$mlw_six_days_ago = date("Y-m-d", $mlw_six_days_ago);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_six_days_ago." 00:00:00' AND '".$mlw_six_days_ago." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_six_days_ago." 00:00:00' AND '".$mlw_six_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_six_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_six_days = $wpdb->num_rows;
 	
 	$mlw_last_week =  mktime(0, 0, 0, date("m")  , date("d")-6, date("Y"));
 	$mlw_last_week = date("Y-m-d", $mlw_last_week);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".$mlw_last_week." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".$mlw_last_week." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_week = $wpdb->num_rows;
 	?>
@@ -322,7 +322,7 @@ function mlw_dashboard_box_four()
 	global $wpdb;	
 	$mlw_this_week =  mktime(0, 0, 0, date("m")  , date("d")-6, date("Y"));
 	$mlw_this_week = date("Y-m-d", $mlw_this_week);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_week." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_week." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_this_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_this_week = $wpdb->num_rows;
 	
@@ -330,7 +330,7 @@ function mlw_dashboard_box_four()
 	$mlw_last_week_first = date("Y-m-d", $mlw_last_week_first);
 	$mlw_last_week_last =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
 	$mlw_last_week_last = date("Y-m-d", $mlw_last_week_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week_first." 00:00:00' AND '".$mlw_last_week_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week_first." 00:00:00' AND '".$mlw_last_week_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_last_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_last_week = $wpdb->num_rows;
 	
@@ -338,7 +338,7 @@ function mlw_dashboard_box_four()
 	$mlw_two_week_first = date("Y-m-d", $mlw_two_week_first);
 	$mlw_two_week_last =  mktime(0, 0, 0, date("m")  , date("d")-14, date("Y"));
 	$mlw_two_week_last = date("Y-m-d", $mlw_two_week_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_week_first." 00:00:00' AND '".$mlw_two_week_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_week_first." 00:00:00' AND '".$mlw_two_week_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_two_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_two_week = $wpdb->num_rows;
 	
@@ -346,7 +346,7 @@ function mlw_dashboard_box_four()
 	$mlw_three_week_first = date("Y-m-d", $mlw_three_week_first);
 	$mlw_three_week_last =  mktime(0, 0, 0, date("m")  , date("d")-21, date("Y"));
 	$mlw_three_week_last = date("Y-m-d", $mlw_three_week_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_week_first." 00:00:00' AND '".$mlw_three_week_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_week_first." 00:00:00' AND '".$mlw_three_week_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_three_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_three_week = $wpdb->num_rows;
 	?>
@@ -361,7 +361,7 @@ function mlw_dashboard_box_five()
 	global $wpdb;	
 	$mlw_this_month =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
 	$mlw_this_month = date("Y-m-d", $mlw_this_month);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_this_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_this_month = $wpdb->num_rows;
 	
@@ -369,7 +369,7 @@ function mlw_dashboard_box_five()
 	$mlw_last_month_first = date("Y-m-d", $mlw_last_month_first);
 	$mlw_last_month_last =  mktime(0, 0, 0, date("m")  , date("d")-31, date("Y"));
 	$mlw_last_month_last = date("Y-m-d", $mlw_last_month_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_month_first." 00:00:00' AND '".$mlw_last_month_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_month_first." 00:00:00' AND '".$mlw_last_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_last_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_last_month = $wpdb->num_rows;
 	
@@ -377,7 +377,7 @@ function mlw_dashboard_box_five()
 	$mlw_two_month_first = date("Y-m-d", $mlw_two_month_first);
 	$mlw_two_month_last =  mktime(0, 0, 0, date("m")  , date("d")-31, date("Y"));
 	$mlw_two_month_last = date("Y-m-d", $mlw_two_month_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_month_first." 00:00:00' AND '".$mlw_two_month_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_month_first." 00:00:00' AND '".$mlw_two_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_two_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_two_month = $wpdb->num_rows;
 	
@@ -385,7 +385,7 @@ function mlw_dashboard_box_five()
 	$mlw_three_month_first = date("Y-m-d", $mlw_three_month_first);
 	$mlw_three_month_last =  mktime(0, 0, 0, date("m")  , date("d")-61, date("Y"));
 	$mlw_three_month_last = date("Y-m-d", $mlw_three_month_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_month_first." 00:00:00' AND '".$mlw_three_month_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_month_first." 00:00:00' AND '".$mlw_three_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_three_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_three_month = $wpdb->num_rows;
 	
@@ -393,7 +393,7 @@ function mlw_dashboard_box_five()
 	$mlw_four_month_first = date("Y-m-d", $mlw_four_month_first);
 	$mlw_four_month_last =  mktime(0, 0, 0, date("m")  , date("d")-91, date("Y"));
 	$mlw_four_month_last = date("Y-m-d", $mlw_four_month_last);
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_month_first." 00:00:00' AND '".$mlw_four_month_last." 23:59:59')";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_month_first." 00:00:00' AND '".$mlw_four_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_four_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_four_month = $wpdb->num_rows;
 	
@@ -410,16 +410,19 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.9.7 (January 24, 2014)</td>
+	<td align='left'>0.9.8 (January 25, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Started Setting Plugin Up For Translations</td>
+		<td align='left'>* Added Leaderboard Widget</td>
 	</tr>
 	<tr>
-		<td align='left'>* Relocated Widgets From Help Page To Quiz Dashboard Page</td>
+		<td align='left'>* Added Ability To Reset Quiz Stats On Each Quiz</td>
 	</tr>
 	<tr>
-		<td align='left'>* Updated Several Of The Help Sections Through Plugin</td>
+		<td align='left'>* Added Ability To Delete Results</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Design Changes</td>
 	</tr>
 	<tr>
 		<td align='left'>* Minor Bug Fixes</td>

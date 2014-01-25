@@ -8,7 +8,30 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_quiz_results()
 {
+	global $wpdb;
 	$quiz_id = $_GET["quiz_id"];
+	
+	///Variables from delete result form
+	$mlw_delete_results_confirmation = $_POST["delete_results"];
+	$mlw_delete_results_id = $_POST["result_id"];
+	$mlw_delete_results_name = $_POST["delete_quiz_name"];
+	
+	///Delete Results Function
+	if ($mlw_delete_results_confirmation == "confirmation")
+	{
+		$mlw_delete_results_update_sql = "UPDATE " . $wpdb->prefix . "mlw_results" . " SET deleted=1 WHERE result_id=".$mlw_delete_results_id;
+		$mlw_delete_results_results = $wpdb->query( $mlw_delete_results_update_sql );
+		$mlw_hasDeletedResults = true;
+		
+		//Insert Action Into Audit Trail
+		global $current_user;
+		get_currentuserinfo();
+		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+		$insert = "INSERT INTO " . $table_name .
+			"(trail_id, action_user, action, time) " .
+			"VALUES (NULL , '" . $current_user->display_name . "' , 'Results Has Been Deleted From: ".$mlw_delete_results_name."' , '" . date("h:i:s A m/d/Y") . "')";
+		$results = $wpdb->query( $insert );		
+	}
 
 	global $wpdb;
 
@@ -54,6 +77,23 @@ function mlw_generate_quiz_results()
 			$j("button").button();
 		
 		});
+		function deleteResults(id,quizName){
+			$j("#delete_dialog").dialog({
+				autoOpen: false,
+				show: 'blind',
+				hide: 'explode',
+				buttons: {
+				Cancel: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+			$j("#delete_dialog").dialog('open');
+			var idHidden = document.getElementById("result_id");
+			var idHiddenName = document.getElementById("delete_quiz_name");
+			idHidden.value = id;
+			idHiddenName.value = quizName;
+		};
 	</script>
 	<style>
   		label {
@@ -71,6 +111,16 @@ function mlw_generate_quiz_results()
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
 	<h2>Quiz Results<a id="opener" href="">(?)</a></h2>
+	<?php if ($mlw_hasDeletedResults)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> Your results have been deleted.</p>
+	</div>
+	<?php
+		}
+	?>
 	<?php 
 	$quotes_list = "";
 	$display = "";
@@ -78,7 +128,7 @@ function mlw_generate_quiz_results()
 		if($alternate) $alternate = "";
 		else $alternate = " class=\"alternate\"";
 		$quotes_list .= "<tr{$alternate}>";
-		$quotes_list .= "<td><span style='font-size:16px;'><a href='admin.php?page=mlw_quiz_result_details&&result_id=".$mlw_quiz_info->result_id."'>View</a></span></td>";
+		$quotes_list .= "<td><span style='color:green;font-size:16px;'><a href='admin.php?page=mlw_quiz_result_details&&result_id=".$mlw_quiz_info->result_id."'>View</a>|<a onclick=\"deleteResults('".$mlw_quiz_info->result_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a></span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name . "</span></td>";
 		if ($mlw_quiz_info->quiz_system == 0)
 		{
@@ -102,7 +152,7 @@ function mlw_generate_quiz_results()
 
 	$display .= "<table class=\"widefat\">";
 		$display .= "<thead><tr>
-			<th>View Answers</th>
+			<th>Actions</th>
 			<th>Quiz Name</th>
 			<th>Score</th>
 			<th>Name</th>
@@ -121,7 +171,18 @@ function mlw_generate_quiz_results()
 	<p>This page shows all of the results from the taken quizzes.</p>
 	<p>The table show the result id, the score from the quiz, the contact information provided, and the time the quiz was taken.</p>
 	<p>To get results to a specific quiz, go to quiz page and click on results from that quiz.</p>
-	</div>	
+	</div>
+	<div id="delete_dialog" title="Delete Results?" style="display:none;">
+	<h3><b>Are you sure you want to delete these results?</b></h3>
+	<?php
+	echo "<form action='" . $PHP_SELF . "' method='post'>";
+	echo "<input type='hidden' name='delete_results' value='confirmation' />";
+	echo "<input type='hidden' id='result_id' name='result_id' value='' />";
+	echo "<input type='hidden' id='delete_quiz_name' name='delete_quiz_name' value='' />";
+	echo "<p class='submit'><input type='submit' class='button-primary' value='Delete Results' /></p>";
+	echo "</form>";	
+	?>
+	</div>
 	</div>
 	</div>
 <?php

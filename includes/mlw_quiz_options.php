@@ -230,6 +230,32 @@ function mlw_generate_quiz_options()
 			"VALUES (NULL , '" . $current_user->display_name . "' , 'Leaderboard Options Have Been Edited For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
 		$results = $wpdb->query( $insert );
 	}
+	
+	
+	/*
+	Code For Quiz Tools Tab
+	*/
+	
+	//Variables from reset stats form
+	$mlw_reset_confirmation = $_POST["mlw_reset_quiz_stats"];
+	$mlw_reset_stats_quiz_id = $_POST["mlw_reset_quiz_id"];
+	
+	//Update Quiz Table
+	if ($mlw_reset_confirmation == "confirmation")
+	{
+		$mlw_reset_update_sql = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views=0, quiz_taken=0 WHERE quiz_id=".$mlw_reset_stats_quiz_id;
+		$mlw_reset_sql_results = $wpdb->query( $mlw_reset_update_sql );
+		$mlw_hasResetQuizStats = true;
+		
+		//Insert Action Into Audit Trail
+		global $current_user;
+		get_currentuserinfo();
+		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+		$insert = "INSERT INTO " . $table_name .
+			"(trail_id, action_user, action, time) " .
+			"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Stats Have Been Reset For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
+		$results = $wpdb->query( $insert );		
+	}
 
 
 	/*
@@ -343,6 +369,24 @@ function mlw_generate_quiz_options()
 		
 			$j('#leaderboard_tab_help').click(function() {
 				$j('#leaderboard_help_dialog').dialog('open');
+				return false;
+		}	);
+		});
+		$j(function() {
+			$j('#mlw_reset_stats_dialog').dialog({
+				autoOpen: false,
+				show: 'blind',
+				width:700,
+				hide: 'explode',
+				buttons: {
+				Ok: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+		
+			$j('#mlw_reset_stats_button').click(function() {
+				$j('#mlw_reset_stats_dialog').dialog('open');
 				return false;
 		}	);
 		});
@@ -555,12 +599,23 @@ function mlw_generate_quiz_options()
 	<?php
 		}
 	?>
+	<?php if ($mlw_hasResetQuizStats)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> The stats for this quiz has been reset!</p>
+	</div>
+	<?php
+		}
+	?>
 	<div id="tabs">
 		<ul>
 		    <li><a href="#tabs-1">Quiz Questions</a></li>
 		    <li><a href="#tabs-2">Quiz Text</a></li>
 		    <li><a href="#tabs-3">Quiz Options</a></li>
 		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>
+		    <li><a href="#tabs-5">Quiz Tools</a></li>
 		</ul>
   		<div id="tabs-1">
   			<button id="new_question_button_two">Add Question</button><button id="question_tab_help">Help</button>
@@ -572,7 +627,7 @@ function mlw_generate_quiz_options()
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '\"', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 			}
 
@@ -1225,6 +1280,20 @@ function mlw_generate_quiz_options()
 		</table>
 		<button id="save_template_button" onclick="javascript: document.quiz_leaderboard_options_form.submit();">Save Leaderboard Options</button>
 		</form>
+	</div>
+	<div id="tabs-5">
+		<p>Use this button to reset all the stats collected for this quiz (Quiz Views and Times Quiz Has Been Taken). </p>
+		<button id="mlw_reset_stats_button">Reset Quiz Views And Taken Stats</button>
+		<div id="mlw_reset_stats_dialog" title="Reset Stats For This Quiz" style="display:none;">
+		<p>Are you sure you want to reset the stats to 0? All views and taken stats for this quiz will be reset. This is permanent and cannot be undone.</p>
+		<?php
+			echo "<form action='" . $PHP_SELF . "' method='post'>";
+			echo "<input type='hidden' name='mlw_reset_quiz_stats' value='confirmation' />";
+			echo "<input type='hidden' name='mlw_reset_quiz_id' value='".$quiz_id."' />";
+			echo "<p class='submit'><input type='submit' class='button-primary' value='Reset All Stats For Quiz' /></p>";
+			echo "</form>";
+		?>
+		</div>		
 	</div>
 	</div>
 
