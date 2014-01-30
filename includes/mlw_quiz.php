@@ -227,7 +227,7 @@ function mlw_quiz_shortcode($atts)
 		
 		//Display the questions
 		foreach($mlw_questions as $mlw_question) {
-			$mlw_display .= "<span style='font-weight:bold;';>".$mlw_question->question_name."</span><br />";
+			$mlw_display .= "<span style='font-weight:bold;'>".htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES)."</span><br />";
 			if ($mlw_question->question_type == 0)
 			{
 				if ($mlw_question->answer_one != "")

@@ -410,22 +410,19 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>0.9.8 (January 25, 2014)</td>
+	<td align='left'>0.9.9 (January 30, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Leaderboard Widget</td>
+		<td align='left'>* Begun Creating New Advanced Help System</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Reset Quiz Stats On Each Quiz</td>
+		<td align='left'>* Added New Question Editor</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Delete Results</td>
+		<td align='left'>* Added Ability To Have Media In Questions</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Design Changes</td>
-	</tr>
-	<tr>
-		<td align='left'>* Minor Bug Fixes</td>
+		<td align='left'>* Minor Design Changes To Quiz Options</td>
 	</tr>
 	</table>
 	</div>
@@ -538,11 +535,12 @@ function mlw_dashboard_box_eight()
 	</td>
 	</tr>
 	</table>
-	<p>Thank you to those who have contributed so far.</p>
+	<p>Thank you to those who have contributed so far!</p>
 	<h3>Supporters</h3>
 	<ul>
 		<li>Tracy B</li>
 		<li>Bobby L</li>
+		<li>Kristal P</li>
 	</ul>
 	</div>
 	<?php
