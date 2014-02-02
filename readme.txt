@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.0.1
 Tested up to: 3.8.1
-Stable tag: 0.9.9
+Stable tag: 1.0
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -16,6 +16,8 @@ Features include:
 
 * Allows for Unlimited Quizzes, Tests, Surveys, Contact Forms, etc..
 * Allows for Unlimited Questions in each Quiz
+* Can use HTML for questions
+* Can embed Youtube videos in questions
 * Can ask for user's contact information at beginning or end of quiz
 * Can email user after taking the quiz
 * Can email an admin after a user takes the quiz
@@ -61,6 +63,11 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.0 = (February 1, 2014) =
+ * Added Ability To Customize From Name For User And Admin Emails
+ * Changed Question Editor
+ * Minor Change To Help System
 
 = 0.9.9 (January 30, 2014) =
  * Begun Creating New Advanced Help System
@@ -228,6 +235,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.0 =
+This update finally brings this plugin out of beta! This update brings the ability to edit the From Name part of the email sent to users and admin. Minor bug fixes.
 
 = 0.9.9 =
 Upgrade to be able to include media in your questions! Also, fixed minor bugs and made minor design changes.

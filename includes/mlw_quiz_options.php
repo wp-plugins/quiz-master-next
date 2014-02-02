@@ -148,13 +148,14 @@ function mlw_generate_quiz_options()
 	$mlw_phone_field_text = $_POST["mlw_phoneText"];
 	$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
 	$mlw_comment_field_text = $_POST["mlw_commentText"];
+	$mlw_email_from_text = $_POST["emailFromText"];
 	$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 
 	//Submit saved templates into database
 	if ($save_template_success == "confirmation")
 	{
 		$quiz_id = $_POST["quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		$hasUpdatedTemplates = true;
 		
@@ -643,14 +644,9 @@ function mlw_generate_quiz_options()
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 			?>
 			<tr>
-			<td><span style='font-weight:bold;'>Question</span></td>
+			<td><span style='font-weight:bold;'>Question<a href="#" title="Enter the question here. Feel free to use HTML, embed Youtube videos, link to images, etc...">?</a></span></td>
 			<td colspan="3">
-				<?php
-					$settings = array(
-					    'textarea_rows' => 10
-					);
-					wp_editor('demo content', 'question_name', $settings);
-				?>
+				<textarea name="question_name" id="question_name" style="width: 500px; height: 150px;"></textarea>
 			</td>
 			</tr>
 			<tr valign="top">
@@ -659,127 +655,127 @@ function mlw_generate_quiz_options()
 			</tr>
 			<tr valign="top">
 			<td>&nbsp;</td>
-			<td><span style='font-weight:bold;'>Answers</span></td>
-			<td><span style='font-weight:bold;'>Points Worth</span></td>
-			<td><span style='font-weight:bold;'>Correct Answer</span></td>
+			<td><span style='font-weight:bold;'>Answers<a href='#' title="Enter the question's answers here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field.">?</a></span></td>
+			<td><span style='font-weight:bold;'>Points Worth<a href="#" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0.">?</a></span></td>
+			<td><span style='font-weight:bold;'>Correct Answer<a href="#" title="Select the correct answer.">?</a></span></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Answer One</span></td>
 			<td>
-			<input type="text" name="answer_one" title="Enter one of the question's answer here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field." value="" style="border-color:#000000;
+			<input type="text" name="answer_one" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_one_points" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0." value="0" style="border-color:#000000;
+			<input type="text" name="answer_one_points" value="0" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" title="Select the correct answer." checked="checked" value=1 /></td>
+			<td><input type="radio" name="correct_answer" checked="checked" value=1 /></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Answer Two</span></td>
 			<td>
-			<input type="text" name="answer_two" title="Enter one of the question's answer here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field." value="" style="border-color:#000000;
+			<input type="text" name="answer_two" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_two_points" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0." value="0" style="border-color:#000000;
+			<input type="text" name="answer_two_points" value="0" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" title="Select the correct answer." value=2 /></td>
+			<td><input type="radio" name="correct_answer" value=2 /></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Answer Three</span></td>
 			<td>
-			<input type="text" name="answer_three" title="Enter one of the question's answer here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field." value="" style="border-color:#000000;
+			<input type="text" name="answer_three" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_three_points" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0." value="0" style="border-color:#000000;
+			<input type="text" name="answer_three_points" value="0" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" title="Select the correct answer." value=3 /></td>
+			<td><input type="radio" name="correct_answer" value=3 /></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Answer Four</span></td>
 			<td>
-			<input type="text" name="answer_four" title="Enter one of the question's answer here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field." value="" style="border-color:#000000;
+			<input type="text" name="answer_four" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_four_points" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0." value="0" style="border-color:#000000;
+			<input type="text" name="answer_four_points" value="0" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" title="Select the correct answer." value=4 /></td>
+			<td><input type="radio" name="correct_answer" value=4 /></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Answer Five</span></td>
 			<td>
-			<input type="text" name="answer_five" title="Enter one of the question's answer here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field." value="" style="border-color:#000000;
+			<input type="text" name="answer_five" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_five_points" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0." value="0" style="border-color:#000000;
+			<input type="text" name="answer_five_points" value="0" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" title="Select the correct answer." value=5 /></td>
+			<td><input type="radio" name="correct_answer" value=5 /></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Answer Six</span></td>
 			<td>
-			<input type="text" name="answer_six" title="Enter one of the question's answer here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field." value="" style="border-color:#000000;
+			<input type="text" name="answer_six" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_six_points" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0." value="0" style="border-color:#000000;
+			<input type="text" name="answer_six_points" value="0" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" title="Select the correct answer." value=6 /></td>
+			<td><input type="radio" name="correct_answer" value=6 /></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Question Type?</span></td>
-			<td><input type="radio" id="typeRadio1" name="question_type" checked="checked" title="The normal setting will show the question as it would normally." value=0 /><label for="typeRadio1">Normal (Vertical Radio)</label></td>
-			<td><input type="radio" id="typeRadio2" name="question_type" title="The horizontal setting will show the answers going across rather than down." value=1 /><label for="typeRadio2">Horizontal Radio</label></td>
-			<td><input type="radio" id="typeRadio3" name="question_type" title="The drop down setting will show the answers in a drop down menu instead of the raidio button." value=2 /><label for="typeRadio3">Drop Down</label></td>
+			<td><span style='font-weight:bold;'>Question Type<a href="#" title="The normal setting will show the question as it would normally; the horizontal setting will show the answers going across rather than down; the drop down setting will show the answers in a drop down menu instead of the raidio button." >?</a></span></td>
+			<td><input type="radio" id="typeRadio1" name="question_type" checked="checked" value=0 /><label for="typeRadio1">Normal (Vertical Radio)</label></td>
+			<td><input type="radio" id="typeRadio2" name="question_type" value=1 /><label for="typeRadio2">Horizontal Radio</label></td>
+			<td><input type="radio" id="typeRadio3" name="question_type" value=2 /><label for="typeRadio3">Drop Down</label></td>
 			</tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Comment Field?</span></td>
-			<td><input type="radio" id="commentsRadio1" name="comments" title="The small text field setting will show a small field similar to the answer field above." value=0 /><label for="commentsRadio1">Small Text Field</label></td>
-			<td><input type="radio" id="commentsRadio3" name="comments" title="The large text field setting will show a large text area." value=2 /><label for="commentsRadio3">Large Text Field</label></td>
-			<td><input type="radio" id="commentsRadio2" name="comments" title="The none setting will now show any comment section for this question." checked="checked" value=1 /><label for="commentsRadio2">None</label></td>
+			<td><span style='font-weight:bold;'>Comment Field<a href="#" title="The small text field setting will show a small field similar to the answer field above; the large text field setting will show a large text area; the none setting will now show any comment section for this question." >?</a></span></td>
+			<td><input type="radio" id="commentsRadio1" name="comments" value=0 /><label for="commentsRadio1">Small Text Field</label></td>
+			<td><input type="radio" id="commentsRadio3" name="comments" value=2 /><label for="commentsRadio3">Large Text Field</label></td>
+			<td><input type="radio" id="commentsRadio2" name="comments" checked="checked" value=1 /><label for="commentsRadio2">None</label></td>
 			</tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Hint</span></td>
+			<td><span style='font-weight:bold;'>Hint<a href="#" title="Enter the question's hint." >?</a></span></td>
 			<td>
-			<input type="text" name="hint" value="" id="hint" title="Enter the question's hint." style="border-color:#000000;
+			<input type="text" name="hint" value="" id="hint" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			</tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Question Order</span></td>
+			<td><span style='font-weight:bold;'>Question Order<a href="#" title="Enter the place of the question in the quiz. If you do not have a certain order, you can leave this as 1.">?</a></span></td>
 			<td>
-			<input type="number" step="1" min="1" name="new_question_order" title="Enter the place of the question in the quiz. If you do not have a certain order, you can leave this as 1." value="1" id="new_question_order" style="border-color:#000000;
+			<input type="number" step="1" min="1" name="new_question_order" value="1" id="new_question_order" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
 			</tr>
 			</table>
 			<?php
-			echo "<p class='submit'><input type='submit' class='button-primary' title='Click here to create your new quesion!' value='Create Question' /></p>";
+			echo "<p class='submit'><input type='submit' class='button-primary' value='Create Question' /></p>";
 			echo "</form>";
 			?>
 			</div>
@@ -796,12 +792,7 @@ function mlw_generate_quiz_options()
 			<tr>
 			<td><span style='font-weight:bold;'>Question</span></td>
 			<td colspan="3">
-				<?php
-					$settings = array(
-					    'textarea_rows' => 10
-					);
-					wp_editor('demo content', 'edit_question_name', $settings);
-				?>
+				<textarea name="edit_question_name" id="edit_question_name" style="width: 500px; height: 150px;"></textarea>
 			</td>
 			</tr>
 			<tr valign="top">
@@ -1098,6 +1089,10 @@ function mlw_generate_quiz_options()
 				<tr valign="top">
 					<th scope="row"><label for="mlw_commentText">Text for comments field</label></th>
 					<td><input name="mlw_commentText" type="text" id="mlw_commentText" value="<?php echo $mlw_quiz_options->comment_field_text; ?>" class="regular-text" /></td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="emailFromText">What is the From Name for the email sent to users and admin?</label></th>
+					<td><input name="emailFromText" type="text" id="emailFromText" value="<?php echo $mlw_quiz_options->email_from_text; ?>" class="regular-text" /></td>
 				</tr>
 			</table>
 			<table class="form-table">

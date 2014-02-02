@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "0.9.9";
+	$data = "1.0";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -71,6 +71,14 @@ function mlw_quiz_update()
 			$results = $wpdb->query( $update_sql );
 		}
 		
+		//Update 1.0
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'email_from_text'") != "email_from_text")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD email_from_text TEXT NOT NULL AFTER comment_field_text";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET email_from_text='Wordpress'";
+			$results = $wpdb->query( $update_sql );
+		}
 		
 		
 		global $wpdb;

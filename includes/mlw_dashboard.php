@@ -441,9 +441,13 @@ function mlw_dashboard_box_seven()
 		$user_message = $_POST["message"];
 		$user_quiz_url = $_POST["quiz_url"];
 		$current_user = wp_get_current_user();
+		$mlw_site_name = get_bloginfo('name');
+		$mlw_site_url = get_bloginfo('url');
+		$mlw_site_version = get_bloginfo('version');
+		$mlw_site_info = $mlw_site_name." ".$mlw_site_url." ".$mlw_site_version;
 		if ($quiz_master_email_success == 'update')
 		{
-			$mlw_message = "Message from ".$user_name." at ".$user_email." It says: \n \n ".$user_message."\n Version: ".$mlw_quiz_version."\n Quiz URL Provided: ".$user_quiz_url."\n User ".$current_user->display_name." from ".$current_user->user_email;
+			$mlw_message = "Message from ".$user_name." at ".$user_email." It says: \n \n ".$user_message."\n Version: ".$mlw_quiz_version."\n Quiz URL Provided: ".$user_quiz_url."\n User ".$current_user->display_name." from ".$current_user->user_email."\n Wordpress Info: ".$mlw_site_info;
 			wp_mail('fpcorso@mylocalwebstop.com' ,'Support From Quiz Master Next Plugin', $mlw_message);
 			$quiz_master_email_message = "**Message Sent**";
 		}
@@ -520,16 +524,11 @@ function mlw_dashboard_box_eight()
 	<div class="donation">
 	<p>
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-	<input type="hidden" name="cmd" value="_donations">
-	<input type="hidden" name="business" value="fpcorso@gmail.com">
-	<input type="hidden" name="lc" value="US">
-	<input type="hidden" name="no_note" value="0">
-	<input type="hidden" name="currency_code" value="USD">
-	<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
-	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+	<input type="hidden" name="cmd" value="_s-xclick">
+	<input type="hidden" name="hosted_button_id" value="RTGYAETX36ZQJ">
+	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 	<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 	</form>
-
 	</p>
 	</div>
 	</td>
