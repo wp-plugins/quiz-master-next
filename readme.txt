@@ -64,7 +64,7 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 
 == Changelog ==
 
-= 1.0 = (February 1, 2014) =
+= 1.0 (February 1, 2014) =
  * Added Ability To Customize From Name For User And Admin Emails
  * Changed Question Editor
  * Minor Change To Help System
