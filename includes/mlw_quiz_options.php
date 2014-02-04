@@ -12,6 +12,7 @@ function mlw_generate_quiz_options()
 	global $wpdb;
 	$table_name = $wpdb->prefix . "mlw_questions";
 	$is_new_quiz = 0;
+	$mlw_qmn_hasEditedSocial = false;
 	
 	/*
 	Code for quiz questions tab
@@ -608,7 +609,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-1">Quiz Questions</a></li>
 		    <li><a href="#tabs-2">Quiz Text</a></li>
 		    <li><a href="#tabs-3">Quiz Options</a></li>
-		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>
+		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>		   
 		    <li><a href="#tabs-5">Quiz Tools</a></li>
 		</ul>
   		<div id="tabs-1">

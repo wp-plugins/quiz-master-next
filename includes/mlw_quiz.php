@@ -450,9 +450,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_message_after = str_replace( "%COMMENT_SECTION%" , $_POST["mlwQuizComments"], $mlw_message_after);
 		$mlw_message_after = str_replace( "\n" , "<br>", $mlw_message_after);
 		$mlw_display .= $mlw_message_after;
-
-
-
+	
 		//Prepare and send the user email
 		$mlw_message = "";
 		if ($mlw_quiz_options->send_user_email == "0")
@@ -502,6 +500,7 @@ function mlw_quiz_shortcode($atts)
 		//Save the results into database
 		$mlw_quiz_results = $mlw_question_answers."\n".$_POST["mlwQuizComments"];
 		$mlw_quiz_results = str_replace( "\n" , "<br>", $mlw_quiz_results);
+		$mlw_quiz_results = htmlspecialchars($mlw_quiz_results, ENT_QUOTES);
 		global $wpdb;
 		$table_name = $wpdb->prefix . "mlw_results";
 		$insert = "INSERT INTO " . $table_name .

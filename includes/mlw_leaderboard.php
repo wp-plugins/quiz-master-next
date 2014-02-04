@@ -18,7 +18,16 @@ function mlw_quiz_leaderboard_shortcode($atts)
 		$mlw_quiz_options = $mlw_eaches;
 		break;
 	}
-	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE quiz_id=".$mlw_quiz_id." AND deleted='0' LIMIT 10";
+	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE quiz_id=".$mlw_quiz_id." AND deleted='0'";
+	if ($mlw_quiz_options->system == 0)
+	{
+		$sql .= " ORDER BY correct_score DESC";
+	}
+	if ($mlw_quiz_options->system == 1)
+	{
+		$sql .= " ORDER BY point_score DESC";
+	}
+	$sql .= " LIMIT 10";
 	$mlw_result_data = $wpdb->get_results($sql);
 	
 	$mlw_quiz_leaderboard_display = $mlw_quiz_options->leaderboard_template;
