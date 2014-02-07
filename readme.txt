@@ -1,9 +1,9 @@
 === Quiz Master Next ===
 Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
-Requires at least: 3.0.1
+Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.0.1
+Stable tag: 1.1.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -24,6 +24,7 @@ Features include:
 * Can score the quiz using an incorrect/correct system, a points based system, or a not-graded system
 * Can enable comment boxes for each question and/or comment section at the end of the quiz
 * Can enable hints for questions
+* Can show user why the answer is the correct answer
 * Saves the results after a user takes the quiz
 * Saves the users answers and comments after taking the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
@@ -63,6 +64,14 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.1.1 (February 6, 2014) =
+ * Added %AVERAGE_POINT% Variable That Calculates Average Points Per Question
+ * Added Field For Reason Why Answer Is Correct
+ * Added %CORRECT_ANSWER_INFO% To Display Why Answer Is Correct
+ * Begun Creating New Error Code System
+ * Fixed Edit Quiz Name Bug
+ * Fixed New Quiz Bug
 
 = 1.0.1 (February 4, 2014) =
  * Fixed Saving Results Bug
@@ -239,6 +248,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+This update adds the ability to show the user the reason why an answer is correct. Also, added new variable for templates that calculates average points per question. Minor bug fixes.
 
 = 1.0.1 =
 This update fixes minor bugs.

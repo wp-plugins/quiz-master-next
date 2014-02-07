@@ -14,6 +14,8 @@ function mlw_generate_quiz_admin()
 	$quiz_name = $_POST["quiz_name"];
 	$hasCreatedQuiz = false;
 	$hasDeletedQuiz = false;
+	$mlw_qmn_isQueryError = false;
+	$mlw_qmn_error_code = '0';
 
 	//Create new quiz
 	if ($success == "confirmation")
@@ -27,19 +29,27 @@ function mlw_generate_quiz_admin()
 			5. %FIFTH_PLACE_NAME%-%FIFTH_PLACE_SCORE%<br />";
 		$mlw_question_answer_default = "%QUESTION%<br /> Answer Provided: %USER_ANSWER%<br /> Correct Answer: %CORRECT_ANSWER%<br /> Comments Entered: %USER_COMMENTS%<br />";
 		$insert = "INSERT INTO " . $table_name .
-			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, question_answer_template, leaderboard_template, system, randomness_order, show_score, send_user_email, send_admin_email, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
-			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
+			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
+			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
 		$results = $wpdb->query( $insert );
-		$hasCreatedQuiz = true;
+		if ($results != false)
+		{
+			$hasCreatedQuiz = true;
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'New Quiz Has Been Created: ".$quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_error_code = '0001';
+			$mlw_qmn_isQueryError = true;
+		}
 		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'New Quiz Has Been Created: ".$quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
 	}
 
 	//Variables from delete question form
@@ -212,7 +222,16 @@ function mlw_generate_quiz_admin()
 	<?php
 		}
 	?>
-	<?php if ($hasDeletedQuiz)
+	<?php if ($mlw_qmn_isQueryError)
+		{
+	?>
+		<div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Uh-Oh!</strong> There has been an error in this action! Please share this with the developer: Error Code <?php echo $mlw_qmn_error_code; ?></p>
+	</div>
+	<?php
+		}
+		if ($hasDeletedQuiz)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -241,7 +260,7 @@ function mlw_generate_quiz_admin()
 		else $alternate = " class=\"alternate\"";
 		$quotes_list .= "<tr{$alternate}>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_id . "</span></td>";
-		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a></span></div></td>";
+		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_quiz_info->quiz_name, ENT_QUOTES))."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a></span></div></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster_leaderboard mlw_quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_views . "</span></td>";

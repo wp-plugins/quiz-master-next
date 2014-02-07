@@ -429,6 +429,7 @@ function mlw_quiz_shortcode($atts)
 			$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
 			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
 			$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $_POST["mlwComment".$mlw_question->question_id], $mlw_question_answer_display);
+			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , $mlw_question->question_answer_info, $mlw_question_answer_display);
 
 			$mlw_question_answers .= $mlw_question_answer_display;
 			$mlw_question_answers .= "<br />";
@@ -438,6 +439,7 @@ function mlw_quiz_shortcode($atts)
 		//Prepare the after quiz message
 		$mlw_message_after = $mlw_quiz_options->message_after;
 		$mlw_message_after = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message_after);
+		$mlw_message_after = str_replace( "%AVERAGE_POINT%" , round(($mlw_points/$mlw_total_questions), 2), $mlw_message_after);
 		$mlw_message_after = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message_after);
 		$mlw_message_after = str_replace( "%TOTAL_QUESTIONS%" , $mlw_total_questions, $mlw_message_after);
 		$mlw_message_after = str_replace( "%CORRECT_SCORE%" , $mlw_total_score, $mlw_message_after);
@@ -459,6 +461,7 @@ function mlw_quiz_shortcode($atts)
 			{
 				$mlw_message = $mlw_quiz_options->user_email_template;
 				$mlw_message = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message);
+				$mlw_message = str_replace( "%AVERAGE_POINT%" , round(($mlw_points/$mlw_total_questions), 2), $mlw_message);
 				$mlw_message = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message);
 				$mlw_message = str_replace( "%TOTAL_QUESTIONS%" , $mlw_total_questions, $mlw_message);
 				$mlw_message = str_replace( "%CORRECT_SCORE%" , $mlw_total_score, $mlw_message);
@@ -481,6 +484,7 @@ function mlw_quiz_shortcode($atts)
 		{
 			$mlw_message = $mlw_quiz_options->admin_email_template;
 			$mlw_message = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message);
+			$mlw_message = str_replace( "%AVERAGE_POINT%" , round(($mlw_points/$mlw_total_questions), 2), $mlw_message);
 			$mlw_message = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message);
 			$mlw_message = str_replace( "%TOTAL_QUESTIONS%" , $mlw_total_questions, $mlw_message);
 			$mlw_message = str_replace( "%CORRECT_SCORE%" , $mlw_total_score, $mlw_message);

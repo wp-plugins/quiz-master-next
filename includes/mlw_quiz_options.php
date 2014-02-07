@@ -12,7 +12,7 @@ function mlw_generate_quiz_options()
 	global $wpdb;
 	$table_name = $wpdb->prefix . "mlw_questions";
 	$is_new_quiz = 0;
-	$mlw_qmn_hasEditedSocial = false;
+	$mlw_qmn_isQueryError = false;
 	
 	/*
 	Code for quiz questions tab
@@ -34,6 +34,7 @@ function mlw_generate_quiz_options()
 	$answer_six = htmlspecialchars($_POST["answer_six"], ENT_QUOTES);
 	$answer_six_points = $_POST["answer_six_points"];
 	$correct_answer = $_POST["correct_answer"];
+	$question_answer_info = $_POST["correct_answer_info"];
 	$question_type = $_POST["question_type"];
 	$comments = $_POST["comments"];
 	$hint = $_POST["hint"];
@@ -55,6 +56,7 @@ function mlw_generate_quiz_options()
 	$edit_answer_six = htmlspecialchars($_POST["edit_answer_six"], ENT_QUOTES);
 	$edit_answer_six_points = $_POST["edit_answer_six_points"];
 	$edit_correct_answer = $_POST["edit_correct_answer"];
+	$edit_question_answer_info = $_POST["edit_correct_answer_info"];
 	$mlw_edit_question_id = $_POST["edit_question_id"];
 	$mlw_edit_question_type = $_POST["edit_question_type"];
 	$edit_comments = $_POST["edit_comments"];
@@ -65,18 +67,25 @@ function mlw_generate_quiz_options()
 	if ($edit_question_success == "confirmation")
 	{
 		$quiz_id = $_POST["quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."', answer_one='".$edit_answer_one."', answer_one_points='".$edit_answer_one_points."', answer_two='".$edit_answer_two."', answer_two_points='".$edit_answer_two_points."', answer_three='".$edit_answer_three."', answer_three_points='".$edit_answer_three_points."', answer_four='".$edit_answer_four."', answer_four_points='".$edit_answer_four_points."', answer_five='".$edit_answer_five."', answer_five_points='".$edit_answer_five_points."', answer_six='".$edit_answer_six."', answer_six_points='".$edit_answer_six_points."', correct_answer='".$edit_correct_answer."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."' WHERE question_id=".$mlw_edit_question_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."', answer_one='".$edit_answer_one."', answer_one_points='".$edit_answer_one_points."', answer_two='".$edit_answer_two."', answer_two_points='".$edit_answer_two_points."', answer_three='".$edit_answer_three."', answer_three_points='".$edit_answer_three_points."', answer_four='".$edit_answer_four."', answer_four_points='".$edit_answer_four_points."', answer_five='".$edit_answer_five."', answer_five_points='".$edit_answer_five_points."', answer_six='".$edit_answer_six."', answer_six_points='".$edit_answer_six_points."', correct_answer='".$edit_correct_answer."', question_answer_info='".$edit_question_answer_info."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."' WHERE question_id=".$mlw_edit_question_id;
 		$results = $wpdb->query( $update );
-		$hasUpdatedQuestion = true;
+		if ($results != false)
+		{
+			$hasUpdatedQuestion = true;
 		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Edited: ".$edit_question_name."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Edited: ".$edit_question_name."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}
 
 	//Variables from delete question form
@@ -89,16 +98,23 @@ function mlw_generate_quiz_options()
 		$quiz_id = $_POST["quiz_id"];
 		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET deleted=1 WHERE question_id=".$mlw_question_id;
 		$results = $wpdb->query( $update );
-		$hasDeletedQuestion = true;
+		if ($results != false)
+		{
+			$hasDeletedQuestion = true;
 		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Deleted: ".$mlw_question_id."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Deleted: ".$mlw_question_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}		
 
 	//Submit new question into database
@@ -107,18 +123,25 @@ function mlw_generate_quiz_options()
 		$quiz_id = $_POST["quiz_id"];
 		$table_name = $wpdb->prefix . "mlw_questions";
 		$insert = "INSERT INTO " . $table_name .
-			" (question_id, quiz_id, question_name, answer_one, answer_one_points, answer_two, answer_two_points, answer_three, answer_three_points, answer_four, answer_four_points, answer_five, answer_five_points, answer_six, answer_six_points, correct_answer, comments, hints, question_order, question_type, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '" . $answer_one . "', ".$answer_one_points.", '" . $answer_two . "', ".$answer_two_points.", '" . $answer_three . "', ".$answer_three_points.", '" . $answer_four . "', ".$answer_four_points.", '" . $answer_five . "', ".$answer_five_points.", '" . $answer_six . "', ".$answer_six_points.", ".$correct_answer.", '".$comments."', '".$hint."', ".$new_question_order.", '".$question_type."', 0)";
+			" (question_id, quiz_id, question_name, answer_one, answer_one_points, answer_two, answer_two_points, answer_three, answer_three_points, answer_four, answer_four_points, answer_five, answer_five_points, answer_six, answer_six_points, correct_answer, question_answer_info, comments, hints, question_order, question_type, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '" . $answer_one . "', ".$answer_one_points.", '" . $answer_two . "', ".$answer_two_points.", '" . $answer_three . "', ".$answer_three_points.", '" . $answer_four . "', ".$answer_four_points.", '" . $answer_five . "', ".$answer_five_points.", '" . $answer_six . "', ".$answer_six_points.", ".$correct_answer.", '".$question_answer_info."', '".$comments."', '".$hint."', ".$new_question_order.", '".$question_type."', 0)";
 		$results = $wpdb->query( $insert );
-		$hasCreatedQuestion = true;
+		if ($results != false)
+		{
+			$hasCreatedQuestion = true;
 		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Added: ".$question_name."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Added: ".$question_name."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}
 
 	//Get table of questions for this quiz
@@ -158,16 +181,23 @@ function mlw_generate_quiz_options()
 		$quiz_id = $_POST["quiz_id"];
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
-		$hasUpdatedTemplates = true;
+		if ($results != false)
+		{
+			$hasUpdatedTemplates = true;
 		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Templates Have Been Edited For Quiz Number ".$quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Templates Have Been Edited For Quiz Number ".$quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}
 	
 
@@ -195,16 +225,23 @@ function mlw_generate_quiz_options()
 		$quiz_id = $_POST["quiz_id"];
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
-		$hasUpdatedOptions = true;
-		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Options Have Been Edited For Quiz Number ".$quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
+		if ($results != false)
+		{
+			$hasUpdatedOptions = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Options Have Been Edited For Quiz Number ".$quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}
 	
 	/*
@@ -221,16 +258,23 @@ function mlw_generate_quiz_options()
 	{
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET leaderboard_template='".$mlw_leaderboard_template."' WHERE quiz_id=".$mlw_leaderboard_quiz_id;
 		$results = $wpdb->query( $update );
-		$hasUpdatedLeaderboardOptions = true;
-		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Leaderboard Options Have Been Edited For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
+		if ($results != false)
+		{
+			$hasUpdatedLeaderboardOptions = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Leaderboard Options Have Been Edited For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}
 	
 	
@@ -247,16 +291,23 @@ function mlw_generate_quiz_options()
 	{
 		$mlw_reset_update_sql = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views=0, quiz_taken=0 WHERE quiz_id=".$mlw_reset_stats_quiz_id;
 		$mlw_reset_sql_results = $wpdb->query( $mlw_reset_update_sql );
-		$mlw_hasResetQuizStats = true;
-		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Stats Have Been Reset For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );		
+		if ($mlw_reset_sql_results != false)
+		{
+			$mlw_hasResetQuizStats = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Stats Have Been Reset For Quiz Number ".$mlw_leaderboard_quiz_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+		}
 	}
 
 
@@ -483,7 +534,7 @@ function mlw_generate_quiz_options()
 			idText.innerHTML = id;
 			idHidden.value = id;		
 		};
-		function editQuestion(id, question, answerOne, answerOnePoints, answerTwo, answerTwoPoints, answerThree, answerThreePoints, answerFour, answerFourPoints, answerFive, answerFivePoints, answerSix, answerSixPoints, correctAnswer, comments, hint, question_order, question_type){
+		function editQuestion(id, question, answerOne, answerOnePoints, answerTwo, answerTwoPoints, answerThree, answerThreePoints, answerFour, answerFourPoints, answerFive, answerFivePoints, answerSix, answerSixPoints, correctAnswer, answer_info, comments, hint, question_order, question_type){
 			$j("#edit_question_dialog").dialog({
 				autoOpen: false,
 				show: 'blind',
@@ -511,6 +562,7 @@ function mlw_generate_quiz_options()
 			document.getElementById("edit_answer_four_points").value = answerFourPoints;
 			document.getElementById("edit_answer_five_points").value = answerFivePoints;
 			document.getElementById("edit_answer_six_points").value = answerSixPoints;
+			document.getElementById("edit_correct_answer_info").value = answer_info;
 			document.getElementById("edit_hint").value = hint;
 			document.getElementById("edit_question_order").value = question_order;
 			if (correctAnswer == 1) document.getElementById("edit_correct_one").checked = true;
@@ -544,7 +596,16 @@ function mlw_generate_quiz_options()
 	<?php
 		}
 	?>
-	<?php if ($hasCreatedQuestion)
+	<?php if ($mlw_qmn_isQueryError)
+		{
+	?>
+		<div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Uh-Oh!</strong> There has been an error in this action!</p>
+	</div>
+	<?php
+		}
+		if ($hasCreatedQuestion)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -622,7 +683,7 @@ function mlw_generate_quiz_options()
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."', '".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."','".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."', '".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".$mlw_question_info->question_answer_info."', '".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 			}
 
@@ -743,6 +804,12 @@ function mlw_generate_quiz_options()
 				cursor:hand;"/>
 			</td>
 			<td><input type="radio" name="correct_answer" value=6 /></td>
+			</tr>
+			<tr>
+				<td><span style='font-weight:bold;'>Correct Answer Info:</span></td>
+				<td colspan="3"><input type="text" name="correct_answer_info" value="" id="correct_answer_info" style="border-color:#000000;
+				color:#3300CC; 
+				cursor:hand;"/></td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
@@ -890,6 +957,12 @@ function mlw_generate_quiz_options()
 			</td>
 			<td><input type="radio" id="edit_correct_six" name="edit_correct_answer" value=6 /></td>
 			</tr>
+			<tr>
+				<td><span style='font-weight:bold;'>Correct Answer Info:</span></td>
+				<td colspan="3"><input type="text" name="edit_correct_answer_info" value="" id="edit_correct_answer_info" style="border-color:#000000;
+				color:#3300CC; 
+				cursor:hand;"/></td>
+			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
@@ -932,37 +1005,47 @@ function mlw_generate_quiz_options()
 			<h3>Template Variables</h3>
 			<table class="form-table">
 			<tr>
-			<td><strong>%POINT_SCORE%</strong> - Score for the quiz when using points</td>
-			<td><strong>%AMOUNT_CORRECT%</strong> - The number of correct answers the user had</td>
+				<td><strong>%POINT_SCORE%</strong> - Score for the quiz when using points</td>
+				<td><strong>%AVERAGE_POINT%</strong> - The average amount of points user had per question</td>
 			</tr>
 	
 			<tr>
-			<td><strong>%TOTAL_QUESTIONS%</strong> - The total number of questions in the quiz</td>
-			<td><strong>%CORRECT_SCORE%</strong> - Score for the quiz when using correct answers</td>
+				<td><strong>%AMOUNT_CORRECT%</strong> - The number of correct answers the user had</td>
+				<td><strong>%TOTAL_QUESTIONS%</strong> - The total number of questions in the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%CORRECT_SCORE%</strong> - Score for the quiz when using correct answers</td>
 			</tr>
 	
 			<tr>
-			<td><strong>%USER_NAME%</strong> - The name the user entered before the quiz</td>
-			<td><strong>%USER_BUSINESS%</strong> - The business the user entered before the quiz</td>
+				<td><strong>%USER_NAME%</strong> - The name the user entered before the quiz</td>
+				<td><strong>%USER_BUSINESS%</strong> - The business the user entered before the quiz</td>
 			</tr>
+			
 			<tr>
-			<td><strong>%USER_PHONE%</strong> - The phone number the user entered before the quiz</td>
-			<td><strong>%USER_EMAIL%</strong> - The email the user entered before the quiz</td>
+				<td><strong>%USER_PHONE%</strong> - The phone number the user entered before the quiz</td>
+				<td><strong>%USER_EMAIL%</strong> - The email the user entered before the quiz</td>
 			</tr>
+			
 			<tr>
-			<td><strong>%QUIZ_NAME%</strong> - The name of the quiz</td>
-			<td><strong>%QUESTIONS_ANSWERS%</strong> - Shows the question, the answer the user provided, and the correct answer</td>
+				<td><strong>%QUIZ_NAME%</strong> - The name of the quiz</td>
+				<td><strong>%QUESTIONS_ANSWERS%</strong> - Shows the question, the answer the user provided, and the correct answer</td>
 			</tr>
+			
 			<tr>
-			<td><strong>%COMMENT_SECTION%</strong> - The comments the user entered into comment box if enabled</td>
-			<td><strong>%QUESTION%</strong> - The question that the user answered</td>
+				<td><strong>%COMMENT_SECTION%</strong> - The comments the user entered into comment box if enabled</td>
+				<td><strong>%QUESTION%</strong> - The question that the user answered</td>
 			</tr>
+			
 			<tr>
-			<td><strong>%USER_ANSWER%</strong> - The answer the user gave for the question</td>
-			<td><strong>%CORRECT_ANSWER%</strong> - The correct answer for the question</td>
+				<td><strong>%USER_ANSWER%</strong> - The answer the user gave for the question</td>
+				<td><strong>%CORRECT_ANSWER%</strong> - The correct answer for the question</td>
 			</tr>
+			
 			<tr>
-			<td><strong>%USER_COMMENTS%</strong> - The comments the user provided in the comment field for the question</td>
+				<td><strong>%USER_COMMENTS%</strong> - The comments the user provided in the comment field for the question</td>
+				<td><strong>%CORRECT_ANSWER_INFO%</strong> - Reason why the correct answer is the correct answer</td>
 			</tr>
 			</table>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
@@ -1001,6 +1084,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %POINT_SCORE%</p>
+						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
 						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
 						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
 						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
@@ -1027,6 +1111,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %POINT_SCORE%</p>
+						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
 						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
 						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
 						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
@@ -1047,6 +1132,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %POINT_SCORE%</p>
+						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
 						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
 						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
 						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
@@ -1106,6 +1192,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %USER_ANSWER%</p>
 						<p style="margin: 2px 0">- %CORRECT_ANSWER%</p>
 						<p style="margin: 2px 0">- %USER_COMMENTS%</p>
+						<p style="margin: 2px 0">- %CORRECT_ANSWER_INFO%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_question_answer_template" name="mlw_quiz_question_answer_template"><?php echo $mlw_quiz_options->question_answer_template; ?></textarea>
 					</td>

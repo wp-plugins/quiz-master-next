@@ -127,6 +127,8 @@ function mlw_quiz_activate()
 
 			correct_answer INT NOT NULL,
 			
+			question_answer_info TEXT NOT NULL,
+			
 			comments INT NOT NULL,
 			
 			hints TEXT NOT NULL,

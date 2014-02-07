@@ -410,16 +410,25 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.0 (February 1, 2014)</td>
+	<td align='left'>1.1.1 (February 6, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Customize From Name For User And Admin Emails</td>
+		<td align='left'>* Added %AVERAGE_POINT% Variable That Calculates Average Points Per Question</td>
 	</tr>
 	<tr>
-		<td align='left'>* Changed Question Editor</td>
+		<td align='left'>* Added Field For Reason Why Answer Is Correct</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Change To Help System</td>
+		<td align='left'>* Added %CORRECT_ANSWER_INFO% To Display Why Answer Is Correct</td>
+	</tr>
+	<tr>
+		<td align='left'>* Begun Creating New Error Code System</td>
+	</tr>
+	<tr>
+		<td align='left'>* Fixed Edit Quiz Name Bug</td>
+	</tr>
+	<tr>
+		<td align='left'>* Fixed New Quiz Bug</td>
 	</tr>
 	</table>
 	</div>
@@ -537,6 +546,8 @@ function mlw_dashboard_box_eight()
 		<li>Tracy B</li>
 		<li>Bobby L</li>
 		<li>Kristal P</li>
+		<li>Jürgen C</li>
+		<li>Larry J</li>
 	</ul>
 	</div>
 	<?php
