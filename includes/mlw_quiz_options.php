@@ -13,6 +13,7 @@ function mlw_generate_quiz_options()
 	$table_name = $wpdb->prefix . "mlw_questions";
 	$is_new_quiz = 0;
 	$mlw_qmn_isQueryError = false;
+	$mlw_qmn_error_code = '0000';
 	
 	/*
 	Code for quiz questions tab
@@ -85,6 +86,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0004';
 		}
 	}
 
@@ -114,6 +116,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0002';
 		}
 	}		
 
@@ -141,6 +144,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0006';
 		}
 	}
 
@@ -148,10 +152,23 @@ function mlw_generate_quiz_options()
 	if ($quiz_id != "")
 	{
 		global $wpdb;
-		$table_name = $wpdb->prefix . "mlw_questions";
-		$sql = "SELECT * FROM " . $table_name . " WHERE quiz_id=".$quiz_id." AND deleted=0";
-		$sql .= " ORDER BY question_order ASC";
-		$mlw_question_data = $wpdb->get_results($sql);
+		$mlw_qmn_table_limit = 10;
+		$mlw_qmn_question_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(question_id) FROM " . $wpdb->prefix . "mlw_questions WHERE quiz_id=%d AND deleted='0'", $quiz_id ) );
+		
+		if( isset($_GET{'mlw_question_page'} ) )
+		{
+		   $mlw_qmn_question_page = $_GET{'mlw_question_page'} + 1;
+		   $mlw_qmn_question_begin = $mlw_qmn_table_limit * $mlw_qmn_question_page ;
+		}
+		else
+		{
+		   $mlw_qmn_question_page = 0;
+		   $mlw_qmn_question_begin = 0;
+		}
+		$mlw_qmn_question_left = $mlw_qmn_question_count - ($mlw_qmn_question_page * $mlw_qmn_table_limit);
+		
+		$mlw_question_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_questions WHERE quiz_id=%d AND deleted='0' 
+			ORDER BY question_order ASC LIMIT %d, %d", $quiz_id, $mlw_qmn_question_begin, $mlw_qmn_table_limit ) );
 		$is_new_quiz = $wpdb->num_rows;
 	}
 
@@ -197,6 +214,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0007';
 		}
 	}
 	
@@ -241,6 +259,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0008';
 		}
 	}
 	
@@ -274,6 +293,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0009';
 		}
 	}
 	
@@ -307,6 +327,7 @@ function mlw_generate_quiz_options()
 		else
 		{
 			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0010';
 		}
 	}
 
@@ -492,7 +513,7 @@ function mlw_generate_quiz_options()
   				$j( "#edit_comments" ).buttonset();
   		});
 		$j(function() {
-			$j("button").button();
+			$j("button, #prev_page, #next_page").button();
 		
 		});
 		$j(function() {
@@ -601,7 +622,7 @@ function mlw_generate_quiz_options()
 	?>
 		<div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<strong>Uh-Oh!</strong> There has been an error in this action!</p>
+		<strong>Uh-Oh!</strong> There has been an error in this action! Please share this with the developer: Error Code <?php echo $mlw_qmn_error_code; ?></p>
 	</div>
 	<?php
 		}
@@ -675,6 +696,7 @@ function mlw_generate_quiz_options()
 		</ul>
   		<div id="tabs-1">
   			<button id="new_question_button_two">Add Question</button><button id="question_tab_help">Help</button>
+  			<br />
 			<?php
 			$question_list = "";
 			$display = "";
@@ -685,6 +707,28 @@ function mlw_generate_quiz_options()
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
 				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."', '".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".$mlw_question_info->question_answer_info."', '".$mlw_question_info->comments."','".$mlw_question_info->hints."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
+			}
+			
+			if( $mlw_qmn_question_page > 0 )
+			{
+			   	$mlw_qmn_previous_page = $mlw_qmn_question_page - 2;
+			   	$display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_previous_page&&quiz_id=$quiz_id\">Previous 10 Questions</a>";
+			   	if( $mlw_qmn_question_left > $mlw_qmn_table_limit )
+			   	{
+					$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_question_page&&quiz_id=$quiz_id\">Next 10 Questions</a>";
+			   	}
+			}
+			else if( $mlw_qmn_question_page == 0 )
+			{
+			   if( $mlw_qmn_question_left > $mlw_qmn_table_limit )
+			   {
+					$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_question_page&&quiz_id=$quiz_id\">Next 10 Questions</a>";
+			   }
+			}
+			else if( $mlw_qmn_question_left < $mlw_qmn_table_limit )
+			{
+			   $mlw_qmn_previous_page = $mlw_qmn_question_page - 2;
+			   $display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_previous_page&&quiz_id=$quiz_id\">Previous 10 Questions</a>";
 			}
 
 			$display .= "<table class=\"widefat\">";
@@ -806,7 +850,7 @@ function mlw_generate_quiz_options()
 			<td><input type="radio" name="correct_answer" value=6 /></td>
 			</tr>
 			<tr>
-				<td><span style='font-weight:bold;'>Correct Answer Info:</span></td>
+				<td><span style='font-weight:bold;'>Correct Answer Info<a href="#" title="Enter in the reason why the correct answer is correct. Add this to the %QUESTIONS_ANSWERS% template using the new %CORRECT_ANSWER_INFO% variable.">?</a></span></td>
 				<td colspan="3"><input type="text" name="correct_answer_info" value="" id="correct_answer_info" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/></td>

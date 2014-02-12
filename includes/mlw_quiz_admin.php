@@ -14,6 +14,8 @@ function mlw_generate_quiz_admin()
 	$quiz_name = $_POST["quiz_name"];
 	$hasCreatedQuiz = false;
 	$hasDeletedQuiz = false;
+	$hasUpdatedQuizName = false;
+	$hasDuplicatedQuiz = false;
 	$mlw_qmn_isQueryError = false;
 	$mlw_qmn_error_code = '0';
 
@@ -64,47 +66,102 @@ function mlw_generate_quiz_admin()
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET deleted=1 WHERE quiz_id=".$mlw_quiz_id;
 		$results = $wpdb->query( $update );
 		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET deleted=1 WHERE quiz_id=".$mlw_quiz_id;
-		$results = $wpdb->query( $update );
-		$hasDeletedQuiz = true;
+		$delete_question_results = $wpdb->query( $update );
+		if ($results != false)
+		{
+			$hasDeletedQuiz = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Has Been Deleted: ".$quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_error_code = '0002';
+			$mlw_qmn_isQueryError = true;
+		}
 		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Has Been Deleted: ".$quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
 	}	
 
 	//Edit Quiz Name
-	if ($_POST["quiz_name_editted"] == "confirmation")
+	if (isset($_POST["quiz_name_editted"]) && $_POST["quiz_name_editted"] == "confirmation")
 	{
 		$mlw_edit_quiz_id = $_POST["edit_quiz_id"];
 		$mlw_edit_quiz_name = $_POST["edit_quiz_name"];
 		$mlw_update_quiz_table = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_name='".$mlw_edit_quiz_name."' WHERE quiz_id=".$mlw_edit_quiz_id;
 		$results = $wpdb->query( $mlw_update_quiz_table );
-		$hasUpdatedQuizName = true;
-		
-		//Insert Action Into Audit Trail
-		global $current_user;
-		get_currentuserinfo();
-		$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
-		$insert = "INSERT INTO " . $table_name .
-			"(trail_id, action_user, action, time) " .
-			"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Name Has Been Edited: ".$mlw_edit_quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
-		$results = $wpdb->query( $insert );
-		
-		
+		if ($results != false)
+		{
+			$hasUpdatedQuizName = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Quiz Name Has Been Edited: ".$mlw_edit_quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_error_code = '0003';
+			$mlw_qmn_isQueryError = true;
+		}		
+	}
+	
+	//Duplicate Quiz
+	if (isset($_POST["duplicate_quiz"]) && $_POST["duplicate_quiz"] == "confirmation")
+	{
+		$table_name = $wpdb->prefix . "mlw_quizzes";
+		$mlw_duplicate_quiz_id = $_POST["duplicate_quiz_id"];
+		$mlw_duplicate_quiz_name = $_POST["duplicate_new_quiz_name"];
+		$mlw_qmn_duplicate_data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes WHERE quiz_id=%d", $mlw_duplicate_quiz_id ) );
+		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", 0, 0, 0)" );
+		if ($results != false)
+		{
+			$hasDuplicatedQuiz = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'New Quiz Has Been Created: ".$mlw_duplicate_quiz_name."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_error_code = '0011';
+			$mlw_qmn_isQueryError = true;
+		}		
 	}
 
 	//Retrieve list of quizzes
 	global $wpdb;
-	$sql = "SELECT quiz_id, quiz_name, quiz_views, quiz_taken
-		FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted='0'";
-	$sql .= "ORDER BY quiz_id DESC";
-
-	$mlw_quiz_data = $wpdb->get_results($sql);
+	$mlw_qmn_table_limit = 10;
+	$mlw_qmn_quiz_count = $wpdb->get_var( "SELECT COUNT(quiz_id) FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted='0'" );
+	
+	if( isset($_GET{'mlw_quiz_page'} ) )
+	{
+	   $mlw_qmn_quiz_page = $_GET{'mlw_quiz_page'} + 1;
+	   $mlw_qmn_quiz_begin = $mlw_qmn_table_limit * $mlw_qmn_quiz_page ;
+	}
+	else
+	{
+	   $mlw_qmn_quiz_page = 0;
+	   $mlw_qmn_quiz_begin = 0;
+	}
+	$mlw_qmn_quiz_left = $mlw_qmn_quiz_count - ($mlw_qmn_quiz_page * $mlw_qmn_table_limit);
+	$mlw_quiz_data = $wpdb->get_results( $wpdb->prepare( "SELECT quiz_id, quiz_name, quiz_views, quiz_taken 
+		FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted='0' 
+		ORDER BY quiz_id DESC LIMIT %d, %d", $mlw_qmn_quiz_begin, $mlw_qmn_table_limit ) );
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -136,7 +193,7 @@ function mlw_generate_quiz_admin()
    			 $j( document ).tooltip();
  		});
 		$j(function() {
-			$j("button").button();
+			$j("button, #prev_page, #next_page").button();
 		
 		});
 		$j(function() {
@@ -195,6 +252,21 @@ function mlw_generate_quiz_admin()
 			document.getElementById("edit_quiz_name").value = quizName;
 			document.getElementById("edit_quiz_id"). value = id;			
 		}
+		function duplicateQuiz(id, quizName){
+			$j("#duplicate_dialog").dialog({
+				autoOpen: false,
+				show: 'blind',
+				hide: 'explode',
+				buttons: {
+				Cancel: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+			$j("#duplicate_dialog").dialog('open');
+			document.getElementById("duplicate_quiz_name").innerHTML = quizName;
+			document.getElementById("duplicate_quiz_id"). value = id;			
+		}
 	</script>
 	<style>
   		label {
@@ -218,6 +290,15 @@ function mlw_generate_quiz_admin()
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
 		<strong>Hey!</strong> Your new quiz has been created successfully. To begin editing options and adding questions to your quiz, click on the edit link for that quiz.</p>
+	</div>
+	<?php
+		}
+		if ($hasDuplicatedQuiz)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Hey!</strong> The quiz has been duplicated successfully.</p>
 	</div>
 	<?php
 		}
@@ -252,6 +333,7 @@ function mlw_generate_quiz_admin()
 		}
 	?>
 	<button id="new_quiz_button_two">Create New Quiz</button>
+	<br />
 	<?php 
 	$quotes_list = "";
 	$display = "";
@@ -260,12 +342,34 @@ function mlw_generate_quiz_admin()
 		else $alternate = " class=\"alternate\"";
 		$quotes_list .= "<tr{$alternate}>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_id . "</span></td>";
-		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_quiz_info->quiz_name, ENT_QUOTES))."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a></span></div></td>";
+		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_quiz_info->quiz_name, ENT_QUOTES))."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a> | <a href='#' onclick=\"duplicateQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\">Duplicate</a></span></div></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster_leaderboard mlw_quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_views . "</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_taken ."</span></td>";
 		$quotes_list .= "</tr>";
+	}
+	
+	if( $mlw_qmn_quiz_page > 0 )
+	{
+	   	$mlw_qmn_previous_page = $mlw_qmn_quiz_page - 2;
+	   	$display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_previous_page\">Previous 10 Quizzes</a>";
+	   	if( $mlw_qmn_quiz_left > $mlw_qmn_table_limit )
+	   	{
+			$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_quiz_page\">Next 10 Quizzes</a>";
+	   	}
+	}
+	else if( $mlw_qmn_quiz_page == 0 )
+	{
+	   if( $mlw_qmn_quiz_left > $mlw_qmn_table_limit )
+	   {
+			$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_quiz_page\">Next 10 Quizzes</a>";
+	   }
+	}
+	else if( $mlw_qmn_quiz_left < $mlw_qmn_table_limit )
+	{
+	   $mlw_qmn_previous_page = $mlw_qmn_quiz_page - 2;
+	   $display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_previous_page\">Previous 10 Quizzes</a>";
 	}
 
 	$display .= "<table class=\"widefat\">";
@@ -326,6 +430,19 @@ function mlw_generate_quiz_admin()
 		<input type="hidden" id="edit_quiz_id" name="edit_quiz_id" />
 		<input type='hidden' name='quiz_name_editted' value='confirmation' />
 		<input type="submit" class="button-primary" value="Edit" />
+		</form>
+	</div>
+	<div id="duplicate_dialog" title="Duplicate Quiz" style="display:none;">
+		<h3>This will create a new quiz with the same settings as <span id="duplicate_quiz_name"></span>. </h3><br />
+		<p>This does not currently duplicate the questions, only the options, templates, settings, etc...</p>
+		<?php
+			echo "<form action='" . $PHP_SELF . "' method='post'>";
+		?>
+		Name Of New Quiz:
+		<input type="text" id="duplicate_new_quiz_name" name="duplicate_new_quiz_name" />
+		<input type="hidden" id="duplicate_quiz_id" name="duplicate_quiz_id" />
+		<input type='hidden' name='duplicate_quiz' value='confirmation' />
+		<input type="submit" class="button-primary" value="Duplicate" />
 		</form>
 	</div>
 	<div id="delete_dialog" title="Delete Quiz?" style="display:none;">

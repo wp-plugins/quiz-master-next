@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.1.1
+Stable tag: 1.2.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -64,6 +64,12 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.2.1 (February 11, 2014) =
+ * Fixed Quiz Results Details Bug
+ * Continued Working On New Error Code System
+ * Added Pagination To Tools Page, Quizzes Page And List Of Questions On Quiz Options Page
+ * Added Ability To Create A Duplicate Of A Quiz
 
 = 1.1.1 (February 6, 2014) =
  * Added %AVERAGE_POINT% Variable That Calculates Average Points Per Question
@@ -248,6 +254,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+This update adds pagination to the quizzes, audit trail, and question tables to make using the admin side easier. It also adds the ability to duplicate a quiz. Fixes various minor bugs.
 
 = 1.1.1 =
 This update adds the ability to show the user the reason why an answer is correct. Also, added new variable for templates that calculates average points per question. Minor bug fixes.

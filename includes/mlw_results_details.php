@@ -68,7 +68,7 @@ function mlw_generate_result_details()
 		<h2>Quiz Results<a id="opener" href="">(?)</a></h2>
 		<?php 
 			foreach($mlw_results_data as $mlw_results_info) {
-			echo $mlw_results_info->quiz_results;
+			echo htmlspecialchars_decode($mlw_results_info->quiz_results, ENT_QUOTES);
 			}
 		?>
 		<div id="dialog" title="Help">
