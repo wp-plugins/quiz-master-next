@@ -49,6 +49,8 @@ function mlw_quiz_activate()
 			system INT NOT NULL,
 			
 			randomness_order INT NOT NULL,
+			
+			loggedin_user_contact INT NOT NULL,
 
 			show_score INT NOT NULL,
 

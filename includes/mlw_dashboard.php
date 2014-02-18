@@ -410,25 +410,19 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.1.1 (February 6, 2014)</td>
+	<td align='left'>1.3.1 (February 18, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added %AVERAGE_POINT% Variable That Calculates Average Points Per Question</td>
+		<td align='left'>* Added Ability To Choose Whether Logged-in Users Can Enter Contact Info</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Field For Reason Why Answer Is Correct</td>
+		<td align='left'>* Fixed Editing Hint Field Error</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added %CORRECT_ANSWER_INFO% To Display Why Answer Is Correct</td>
+		<td align='left'>* Added Ability To Have Media In Answers</td>
 	</tr>
 	<tr>
-		<td align='left'>* Begun Creating New Error Code System</td>
-	</tr>
-	<tr>
-		<td align='left'>* Fixed Edit Quiz Name Bug</td>
-	</tr>
-	<tr>
-		<td align='left'>* Fixed New Quiz Bug</td>
+		<td align='left'>* Added Ability To Have HTML In Questions And Answers</td>
 	</tr>
 	</table>
 	</div>
