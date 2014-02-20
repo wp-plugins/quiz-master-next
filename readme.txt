@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.3.1
+Stable tag: 1.4.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -64,6 +64,11 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.4.1 (February 20, 2014) =
+ * Enhanced Plugins Compatibility With Other Plugins
+ * Hints Are Now Hidden By Default
+ * Minor Bug Fixes
 
 = 1.3.1 (February 18, 2014) =
  * Added Ability To Choose Whether Logged-in Users Can Enter Contact Info
@@ -260,6 +265,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.4.1 =
+This update helps plugin work better with other plugins. The hints for the quiz are now hidden by default.
 
 = 1.2.1 =
 This update adds pagination to the quizzes, audit trail, and question tables to make using the admin side easier. It also adds the ability to duplicate a quiz. Fixes various minor bugs.

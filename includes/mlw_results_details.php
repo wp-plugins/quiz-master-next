@@ -19,8 +19,19 @@ function mlw_generate_result_details()
 		<!-- css -->
 		<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
 		<!-- jquery scripts -->
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<?php
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-dialog' );
+		wp_enqueue_script( 'jquery-ui-button' );
+		wp_enqueue_script( 'jquery-ui-accordion' );
+		wp_enqueue_script( 'jquery-ui-tooltip' );
+		wp_enqueue_script( 'jquery-ui-tabs' );
+		wp_enqueue_script( 'jquery-effects-blind' );
+		wp_enqueue_script( 'jquery-effects-explode' );
+		?>
+		<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 		<script type="text/javascript">
 			var $j = jQuery.noConflict();
 			// increase the default animation speed to exaggerate the effect
@@ -42,9 +53,6 @@ function mlw_generate_result_details()
 					return false;
 			}	);
 			});
-			$j(function() {
-	   			 $j( document ).tooltip();
-	 		});
 			$j(function() {
 				$j("button").button();
 			

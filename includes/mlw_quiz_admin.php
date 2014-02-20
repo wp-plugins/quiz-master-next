@@ -31,8 +31,8 @@ function mlw_generate_quiz_admin()
 			5. %FIFTH_PLACE_NAME%-%FIFTH_PLACE_SCORE%<br />";
 		$mlw_question_answer_default = "%QUESTION%<br /> Answer Provided: %USER_ANSWER%<br /> Correct Answer: %CORRECT_ANSWER%<br /> Comments Entered: %USER_COMMENTS%<br />";
 		$insert = "INSERT INTO " . $table_name .
-			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
-			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
+			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) " .
+			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0)";
 		$results = $wpdb->query( $insert );
 		if ($results != false)
 		{
@@ -122,7 +122,7 @@ function mlw_generate_quiz_admin()
 		$mlw_duplicate_quiz_id = $_POST["duplicate_quiz_id"];
 		$mlw_duplicate_quiz_name = $_POST["duplicate_new_quiz_name"];
 		$mlw_qmn_duplicate_data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes WHERE quiz_id=%d", $mlw_duplicate_quiz_id ) );
-		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", 0, 0, 0)" );
+		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->loggedin_user_contact.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", 0, 0, 0)" );
 		if ($results != false)
 		{
 			$hasDuplicatedQuiz = true;
@@ -166,8 +166,16 @@ function mlw_generate_quiz_admin()
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
 	<!-- jquery scripts -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<?php
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-effects-blind' );
+	wp_enqueue_script( 'jquery-effects-explode' );
+	?>
+	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
 		// increase the default animation speed to exaggerate the effect
@@ -190,10 +198,11 @@ function mlw_generate_quiz_admin()
 		}	);
 		});
 		$j(function() {
-   			 $j( document ).tooltip();
- 		});
-		$j(function() {
-			$j("button, #prev_page, #next_page").button();
+			$j("button, #prev_page, #next_page").button({
+		      icons: {
+		        primary: "ui-icon-circle-plus"
+		      }
+		    });
 		
 		});
 		$j(function() {
@@ -456,7 +465,7 @@ function mlw_generate_quiz_admin()
 	echo "</form>";	
 	?>
 	</div>
-	<div id="dialog" title="Help">
+	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page shows all of the quizzes currently on your website.</p>
 	<p>The table shows the quiz id, the name of your quiz, the shortcode to use on your post or page to add the quiz, the shortcode to use on your post or page to add the leaderboard, the amount of views the quiz has had, and the amount of times the quiz was finished</p>

@@ -56,8 +56,16 @@ function mlw_generate_quiz_dashboard(){
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
 	<!-- jquery scripts -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<?php
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-effects-blind' );
+	wp_enqueue_script( 'jquery-effects-explode' );
+	?>
+	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 	<script type="text/javascript" src="<?php echo plugin_dir_url( $file ); ?>quiz-master-next/includes/jquery_sparkline.js"></script>
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
@@ -167,7 +175,7 @@ function mlw_generate_quiz_dashboard(){
 	
 	<!--<div style="clear:both"></div>-->
 	
-	<div id="dialog" title="Help">
+	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page is the main admin dashboard for the Quiz Master Next. It contains many useful widgets for the admin.</p>
 	<p>Quiz Daily Stats -> This widget shows the times all quizzes have been taken each day over the last week.</p>
@@ -410,19 +418,16 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.3.1 (February 18, 2014)</td>
+	<td align='left'>1.4.1 (February 20, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Choose Whether Logged-in Users Can Enter Contact Info</td>
+		<td align='left'>* Enhanced Plugins Compatibility With Other Plugins</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed Editing Hint Field Error</td>
+		<td align='left'>* Hints Are Now Hidden By Default</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Have Media In Answers</td>
-	</tr>
-	<tr>
-		<td align='left'>* Added Ability To Have HTML In Questions And Answers</td>
+		<td align='left'>* Minor Bug Fixes</td>
 	</tr>
 	</table>
 	</div>
@@ -489,7 +494,7 @@ function mlw_dashboard_box_seven()
 	<td align='left'><TEXTAREA NAME="message" COLS=40 ROWS=6></TEXTAREA></td>
 	</tr>
 	<tr>
-	<td align='left'><input type='submit' value='Send Email' /></td>
+	<td align='left'><input type='submit' class="button-primary" value='Send Email' /></td>
 	</tr>
 	<tr>
 	<td align='left'></td>

@@ -132,6 +132,27 @@ function mlw_quiz_shortcode($atts)
 		}
 		return $mlw_contact_display;
 	}
+	
+	
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-ui-dialog' );
+	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-ui-accordion' );
+	wp_enqueue_script( 'jquery-ui-tooltip' );
+	wp_enqueue_script( 'jquery-ui-tabs' );
+?>
+<!-- css -->
+	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript">
+		var $j = jQuery.noConflict();
+		// increase the default animation speed to exaggerate the effect
+		$j.fx.speeds._default = 1000;
+		$j(function() {
+   			 $j( document ).tooltip();
+ 		});
+ 	</script>
+<?php
 
 	/*
 	The following code is for displaying the quiz and completion screen
@@ -343,7 +364,7 @@ function mlw_quiz_shortcode($atts)
 			}
 			if ($mlw_question->hints != "")
 			{
-				$mlw_display .= "<span>Hint: ".$mlw_question->hints."</span>";
+				$mlw_display .= "<span title=\"".$mlw_question->hints."\" style=\"text-decoration:underline;color:rgb(0,0,255);\">Hint</span><br />";
 				$mlw_display .= "<br />";
 			}
 			$mlw_display .= "<br />";
