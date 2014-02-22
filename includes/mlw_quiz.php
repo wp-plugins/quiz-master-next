@@ -152,7 +152,19 @@ function mlw_quiz_shortcode($atts)
    			 $j( document ).tooltip();
  		});
  	</script>
-<?php
+ 	<style type="text/css">
+ 		.ui-tooltip
+		{
+		    /* tooltip container box */
+		    max-width: 500px !important;
+		}
+		.ui-tooltip-content
+		{
+		    /* tooltip content */
+		    max-width: 500px !important;
+		}
+ 	</style>
+ 	<?php
 
 	/*
 	The following code is for displaying the quiz and completion screen
@@ -265,32 +277,32 @@ function mlw_quiz_shortcode($atts)
 			{
 				if ($mlw_question->answer_one != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='1' /> ".htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_one' value='1' /> <label for='question".$mlw_question->question_id."_one'>".htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_two != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='2' /> ".htmlspecialchars_decode($mlw_question->answer_two, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_two' value='2' /> <label for='question".$mlw_question->question_id."_two'>".htmlspecialchars_decode($mlw_question->answer_two, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_three != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='3' /> ".htmlspecialchars_decode($mlw_question->answer_three, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_three' value='3' /> <label for='question".$mlw_question->question_id."_three'>".htmlspecialchars_decode($mlw_question->answer_three, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_four != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='4' /> ".htmlspecialchars_decode($mlw_question->answer_four, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_four' value='4' /> <label for='question".$mlw_question->question_id."_four'>".htmlspecialchars_decode($mlw_question->answer_four, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_five != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='5' /> ".htmlspecialchars_decode($mlw_question->answer_five, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_five' value='5' /> <label for='question".$mlw_question->question_id."_five'>".htmlspecialchars_decode($mlw_question->answer_five, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_six != "")
 				{
-					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' value='6' /> ".htmlspecialchars_decode($mlw_question->answer_six, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_six' value='6' /> <label for='question".$mlw_question->question_id."_six'>".htmlspecialchars_decode($mlw_question->answer_six, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 			}
@@ -364,8 +376,8 @@ function mlw_quiz_shortcode($atts)
 			}
 			if ($mlw_question->hints != "")
 			{
-				$mlw_display .= "<span title=\"".$mlw_question->hints."\" style=\"text-decoration:underline;color:rgb(0,0,255);\">Hint</span><br />";
-				$mlw_display .= "<br />";
+				$mlw_display .= "<span title=\"".htmlspecialchars_decode($mlw_question->hints, ENT_QUOTES)."\" style=\"text-decoration:underline;color:rgb(0,0,255);\">Hint</span>";
+				$mlw_display .= "<br /><br />";
 			}
 			$mlw_display .= "<br />";
 		}

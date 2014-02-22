@@ -1,9 +1,9 @@
 === Quiz Master Next ===
 Contributors: fpcorso
-Tags: quiz, test, score, survey, contact
+Tags: quiz, test, score, survey, contact, form, email
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -12,7 +12,7 @@ Use this plugin to add multiple quizzes, tests, surveys, or contact forms to you
 
 Use this plugin to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results.
 
-Features include:
+= Features =
 
 * Allows for Unlimited Quizzes, Tests, Surveys, Contact Forms, etc..
 * Allows for Unlimited Questions in each Quiz
@@ -42,6 +42,20 @@ Features include:
 * Upload plugin dir to the `/wp-content/plugins/` directory
 * Activate the plugin through the 'Plugins' menu in WordPress
 
+**Or**
+
+* Navigate to Add New Plugin page within your WordPress
+* Search for Quiz Master Next
+* Click Install Now link on the plugin and follow the prompts
+* Activate the plugin through the 'Plugins' menu in WordPress
+
+**Or**
+
+We now offer an installation service to assist you in this process. We will install any or all of our plugins and spend up to 2 hours with you for consultaion and training. Visit our website for details.
+(http://mylocalwebstop.com/services/)
+
+
+
 == Frequently Asked Questions ==
 
 = What does the option do on that page? =
@@ -64,6 +78,12 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.4.2 (February 22, 2014) =
+ * Fixed Capability Bug
+ * Minor Design Changes To Question Form
+ * Hint Bubble Is Now Wider For Longer Hints
+ * Minor Design Change To Quiz
 
 = 1.4.1 (February 20, 2014) =
  * Enhanced Plugins Compatibility With Other Plugins
@@ -265,6 +285,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.4.2 =
+This update brings many minor design changes and minor bug fixes.
 
 = 1.4.1 =
 This update helps plugin work better with other plugins. The hints for the quiz are now hidden by default.

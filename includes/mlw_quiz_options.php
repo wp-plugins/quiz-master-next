@@ -37,8 +37,8 @@ function mlw_generate_quiz_options()
 	$correct_answer = $_POST["correct_answer"];
 	$question_answer_info = $_POST["correct_answer_info"];
 	$question_type = $_POST["question_type"];
-	$comments = $_POST["comments"];
-	$hint = $_POST["hint"];
+	$comments = htmlspecialchars($_POST["comments"], ENT_QUOTES);
+	$hint = htmlspecialchars($_POST["hint"], ENT_QUOTES);
 	$new_question_order = $_POST["new_question_order"];
 
 	//Variables from edit question form
@@ -60,8 +60,8 @@ function mlw_generate_quiz_options()
 	$edit_question_answer_info = $_POST["edit_correct_answer_info"];
 	$mlw_edit_question_id = $_POST["edit_question_id"];
 	$mlw_edit_question_type = $_POST["edit_question_type"];
-	$edit_comments = $_POST["edit_comments"];
-	$edit_hint = $_POST["edit_hint"];
+	$edit_comments = htmlspecialchars($_POST["edit_comments"], ENT_QUOTES);
+	$edit_hint = htmlspecialchars($_POST["edit_hint"], ENT_QUOTES);
 	$edit_question_order = $_POST["edit_question_order"];
 
 	//Edit question
@@ -525,6 +525,12 @@ function mlw_generate_quiz_options()
   				$j( "#comments" ).buttonset();
   		});
   		$j(function() {
+  				$j( "#question_type" ).buttonset();
+  		});
+  		$j(function() {
+  				$j( "#edit_question_type" ).buttonset();
+  		});
+  		$j(function() {
   				$j( "#edit_comments" ).buttonset();
   		});
 		$j(function() {
@@ -535,7 +541,7 @@ function mlw_generate_quiz_options()
 			$j('#new_question_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
-				width:700,
+				width:800,
 				hide: 'explode',
 				buttons: {
 				Cancel: function() {
@@ -576,7 +582,7 @@ function mlw_generate_quiz_options()
 			$j("#edit_question_dialog").dialog({
 				autoOpen: false,
 				show: 'blind',
-				width:700,
+				width:800,
 				hide: 'explode',
 				buttons: {
 				Cancel: function() {
@@ -609,12 +615,22 @@ function mlw_generate_quiz_options()
 			if (correctAnswer == 4) document.getElementById("edit_correct_four").checked = true;
 			if (correctAnswer == 5) document.getElementById("edit_correct_five").checked = true;
 			if (correctAnswer == 6) document.getElementById("edit_correct_six").checked = true;
+			if (question_type == 0) $j('#editTypeRadio1').attr('checked', true).button('refresh');
+			if (question_type == 1) $j('#editTypeRadio2').attr('checked', true).button('refresh');
+			if (question_type == 2) $j('#editTypeRadio3').attr('checked', true).button('refresh');
+			/*
 			if (question_type == 0) document.getElementById("editTypeRadio1").checked = true;
 			if (question_type == 1) document.getElementById("editTypeRadio2").checked = true;
 			if (question_type == 2) document.getElementById("editTypeRadio3").checked = true;
+			*/
+			if (comments == 0) $j('#editCommentRadio1').attr('checked', true).button('refresh');
+			if (comments == 1) $j('#editCommentRadio2').attr('checked', true).button('refresh');
+			if (comments == 2) $j('#editCommentRadio3').attr('checked', true).button('refresh');
+			/*
 			if (comments == 0) document.getElementById("editCommentRadio1").checked = true;
 			if (comments == 1) document.getElementById("editCommentRadio2").checked = true;
 			if (comments == 2) document.getElementById("editCommentRadio3").checked = true;
+			*/
 		};
 	</script>
 	<div class="wrap">
@@ -759,13 +775,13 @@ function mlw_generate_quiz_options()
 			?>
 			<button id="new_question_button">Add Question</button>
 			<div id="new_question_dialog" title="Create New Question" style="display:none;">
-					
-			<table>
+			
 			<?php
 			echo "<form action='" . $PHP_SELF . "' method='post'>";
 			echo "<input type='hidden' name='create_question' value='confirmation' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
-			?>
+			?>		
+			<table>
 			<tr>
 			<td><span style='font-weight:bold;'>Question<a href="#" title="Enter the question here. Feel free to use HTML, embed Youtube videos, link to images, etc...">?</a></span></td>
 			<td colspan="3">
@@ -787,7 +803,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="answer_one" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="answer_one_points" value="0" style="border-color:#000000;
@@ -801,7 +818,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="answer_two" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="answer_two_points" value="0" style="border-color:#000000;
@@ -815,7 +833,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="answer_three" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="answer_three_points" value="0" style="border-color:#000000;
@@ -829,7 +848,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="answer_four" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="answer_four_points" value="0" style="border-color:#000000;
@@ -843,7 +863,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="answer_five" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="answer_five_points" value="0" style="border-color:#000000;
@@ -857,7 +878,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="answer_six" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="answer_six_points" value="0" style="border-color:#000000;
@@ -870,29 +892,35 @@ function mlw_generate_quiz_options()
 				<td><span style='font-weight:bold;'>Correct Answer Info<a href="#" title="Enter in the reason why the correct answer is correct. Add this to the %QUESTIONS_ANSWERS% template using the new %CORRECT_ANSWER_INFO% variable.">?</a></span></td>
 				<td colspan="3"><input type="text" name="correct_answer_info" value="" id="correct_answer_info" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/></td>
+				cursor:hand;
+				width:550px;"/></td>
+			</tr>
+			<tr valign="top">
+			<td><span style='font-weight:bold;'>Hint<a href="#" title="Enter the question's hint." >?</a></span></td>
+			<td colspan="3">
+			<input type="text" name="hint" value="" id="hint" style="border-color:#000000;
+				color:#3300CC; 
+				cursor:hand;
+				width:550px;"/>
+			</td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Question Type<a href="#" title="The normal setting will show the question as it would normally; the horizontal setting will show the answers going across rather than down; the drop down setting will show the answers in a drop down menu instead of the raidio button." >?</a></span></td>
-			<td><input type="radio" id="typeRadio1" name="question_type" checked="checked" value=0 /><label for="typeRadio1">Normal (Vertical Radio)</label></td>
-			<td><input type="radio" id="typeRadio2" name="question_type" value=1 /><label for="typeRadio2">Horizontal Radio</label></td>
-			<td><input type="radio" id="typeRadio3" name="question_type" value=2 /><label for="typeRadio3">Drop Down</label></td>
+			<td colspan="3"><div id="question_type">
+				<input type="radio" id="typeRadio1" name="question_type" checked="checked" value=0 /><label for="typeRadio1">Normal (Vertical Radio)</label>
+				<input type="radio" id="typeRadio2" name="question_type" value=1 /><label for="typeRadio2">Horizontal Radio</label>
+				<input type="radio" id="typeRadio3" name="question_type" value=2 /><label for="typeRadio3">Drop Down</label>
+			</div></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Comment Field<a href="#" title="The small text field setting will show a small field similar to the answer field above; the large text field setting will show a large text area; the none setting will now show any comment section for this question." >?</a></span></td>
-			<td><input type="radio" id="commentsRadio1" name="comments" value=0 /><label for="commentsRadio1">Small Text Field</label></td>
-			<td><input type="radio" id="commentsRadio3" name="comments" value=2 /><label for="commentsRadio3">Large Text Field</label></td>
-			<td><input type="radio" id="commentsRadio2" name="comments" checked="checked" value=1 /><label for="commentsRadio2">None</label></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Hint<a href="#" title="Enter the question's hint." >?</a></span></td>
-			<td>
-			<input type="text" name="hint" value="" id="hint" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
+			<td colspan="3"><div id="comments">
+				<input type="radio" id="commentsRadio1" name="comments" value=0 /><label for="commentsRadio1">Small Text Field</label>
+				<input type="radio" id="commentsRadio3" name="comments" value=2 /><label for="commentsRadio3">Large Text Field</label>
+				<input type="radio" id="commentsRadio2" name="comments" checked="checked" value=1 /><label for="commentsRadio2">None</label>
+			</div></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Question Order<a href="#" title="Enter the place of the question in the quiz. If you do not have a certain order, you can leave this as 1.">?</a></span></td>
@@ -911,13 +939,13 @@ function mlw_generate_quiz_options()
 
 			
 			<div id="edit_question_dialog" title="Edit Question" style="display:none;">
-			<table class="wide" style="text-align: left; white-space: nowrap;">
 			<?php
 			echo "<form action='" . $PHP_SELF . "' method='post'>";
 			echo "<input type='hidden' name='edit_question' value='confirmation' />";
 			echo "<input type='hidden' id='edit_question_id' name='edit_question_id' value='' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 			?>
+			<table class="wide" style="text-align: left; white-space: nowrap;">
 			<tr>
 			<td><span style='font-weight:bold;'>Question</span></td>
 			<td colspan="3">
@@ -939,7 +967,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="edit_answer_one" id="edit_answer_one" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="edit_answer_one_points" id="edit_answer_one_points" value="0" style="border-color:#000000;
@@ -953,7 +982,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="edit_answer_two" id="edit_answer_two" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="edit_answer_two_points" id="edit_answer_two_points" value="0" style="border-color:#000000;
@@ -967,7 +997,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="edit_answer_three" id="edit_answer_three" value="" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="edit_answer_three_points" id="edit_answer_three_points" value="0" style="border-color:#000000;
@@ -981,7 +1012,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="edit_answer_four" value="" id="edit_answer_four" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="edit_answer_four_points" id="edit_answer_four_points" value="0" style="border-color:#000000;
@@ -995,7 +1027,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="edit_answer_five" value="" id="edit_answer_five" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="edit_answer_five_points" id="edit_answer_five_points" value="0" style="border-color:#000000;
@@ -1009,7 +1042,8 @@ function mlw_generate_quiz_options()
 			<td>
 			<input type="text" name="edit_answer_six" value="" id="edit_answer_six" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/>
+				cursor:hand;
+				width: 250px;"/>
 			</td>
 			<td>
 			<input type="text" name="edit_answer_six_points" id="edit_answer_six_points" value="0" style="border-color:#000000;
@@ -1022,29 +1056,35 @@ function mlw_generate_quiz_options()
 				<td><span style='font-weight:bold;'>Correct Answer Info:</span></td>
 				<td colspan="3"><input type="text" name="edit_correct_answer_info" value="" id="edit_correct_answer_info" style="border-color:#000000;
 				color:#3300CC; 
-				cursor:hand;"/></td>
+				cursor:hand;
+				width:550px;"/></td>
+			</tr>
+			<tr valign="top">
+			<td><span style='font-weight:bold;'>Hint</span></td>
+			<td colspan="3">
+			<input type="text" name="edit_hint" value="" id="edit_hint" style="border-color:#000000;
+				color:#3300CC; 
+				cursor:hand;
+				width:550px;"/>
+			</td>
 			</tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Question Type?</span></td>
-			<td><input type="radio" id="editTypeRadio1" name="edit_question_type" checked="checked" value=0 /><label for="editTypeRadio1">Normal (Vertical Radio)</label></td>
-			<td><input type="radio" id="editTypeRadio2" name="edit_question_type" value=1 /><label for="editTypeRadio2">Horizontal Radio</label></td>
-			<td><input type="radio" id="editTypeRadio3" name="edit_question_type" value=2 /><label for="editTypeRadio3">Drop Down</label></td>
+			<td colspan="3"><div id="edit_question_type">
+				<input type="radio" id="editTypeRadio1" name="edit_question_type" checked="checked" value=0 /><label for="editTypeRadio1">Normal (Vertical Radio)</label>
+				<input type="radio" id="editTypeRadio2" name="edit_question_type" value=1 /><label for="editTypeRadio2">Horizontal Radio</label>
+				<input type="radio" id="editTypeRadio3" name="edit_question_type" value=2 /><label for="editTypeRadio3">Drop Down</label>
+			</div></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Comment Field?</span></td>
-			<td><input type="radio" id="editCommentRadio1" name="edit_comments" value=0 /><label for="editCommentRadio1">Small Text Field</label></td>
-			<td><input type="radio" id="editCommentRadio3" name="edit_comments" value=2 /><label for="editCommentRadio3">Large Text Field</label></td>
-			<td><input type="radio" id="editCommentRadio2" name="edit_comments" value=1 /><label for="editCommentRadio2">None</label></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Hint</span></td>
-			<td>
-			<input type="text" name="edit_hint" value="" id="edit_hint" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
+			<td colspan="3"><div id="edit_comments">
+				<input type="radio" id="editCommentRadio1" name="edit_comments" value=0 /><label for="editCommentRadio1">Small Text Field</label>
+				<input type="radio" id="editCommentRadio3" name="edit_comments" value=2 /><label for="editCommentRadio3">Large Text Field</label>
+				<input type="radio" id="editCommentRadio2" name="edit_comments" value=1 /><label for="editCommentRadio2">None</label>
+			</div></td>
 			</tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Question Order</span></td>

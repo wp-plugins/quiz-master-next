@@ -418,16 +418,19 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.4.1 (February 20, 2014)</td>
+	<td align='left'>1.4.2 (February 22, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Enhanced Plugins Compatibility With Other Plugins</td>
+		<td align='left'>* Fixed Capability Bug</td>
 	</tr>
 	<tr>
-		<td align='left'>* Hints Are Now Hidden By Default</td>
+		<td align='left'>* Minor Design Changes To Question Form</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Bug Fixes</td>
+		<td align='left'>* Hint Bubble Is Now Wider For Longer Hints</td>
+	</tr>
+	<tr>
+		<td align='left'>* Minor Design Change To Quiz</td>
 	</tr>
 	</table>
 	</div>
