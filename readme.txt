@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact, form, email
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.4.2
+Stable tag: 1.5.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -25,6 +25,7 @@ Use this plugin to add multiple quizzes, tests, and surveys to your website. Thi
 * Can enable comment boxes for each question and/or comment section at the end of the quiz
 * Can enable hints for questions
 * Can show user why the answer is the correct answer
+* Can load set number of questions from question bank or all questions
 * Saves the results after a user takes the quiz
 * Saves the users answers and comments after taking the quiz
 * Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
@@ -55,9 +56,6 @@ We now offer an installation service to assist you in this process. We will inst
 * Activate the plugin through the 'Plugins' menu in WordPress
 
 
-
-
-
 == Frequently Asked Questions ==
 
 = What does the option do on that page? =
@@ -80,6 +78,14 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.5.1 (February 26, 2014) =
+ * Added Ability To Load Only Set Amount Of Questions From Total Questions
+ * Fixed PHP Notices On Quizzes Page
+ * Fixed PHP Notices On Quiz Options Page
+ * Fixed PHP Notices On Quiz Results Page
+ * Fixed PHP Notices On Quiz
+ * Fixed Hidden Pop-Up Bug
 
 = 1.4.2 (February 22, 2014) =
  * Fixed Capability Bug
@@ -287,6 +293,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.5.1 =
+This update allows you to have the quiz only load a set number of questions from your total question bank. Also fixes several minor bugs.
 
 = 1.4.2 =
 This update brings many minor design changes and minor bug fixes.

@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.4.2";
+	$data = "1.5.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -86,6 +86,15 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD loggedin_user_contact INT NOT NULL AFTER randomness_order";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET loggedin_user_contact=0";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 1.5.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'question_from_total'") != "question_from_total")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD question_from_total INT NOT NULL AFTER comment_section";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET question_from_total=0";
 			$results = $wpdb->query( $update_sql );
 		}
 		

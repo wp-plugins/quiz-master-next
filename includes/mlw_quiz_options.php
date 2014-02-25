@@ -12,6 +12,13 @@ function mlw_generate_quiz_options()
 	global $wpdb;
 	$table_name = $wpdb->prefix . "mlw_questions";
 	$is_new_quiz = 0;
+	$hasUpdatedLeaderboardOptions = false;
+	$hasCreatedQuestion = false;
+	$hasUpdatedOptions = false;
+	$hasUpdatedTemplates = false;
+	$hasDeletedQuestion = false;
+	$hasUpdatedQuestion = false;
+	$mlw_hasResetQuizStats = false;
 	$mlw_qmn_isQueryError = false;
 	$mlw_qmn_error_code = '0000';
 	
@@ -19,55 +26,32 @@ function mlw_generate_quiz_options()
 	Code for quiz questions tab
 	*/
 
-	//Variables from new question form
-	$success = $_POST["create_question"];
-	$question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["question_name"], ENT_QUOTES))));
-	$answer_one = htmlspecialchars($_POST["answer_one"], ENT_QUOTES);
-	$answer_one_points = $_POST["answer_one_points"];
-	$answer_two = htmlspecialchars($_POST["answer_two"], ENT_QUOTES);
-	$answer_two_points = $_POST["answer_two_points"];
-	$answer_three = htmlspecialchars($_POST["answer_three"], ENT_QUOTES);
-	$answer_three_points = $_POST["answer_three_points"];
-	$answer_four = htmlspecialchars($_POST["answer_four"], ENT_QUOTES);
-	$answer_four_points = $_POST["answer_four_points"];
-	$answer_five = htmlspecialchars($_POST["answer_five"], ENT_QUOTES);
-	$answer_five_points = $_POST["answer_five_points"];
-	$answer_six = htmlspecialchars($_POST["answer_six"], ENT_QUOTES);
-	$answer_six_points = $_POST["answer_six_points"];
-	$correct_answer = $_POST["correct_answer"];
-	$question_answer_info = $_POST["correct_answer_info"];
-	$question_type = $_POST["question_type"];
-	$comments = htmlspecialchars($_POST["comments"], ENT_QUOTES);
-	$hint = htmlspecialchars($_POST["hint"], ENT_QUOTES);
-	$new_question_order = $_POST["new_question_order"];
-
-	//Variables from edit question form
-	$edit_question_success = $_POST["edit_question"];
-	$edit_question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["edit_question_name"], ENT_QUOTES))));
-	$edit_answer_one = htmlspecialchars($_POST["edit_answer_one"], ENT_QUOTES);
-	$edit_answer_one_points = $_POST["edit_answer_one_points"];
-	$edit_answer_two = htmlspecialchars($_POST["edit_answer_two"], ENT_QUOTES);
-	$edit_answer_two_points = $_POST["edit_answer_two_points"];
-	$edit_answer_three = htmlspecialchars($_POST["edit_answer_three"], ENT_QUOTES);
-	$edit_answer_three_points = $_POST["edit_answer_three_points"];
-	$edit_answer_four = htmlspecialchars($_POST["edit_answer_four"], ENT_QUOTES);
-	$edit_answer_four_points = $_POST["edit_answer_four_points"];
-	$edit_answer_five = htmlspecialchars($_POST["edit_answer_five"], ENT_QUOTES);
-	$edit_answer_five_points = $_POST["edit_answer_five_points"];
-	$edit_answer_six = htmlspecialchars($_POST["edit_answer_six"], ENT_QUOTES);
-	$edit_answer_six_points = $_POST["edit_answer_six_points"];
-	$edit_correct_answer = $_POST["edit_correct_answer"];
-	$edit_question_answer_info = $_POST["edit_correct_answer_info"];
-	$mlw_edit_question_id = $_POST["edit_question_id"];
-	$mlw_edit_question_type = $_POST["edit_question_type"];
-	$edit_comments = htmlspecialchars($_POST["edit_comments"], ENT_QUOTES);
-	$edit_hint = htmlspecialchars($_POST["edit_hint"], ENT_QUOTES);
-	$edit_question_order = $_POST["edit_question_order"];
-
 	//Edit question
-	if ($edit_question_success == "confirmation")
+	if ( isset($_POST["edit_question"]) && $_POST["edit_question"] == "confirmation")
 	{
+		//Variables from edit question form
+		$edit_question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["edit_question_name"], ENT_QUOTES))));
+		$edit_answer_one = htmlspecialchars($_POST["edit_answer_one"], ENT_QUOTES);
+		$edit_answer_one_points = $_POST["edit_answer_one_points"];
+		$edit_answer_two = htmlspecialchars($_POST["edit_answer_two"], ENT_QUOTES);
+		$edit_answer_two_points = $_POST["edit_answer_two_points"];
+		$edit_answer_three = htmlspecialchars($_POST["edit_answer_three"], ENT_QUOTES);
+		$edit_answer_three_points = $_POST["edit_answer_three_points"];
+		$edit_answer_four = htmlspecialchars($_POST["edit_answer_four"], ENT_QUOTES);
+		$edit_answer_four_points = $_POST["edit_answer_four_points"];
+		$edit_answer_five = htmlspecialchars($_POST["edit_answer_five"], ENT_QUOTES);
+		$edit_answer_five_points = $_POST["edit_answer_five_points"];
+		$edit_answer_six = htmlspecialchars($_POST["edit_answer_six"], ENT_QUOTES);
+		$edit_answer_six_points = $_POST["edit_answer_six_points"];
+		$edit_correct_answer = $_POST["edit_correct_answer"];
+		$edit_question_answer_info = $_POST["edit_correct_answer_info"];
+		$mlw_edit_question_id = $_POST["edit_question_id"];
+		$mlw_edit_question_type = $_POST["edit_question_type"];
+		$edit_comments = htmlspecialchars($_POST["edit_comments"], ENT_QUOTES);
+		$edit_hint = htmlspecialchars($_POST["edit_hint"], ENT_QUOTES);
+		$edit_question_order = $_POST["edit_question_order"];
 		$quiz_id = $_POST["quiz_id"];
+		
 		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."', answer_one='".$edit_answer_one."', answer_one_points='".$edit_answer_one_points."', answer_two='".$edit_answer_two."', answer_two_points='".$edit_answer_two_points."', answer_three='".$edit_answer_three."', answer_three_points='".$edit_answer_three_points."', answer_four='".$edit_answer_four."', answer_four_points='".$edit_answer_four_points."', answer_five='".$edit_answer_five."', answer_five_points='".$edit_answer_five_points."', answer_six='".$edit_answer_six."', answer_six_points='".$edit_answer_six_points."', correct_answer='".$edit_correct_answer."', question_answer_info='".$edit_question_answer_info."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."' WHERE question_id=".$mlw_edit_question_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
@@ -90,14 +74,13 @@ function mlw_generate_quiz_options()
 		}
 	}
 
-	//Variables from delete question form
-	$delete_question_success = $_POST["delete_question"];
-	$mlw_question_id = $_POST["question_id"];
-
 	//Delete question from quiz
-	if ($delete_question_success == "confirmation")
+	if ( isset($_POST["delete_question"]) && $_POST["delete_question"] == "confirmation")
 	{
+		//Variables from delete question form
+		$mlw_question_id = $_POST["question_id"];
 		$quiz_id = $_POST["quiz_id"];
+		
 		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET deleted=1 WHERE question_id=".$mlw_question_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
@@ -121,8 +104,28 @@ function mlw_generate_quiz_options()
 	}		
 
 	//Submit new question into database
-	if ($success == "confirmation")
+	if ( isset($_POST["create_question"]) && $_POST["create_question"] == "confirmation")
 	{
+		//Variables from new question form
+		$question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["question_name"], ENT_QUOTES))));
+		$answer_one = htmlspecialchars($_POST["answer_one"], ENT_QUOTES);
+		$answer_one_points = $_POST["answer_one_points"];
+		$answer_two = htmlspecialchars($_POST["answer_two"], ENT_QUOTES);
+		$answer_two_points = $_POST["answer_two_points"];
+		$answer_three = htmlspecialchars($_POST["answer_three"], ENT_QUOTES);
+		$answer_three_points = $_POST["answer_three_points"];
+		$answer_four = htmlspecialchars($_POST["answer_four"], ENT_QUOTES);
+		$answer_four_points = $_POST["answer_four_points"];
+		$answer_five = htmlspecialchars($_POST["answer_five"], ENT_QUOTES);
+		$answer_five_points = $_POST["answer_five_points"];
+		$answer_six = htmlspecialchars($_POST["answer_six"], ENT_QUOTES);
+		$answer_six_points = $_POST["answer_six_points"];
+		$correct_answer = $_POST["correct_answer"];
+		$question_answer_info = $_POST["correct_answer_info"];
+		$question_type = $_POST["question_type"];
+		$comments = htmlspecialchars($_POST["comments"], ENT_QUOTES);
+		$hint = htmlspecialchars($_POST["hint"], ENT_QUOTES);
+		$new_question_order = $_POST["new_question_order"];
 		$quiz_id = $_POST["quiz_id"];
 		$table_name = $wpdb->prefix . "mlw_questions";
 		$insert = "INSERT INTO " . $table_name .
@@ -175,27 +178,26 @@ function mlw_generate_quiz_options()
 	/*
 	Code for Quiz Text tab
 	*/
-	
-	//Variables for save templates form
-	$save_template_success = $_POST["save_templates"];
-	$mlw_before_message = $_POST["mlw_quiz_before_message"];
-	$mlw_after_message = $_POST["mlw_quiz_after_message"];
-	$mlw_user_email_template = $_POST["mlw_quiz_user_email_template"];
-	$mlw_admin_email_template = $_POST["mlw_quiz_admin_email_template"];
-	$mlw_submit_button_text = $_POST["mlw_submitText"];
-	$mlw_name_field_text = $_POST["mlw_nameText"];
-	$mlw_business_field_text = $_POST["mlw_businessText"];
-	$mlw_email_field_text = $_POST["mlw_emailText"];
-	$mlw_phone_field_text = $_POST["mlw_phoneText"];
-	$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
-	$mlw_comment_field_text = $_POST["mlw_commentText"];
-	$mlw_email_from_text = $_POST["emailFromText"];
-	$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 
 	//Submit saved templates into database
-	if ($save_template_success == "confirmation")
+	if ( isset($_POST["save_templates"]) && $_POST["save_templates"] == "confirmation")
 	{
+		//Variables for save templates form
+		$mlw_before_message = $_POST["mlw_quiz_before_message"];
+		$mlw_after_message = $_POST["mlw_quiz_after_message"];
+		$mlw_user_email_template = $_POST["mlw_quiz_user_email_template"];
+		$mlw_admin_email_template = $_POST["mlw_quiz_admin_email_template"];
+		$mlw_submit_button_text = $_POST["mlw_submitText"];
+		$mlw_name_field_text = $_POST["mlw_nameText"];
+		$mlw_business_field_text = $_POST["mlw_businessText"];
+		$mlw_email_field_text = $_POST["mlw_emailText"];
+		$mlw_phone_field_text = $_POST["mlw_phoneText"];
+		$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
+		$mlw_comment_field_text = $_POST["mlw_commentText"];
+		$mlw_email_from_text = $_POST["emailFromText"];
+		$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 		$quiz_id = $_POST["quiz_id"];
+		
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
@@ -223,26 +225,26 @@ function mlw_generate_quiz_options()
 	Code for Quiz Options tab
 	*/
 
-	//Variables for save options form
-	$save_options_success = $_POST["save_options"];
-	$mlw_system = $_POST["system"];
-	$mlw_randomness_order = $_POST["randomness_order"];
-	$mlw_send_user_email = $_POST["sendUserEmail"];
-	$mlw_send_admin_email = $_POST["sendAdminEmail"];
-	$mlw_contact_location = $_POST["contact_info_location"];
-	$mlw_user_name = $_POST["userName"];
-	$mlw_user_comp = $_POST["userComp"];
-	$mlw_user_email = $_POST["userEmail"];
-	$mlw_user_phone = $_POST["userPhone"];
-	$mlw_admin_email = $_POST["adminEmail"];
-	$mlw_comment_section = $_POST["commentSection"];
-	$mlw_qmn_loggedin_contact = $_POST["loggedin_user_contact"];
-
 	//Submit saved options into database
-	if ($save_options_success == "confirmation")
+	if ( isset($_POST["save_options"]) && $_POST["save_options"] == "confirmation")
 	{
+		//Variables for save options form
+		$mlw_system = $_POST["system"];
+		$mlw_qmn_questions_from_total = $_POST["question_from_total"];
+		$mlw_randomness_order = $_POST["randomness_order"];
+		$mlw_send_user_email = $_POST["sendUserEmail"];
+		$mlw_send_admin_email = $_POST["sendAdminEmail"];
+		$mlw_contact_location = $_POST["contact_info_location"];
+		$mlw_user_name = $_POST["userName"];
+		$mlw_user_comp = $_POST["userComp"];
+		$mlw_user_email = $_POST["userEmail"];
+		$mlw_user_phone = $_POST["userPhone"];
+		$mlw_admin_email = $_POST["adminEmail"];
+		$mlw_comment_section = $_POST["commentSection"];
+		$mlw_qmn_loggedin_contact = $_POST["loggedin_user_contact"];
 		$quiz_id = $_POST["quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."' WHERE quiz_id=".$quiz_id;
+		
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total." WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -268,14 +270,12 @@ function mlw_generate_quiz_options()
 	Code For Leaderboard Options tab
 	*/
 	
-	///Variables for save leaderboard options form
-	$mlw_leaderboard_template = $_POST["mlw_quiz_leaderboard_template"];
-	$mlw_leaderboard_quiz_id = $_POST["leaderboard_quiz_id"];
-	$mlw_leaderboard_saved = $_POST["save_leaderboard_options"];
-	
 	///Submit saved leaderboard template into database
-	if ($mlw_leaderboard_saved == "confirmation")
+	if ( isset($_POST["save_leaderboard_options"]) && $_POST["save_leaderboard_options"] == "confirmation")
 	{
+		///Variables for save leaderboard options form
+		$mlw_leaderboard_template = $_POST["mlw_quiz_leaderboard_template"];
+		$mlw_leaderboard_quiz_id = $_POST["leaderboard_quiz_id"];
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET leaderboard_template='".$mlw_leaderboard_template."' WHERE quiz_id=".$mlw_leaderboard_quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
@@ -303,13 +303,11 @@ function mlw_generate_quiz_options()
 	Code For Quiz Tools Tab
 	*/
 	
-	//Variables from reset stats form
-	$mlw_reset_confirmation = $_POST["mlw_reset_quiz_stats"];
-	$mlw_reset_stats_quiz_id = $_POST["mlw_reset_quiz_id"];
-	
 	//Update Quiz Table
-	if ($mlw_reset_confirmation == "confirmation")
+	if (isset($_POST["mlw_reset_quiz_stats"]) && $_POST["mlw_reset_quiz_stats"] == "confirmation")
 	{
+		//Variables from reset stats form
+		$mlw_reset_stats_quiz_id = $_POST["mlw_reset_quiz_id"];
 		$mlw_reset_update_sql = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views=0, quiz_taken=0 WHERE quiz_id=".$mlw_reset_stats_quiz_id;
 		$mlw_reset_sql_results = $wpdb->query( $mlw_reset_update_sql );
 		if ($mlw_reset_sql_results != false)
@@ -363,8 +361,6 @@ function mlw_generate_quiz_options()
 	wp_enqueue_script( 'jquery-effects-blind' );
 	wp_enqueue_script( 'jquery-effects-explode' );
 	?>
-	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
 		// increase the default animation speed to exaggerate the effect
@@ -733,6 +729,7 @@ function mlw_generate_quiz_options()
 			<?php
 			$question_list = "";
 			$display = "";
+			$alternate = "";
 			foreach($mlw_question_data as $mlw_question_info) {
 				if($alternate) $alternate = "";
 				else $alternate = " class=\"alternate\"";
@@ -777,7 +774,7 @@ function mlw_generate_quiz_options()
 			<div id="new_question_dialog" title="Create New Question" style="display:none;">
 			
 			<?php
-			echo "<form action='" . $PHP_SELF . "' method='post'>";
+			echo "<form action='' method='post'>";
 			echo "<input type='hidden' name='create_question' value='confirmation' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 			?>		
@@ -940,7 +937,7 @@ function mlw_generate_quiz_options()
 			
 			<div id="edit_question_dialog" title="Edit Question" style="display:none;">
 			<?php
-			echo "<form action='" . $PHP_SELF . "' method='post'>";
+			echo "<form action='' method='post'>";
 			echo "<input type='hidden' name='edit_question' value='confirmation' />";
 			echo "<input type='hidden' id='edit_question_id' name='edit_question_id' value='' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
@@ -1151,7 +1148,7 @@ function mlw_generate_quiz_options()
 			</table>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
 			<?php
-			echo "<form action='" . $PHP_SELF . "' method='post' name='quiz_template_form'>";
+			echo "<form action='' method='post' name='quiz_template_form'>";
 			echo "<input type='hidden' name='save_templates' value='confirmation' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 			?>
@@ -1308,7 +1305,7 @@ function mlw_generate_quiz_options()
   		<div id="tabs-3">
 		<button id="save_options_button" onclick="javascript: document.quiz_options_form.submit();">Save Options</button><button id="options_tab_help">Help</button>
 		<?php
-		echo "<form action='" . $PHP_SELF . "' method='post' name='quiz_options_form'>";
+		echo "<form action='' method='post' name='quiz_options_form'>";
 		echo "<input type='hidden' name='save_options' value='confirmation' />";
 		echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 		?>
@@ -1320,6 +1317,12 @@ function mlw_generate_quiz_options()
 				    <input type="radio" id="radio2" name="system" <?php if ($mlw_quiz_options->system == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio2">Points</label>
 				    <input type="radio" id="radio3" name="system" <?php if ($mlw_quiz_options->system == 2) {echo 'checked="checked"';} ?> value='2' /><label for="radio3">Not Graded</label>
 				</div></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="question_from_total">How many questions should be loaded for quiz? (Leave 0 to load all questions)</label></th>
+				<td>
+				    <input name="question_from_total" type="number" step="1" min="0" id="question_from_total" value="<?php echo $mlw_quiz_options->question_from_total; ?>" class="regular-text" />
+				</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><label for="randomness_order">Are the questions random? (Question Order will not apply if this is yes)</label></th>
@@ -1437,7 +1440,7 @@ function mlw_generate_quiz_options()
 		</table>
 		<button id="save_template_button" onclick="javascript: document.quiz_leaderboard_options_form.submit();">Save Leaderboard Options</button><button id="leaderboard_tab_help">Help</button>
 		<?php
-			echo "<form action='" . $PHP_SELF . "' method='post' name='quiz_leaderboard_options_form'>";
+			echo "<form action='' method='post' name='quiz_leaderboard_options_form'>";
 			echo "<input type='hidden' name='save_leaderboard_options' value='confirmation' />";
 			echo "<input type='hidden' name='leaderboard_quiz_id' value='".$quiz_id."' />";
 		?>
@@ -1472,7 +1475,7 @@ function mlw_generate_quiz_options()
 		<div id="mlw_reset_stats_dialog" title="Reset Stats For This Quiz" style="display:none;">
 		<p>Are you sure you want to reset the stats to 0? All views and taken stats for this quiz will be reset. This is permanent and cannot be undone.</p>
 		<?php
-			echo "<form action='" . $PHP_SELF . "' method='post'>";
+			echo "<form action='' method='post'>";
 			echo "<input type='hidden' name='mlw_reset_quiz_stats' value='confirmation' />";
 			echo "<input type='hidden' name='mlw_reset_quiz_id' value='".$quiz_id."' />";
 			echo "<p class='submit'><input type='submit' class='button-primary' value='Reset All Stats For Quiz' /></p>";
@@ -1485,7 +1488,7 @@ function mlw_generate_quiz_options()
 	<div id="delete_dialog" title="Delete Question?" style="display:none;">
 	<h3><b>Are you sure you want to delete Question <span id="delete_question_id"></span>?</b></h3>
 	<?php
-	echo "<form action='" . $PHP_SELF . "' method='post'>";
+	echo "<form action='' method='post'>";
 	echo "<input type='hidden' name='delete_question' value='confirmation' />";
 	echo "<input type='hidden' id='question_id' name='question_id' value='' />";
 	echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";

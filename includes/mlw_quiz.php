@@ -38,16 +38,23 @@ function mlw_quiz_shortcode($atts)
 	{
 		$sql .= "ORDER BY rand()";
 	}
+	if ($mlw_quiz_options->question_from_total != 0)
+	{
+		$sql .= " LIMIT ".$mlw_quiz_options->question_from_total;
+	}
 	$mlw_questions = $wpdb->get_results($sql);
 
 
 	//Variables to load if quiz has been taken
-	$mlw_success = $_POST["complete_quiz"];
-	$mlw_user_name = $_POST["mlwUserName"];
-	$mlw_user_comp = $_POST["mlwUserComp"];
-	$mlw_user_email = $_POST["mlwUserEmail"];
-	$mlw_user_phone = $_POST["mlwUserPhone"];
-	$mlw_spam_email = $_POST["email"];
+	if (isset($_POST["complete_quiz"]) && $_POST["complete_quiz"] == "confirmation")
+	{
+		$mlw_success = $_POST["complete_quiz"];
+		$mlw_user_name = $_POST["mlwUserName"];
+		$mlw_user_comp = $_POST["mlwUserComp"];
+		$mlw_user_email = $_POST["mlwUserEmail"];
+		$mlw_user_phone = $_POST["mlwUserPhone"];
+		$mlw_spam_email = $_POST["email"];
+	}
 	
 	function mlwDisplayContactInfo($mlw_quiz_options)
 	{
@@ -178,7 +185,7 @@ function mlw_quiz_shortcode($atts)
 	}
 
 	//Display Quiz
-	if ($mlw_success != "confirmation" AND $mlw_quiz_options->quiz_name != "")
+	if (!isset($_POST["complete_quiz"]) && $mlw_quiz_options->quiz_name != "")
 	{
 		//Update the quiz views
 		$mlw_views = $mlw_quiz_options->quiz_views;
@@ -263,7 +270,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
 		$mlw_display .= "<span>".$mlw_message_before."</span><br />";
 		$mlw_display .= "<span name='mlw_error_message' id='mlw_error_message' style='color: red;'></span><br />";
-		$mlw_display .= "<form name='quizForm' action='" . $PHP_SELF . "' method='post' onsubmit='return mlw_validateForm()' >";
+		$mlw_display .= "<form name='quizForm' action='' method='post' onsubmit='return mlw_validateForm()' >";
 
 		if ($mlw_quiz_options->contact_info_location == 0)
 		{
@@ -469,17 +476,36 @@ function mlw_quiz_shortcode($atts)
 			if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
 			if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
 			
+			if (isset($_POST["mlwComment".$mlw_question->question_id]))
+			{
+				$mlw_qm_question_comment = $_POST["mlwComment".$mlw_question->question_id];
+			}
+			else
+			{
+				$mlw_qm_question_comment = "";
+			}
+			
 			$mlw_question_answer_display = $mlw_quiz_options->question_answer_template;
 			$mlw_question_answer_display = str_replace( "%QUESTION%" , htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES), $mlw_question_answer_display);
 			$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
 			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $_POST["mlwComment".$mlw_question->question_id], $mlw_question_answer_display);
+			$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $mlw_qm_question_comment, $mlw_question_answer_display);
 			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , $mlw_question->question_answer_info, $mlw_question_answer_display);
 
 			$mlw_question_answers .= $mlw_question_answer_display;
 			$mlw_question_answers .= "<br />";
 		}
 		$mlw_total_score = round((($mlw_correct/$mlw_total_questions)*100), 2);
+		
+		//Prepare comment section if set
+		if (isset($_POST["mlwQuizComments"]))
+		{
+			$mlw_qm_quiz_comments = $_POST["mlwQuizComments"];
+		}
+		else
+		{
+			$mlw_qm_quiz_comments = "";
+		}
 		
 		//Prepare the after quiz message
 		$mlw_message_after = $mlw_quiz_options->message_after;
@@ -494,7 +520,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_message_after = str_replace( "%USER_PHONE%" , $mlw_user_phone, $mlw_message_after);
 		$mlw_message_after = str_replace( "%USER_EMAIL%" , $mlw_user_email, $mlw_message_after);
 		$mlw_message_after = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message_after);
-		$mlw_message_after = str_replace( "%COMMENT_SECTION%" , $_POST["mlwQuizComments"], $mlw_message_after);
+		$mlw_message_after = str_replace( "%COMMENT_SECTION%" , $mlw_qm_quiz_comments, $mlw_message_after);
 		$mlw_message_after = str_replace( "\n" , "<br>", $mlw_message_after);
 		$mlw_display .= $mlw_message_after;
 	
@@ -516,7 +542,7 @@ function mlw_quiz_shortcode($atts)
 				$mlw_message = str_replace( "%USER_PHONE%" , $mlw_user_phone, $mlw_message);
 				$mlw_message = str_replace( "%USER_EMAIL%" , $mlw_user_email, $mlw_message);
 				$mlw_message = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message);
-				$mlw_message = str_replace( "%COMMENT_SECTION%" , $_POST["mlwQuizComments"], $mlw_message);
+				$mlw_message = str_replace( "%COMMENT_SECTION%" , $mlw_qm_quiz_comments, $mlw_message);
 				$mlw_message = str_replace( "<br />" , "\n", $mlw_message);
 				$mlw_headers = 'From: '.$mlw_quiz_options->email_from_text.' <'.$mlw_quiz_options->admin_email.'>' . "\r\n";
 				wp_mail($mlw_user_email, "Quiz Results For ".$mlw_quiz_options->quiz_name, $mlw_message, $mlw_headers);
@@ -539,7 +565,7 @@ function mlw_quiz_shortcode($atts)
 			$mlw_message = str_replace( "%USER_EMAIL%" , $mlw_user_email, $mlw_message);
 			$mlw_message = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message);
 			$mlw_message = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message);
-			$mlw_message = str_replace( "%COMMENT_SECTION%" , $_POST["mlwQuizComments"], $mlw_message);
+			$mlw_message = str_replace( "%COMMENT_SECTION%" , $mlw_qm_quiz_comments, $mlw_message);
 			$mlw_message .= " This email was generated by the Quiz Master Next script by Frank Corso";
 			$mlw_message = str_replace( "<br />" , "\n", $mlw_message);
 			$mlw_headers = 'From: '.$mlw_quiz_options->email_from_text.' <'.$mlw_quiz_options->admin_email.'>' . "\r\n";
@@ -547,7 +573,7 @@ function mlw_quiz_shortcode($atts)
 		}
 
 		//Save the results into database
-		$mlw_quiz_results = $mlw_question_answers."\n".$_POST["mlwQuizComments"];
+		$mlw_quiz_results = $mlw_question_answers."\n".$mlw_qm_quiz_comments;
 		$mlw_quiz_results = str_replace( "\n" , "<br>", $mlw_quiz_results);
 		$mlw_quiz_results = htmlspecialchars($mlw_quiz_results, ENT_QUOTES);
 		global $wpdb;

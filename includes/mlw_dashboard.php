@@ -64,8 +64,6 @@ function mlw_generate_quiz_dashboard(){
 	wp_enqueue_script( 'jquery-effects-blind' );
 	wp_enqueue_script( 'jquery-effects-explode' );
 	?>
-	<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>-->
 	<script type="text/javascript" src="<?php echo plugin_dir_url( $file ); ?>quiz-master-next/includes/jquery_sparkline.js"></script>
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
@@ -133,7 +131,7 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating Or, please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
+	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating or please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
 	
 	<div style="float:left; width:60%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
@@ -418,19 +416,16 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.4.2 (February 22, 2014)</td>
+	<td align='left'>1.5.1 (February 26, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed Capability Bug</td>
+		<td align='left'>* Added Ability To Load Only Set Amount Of Questions From Total Questions</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Design Changes To Question Form</td>
+		<td align='left'>* Fixed PHP Notices Throughout Plugin</td>
 	</tr>
 	<tr>
-		<td align='left'>* Hint Bubble Is Now Wider For Longer Hints</td>
-	</tr>
-	<tr>
-		<td align='left'>* Minor Design Change To Quiz</td>
+		<td align='left'>* Fixed Hidden Pop-Up Bug</td>
 	</tr>
 	</table>
 	</div>

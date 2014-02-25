@@ -9,16 +9,15 @@ Copyright 2013, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 function mlw_generate_quiz_results()
 {
 	global $wpdb;
-	$quiz_id = $_GET["quiz_id"];
-	
-	///Variables from delete result form
-	$mlw_delete_results_confirmation = $_POST["delete_results"];
-	$mlw_delete_results_id = $_POST["result_id"];
-	$mlw_delete_results_name = $_POST["delete_quiz_name"];
+	$mlw_hasDeletedResults = false;
 	
 	///Delete Results Function
-	if ($mlw_delete_results_confirmation == "confirmation")
+	if (isset($_POST["delete_results"]) && $_POST["delete_results"] == "confirmation")
 	{
+		///Variables from delete result form
+		$mlw_delete_results_confirmation = $_POST["delete_results"];
+		$mlw_delete_results_id = $_POST["result_id"];
+		$mlw_delete_results_name = $_POST["delete_quiz_name"];
 		$mlw_delete_results_update_sql = "UPDATE " . $wpdb->prefix . "mlw_results" . " SET deleted=1 WHERE result_id=".$mlw_delete_results_id;
 		$mlw_delete_results_results = $wpdb->query( $mlw_delete_results_update_sql );
 		$mlw_hasDeletedResults = true;
@@ -36,7 +35,7 @@ function mlw_generate_quiz_results()
 	global $wpdb;
 
 	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE deleted='0'";
-	if ($quiz_id != "")
+	if (isset($_GET["quiz_id"]) && $_GET["quiz_id"] != "")
 	{
 		$sql .= " AND quiz_id=".$quiz_id;
 	}
@@ -132,6 +131,7 @@ function mlw_generate_quiz_results()
 	<?php 
 	$quotes_list = "";
 	$display = "";
+	$alternate = "";
 	foreach($mlw_quiz_data as $mlw_quiz_info) {
 		if($alternate) $alternate = "";
 		else $alternate = " class=\"alternate\"";
@@ -174,7 +174,7 @@ function mlw_generate_quiz_results()
 	echo $display;
 	?>
 
-	<div id="dialog" title="Help">
+	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page shows all of the results from the taken quizzes.</p>
 	<p>The table show the result id, the score from the quiz, the contact information provided, and the time the quiz was taken.</p>
@@ -183,7 +183,7 @@ function mlw_generate_quiz_results()
 	<div id="delete_dialog" title="Delete Results?" style="display:none;">
 	<h3><b>Are you sure you want to delete these results?</b></h3>
 	<?php
-	echo "<form action='" . $PHP_SELF . "' method='post'>";
+	echo "<form action='' method='post'>";
 	echo "<input type='hidden' name='delete_results' value='confirmation' />";
 	echo "<input type='hidden' id='result_id' name='result_id' value='' />";
 	echo "<input type='hidden' id='delete_quiz_name' name='delete_quiz_name' value='' />";

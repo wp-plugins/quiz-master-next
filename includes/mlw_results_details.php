@@ -147,7 +147,7 @@ function mlw_generate_result_details()
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
 		<strong>Hey!</strong> Please go to the Quiz Results page and click on the View link from the result you wish to see.</p>
 		</div>
-		<div id="dialog" title="Help">
+		<div id="dialog" title="Help" style="display:none;">
 		<h3><b>Help</b></h3>
 		<p>You are getting this error page because this page could not find the results.</p>
 		<p>You must go to the Quiz Results page and click on the result you want to see from that table.</p>

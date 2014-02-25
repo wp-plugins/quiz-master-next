@@ -71,6 +71,8 @@ function mlw_quiz_activate()
 			admin_email TEXT NOT NULL,
 			
 			comment_section INT NOT NULL,
+			
+			question_from_total INT NOT NULL,
 
 			quiz_views INT NOT NULL,
 

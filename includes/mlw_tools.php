@@ -72,7 +72,7 @@ function mlw_generate_quiz_tools(){
 
 	<!--<div style="clear:both"></div>-->
 
-	<div id="dialog" title="Help">
+	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page is the tools for the Quiz Master Next.</p>
 	<p>The first widget lists the audit trail.</p>
@@ -106,6 +106,7 @@ function mlw_tools_box()
 
 	$quotes_list = "";
 	$display = "";
+	$alternate = "";
 	foreach($audit_trails as $quote_data) {
 		if($alternate) $alternate = "";
 		else $alternate = " class=\"alternate\"";

@@ -10,7 +10,7 @@ function mlw_generate_help_page()
 {
 	?>
 	<!-- css -->
-	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
+	<link type="text/css" href="<?php echo plugin_dir_path( __FILE__ ); ?>/includes/css/redmond/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
 	<!-- jquery scripts -->
 	<?php
 	wp_enqueue_script( 'jquery' );
