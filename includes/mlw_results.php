@@ -37,7 +37,7 @@ function mlw_generate_quiz_results()
 	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE deleted='0'";
 	if (isset($_GET["quiz_id"]) && $_GET["quiz_id"] != "")
 	{
-		$sql .= " AND quiz_id=".$quiz_id;
+		$sql .= " AND quiz_id=".intval($_GET["quiz_id"]);
 	}
 	$sql .= " ORDER BY result_id DESC";
 

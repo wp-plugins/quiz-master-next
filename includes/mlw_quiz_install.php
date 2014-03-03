@@ -73,6 +73,10 @@ function mlw_quiz_activate()
 			comment_section INT NOT NULL,
 			
 			question_from_total INT NOT NULL,
+			
+			total_user_tries INT NOT NULL,
+			
+			total_user_tries_text TEXT NOT NULL,
 
 			quiz_views INT NOT NULL,
 

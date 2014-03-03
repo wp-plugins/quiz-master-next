@@ -30,8 +30,8 @@ function mlw_generate_quiz_admin()
 			5. %FIFTH_PLACE_NAME%-%FIFTH_PLACE_SCORE%<br />";
 		$mlw_question_answer_default = "%QUESTION%<br /> Answer Provided: %USER_ANSWER%<br /> Correct Answer: %CORRECT_ANSWER%<br /> Comments Entered: %USER_COMMENTS%<br />";
 		$insert = "INSERT INTO " . $table_name .
-			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, quiz_views, quiz_taken, deleted) " .
-			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 0, 0)";
+			"(quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, quiz_views, quiz_taken, deleted) " .
+			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 'Enter Your Text Here', 0, 0, 0)";
 		$results = $wpdb->query( $insert );
 		if ($results != false)
 		{
@@ -120,7 +120,7 @@ function mlw_generate_quiz_admin()
 		$mlw_duplicate_quiz_id = $_POST["duplicate_quiz_id"];
 		$mlw_duplicate_quiz_name = $_POST["duplicate_new_quiz_name"];
 		$mlw_qmn_duplicate_data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes WHERE quiz_id=%d", $mlw_duplicate_quiz_id ) );
-		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->loggedin_user_contact.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", ".$mlw_qmn_duplicate_data->question_from_total.", 0, 0, 0)" );
+		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->loggedin_user_contact.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", ".$mlw_qmn_duplicate_data->question_from_total.", ".$mlw_qmn_duplicate_data->total_user_tries.", '".$mlw_qmn_duplicate_data->total_user_tries_text."', 0, 0, 0)" );
 		if ($results != false)
 		{
 			$hasDuplicatedQuiz = true;
@@ -390,45 +390,58 @@ function mlw_generate_quiz_admin()
 			<th>Quiz Taken</th>
 		</tr></thead>";
 		$display .= "<tbody id=\"the-list\">{$quotes_list}</tbody>";
+		$display .= "<tfoot><tr>
+			<th>Quiz ID</th>
+			<th>Quiz Name</th>
+			<th>Quiz Shortcode</th>
+			<th>Leaderboard Shortcode</th>
+			<th>Quiz Views</th>
+			<th>Quiz Taken</th>
+		</tr></tfoot>";
 		$display .= "</table>";
 	echo $display;
 	?>
 
 	<button id="new_quiz_button">Create New Quiz</button>
+	
+	<!--Dialogs-->
+	
+	<!--New Quiz Dialog-->
 	<div id="new_quiz_dialog" title="Create New Quiz" style="display:none;">
-	<table class="wide" style="text-align: left; white-space: nowrap;">
-	<thead>
+		<?php
+		echo "<form action='' method='post'>";
+		echo "<input type='hidden' name='create_quiz' value='confirmation' />";
+		?>
+		<table class="wide" style="text-align: left; white-space: nowrap;">
+		<thead>
+		
+		<tr valign="top">
+		<th scope="row">&nbsp;</th>
+		<td></td>
+		</tr>
+			
+		<tr valign="top">
+		<th scope="row"><h3>Create New Quiz</h3></th>
+		<td></td>
+		</tr>
+		
+		<tr valign="top">
+		<th scope="row">Quiz Name</th>
+		<td>
+		<input type="text" name="quiz_name" value="" style="border-color:#000000;
+			color:#3300CC; 
+			cursor:hand;"/>
+		</td>
+		</tr>
+		</thead>
+		</table>
+		<?php
+		echo "<p class='submit'><input type='submit' class='button-primary' value='Create Quiz' /></p>";
+		echo "</form>";
+		?>
+	</div>
 	
-	<tr valign="top">
-	<th scope="row">&nbsp;</th>
-	<td></td>
-	</tr>
-	<?php
-	echo "<form action='' method='post'>";
-	echo "<input type='hidden' name='create_quiz' value='confirmation' />";
-	?>
-	
-	
-	<tr valign="top">
-	<th scope="row"><h3>Create New Quiz</h3></th>
-	<td></td>
-	</tr>
-	
-	<tr valign="top">
-	<th scope="row">Quiz Name</th>
-	<td>
-	<input type="text" name="quiz_name" value="" style="border-color:#000000;
-		color:#3300CC; 
-		cursor:hand;"/>
-	</td>
-	</tr>
-	</thead>
-	</table>
-	<?php
-	echo "<p class='submit'><input type='submit' class='button-primary' value='Create Quiz' /></p>";
-	echo "</form>";
-	?>
-	</div>	
+	<!--Edit Quiz Name Dialog-->
 	<div id="edit_dialog" title="Edit Quiz Name" style="display:none;">
 		<h3>Quiz Name:</h3><br />
 		<form action='' method='post'>
@@ -438,6 +451,8 @@ function mlw_generate_quiz_admin()
 		<input type="submit" class="button-primary" value="Edit" />
 		</form>
 	</div>
+	
+	<!--Duplicate Quiz Dialog-->
 	<div id="duplicate_dialog" title="Duplicate Quiz" style="display:none;">
 		<h3>This will create a new quiz with the same settings as <span id="duplicate_quiz_name"></span>. </h3><br />
 		<p>This does not currently duplicate the questions, only the options, templates, settings, etc...</p>
@@ -449,6 +464,8 @@ function mlw_generate_quiz_admin()
 		<input type="submit" class="button-primary" value="Duplicate" />
 		</form>
 	</div>
+	
+	<!--Delete Quiz Dialog-->
 	<div id="delete_dialog" title="Delete Quiz?" style="display:none;">
 	<h3><b>Are you sure you want to delete Quiz <span id="delete_quiz_id"></span>?</b></h3>
 	<?php
@@ -460,6 +477,8 @@ function mlw_generate_quiz_admin()
 	echo "</form>";	
 	?>
 	</div>
+	
+	<!--Help Dialog-->
 	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page shows all of the quizzes currently on your website.</p>

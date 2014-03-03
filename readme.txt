@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact, form, email
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.5.1
+Stable tag: 1.6.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -22,6 +22,7 @@ Use this plugin to add multiple quizzes, tests, and surveys to your website. Thi
 * Can email user after taking the quiz
 * Can email an admin after a user takes the quiz
 * Can score the quiz using an incorrect/correct system, a points based system, or a not-graded system
+* Can set amount of tries a user has to take the quiz
 * Can enable comment boxes for each question and/or comment section at the end of the quiz
 * Can enable hints for questions
 * Can show user why the answer is the correct answer
@@ -36,6 +37,8 @@ Use this plugin to add multiple quizzes, tests, and surveys to your website. Thi
 * Customize emails that are sent to users and admins
 * Questions can be in predetermined order or random
 * Leaderboards for every quiz which can be used as shortcode or in included widget
+
+Be sure to check out all of our plugins in our Master Suite. Visit our plugins page for details: (http://mylocalwebstop.com/wordpress-plugins/)
 
 
 == Installation ==
@@ -64,6 +67,12 @@ On each page, there is a "?" next to the page title. Clicking on it will bring u
 = How do you use that feature? =
 There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the widget on the quiz dashboard within the plugin to contact me and I will help you.
 
+= I need a lot of help setting up my quiz, what can you do to help? =
+We now offer a monthly premium support plan that offers priority response, access to a premium support-only forum, and includes 1-on-1 training! For details, visit our services page: (http://mylocalwebstop.com/services/)
+
+= Do you offer any 1-on-1 training to assist me in using this plugin? =
+We now offer an installation service that includes 1-on-1 training as well as a monthly support plan that includes 1-on-1 training. For details, visit our services page: (http://mylocalwebstop.com/services/)
+
 = I have an idea, how do I contact you? =
 Feel free to use the widget on the quiz dashboard within the plugin or from the contact page at mylocalwebstop.com.
 
@@ -78,6 +87,14 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.6.1 (March 2, 2014) =
+ * Added Ability To Limit Amount User Tries Certain Quizzes
+ * Fixed Internet Explorer Quiz Adding Bug
+ * Fixed Results Link On Quizzes Page Bug
+ * Fixed Points Number Check Bug
+ * Fixed Limited Question Grading Bug
+ * Minor Design Changes To Admin Pages
 
 = 1.5.1 (February 26, 2014) =
  * Added Ability To Load Only Set Amount Of Questions From Total Questions
@@ -293,6 +310,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.6.1 =
+This update allows you to set the amount of tries a user has for cetain quizzes. Also fixes several bugs.
 
 = 1.5.1 =
 This update allows you to have the quiz only load a set number of questions from your total question bank. Also fixes several minor bugs.

@@ -8,6 +8,7 @@ Copyright 2014, My Local Webstop (email : fpcorso@mylocalwebstop.com)
 
 function mlw_generate_quiz_dashboard(){
 	
+	//Support Email Validation Script
 	echo "
 		<script>
 		function mlw_validateForm()
@@ -41,7 +42,10 @@ function mlw_generate_quiz_dashboard(){
 		}
 	</script>
 	";
+	
+	//Page Variables
 	$mlw_quiz_version = get_option('mlw_quiz_master_version');
+	
 	
 	///Creates the widgets
 	add_meta_box("wpss_mrts", 'Quiz Daily Stats - Times Taken', "mlw_dashboard_box", "quiz_wpss");  
@@ -416,16 +420,25 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.5.1 (February 26, 2014)</td>
+	<td align='left'>1.6.1 (March 2, 2014)</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Load Only Set Amount Of Questions From Total Questions</td>
+		<td align='left'>* Added Ability To Limit Amount User Tries Certain Quizzes</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed PHP Notices Throughout Plugin</td>
+		<td align='left'>* Minor Design Changes To Admin Pages</td>
 	</tr>
 	<tr>
-		<td align='left'>* Fixed Hidden Pop-Up Bug</td>
+		<td align='left'>* Fixed Internet Explorer Quiz Adding Bug</td>
+	</tr>
+	<tr>
+		<td align='left'>* Fixed Results Link On Quizzes Page Bug</td>
+	</tr>
+	<tr>
+		<td align='left'>* Fixed Points Number Check Bug</td>
+	</tr>
+	<tr>
+		<td align='left'>* Fixed Limited Question Grading Bug</td>
 	</tr>
 	</table>
 	</div>
@@ -538,14 +551,6 @@ function mlw_dashboard_box_eight()
 	</tr>
 	</table>
 	<p>Thank you to those who have contributed so far!</p>
-	<h3>Supporters</h3>
-	<ul>
-		<li>Tracy B</li>
-		<li>Bobby L</li>
-		<li>Kristal P</li>
-		<li>Jürgen C</li>
-		<li>Larry J</li>
-	</ul>
 	</div>
 	<?php
 }

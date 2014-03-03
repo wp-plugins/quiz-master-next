@@ -121,23 +121,23 @@ function mlw_tools_box()
 	if( $mlw_qmn_audit_page > 0 )
 	{
 	   $mlw_qmn_previous_page = $mlw_qmn_audit_page - 2;
-	   $display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_previous_page\">Previous 25 Audits</a>";
+	   $display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_previous_page\">Previous 25 Audits</a>";
 	   if( $mlw_qmn_audit_left > $mlw_qmn_table_limit )
 	   {
-			$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_audit_page\">Next 25 Audits</a>";
+			$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_audit_page\">Next 25 Audits</a>";
 	   }
 	}
 	else if( $mlw_qmn_audit_page == 0 )
 	{
 	   if( $mlw_qmn_audit_left > $mlw_qmn_table_limit )
 	   {
-			$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_audit_page\">Next 25 Audits</a>";
+			$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_audit_page\">Next 25 Audits</a>";
 	   }
 	}
 	else if( $mlw_qmn_audit_left < $mlw_qmn_table_limit )
 	{
 	   $mlw_qmn_previous_page = $mlw_qmn_audit_page - 2;
-	   $display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_previous_page\">Previous 25 Audits</a>";
+	   $display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_tools&&mlw_audit_page=$mlw_qmn_previous_page\">Previous 25 Audits</a>";
 	}
 	$display .= "<table class=\"widefat\">";
 		$display .= "<thead><tr>

@@ -16,6 +16,7 @@ function mlw_quiz_shortcode($atts)
 	$mlw_quiz_id = $quiz;
 	$mlw_display = "";
 	global $wpdb;
+	$mlw_qmn_isAllowed = true;
 
 
 	//Load quiz
@@ -25,6 +26,12 @@ function mlw_quiz_shortcode($atts)
 	foreach($mlw_quiz_options as $mlw_eaches) {
 		$mlw_quiz_options = $mlw_eaches;
 		break;
+	}
+	if ( $mlw_quiz_options->total_user_tries != 0 && is_user_logged_in() )
+	{
+		$current_user = wp_get_current_user();
+		$mlw_qmn_user_try_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM ".$wpdb->prefix."mlw_results WHERE email='%s' AND deleted='0'", $current_user->user_email ) );
+		if ($mlw_qmn_user_try_count >= $mlw_quiz_options->total_user_tries) { $mlw_qmn_isAllowed = false; }
 	}
 
 
@@ -185,7 +192,7 @@ function mlw_quiz_shortcode($atts)
 	}
 
 	//Display Quiz
-	if (!isset($_POST["complete_quiz"]) && $mlw_quiz_options->quiz_name != "")
+	if (!isset($_POST["complete_quiz"]) && $mlw_quiz_options->quiz_name != "" && $mlw_qmn_isAllowed)
 	{
 		//Update the quiz views
 		$mlw_views = $mlw_quiz_options->quiz_views;
@@ -413,8 +420,21 @@ function mlw_quiz_shortcode($atts)
 	//Display Completion Screen
 	else
 	{
-		if (empty($mlw_spam_email))
+		if (empty($mlw_spam_email) && $mlw_qmn_isAllowed)
 		{
+		
+		//Load questions
+		$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_questions" . " WHERE quiz_id=".$mlw_quiz_id." AND deleted='0' "; 
+		if ($mlw_quiz_options->randomness_order == 0)
+		{
+			$sql .= "ORDER BY question_order ASC";
+		}
+		if ($mlw_quiz_options->randomness_order == 1)
+		{
+			$sql .= "ORDER BY rand()";
+		}
+		$mlw_questions = $wpdb->get_results($sql);
+	
 		//Variables needed for scoring
 		$mlw_points = 0;
 		$mlw_correct = 0;
@@ -430,70 +450,73 @@ function mlw_quiz_shortcode($atts)
 
 		//See which answers were correct and award points if necessary
 		foreach($mlw_questions as $mlw_question) {
-			$mlw_user_text;
-			$mlw_correct_text;
-			$mlw_total_questions += 1;
-			$mlw_user_answer = $_POST["question".$mlw_question->question_id];
-			if ($mlw_user_answer == $mlw_question->correct_answer)
+			if (isset($_POST["question".$mlw_question->question_id]))
 			{
-				$mlw_correct += 1;
+				$mlw_user_text;
+				$mlw_correct_text;
+				$mlw_total_questions += 1;
+				$mlw_user_answer = $_POST["question".$mlw_question->question_id];
+				if ($mlw_user_answer == $mlw_question->correct_answer)
+				{
+					$mlw_correct += 1;
+				}
+				if ($mlw_user_answer == 1) 
+				{
+					$mlw_points += $mlw_question->answer_one_points;
+					$mlw_user_text = $mlw_question->answer_one;
+				}
+				if ($mlw_user_answer == 2) 
+				{
+					$mlw_points += $mlw_question->answer_two_points;
+					$mlw_user_text = $mlw_question->answer_two;
+				}
+				if ($mlw_user_answer == 3) 
+				{
+					$mlw_points += $mlw_question->answer_three_points;
+					$mlw_user_text = $mlw_question->answer_three;
+				}
+				if ($mlw_user_answer == 4) 
+				{
+					$mlw_points += $mlw_question->answer_four_points;
+					$mlw_user_text = $mlw_question->answer_four;
+				}
+				if ($mlw_user_answer == 5) 
+				{
+					$mlw_points += $mlw_question->answer_five_points;
+					$mlw_user_text = $mlw_question->answer_five;
+				}
+				if ($mlw_user_answer == 6) 
+				{
+					$mlw_points += $mlw_question->answer_six_points;
+					$mlw_user_text = $mlw_question->answer_six;
+				}
+				
+				if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
+				if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
+				if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
+				if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
+				if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
+				if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
+				
+				if (isset($_POST["mlwComment".$mlw_question->question_id]))
+				{
+					$mlw_qm_question_comment = $_POST["mlwComment".$mlw_question->question_id];
+				}
+				else
+				{
+					$mlw_qm_question_comment = "";
+				}
+				
+				$mlw_question_answer_display = $mlw_quiz_options->question_answer_template;
+				$mlw_question_answer_display = str_replace( "%QUESTION%" , htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES), $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $mlw_qm_question_comment, $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , $mlw_question->question_answer_info, $mlw_question_answer_display);
+	
+				$mlw_question_answers .= $mlw_question_answer_display;
+				$mlw_question_answers .= "<br />";
 			}
-			if ($mlw_user_answer == 1) 
-			{
-				$mlw_points += $mlw_question->answer_one_points;
-				$mlw_user_text = $mlw_question->answer_one;
-			}
-			if ($mlw_user_answer == 2) 
-			{
-				$mlw_points += $mlw_question->answer_two_points;
-				$mlw_user_text = $mlw_question->answer_two;
-			}
-			if ($mlw_user_answer == 3) 
-			{
-				$mlw_points += $mlw_question->answer_three_points;
-				$mlw_user_text = $mlw_question->answer_three;
-			}
-			if ($mlw_user_answer == 4) 
-			{
-				$mlw_points += $mlw_question->answer_four_points;
-				$mlw_user_text = $mlw_question->answer_four;
-			}
-			if ($mlw_user_answer == 5) 
-			{
-				$mlw_points += $mlw_question->answer_five_points;
-				$mlw_user_text = $mlw_question->answer_five;
-			}
-			if ($mlw_user_answer == 6) 
-			{
-				$mlw_points += $mlw_question->answer_six_points;
-				$mlw_user_text = $mlw_question->answer_six;
-			}
-			
-			if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
-			if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
-			if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
-			if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
-			if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
-			if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
-			
-			if (isset($_POST["mlwComment".$mlw_question->question_id]))
-			{
-				$mlw_qm_question_comment = $_POST["mlwComment".$mlw_question->question_id];
-			}
-			else
-			{
-				$mlw_qm_question_comment = "";
-			}
-			
-			$mlw_question_answer_display = $mlw_quiz_options->question_answer_template;
-			$mlw_question_answer_display = str_replace( "%QUESTION%" , htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES), $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $mlw_qm_question_comment, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , $mlw_question->question_answer_info, $mlw_question_answer_display);
-
-			$mlw_question_answers .= $mlw_question_answer_display;
-			$mlw_question_answers .= "<br />";
 		}
 		$mlw_total_score = round((($mlw_correct/$mlw_total_questions)*100), 2);
 		
@@ -585,7 +608,11 @@ function mlw_quiz_shortcode($atts)
 		}
 		else
 		{
-			$mlw_display .= "Thank you.";	
+			if (!$mlw_qmn_isAllowed)
+			{
+				$mlw_display .= $mlw_quiz_options->total_user_tries_text;
+			}
+			else { $mlw_display .= "Thank you.";	}
 		}
 	}
 return $mlw_display;

@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.5.1";
+	$data = "1.6.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -95,6 +95,22 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD question_from_total INT NOT NULL AFTER comment_section";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET question_from_total=0";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 1.6.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'total_user_tries'") != "total_user_tries")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD total_user_tries INT NOT NULL AFTER question_from_total";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET total_user_tries=0";
+			$results = $wpdb->query( $update_sql );
+		}
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'total_user_tries_text'") != "total_user_tries_text")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD total_user_tries_text TEXT NOT NULL AFTER total_user_tries";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET total_user_tries_text='Enter Your Text Here'";
 			$results = $wpdb->query( $update_sql );
 		}
 		
