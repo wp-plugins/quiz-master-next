@@ -52,7 +52,7 @@ function mlw_generate_quiz_dashboard(){
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
 	add_meta_box("wpss_mrts", 'Quiz Weekly Stats - Times Taken', "mlw_dashboard_box_four", "quiz_wpss4");
 	add_meta_box("wpss_mrts", 'Quiz Monthly Stats - Times Taken', "mlw_dashboard_box_five", "quiz_wpss5");
-	add_meta_box("wpss_mrts", 'In This Update', "mlw_dashboard_box_six", "quiz_wpss6"); 
+	add_meta_box("wpss_mrts", 'Plugin Premium Support', "mlw_dashboard_box_six", "quiz_wpss6"); 
 	add_meta_box("wpss_mrts", 'Support', "mlw_dashboard_box_seven", "quiz_wpss7");
 	add_meta_box("wpss_mrts", 'Contribution', "mlw_dashboard_box_eight", "quiz_wpss8");
 	add_meta_box("wpss_mrts", 'News From My Local Webstop', "mlw_dashboard_box_nine", "quiz_wpss9");
@@ -420,25 +420,13 @@ function mlw_dashboard_box_six()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>1.6.1 (March 2, 2014)</td>
+		<td align='left'>Plugin Premium Support includes priority response, priority feature requests, access to premium support-only forums forums, and access to WordPress training videos through wp101.</td>
 	</tr>
 	<tr>
-		<td align='left'>* Added Ability To Limit Amount User Tries Certain Quizzes</td>
+		<td align='left'>Up to 1 hour of consultation and training included during 1st month.</td>
 	</tr>
 	<tr>
-		<td align='left'>* Minor Design Changes To Admin Pages</td>
-	</tr>
-	<tr>
-		<td align='left'>* Fixed Internet Explorer Quiz Adding Bug</td>
-	</tr>
-	<tr>
-		<td align='left'>* Fixed Results Link On Quizzes Page Bug</td>
-	</tr>
-	<tr>
-		<td align='left'>* Fixed Points Number Check Bug</td>
-	</tr>
-	<tr>
-		<td align='left'>* Fixed Limited Question Grading Bug</td>
+		<td align='left'>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</td>
 	</tr>
 	</table>
 	</div>

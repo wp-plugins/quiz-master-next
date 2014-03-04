@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact, form, email
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -87,6 +87,10 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.6.2 (March 4, 2014) =
+ * Minor Bug Fixes
+ * Minor Design Changes
 
 = 1.6.1 (March 2, 2014) =
  * Added Ability To Limit Amount User Tries Certain Quizzes
@@ -310,6 +314,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.6.2 =
+This update fixes minor bugs and adds minor design changes.
 
 = 1.6.1 =
 This update allows you to set the amount of tries a user has for cetain quizzes. Also fixes several bugs.
