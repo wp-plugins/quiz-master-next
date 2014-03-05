@@ -65,91 +65,6 @@ function mlw_quiz_shortcode($atts)
 		$mlw_spam_email = $_POST["email"];
 	}
 	
-	function mlwDisplayContactInfo($mlw_quiz_options)
-	{
-		$mlw_contact_display = "";
-		//Check to see if user is logged in, then ask for contact if not
-		if ( is_user_logged_in() )
-		{
-			//If this quiz does not let user edit contact information we hide this section
-			if ($mlw_quiz_options->loggedin_user_contact == 1)
-			{
-				$mlw_contact_display .= "<div style='display:none;'>";
-			}
-			
-			//Retrieve current user information and save into text fields for contact information
-			$current_user = wp_get_current_user();
-			if ($mlw_quiz_options->user_name != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserName' value='".$current_user->display_name."' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_comp != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserComp' value='' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_email != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserEmail' value='".$current_user->user_email."' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_phone != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserPhone' value='' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			
-			//End of hidden section div
-			if ($mlw_quiz_options->loggedin_user_contact == 1)
-			{
-				$mlw_contact_display .= "</div>";
-			}
-		}
-		else
-		{
-			//See if the site wants to ask for any contact information, then ask for it
-			if ($mlw_quiz_options->user_name != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserName' value='' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_comp != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserComp' value='' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_email != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserEmail' value='' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-			if ($mlw_quiz_options->user_phone != 2)
-			{
-				$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
-				$mlw_contact_display .= "<input type='text' name='mlwUserPhone' value='' />";
-				$mlw_contact_display .= "<br /><br />";
-	
-			}
-		}
-		return $mlw_contact_display;
-	}
-	
-	
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-dialog' );
@@ -618,5 +533,86 @@ function mlw_quiz_shortcode($atts)
 		}
 	}
 return $mlw_display;
+}
+
+
+/*
+This function displays fields to ask for contact information
+*/
+function mlwDisplayContactInfo($mlw_quiz_options)
+{
+	$mlw_contact_display = "";
+	//Check to see if user is logged in, then ask for contact if not
+	if ( is_user_logged_in() )
+	{
+		//If this quiz does not let user edit contact information we hide this section
+		if ($mlw_quiz_options->loggedin_user_contact == 1)
+		{
+			$mlw_contact_display .= "<div style='display:none;'>";
+		}
+		
+		//Retrieve current user information and save into text fields for contact information
+		$current_user = wp_get_current_user();
+		if ($mlw_quiz_options->user_name != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserName' value='".$current_user->display_name."' />";
+			$mlw_contact_display .= "<br /><br />";
+
+		}
+		if ($mlw_quiz_options->user_comp != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserComp' value='' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+		if ($mlw_quiz_options->user_email != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserEmail' value='".$current_user->user_email."' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+		if ($mlw_quiz_options->user_phone != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserPhone' value='' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+
+		//End of hidden section div
+		if ($mlw_quiz_options->loggedin_user_contact == 1)
+		{
+			$mlw_contact_display .= "</div>";
+		}
+	}
+	else
+	{
+		//See if the site wants to ask for any contact information, then ask for it
+		if ($mlw_quiz_options->user_name != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserName' value='' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+		if ($mlw_quiz_options->user_comp != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserComp' value='' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+		if ($mlw_quiz_options->user_email != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserEmail' value='' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+		if ($mlw_quiz_options->user_phone != 2)
+		{
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+			$mlw_contact_display .= "<input type='text' name='mlwUserPhone' value='' />";
+			$mlw_contact_display .= "<br /><br />";
+		}
+	}
+	return $mlw_contact_display;
 }
 ?>

@@ -52,7 +52,7 @@ function mlw_generate_quiz_dashboard(){
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
 	add_meta_box("wpss_mrts", 'Quiz Weekly Stats - Times Taken', "mlw_dashboard_box_four", "quiz_wpss4");
 	add_meta_box("wpss_mrts", 'Quiz Monthly Stats - Times Taken', "mlw_dashboard_box_five", "quiz_wpss5");
-	add_meta_box("wpss_mrts", 'Plugin Premium Support', "mlw_dashboard_box_six", "quiz_wpss6"); 
+	add_meta_box("wpss_mrts", 'My Local Webstop Services', "mlw_dashboard_box_six", "quiz_wpss6"); 
 	add_meta_box("wpss_mrts", 'Support', "mlw_dashboard_box_seven", "quiz_wpss7");
 	add_meta_box("wpss_mrts", 'Contribution', "mlw_dashboard_box_eight", "quiz_wpss8");
 	add_meta_box("wpss_mrts", 'News From My Local Webstop', "mlw_dashboard_box_nine", "quiz_wpss9");
@@ -68,7 +68,7 @@ function mlw_generate_quiz_dashboard(){
 	wp_enqueue_script( 'jquery-effects-blind' );
 	wp_enqueue_script( 'jquery-effects-explode' );
 	?>
-	<script type="text/javascript" src="<?php echo plugin_dir_url( $file ); ?>quiz-master-next/includes/jquery_sparkline.js"></script>
+	<script type="text/javascript" src="<?php echo plugin_dir_url( __FILE__ ); ?>jquery_sparkline.js"></script>
 	<script type="text/javascript">
 		var $j = jQuery.noConflict();
 		// increase the default animation speed to exaggerate the effect
@@ -137,46 +137,44 @@ function mlw_generate_quiz_dashboard(){
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
 	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating or please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
 	
-	<div style="float:left; width:60%;" class="inner-sidebar1">
+	<div style="float:left; width:38%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
 	</div>
 	
-	<div style="float:right; width:36%;" class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss3','advanced','');  ?>	
-	</div>
-			
-	<!--<div style="clear:both"></div>-->
-	
-	<div style="float:left; width:60%;" class="inner-sidebar1">
+	<div style="float:left; width:38%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss4','advanced','');  ?>	
 	</div>
 	
-	<div style="float:right; width:36%; " class="inner-sidebar1">
+	<div style="float:right; width:24%; " class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss6','advanced',''); ?>	
 	</div>
 	
-	<!--<div style="clear:both"></div>-->
+	<!--<div style="clear:both">-->
 	
-	<div style="float:left; width:60%;" class="inner-sidebar1">
+	<div style="float:left; width:38%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss5','advanced','');  ?>	
 	</div>
 	
-	<div style="float:right; width:36%; " class="inner-sidebar1">
+	<div style="float:left; width:38%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss3','advanced','');  ?>	
+	</div>
+	
+	<div style="clear:both">
+		
+	<div style="float:left; width:38%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss9','advanced','');  ?>	
+	</div>
+		
+	<div style="float:left; width:38%; " class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss7','advanced',''); ?>	
 	</div>
 	
-	<!--<div style="clear:both"></div>-->
-	
-	<div style="float:left; width:60%;" class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss9','advanced','');  ?>	
-	</div>
-	
-	<div style="float:right; width:36%; " class="inner-sidebar1">
+	<div style="float:right; width:24%; " class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss8','advanced',''); ?>	
 	</div>
 	
-	<!--<div style="clear:both"></div>-->
-	
+	<div style="clear:both">
+		
 	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page is the main admin dashboard for the Quiz Master Next. It contains many useful widgets for the admin.</p>
@@ -418,17 +416,27 @@ function mlw_dashboard_box_six()
 {
 	?>
 	<div>
-	<table width='100%'>
-	<tr>
-		<td align='left'>Plugin Premium Support includes priority response, priority feature requests, access to premium support-only forums forums, and access to WordPress training videos through wp101.</td>
-	</tr>
-	<tr>
-		<td align='left'>Up to 1 hour of consultation and training included during 1st month.</td>
-	</tr>
-	<tr>
-		<td align='left'>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</td>
-	</tr>
-	</table>
+		<h2>Plugin Premium Support</h2>
+		<p>Plugin Premium Support includes priority response, priority feature requests, access to premium support-only forums, and access to WordPress training videos through wp101.</p>
+		<p>Up to 1 hour of consultation and training included during 1st month.</p>
+		<hr />
+		<h2>Plugin Installation Services</h2>
+		<p>We will install any or all of our WordPress plugins on your existing WordPress site. This includes 1 year access to premium support-only forums.</p>
+		<p>Up to 2 hours of consultation and training included.</p>
+		<br />
+		<p>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</p>
+		<!--
+		<table width='100%'>
+		<tr>
+			<td align='left'>Plugin Premium Support includes priority response, priority feature requests, access to premium support-only forums forums, and access to WordPress training videos through wp101.</td>
+		</tr>
+		<tr>
+			<td align='left'>Up to 1 hour of consultation and training included during 1st month.</td>
+		</tr>
+		<tr>
+			<td align='left'>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</td>
+		</tr>
+		</table>-->
 	</div>
 	<?php
 }

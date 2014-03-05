@@ -1,9 +1,9 @@
 === Quiz Master Next ===
 Contributors: fpcorso
-Tags: quiz, test, score, survey, contact, form, email
+Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -87,6 +87,10 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.6.3 (March 5, 2014) =
+ * Fixed Duplicated Shortcode Bug
+ * Quiz Dashboard Design Changes
 
 = 1.6.2 (March 4, 2014) =
  * Minor Bug Fixes
@@ -314,6 +318,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.6.3 =
+This update fixes minor bugs and adds minor design changes.
 
 = 1.6.2 =
 This update fixes minor bugs and adds minor design changes.
