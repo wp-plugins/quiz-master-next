@@ -56,6 +56,10 @@ function mlw_generate_quiz_dashboard(){
 	add_meta_box("wpss_mrts", 'Support', "mlw_dashboard_box_seven", "quiz_wpss7");
 	add_meta_box("wpss_mrts", 'Contribution', "mlw_dashboard_box_eight", "quiz_wpss8");
 	add_meta_box("wpss_mrts", 'News From My Local Webstop', "mlw_dashboard_box_nine", "quiz_wpss9");
+	add_meta_box("wpss_mrts", 'Quizzes Taken Today', "mlw_qmn_daily_percent_taken_widget", "quiz_wpss10");
+	add_meta_box("wpss_mrts", 'Quizzes Taken Last 7 Days', "mlw_qmn_weekly_percent_taken_widget", "quiz_wpss11");
+	add_meta_box("wpss_mrts", 'Quizzes Taken Last 30 Days', "mlw_qmn_monthly_percent_taken_widget", "quiz_wpss12");
+	add_meta_box("wpss_mrts", 'Quizzes Taken Last 120 Days', "mlw_qmn_quaterly_percent_taken_widget", "quiz_wpss13");
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -65,6 +69,7 @@ function mlw_generate_quiz_dashboard(){
 	wp_enqueue_script( 'jquery-ui-core' );
 	wp_enqueue_script( 'jquery-ui-dialog' );
 	wp_enqueue_script( 'jquery-ui-button' );
+	wp_enqueue_script( 'jquery-ui-tooltip' );
 	wp_enqueue_script( 'jquery-effects-blind' );
 	wp_enqueue_script( 'jquery-effects-explode' );
 	?>
@@ -88,7 +93,11 @@ function mlw_generate_quiz_dashboard(){
 			$j('#opener').click(function() {
 				$j('#dialog').dialog('open');
 				return false;
-		}	);
+			});
+			
+			$j(function() {
+   				$j( document ).tooltip();
+ 			});
 		});
 		$j(function() {
         	$j('.inlinesparkline').sparkline('html', {type: 'line', width: '400', height: '200'}); 
@@ -137,6 +146,26 @@ function mlw_generate_quiz_dashboard(){
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
 	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating or please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
 	
+	<div style="float:left; width:19%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss10','advanced','');  ?>	
+	</div>
+	
+	<div style="float:left; width:19%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss11','advanced','');  ?>	
+	</div>
+	
+	<div style="float:left; width:19%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss12','advanced','');  ?>	
+	</div>
+	
+	<div style="float:left; width:19%;" class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss13','advanced','');  ?>	
+	</div>
+	
+	<div style="float:right; width:24%; " class="inner-sidebar1">
+		<?php do_meta_boxes('quiz_wpss6','advanced',''); ?>	
+	</div>
+	
 	<div style="float:left; width:38%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss','advanced','');  ?>	
 	</div>
@@ -145,9 +174,7 @@ function mlw_generate_quiz_dashboard(){
 		<?php do_meta_boxes('quiz_wpss4','advanced','');  ?>	
 	</div>
 	
-	<div style="float:right; width:24%; " class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss6','advanced',''); ?>	
-	</div>
+	
 	
 	<!--<div style="clear:both">-->
 	
@@ -367,39 +394,39 @@ function mlw_dashboard_box_five()
 {
 	//Gather the monthly stats, one variable for each day for the graph
 	global $wpdb;	
-	$mlw_this_month =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
+	$mlw_this_month =  mktime(0, 0, 0, date("m")  , date("d")-29, date("Y"));
 	$mlw_this_month = date("Y-m-d", $mlw_this_month);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_this_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_this_month = $wpdb->num_rows;
 	
-	$mlw_last_month_first =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
+	$mlw_last_month_first =  mktime(0, 0, 0, date("m")  , date("d")-59, date("Y"));
 	$mlw_last_month_first = date("Y-m-d", $mlw_last_month_first);
-	$mlw_last_month_last =  mktime(0, 0, 0, date("m")  , date("d")-31, date("Y"));
+	$mlw_last_month_last =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
 	$mlw_last_month_last = date("Y-m-d", $mlw_last_month_last);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_month_first." 00:00:00' AND '".$mlw_last_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_last_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_last_month = $wpdb->num_rows;
 	
-	$mlw_two_month_first =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
+	$mlw_two_month_first =  mktime(0, 0, 0, date("m")  , date("d")-89, date("Y"));
 	$mlw_two_month_first = date("Y-m-d", $mlw_two_month_first);
-	$mlw_two_month_last =  mktime(0, 0, 0, date("m")  , date("d")-31, date("Y"));
+	$mlw_two_month_last =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
 	$mlw_two_month_last = date("Y-m-d", $mlw_two_month_last);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_month_first." 00:00:00' AND '".$mlw_two_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_two_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_two_month = $wpdb->num_rows;
 	
-	$mlw_three_month_first =  mktime(0, 0, 0, date("m")  , date("d")-90, date("Y"));
+	$mlw_three_month_first =  mktime(0, 0, 0, date("m")  , date("d")-119, date("Y"));
 	$mlw_three_month_first = date("Y-m-d", $mlw_three_month_first);
-	$mlw_three_month_last =  mktime(0, 0, 0, date("m")  , date("d")-61, date("Y"));
+	$mlw_three_month_last =  mktime(0, 0, 0, date("m")  , date("d")-90, date("Y"));
 	$mlw_three_month_last = date("Y-m-d", $mlw_three_month_last);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_month_first." 00:00:00' AND '".$mlw_three_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_three_month = $wpdb->get_results($sql);
 	$mlw_quiz_taken_three_month = $wpdb->num_rows;
 	
-	$mlw_four_month_first =  mktime(0, 0, 0, date("m")  , date("d")-120, date("Y"));
+	$mlw_four_month_first =  mktime(0, 0, 0, date("m")  , date("d")-149, date("Y"));
 	$mlw_four_month_first = date("Y-m-d", $mlw_four_month_first);
-	$mlw_four_month_last =  mktime(0, 0, 0, date("m")  , date("d")-91, date("Y"));
+	$mlw_four_month_last =  mktime(0, 0, 0, date("m")  , date("d")-120, date("Y"));
 	$mlw_four_month_last = date("Y-m-d", $mlw_four_month_last);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_month_first." 00:00:00' AND '".$mlw_four_month_last." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_four_month = $wpdb->get_results($sql);
@@ -425,18 +452,6 @@ function mlw_dashboard_box_six()
 		<p>Up to 2 hours of consultation and training included.</p>
 		<br />
 		<p>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</p>
-		<!--
-		<table width='100%'>
-		<tr>
-			<td align='left'>Plugin Premium Support includes priority response, priority feature requests, access to premium support-only forums forums, and access to WordPress training videos through wp101.</td>
-		</tr>
-		<tr>
-			<td align='left'>Up to 1 hour of consultation and training included during 1st month.</td>
-		</tr>
-		<tr>
-			<td align='left'>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</td>
-		</tr>
-		</table>-->
 	</div>
 	<?php
 }
@@ -559,6 +574,199 @@ function mlw_dashboard_box_nine()
 	<td align='left'><iframe src="http://www.mylocalwebstop.com/mlw_news.html?cache=<?php echo rand(); ?>" seamless="seamless" style="width: 100%; height: 550px;"></iframe></td>
 	</tr>
 	</table>
+	</div>
+	<?php
+}
+function mlw_qmn_weekly_percent_taken_widget()
+{
+	global $wpdb;
+	
+	$mlw_this_week =  mktime(0, 0, 0, date("m")  , date("d")-6, date("Y"));
+	$mlw_this_week = date("Y-m-d", $mlw_this_week);
+	$mlw_qmn_this_week_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_week." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0");
+	
+	$mlw_last_week_start =  mktime(0, 0, 0, date("m")  , date("d")-13, date("Y"));
+	$mlw_last_week_start = date("Y-m-d", $mlw_last_week_start);
+	$mlw_last_week_end =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
+	$mlw_last_week_end = date("Y-m-d", $mlw_last_week_end);
+	$mlw_qmn_last_week_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week_start." 00:00:00' AND '".$mlw_last_week_end." 23:59:59') AND deleted=0");
+	
+	if ($mlw_qmn_last_week_taken != 0)
+	{
+		$mlw_qmn_analyze_week = (($mlw_qmn_this_week_taken - $mlw_qmn_last_week_taken) / $mlw_qmn_last_week_taken) * 100;
+	}
+	else
+	{
+		$mlw_qmn_analyze_week = $mlw_qmn_this_week_taken * 100;
+	}
+	?>
+	<div>
+		<table width="100%">
+			<tr>
+				<td><div style="font-size: 60px; text-align:center;"><?php echo $mlw_qmn_this_week_taken; ?></div></td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>
+					<div style="font-size: 40px; text-align:center;">
+					<?php 
+					echo "<span title='Compared to the previous 7 days'>".$mlw_qmn_analyze_week."%</span>"; 
+					if ($mlw_qmn_analyze_week >= 0)
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/green_triangle.png' width='40px' height='40px'/>";
+					}
+					else
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/red_triangle.png' width='40px' height='40px'/>";
+					}
+					?>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<?php
+}
+function mlw_qmn_daily_percent_taken_widget()
+{
+	global $wpdb;
+	$mlw_qmn_today_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".date("Y-m-d")." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0");
+	$mlw_last_week =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
+	$mlw_last_week = date("Y-m-d", $mlw_last_week);
+	$mlw_qmn_last_weekday_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".$mlw_last_week." 23:59:59') AND deleted=0");
+	if ($mlw_qmn_last_weekday_taken != 0)
+	{
+		$mlw_qmn_analyze_today = (($mlw_qmn_today_taken - $mlw_qmn_last_weekday_taken) / $mlw_qmn_last_weekday_taken) * 100;
+	}
+	else
+	{
+		$mlw_qmn_analyze_today = $mlw_qmn_today_taken * 100;
+	}
+	?>
+	<div>
+		<table width="100%">
+			<tr>
+				<td><div style="font-size: 60px; text-align:center;"><?php echo $mlw_qmn_today_taken; ?></div></td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>
+					<div style="font-size: 40px; text-align:center;">
+					<?php 
+					echo "<span title='Compared to this day last week'>".$mlw_qmn_analyze_today."%</span>"; 
+					if ($mlw_qmn_analyze_today >= 0)
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/green_triangle.png' width='40px' height='40px'/>";
+					}
+					else
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/red_triangle.png' width='40px' height='40px'/>";
+					}
+					?>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<?php
+}
+function mlw_qmn_monthly_percent_taken_widget()
+{
+	global $wpdb;
+	
+	$mlw_this_month =  mktime(0, 0, 0, date("m")  , date("d")-29, date("Y"));
+	$mlw_this_month = date("Y-m-d", $mlw_this_month);
+	$mlw_qmn_this_month_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0");
+	
+	$mlw_last_month_start =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
+	$mlw_last_month_start = date("Y-m-d", $mlw_last_month_start);
+	$mlw_last_month_end =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
+	$mlw_last_month_end = date("Y-m-d", $mlw_last_month_end);
+	$mlw_qmn_last_month_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_month_start." 00:00:00' AND '".$mlw_last_month_end." 23:59:59') AND deleted=0");
+	
+	if ($mlw_qmn_last_month_taken != 0)
+	{
+		$mlw_qmn_analyze_month = (($mlw_qmn_this_month_taken - $mlw_qmn_last_month_taken) / $mlw_qmn_last_month_taken) * 100;
+	}
+	else
+	{
+		$mlw_qmn_analyze_month = $mlw_qmn_this_month_taken * 100;
+	}
+	?>
+	<div>
+		<table width="100%">
+			<tr>
+				<td><div style="font-size: 60px; text-align:center;"><?php echo $mlw_qmn_this_month_taken; ?></div></td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>
+					<div style="font-size: 40px; text-align:center;">
+					<?php 
+					echo "<span title='Compared to the previous 30 days'>".$mlw_qmn_analyze_month."%</span>"; 
+					if ($mlw_qmn_analyze_month >= 0)
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/green_triangle.png' width='40px' height='40px'/>";
+					}
+					else
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/red_triangle.png' width='40px' height='40px'/>";
+					}
+					?>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<?php
+}
+function mlw_qmn_quaterly_percent_taken_widget()
+{
+	global $wpdb;
+	
+	$mlw_this_quater =  mktime(0, 0, 0, date("m")  , date("d")-119, date("Y"));
+	$mlw_this_quater = date("Y-m-d", $mlw_this_quater);
+	$mlw_qmn_this_quater_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_quater." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0");
+	
+	$mlw_last_quater_start =  mktime(0, 0, 0, date("m")  , date("d")-240, date("Y"));
+	$mlw_last_quater_start = date("Y-m-d", $mlw_last_quater_start);
+	$mlw_last_quater_end =  mktime(0, 0, 0, date("m")  , date("d")-120, date("Y"));
+	$mlw_last_quater_end = date("Y-m-d", $mlw_last_quater_end);
+	$mlw_qmn_last_quater_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_quater_start." 00:00:00' AND '".$mlw_last_quater_end." 23:59:59') AND deleted=0");
+	
+	if ($mlw_qmn_last_quater_taken != 0)
+	{
+		$mlw_qmn_analyze_quater = (($mlw_qmn_this_quater_taken - $mlw_qmn_last_quater_taken) / $mlw_qmn_last_quater_taken) * 100;
+	}
+	else
+	{
+		$mlw_qmn_analyze_quater = $mlw_qmn_this_quater_taken * 100;
+	}
+	?>
+	<div>
+		<table width="100%">
+			<tr>
+				<td><div style="font-size: 60px; text-align:center;"><?php echo $mlw_qmn_this_quater_taken; ?></div></td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>
+					<div style="font-size: 40px; text-align:center;">
+					<?php 
+					echo "<span title='Compared to the previous 120 days'>".$mlw_qmn_analyze_quater."%</span>"; 
+					if ($mlw_qmn_analyze_quater >= 0)
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/green_triangle.png' width='40px' height='40px'/>";
+					}
+					else
+					{
+						echo "<img src='".plugin_dir_url( __FILE__ )."images/red_triangle.png' width='40px' height='40px'/>";
+					}
+					?>
+					</div>
+				</td>
+			</tr>
+		</table>
 	</div>
 	<?php
 }

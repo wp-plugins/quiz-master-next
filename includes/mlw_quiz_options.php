@@ -33,7 +33,6 @@ function mlw_generate_quiz_options()
 		$edit_question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["edit_question_name"], ENT_QUOTES))));
 		$edit_answer_one = htmlspecialchars($_POST["edit_answer_one"], ENT_QUOTES);
 		$edit_answer_one_points = intval($_POST["edit_answer_one_points"]);
-		echo $edit_answer_one_points;
 		$edit_answer_two = htmlspecialchars($_POST["edit_answer_two"], ENT_QUOTES);
 		$edit_answer_two_points = intval($_POST["edit_answer_two_points"]);
 		$edit_answer_three = htmlspecialchars($_POST["edit_answer_three"], ENT_QUOTES);
@@ -787,9 +786,9 @@ function mlw_generate_quiz_options()
 			?>		
 			<table>
 			<tr>
-			<td><span style='font-weight:bold;'>Question<a href="#" title="Enter the question here. Feel free to use HTML, embed Youtube videos, link to images, etc...">?</a></span></td>
+			<td><span style='font-weight:bold;'>Question</span></td>
 			<td colspan="3">
-				<textarea name="question_name" id="question_name" style="width: 500px; height: 150px;"></textarea>
+				<textarea name="question_name" id="question_name" style="width: 500px; height: 150px;" title="Enter the question here. Feel free to use HTML, embed Youtube videos, link to images, etc..."></textarea>
 			</td>
 			</tr>
 			<tr valign="top">
@@ -1152,6 +1151,9 @@ function mlw_generate_quiz_options()
 				<td><strong>%USER_COMMENTS%</strong> - The comments the user provided in the comment field for the question</td>
 				<td><strong>%CORRECT_ANSWER_INFO%</strong> - Reason why the correct answer is the correct answer</td>
 			</tr>
+			<tr>
+				<td><strong>%TIMER%</strong> - The amount of time user spent of quiz</td>
+			</tr>
 			</table>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
 			<?php
@@ -1200,6 +1202,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %USER_EMAIL%</p>
 						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
+						<p style="margin: 2px 0">- %TIMER%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_after_message" name="mlw_quiz_after_message"><?php echo $mlw_quiz_options->message_after; ?></textarea>
 					</td>
@@ -1237,6 +1240,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %USER_EMAIL%</p>
 						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
+						<p style="margin: 2px 0">- %TIMER%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_user_email_template" name="mlw_quiz_user_email_template"><?php echo $mlw_quiz_options->user_email_template; ?></textarea>
 					</td>
@@ -1258,6 +1262,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
 						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
+						<p style="margin: 2px 0">- %TIMER%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_admin_email_template" name="mlw_quiz_admin_email_template"><?php echo $mlw_quiz_options->admin_email_template; ?></textarea>
 					</td>

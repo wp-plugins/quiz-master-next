@@ -26,4 +26,6 @@ global $wpdb;
 	$results = $wpdb->query( $sql );
 	
 	delete_option('mlw_quiz_master_version');
+	
+	delete_option('mlw_qmn_review_notice');
 ?>

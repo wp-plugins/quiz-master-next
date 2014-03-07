@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.6.3";
+	$data = "1.7.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -153,6 +153,11 @@ function mlw_quiz_update()
 		}
 		
 		update_option('mlw_quiz_master_version' , $data);
+		if(!isset($_GET['activate-multi']))
+        {
+			wp_redirect( "admin.php?page=mlw_qmn_about" );
+			exit;
+        }
 	}
 }
 ?>

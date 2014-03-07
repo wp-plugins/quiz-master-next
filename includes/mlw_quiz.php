@@ -7,6 +7,8 @@ function mlw_quiz_shortcode($atts)
 	extract(shortcode_atts(array(
 		'quiz' => 0
 	), $atts));
+	
+	
 
 	/*
 	Code before loading the quiz
@@ -17,6 +19,10 @@ function mlw_quiz_shortcode($atts)
 	$mlw_display = "";
 	global $wpdb;
 	$mlw_qmn_isAllowed = true;
+	
+	if (session_status() == PHP_SESSION_NONE || session_id() == '') {
+    	session_start();
+	}
 
 
 	//Load quiz
@@ -116,6 +122,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_views += 1;
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views='".$mlw_views."' WHERE quiz_id=".$mlw_quiz_id;
 		$results = $wpdb->query( $update );
+		$_SESSION['mlw_qmn_timer'] = time();
 		
 		//Form validation script
 		$mlw_display .= "
@@ -353,6 +360,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_questions = $wpdb->get_results($sql);
 	
 		//Variables needed for scoring
+		$mlw_qmn_timer = time() - $_SESSION['mlw_qmn_timer'];
 		$mlw_points = 0;
 		$mlw_correct = 0;
 		$mlw_total_questions = 0;
@@ -367,54 +375,56 @@ function mlw_quiz_shortcode($atts)
 
 		//See which answers were correct and award points if necessary
 		foreach($mlw_questions as $mlw_question) {
-			if (isset($_POST["question".$mlw_question->question_id]))
+			if (isset($_POST["question".$mlw_question->question_id]) || isset($_POST["mlwComment".$mlw_question->question_id]))
 			{
 				$mlw_user_text;
 				$mlw_correct_text;
 				$mlw_total_questions += 1;
-				$mlw_user_answer = $_POST["question".$mlw_question->question_id];
-				if ($mlw_user_answer == $mlw_question->correct_answer)
+				if (isset($_POST["question".$mlw_question->question_id]))
 				{
-					$mlw_correct += 1;
+					$mlw_user_answer = $_POST["question".$mlw_question->question_id];
+					if ($mlw_user_answer == $mlw_question->correct_answer)
+					{
+						$mlw_correct += 1;
+					}
+					if ($mlw_user_answer == 1) 
+					{
+						$mlw_points += $mlw_question->answer_one_points;
+						$mlw_user_text = $mlw_question->answer_one;
+					}
+					if ($mlw_user_answer == 2) 
+					{
+						$mlw_points += $mlw_question->answer_two_points;
+						$mlw_user_text = $mlw_question->answer_two;
+					}
+					if ($mlw_user_answer == 3) 
+					{
+						$mlw_points += $mlw_question->answer_three_points;
+						$mlw_user_text = $mlw_question->answer_three;
+					}
+					if ($mlw_user_answer == 4) 
+					{
+						$mlw_points += $mlw_question->answer_four_points;
+						$mlw_user_text = $mlw_question->answer_four;
+					}
+					if ($mlw_user_answer == 5) 
+					{
+						$mlw_points += $mlw_question->answer_five_points;
+						$mlw_user_text = $mlw_question->answer_five;
+					}
+					if ($mlw_user_answer == 6) 
+					{
+						$mlw_points += $mlw_question->answer_six_points;
+						$mlw_user_text = $mlw_question->answer_six;
+					}
+					
+					if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
+					if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
+					if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
+					if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
+					if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
+					if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
 				}
-				if ($mlw_user_answer == 1) 
-				{
-					$mlw_points += $mlw_question->answer_one_points;
-					$mlw_user_text = $mlw_question->answer_one;
-				}
-				if ($mlw_user_answer == 2) 
-				{
-					$mlw_points += $mlw_question->answer_two_points;
-					$mlw_user_text = $mlw_question->answer_two;
-				}
-				if ($mlw_user_answer == 3) 
-				{
-					$mlw_points += $mlw_question->answer_three_points;
-					$mlw_user_text = $mlw_question->answer_three;
-				}
-				if ($mlw_user_answer == 4) 
-				{
-					$mlw_points += $mlw_question->answer_four_points;
-					$mlw_user_text = $mlw_question->answer_four;
-				}
-				if ($mlw_user_answer == 5) 
-				{
-					$mlw_points += $mlw_question->answer_five_points;
-					$mlw_user_text = $mlw_question->answer_five;
-				}
-				if ($mlw_user_answer == 6) 
-				{
-					$mlw_points += $mlw_question->answer_six_points;
-					$mlw_user_text = $mlw_question->answer_six;
-				}
-				
-				if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
-				if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
-				if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
-				if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
-				if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
-				if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
-				
 				if (isset($_POST["mlwComment".$mlw_question->question_id]))
 				{
 					$mlw_qm_question_comment = $_POST["mlwComment".$mlw_question->question_id];
@@ -461,6 +471,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_message_after = str_replace( "%USER_EMAIL%" , $mlw_user_email, $mlw_message_after);
 		$mlw_message_after = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message_after);
 		$mlw_message_after = str_replace( "%COMMENT_SECTION%" , $mlw_qm_quiz_comments, $mlw_message_after);
+		$mlw_message_after = str_replace( "%TIMER%" , $mlw_qmn_timer, $mlw_message_after);
 		$mlw_message_after = str_replace( "\n" , "<br>", $mlw_message_after);
 		$mlw_display .= $mlw_message_after;
 	
@@ -483,6 +494,7 @@ function mlw_quiz_shortcode($atts)
 				$mlw_message = str_replace( "%USER_EMAIL%" , $mlw_user_email, $mlw_message);
 				$mlw_message = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message);
 				$mlw_message = str_replace( "%COMMENT_SECTION%" , $mlw_qm_quiz_comments, $mlw_message);
+				$mlw_message = str_replace( "%TIMER%" , $mlw_qmn_timer, $mlw_message);
 				$mlw_message = str_replace( "<br />" , "\n", $mlw_message);
 				$mlw_headers = 'From: '.$mlw_quiz_options->email_from_text.' <'.$mlw_quiz_options->admin_email.'>' . "\r\n";
 				wp_mail($mlw_user_email, "Quiz Results For ".$mlw_quiz_options->quiz_name, $mlw_message, $mlw_headers);
@@ -506,6 +518,7 @@ function mlw_quiz_shortcode($atts)
 			$mlw_message = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message);
 			$mlw_message = str_replace( "%QUESTIONS_ANSWERS%" , $mlw_question_answers, $mlw_message);
 			$mlw_message = str_replace( "%COMMENT_SECTION%" , $mlw_qm_quiz_comments, $mlw_message);
+			$mlw_message = str_replace( "%TIMER%" , $mlw_qmn_timer, $mlw_message);
 			$mlw_message .= " This email was generated by the Quiz Master Next script by Frank Corso";
 			$mlw_message = str_replace( "<br />" , "\n", $mlw_message);
 			$mlw_headers = 'From: '.$mlw_quiz_options->email_from_text.' <'.$mlw_quiz_options->admin_email.'>' . "\r\n";
@@ -513,7 +526,7 @@ function mlw_quiz_shortcode($atts)
 		}
 
 		//Save the results into database
-		$mlw_quiz_results = $mlw_question_answers."\n".$mlw_qm_quiz_comments;
+		$mlw_quiz_results = "Quiz was taken in: ".$mlw_qmn_timer." seconds."."\n".$mlw_question_answers."\n"."Comments: ".$mlw_qm_quiz_comments;
 		$mlw_quiz_results = str_replace( "\n" , "<br>", $mlw_quiz_results);
 		$mlw_quiz_results = htmlspecialchars($mlw_quiz_results, ENT_QUOTES);
 		global $wpdb;

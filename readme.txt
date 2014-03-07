@@ -3,7 +3,7 @@ Contributors: fpcorso
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.6.3
+Stable tag: 1.7.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -87,6 +87,13 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.7.1 (March 6, 2014) =
+ * Added Several New Widgets To Quiz Dashboard
+ * Added A Timer Mechanism To Track How Long User Takes On Quiz
+ * Added New About Update Page
+ * Fixed Saving Results Bug
+ * Fixed Random Number On Quiz Options Page Bug
 
 = 1.6.3 (March 5, 2014) =
  * Fixed Duplicated Shortcode Bug
@@ -318,6 +325,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.7.1 =
+This update adds new widgets to Quiz Dashboard, adds a timer mechanism, and fixes several minor bugs.
 
 = 1.6.3 =
 This update fixes minor bugs and adds minor design changes.
