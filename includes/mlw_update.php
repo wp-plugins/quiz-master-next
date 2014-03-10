@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.7.1";
+	$data = "1.8.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -111,6 +111,22 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD total_user_tries_text TEXT NOT NULL AFTER total_user_tries";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET total_user_tries_text='Enter Your Text Here'";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 1.8.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'message_end_template'") != "message_end_template")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD message_end_template TEXT NOT NULL AFTER message_comment";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET message_end_template=''";
+			$results = $wpdb->query( $update_sql );
+		}
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'certificate_template'") != "certificate_template")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD certificate_template TEXT NOT NULL AFTER total_user_tries_text";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET certificate_template='Enter your text here!'";
 			$results = $wpdb->query( $update_sql );
 		}
 		

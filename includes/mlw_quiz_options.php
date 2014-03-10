@@ -18,7 +18,10 @@ function mlw_generate_quiz_options()
 	$hasUpdatedTemplates = false;
 	$hasDeletedQuestion = false;
 	$hasUpdatedQuestion = false;
+	$mlw_UpdatedCertificate = false;
 	$mlw_hasResetQuizStats = false;
+	$mlw_hasAddedLanding = false;
+	$mlw_hasSavedLanding = false;
 	$mlw_qmn_isQueryError = false;
 	$mlw_qmn_error_code = '0000';
 	
@@ -184,7 +187,8 @@ function mlw_generate_quiz_options()
 	{
 		//Variables for save templates form
 		$mlw_before_message = $_POST["mlw_quiz_before_message"];
-		$mlw_after_message = $_POST["mlw_quiz_after_message"];
+		$mlw_qmn_message_end = $_POST["message_end_template"];
+		//$mlw_after_message = $_POST["mlw_quiz_after_message"];
 		$mlw_user_tries_text = $_POST["mlw_quiz_total_user_tries_text"];
 		$mlw_user_email_template = $_POST["mlw_quiz_user_email_template"];
 		$mlw_admin_email_template = $_POST["mlw_quiz_admin_email_template"];
@@ -199,7 +203,7 @@ function mlw_generate_quiz_options()
 		$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', message_after='".$mlw_after_message."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -300,7 +304,133 @@ function mlw_generate_quiz_options()
 		}
 	}
 	
+	/*
+	Code For Certificate Tab
+	*/
 	
+	//Saved Certificate Options
+	if (isset($_POST["save_certificate_options"]) && $_POST["save_certificate_options"] == "confirmation")
+	{
+		$mlw_certificate_id = intval($_POST["certificate_quiz_id"]);
+		$mlw_certificate_title = $_POST["certificate_title"];
+		$mlw_certificate_text = $_POST["certificate_template"];
+		$mlw_certificate_logo = $_POST["certificate_logo"];
+		$mlw_certificate_background = $_POST["certificate_background"];
+		$mlw_enable_certificates = intval($_POST["enableCertificates"]);
+		$mlw_certificate = array($mlw_certificate_title, $mlw_certificate_text, $mlw_certificate_logo, $mlw_certificate_background, $mlw_enable_certificates);
+		$mlw_certificate_serialized = serialize($mlw_certificate);
+		
+		$mlw_certificate_sql_results = $wpdb->query( $wpdb->prepare( "UPDATE " . $wpdb->prefix . "mlw_quizzes SET certificate_template=%s WHERE quiz_id=%d", $mlw_certificate_serialized, $mlw_certificate_id  ) );
+		
+		
+		if ($mlw_certificate_sql_results != false)
+		{
+			$mlw_UpdatedCertificate = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Certificate Options Have Been Edited For Quiz Number ".$mlw_certificate_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0012';
+		}
+	}
+	
+	/*
+	Code For Quiz Landing Page Tab
+	*/
+	
+	//Check to add new landing page
+	if (isset($_POST["mlw_add_landing_page"]) && $_POST["mlw_add_landing_page"] == "confirmation")
+	{
+		//Function variables
+		$mlw_qmn_landing_id = intval($_POST["mlw_add_landing_quiz_id"]);
+		$mlw_qmn_message_after = $wpdb->get_var( $wpdb->prepare( "SELECT message_after FROM ".$wpdb->prefix."mlw_quizzes WHERE quiz_id=%d", $mlw_qmn_landing_id ) );
+		//Load message_after and check if it is array already. If not, turn it into one
+		$mlw_qmn_landing_array = @unserialize($mlw_qmn_message_after);
+		if (is_array($mlw_qmn_landing_array))
+		{
+			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here');
+			array_unshift($mlw_qmn_landing_array , $mlw_new_landing_array);
+			$mlw_qmn_landing_array = serialize($mlw_qmn_landing_array);
+			
+		}
+		else
+		{
+			$mlw_qmn_landing_array = array(array(0, 0, $mlw_qmn_message_after));
+			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here');
+			array_unshift($mlw_qmn_landing_array , $mlw_new_landing_array);
+			$mlw_qmn_landing_array = serialize($mlw_qmn_landing_array);
+		}
+		
+		//Update message_after with new array then check to see if worked
+		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after=%s WHERE quiz_id=%d", $mlw_qmn_landing_array, $mlw_qmn_landing_id ) );
+		if ($mlw_new_landing_results != false)
+		{
+			$mlw_hasAddedLanding = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'New Landing Page Has Been Created For Quiz Number ".$mlw_qmn_landing_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0013';
+		}
+	}
+	
+	//Check to save landing pages
+	if (isset($_POST["mlw_save_landing_pages"]) && $_POST["mlw_save_landing_pages"] == "confirmation")
+	{
+		//Function Variables
+		$mlw_qmn_landing_id = intval($_POST["mlw_landing_quiz_id"]);
+		$mlw_qmn_landing_total = intval($_POST["mlw_landing_page_total"]);
+		
+		//Create new array
+		$i = 1;
+		$mlw_qmn_new_landing_array = array();
+		while ($i <= $mlw_qmn_landing_total)
+		{
+			$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), $_POST["message_after_".$i]);
+			$mlw_qmn_new_landing_array[] = $mlw_qmn_landing_each;
+			$i++;
+		}
+		$mlw_qmn_new_landing_array = serialize($mlw_qmn_new_landing_array);
+		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after=%s WHERE quiz_id=%d", $mlw_qmn_new_landing_array, $mlw_qmn_landing_id ) );
+		if ($mlw_new_landing_results != false)
+		{
+			$mlw_hasSavedLanding = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Landing Pages Have Been Saved For Quiz Number ".$mlw_qmn_landing_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0014';
+		}
+	}
+	
+		
 	/*
 	Code For Quiz Tools Tab
 	*/
@@ -334,7 +464,7 @@ function mlw_generate_quiz_options()
 
 
 	/*
-	Code for entire page
+	Code to load entire page
 	*/
 
 	//Load all quiz data
@@ -348,6 +478,20 @@ function mlw_generate_quiz_options()
 			break;
 		}
 	}
+	
+	//Load Certificate Options Variables
+	$mlw_certificate_options = @unserialize($mlw_quiz_options->certificate_template);
+	if (!is_array($mlw_certificate_options)) {
+        // something went wrong, initialize to empty array
+        $mlw_certificate_options = array('Enter title here', 'Enter text here', '', '', 1);
+    }
+    
+    //Load Landing Pages
+    $mlw_message_after_array = @unserialize($mlw_quiz_options->message_after);
+	if (!is_array($mlw_message_after_array)) {
+        // something went wrong, initialize to empty array
+        $mlw_message_after_array = array(array(0, 0, $mlw_quiz_options->message_after));
+    }
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -456,6 +600,26 @@ function mlw_generate_quiz_options()
 				return false;
 		}	);
 		});
+		
+		$j(function() {
+			$j('#landing_page_help_dialog').dialog({
+				autoOpen: false,
+				show: 'blind',
+				width:700,
+				hide: 'explode',
+				buttons: {
+				Ok: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+		
+			$j('#landing_page_help').click(function() {
+				$j('#landing_page_help_dialog').dialog('open');
+				return false;
+		}	);
+		});
+		
 		$j(function() {
 			$j('#mlw_reset_stats_dialog').dialog({
 				autoOpen: false,
@@ -527,6 +691,9 @@ function mlw_generate_quiz_options()
   		});
   		$j(function() {
   				$j( "#edit_question_type" ).buttonset();
+  		});
+  		$j(function() {
+  				$j( "#enableCertificates" ).buttonset();
   		});
   		$j(function() {
   				$j( "#edit_comments" ).buttonset();
@@ -716,14 +883,43 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
+		if ($mlw_hasAddedLanding)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> A new landing page has been added successfully!</p>
+	</div>
+	<?php
+		}
+		if ($mlw_hasSavedLanding)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> The landing pages have been saved successfully!</p>
+	</div>
+	<?php
+		}
+		if ($mlw_UpdatedCertificate)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> The certificate options have been saved successfully!</p>
+	</div>
+	<?php
+		}
 	?>
 	<div id="tabs">
 		<ul>
 		    <li><a href="#tabs-1">Quiz Questions</a></li>
 		    <li><a href="#tabs-2">Quiz Text</a></li>
 		    <li><a href="#tabs-3">Quiz Options</a></li>
-		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>		   
-		    <li><a href="#tabs-5">Quiz Tools</a></li>
+		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>	
+		    <li><a href="#tabs-5">Quiz Certificate (Beta)</a></li>
+		    <li><a href="#tabs-6">Quiz Landing Page</a></li>
+		    <li><a href="#tabs-7">Quiz Tools</a></li>
 		</ul>
   		<div id="tabs-1">
   			<button id="new_question_button_two">Add Question</button><button id="question_tab_help">Help</button>
@@ -1153,6 +1349,7 @@ function mlw_generate_quiz_options()
 			</tr>
 			<tr>
 				<td><strong>%TIMER%</strong> - The amount of time user spent of quiz</td>
+				<td><strong>%CERTIFICATE_LINK%</strong> - The link to the certificate after completing the quiz</td>
 			</tr>
 			</table>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
@@ -1187,6 +1384,16 @@ function mlw_generate_quiz_options()
 				</tr>
 				<tr>
 					<td width="30%">
+						<strong>Message Displayed At End Of Quiz (Leave Blank To Omit Text Section)</strong>
+						<br />
+						<p>Allowed Variables: </p>
+						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+					</td>
+					<td><textarea cols="80" rows="15" id="message_end_template" name="message_end_template"><?php echo $mlw_quiz_options->message_end_template; ?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td width="30%">
 						<strong>Message Displayed After Quiz</strong>
 						<br />
 						<p>Allowed Variables: </p>
@@ -1204,7 +1411,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 						<p style="margin: 2px 0">- %TIMER%</p>
 					</td>
-					<td><textarea cols="80" rows="15" id="mlw_quiz_after_message" name="mlw_quiz_after_message"><?php echo $mlw_quiz_options->message_after; ?></textarea>
+					<td>Now you can have different landing pages based on the user score! This field is now edited on the Quiz Landing Page tab.
 					</td>
 				</tr>
 				<tr>
@@ -1498,6 +1705,199 @@ function mlw_generate_quiz_options()
 		</form>
 	</div>
 	<div id="tabs-5">
+		<h3>Quiz Certificate (Beta)</h3>
+		<p>Enter in your text here to fill in the certificate for this quiz. Be sure to enter in the link variable into the templates on the Quiz Text tab so the user can access the certificate.</p>
+		<p>These fields cannot contain HTML.</p>
+		<button id="save_certificate_button" onclick="javascript: document.quiz_certificate_options_form.submit();">Save Certificate Options</button>
+		<?php
+			echo "<form action='' method='post' name='quiz_certificate_options_form'>";
+			echo "<input type='hidden' name='save_certificate_options' value='confirmation' />";
+			echo "<input type='hidden' name='certificate_quiz_id' value='".$quiz_id."' />";
+		?>
+		<table class="form-table">
+			<tr valign="top">
+				<td><label for="enableCertificates">Enable Certificates For This Quiz?</label></td>
+				<td><div id="enableCertificates">
+				    <input type="radio" id="radio30" name="enableCertificates" <?php if ($mlw_certificate_options[4] == 0) {echo 'checked="checked"';} ?> value='0' /><label for="radio30">Yes</label>
+				    <input type="radio" id="radio31" name="enableCertificates" <?php if ($mlw_certificate_options[4] == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio31">No</label>
+				</div></td>
+			</tr>
+			<tr>
+				<td width="30%">
+					<strong>Certificate Title</strong>
+				</td>
+				<td><textarea cols="80" rows="15" id="certificate_title" name="certificate_title"><?php echo $mlw_certificate_options[0]; ?></textarea>
+				</td>			
+			</tr>			
+			<tr>
+				<td width="30%">
+					<strong>Message Displayed On Certificate</strong>
+					<br />
+					<p>Allowed Variables: </p>
+					<p style="margin: 2px 0">- %POINT_SCORE%</p>
+					<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
+					<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
+					<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
+					<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
+					<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+					<p style="margin: 2px 0">- %USER_NAME%</p>
+					<p style="margin: 2px 0">- %USER_BUSINESS%</p>
+					<p style="margin: 2px 0">- %USER_PHONE%</p>
+					<p style="margin: 2px 0">- %USER_EMAIL%</p>
+				</td>
+				<td><label for="certificate_template">Allowed tags: &lt;b&gt; - bold, &lt;i&gt;-italics, &lt;u&gt;-underline, &lt;br&gt;-New Line or start a new line by pressing enter</label><textarea cols="80" rows="15" id="certificate_template" name="certificate_template"><?php echo $mlw_certificate_options[1]; ?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td width="30%">
+					<strong>URL To Logo (Must be JPG, JPEG, PNG or GIF)</strong>
+				</td>
+				<td><textarea cols="80" rows="15" id="certificate_logo" name="certificate_logo"><?php echo $mlw_certificate_options[2]; ?></textarea>
+				</td>			
+			</tr>
+			<tr>
+				<td width="30%">
+					<strong>URL To Background Img (Must be JPG, JPEG, PNG or GIF)</strong>
+				</td>
+				<td><textarea cols="80" rows="15" id="certificate_background" name="certificate_background"><?php echo $mlw_certificate_options[3]; ?></textarea>
+				</td>			
+			</tr>
+		</table>
+		<button id="save_certificate_button" onclick="javascript: document.quiz_certificate_options_form.submit();">Save Certificate Options</button>
+		</form>
+	</div>
+	<div id="tabs-6">
+		<h3>Template Variables</h3>
+			<table class="form-table">
+			<tr>
+				<td><strong>%POINT_SCORE%</strong> - Score for the quiz when using points</td>
+				<td><strong>%AVERAGE_POINT%</strong> - The average amount of points user had per question</td>
+			</tr>
+	
+			<tr>
+				<td><strong>%AMOUNT_CORRECT%</strong> - The number of correct answers the user had</td>
+				<td><strong>%TOTAL_QUESTIONS%</strong> - The total number of questions in the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%CORRECT_SCORE%</strong> - Score for the quiz when using correct answers</td>
+			</tr>
+	
+			<tr>
+				<td><strong>%USER_NAME%</strong> - The name the user entered before the quiz</td>
+				<td><strong>%USER_BUSINESS%</strong> - The business the user entered before the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%USER_PHONE%</strong> - The phone number the user entered before the quiz</td>
+				<td><strong>%USER_EMAIL%</strong> - The email the user entered before the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%QUIZ_NAME%</strong> - The name of the quiz</td>
+				<td><strong>%QUESTIONS_ANSWERS%</strong> - Shows the question, the answer the user provided, and the correct answer</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%COMMENT_SECTION%</strong> - The comments the user entered into comment box if enabled</td>
+				<td><strong>%QUESTION%</strong> - The question that the user answered</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%USER_ANSWER%</strong> - The answer the user gave for the question</td>
+				<td><strong>%CORRECT_ANSWER%</strong> - The correct answer for the question</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%USER_COMMENTS%</strong> - The comments the user provided in the comment field for the question</td>
+				<td><strong>%CORRECT_ANSWER_INFO%</strong> - Reason why the correct answer is the correct answer</td>
+			</tr>
+			<tr>
+				<td><strong>%TIMER%</strong> - The amount of time user spent of quiz</td>
+				<td><strong>%CERTIFICATE_LINK%</strong> - The link to the certificate after completing the quiz</td>
+			</tr>
+		</table>
+		<button id="save_landing_button" onclick="javascript: document.mlw_quiz_save_landing_form.submit();">Save Landing Pages</button>
+		<button id="new_landing_button" onclick="javascript: document.mlw_quiz_add_landing_form.submit();">Add New Landing Page</button>
+		<button id="landing_page_help">Help</button>
+		<form method="post" action="" name="mlw_quiz_save_landing_form" style=" display:inline!important;">
+		<table class="widefat">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Score Greater Than</th>
+					<th>Score Less Than</th>
+					<th>Landing Page Shown</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				$mlw_each_count = 0;
+				$alternate = "";
+				foreach($mlw_message_after_array as $mlw_each)
+				{
+					if($alternate) $alternate = "";
+					else $alternate = " class=\"alternate\"";
+					$mlw_each_count += 1;
+					if ($mlw_each[0] == 0 && $mlw_each[1] == 0)
+					{
+						echo "<tr{$alternate}>";
+							echo "<td>";
+								echo "Default";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type='hidden' id='message_after_begin_".$mlw_each_count."' name='message_after_begin_".$mlw_each_count."' value='0'/>-";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type='hidden' id='message_after_end_".$mlw_each_count."' name='message_after_end_".$mlw_each_count."' value='0'/>-";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea cols='80' rows='15' id='message_after_".$mlw_each_count."' name='message_after_".$mlw_each_count."'>".$mlw_each[2]."</textarea>";
+							echo "</td>";
+						echo "</tr>";
+						break;
+					}
+					else
+					{
+						echo "<tr{$alternate}>";
+							echo "<td>";
+								echo $mlw_each_count;
+							echo "</td>";
+							echo "<td>";
+								echo "<input type='text' id='message_after_begin_".$mlw_each_count."' name='message_after_begin_".$mlw_each_count."' title='What score must the user score better than to see this page' value='".$mlw_each[0]."'/>";
+							echo "</td>";
+							echo "<td>";
+								echo "<input type='text' id='message_after_end_".$mlw_each_count."' name='message_after_end_".$mlw_each_count."' title='What score must the user score worse than to see this page' value='".$mlw_each[1]."' />";
+							echo "</td>";
+							echo "<td>";
+								echo "<textarea cols='80' rows='15' id='message_after_".$mlw_each_count."' title='What text will the user see when reaching this page' name='message_after_".$mlw_each_count."'>".$mlw_each[2]."</textarea>";
+							echo "</td>";
+						echo "</tr>";
+					}
+				}
+				?>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>ID</th>
+					<th>Score Greater Than</th>
+					<th>Score Less Than</th>
+					<th>Landing Page Shown</th>
+				</tr>
+			</tfoot>
+		</table>
+		<input type='hidden' name='mlw_save_landing_pages' value='confirmation' />
+		<input type='hidden' name='mlw_landing_quiz_id' value='<?php echo $quiz_id; ?>' />
+		<input type='hidden' name='mlw_landing_page_total' value='<?php echo $mlw_each_count; ?>' />
+		<button id="save_landing_button" onclick="javascript: document.mlw_quiz_save_landing_form.submit();">Save Landing Pages</button>
+		</form>
+		<form method="post" action="" name="mlw_quiz_add_landing_form" style=" display:inline!important;">
+			<input type='hidden' name='mlw_add_landing_page' value='confirmation' />
+			<input type='hidden' name='mlw_add_landing_quiz_id' value='<?php echo $quiz_id; ?>' />
+			<button id="new_landing_button" onclick="javascript: document.mlw_quiz_add_landing_form.submit();">Add New Landing Page</button>
+		</form>
+	</div>
+	<div id="tabs-7">
 		<p>Use this button to reset all the stats collected for this quiz (Quiz Views and Times Quiz Has Been Taken). </p>
 		<button id="mlw_reset_stats_button">Reset Quiz Views And Taken Stats</button>
 		<div id="mlw_reset_stats_dialog" title="Reset Stats For This Quiz" style="display:none;">
@@ -1513,57 +1913,74 @@ function mlw_generate_quiz_options()
 	</div>
 	</div>
 
+
+	<!--Dialogs-->
 	<div id="delete_dialog" title="Delete Question?" style="display:none;">
-	<h3><b>Are you sure you want to delete Question <span id="delete_question_id"></span>?</b></h3>
-	<?php
-	echo "<form action='' method='post'>";
-	echo "<input type='hidden' name='delete_question' value='confirmation' />";
-	echo "<input type='hidden' id='question_id' name='question_id' value='' />";
-	echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
-	echo "<p class='submit'><input type='submit' class='button-primary' value='Delete Question' /></p>";
-	echo "</form>";	
-	?>
+		<h3><b>Are you sure you want to delete Question <span id="delete_question_id"></span>?</b></h3>
+		<?php
+		echo "<form action='' method='post'>";
+		echo "<input type='hidden' name='delete_question' value='confirmation' />";
+		echo "<input type='hidden' id='question_id' name='question_id' value='' />";
+		echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
+		echo "<p class='submit'><input type='submit' class='button-primary' value='Delete Question' /></p>";
+		echo "</form>";	
+		?>
 	</div>
+	
 	<div id="dialog" title="Help" style="display:none;">
-	<h3><b>Help</b></h3>
-	<p>This page is used edit the questions and options for your quiz.  Use the help buttons on each tab for assistance.</p>
+		<h3><b>Help</b></h3>
+		<p>This page is used edit the questions and options for your quiz.  Use the help buttons on each tab for assistance.</p>
 	</div>
+	
 	<div id="questions_help_dialog" title="Help" style="display:none;">
-	<p>The question table lists the order the question appears in and the question itself.</p>
-	<p>To edit a question, use the Edit link below the question.</p>
-	<p>To add a question, click on the Add Question button. This will open a window for you to add a question. The window will ask for the question and up to 6 answers. If you are using the points system, enter in the amount of points each answer is worth. If you are using the correct system, check the answer that is the correct answer. 
-	You can then choose which style of question you would like by selecting an option for the "Question Type?" option. You can choose if you would like a comment field after the question by selecting an option to the "Comment Field?" question. You can also have a hint displayed to the user. You can then choose the order which the question is 
-	asked by editing the "Question Order" option. Click create question when you are finished.</p>
+		<p>The question table lists the order the question appears in and the question itself.</p>
+		<p>To edit a question, use the Edit link below the question.</p>
+		<p>To add a question, click on the Add Question button. This will open a window for you to add a question. The window will ask for the question and up to 6 answers. If you are using the points system, enter in the amount of points each answer is worth. If you are using the correct system, check the answer that is the correct answer. 
+		You can then choose which style of question you would like by selecting an option for the "Question Type?" option. You can choose if you would like a comment field after the question by selecting an option to the "Comment Field?" question. You can also have a hint displayed to the user. You can then choose the order which the question is 
+		asked by editing the "Question Order" option. Click create question when you are finished.</p>
 	</div>
+	
 	<div id="templates_help_dialog" title="Help" style="display:none;">
-	<p>This tab is used to edit the different messages the user and admin may see.</p>
-	<p>The Message Displayed Before Quiz text is shown to the user at the beginning of the quiz.</p>
-	<p>The Message Display Before Comment Box is shown to the user right before the section the user can type in comments if that option is enabled.</p>
-	<p>The Message Displayed After Quiz text is show to the user after the quiz has been taken.</p>
-	<p>The Email sent to user after completion text is the email that is sent to the user after completing the quiz. (This is only used if you have turned on the option on the options tab.)</p>
-	<p>The Email sent to admin after completion text is the email that is sent to the admin after the quiz has been completed.</p>
-	<p>The other templates section is for customizing the text on the submit button as well as the fields where are user can input his or her information.</p>
-	<p>The %QUESTIONS_ANSWERS% Text area is where you can change the test shown in place of the %QUESTIONS_ANSWERS% variable.</p>
-	<p>Some templates are able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
+		<p>This tab is used to edit the different messages the user and admin may see.</p>
+		<p>The Message Displayed Before Quiz text is shown to the user at the beginning of the quiz.</p>
+		<p>The Message Display Before Comment Box is shown to the user right before the section the user can type in comments if that option is enabled.</p>
+		<p>The Message Displayed After Quiz text is show to the user after the quiz has been taken.</p>
+		<p>The Email sent to user after completion text is the email that is sent to the user after completing the quiz. (This is only used if you have turned on the option on the options tab.)</p>
+		<p>The Email sent to admin after completion text is the email that is sent to the admin after the quiz has been completed.</p>
+		<p>The other templates section is for customizing the text on the submit button as well as the fields where are user can input his or her information.</p>
+		<p>The %QUESTIONS_ANSWERS% Text area is where you can change the test shown in place of the %QUESTIONS_ANSWERS% variable.</p>
+		<p>Some templates are able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
 	</div>
+	
 	<div id="options_help_dialog" title="Help" style="display:none;">
-	<p>This tab is used to edit the different options for the quiz.</p>
-	<p>The system option allows you to have the quiz be graded using a correct/incorrect system or the quiz can have each answer worth different amount of points.</p>
-	<p>Are the questions random? -> If set to yes, the questions will be random. If set to no, the questions will be shown in the order you have set using the Question Order option.</p>
-	<p>Would you like to ask for the contact information at the beginning or at the end of the quiz? -> This option will allow you to choose when to ask for contact information if asked.</p>
-	<p>Should we ask for -> The next four options asks whether you want the quiz to ask for the user's name, business, email, and phone number.</p>
-	<p>Would you like a place for the user to enter comments? -> If set to yes, a comment section will appear at the end of the quiz for the user to fill out. Customize the text shown above the field by editing 
-	the "Message Display Before Comment Box" field on the "Quiz Text" tab.</p>
-	<p>Send user email upon completion?-> If set to yes, the user will be sent an email after taking the quiz. To customize the text of the email, edit the "Email sent to user after completion" 
-	field on the "Quiz Text" tab.</p>
-	<p>Send admin email upon completion? -> If set to yes, the admin will be sent an email when a quiz has been taken. To customize the text of the email, edit the "Email sent to admin after completion" 
-	field on the "Quiz Text" tab.</p>
-	<p>What email should we send the admin email to? -> This field allows you to set what email address to send the admin emails to.</p>
+		<p>This tab is used to edit the different options for the quiz.</p>
+		<p>The system option allows you to have the quiz be graded using a correct/incorrect system or the quiz can have each answer worth different amount of points.</p>
+		<p>Are the questions random? -> If set to yes, the questions will be random. If set to no, the questions will be shown in the order you have set using the Question Order option.</p>
+		<p>Would you like to ask for the contact information at the beginning or at the end of the quiz? -> This option will allow you to choose when to ask for contact information if asked.</p>
+		<p>Should we ask for -> The next four options asks whether you want the quiz to ask for the user's name, business, email, and phone number.</p>
+		<p>Would you like a place for the user to enter comments? -> If set to yes, a comment section will appear at the end of the quiz for the user to fill out. Customize the text shown above the field by editing 
+		the "Message Display Before Comment Box" field on the "Quiz Text" tab.</p>
+		<p>Send user email upon completion?-> If set to yes, the user will be sent an email after taking the quiz. To customize the text of the email, edit the "Email sent to user after completion" 
+		field on the "Quiz Text" tab.</p>
+		<p>Send admin email upon completion? -> If set to yes, the admin will be sent an email when a quiz has been taken. To customize the text of the email, edit the "Email sent to admin after completion" 
+		field on the "Quiz Text" tab.</p>
+		<p>What email should we send the admin email to? -> This field allows you to set what email address to send the admin emails to.</p>
 	</div>
+	
 	<div id="leaderboard_help_dialog" title="Help" style="display:none;">
-	<p>This tab is used to edit the options for the leaderboard for this quiz.</p>
-	<p>Currently, you can edit the template for the leaderboard.</p>
-	<p>The template is able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
+		<p>This tab is used to edit the options for the leaderboard for this quiz.</p>
+		<p>Currently, you can edit the template for the leaderboard.</p>
+		<p>The template is able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
+	</div>
+	
+	<div id="landing_page_help_dialog" title="Help" style="display: none;">
+		<h3><b>Help</b></h3>
+		<p>This page allows you to add, edit, and delete landing pages for your quiz!</p>
+		<p>You can have unlimited different landing pages to show the user after he or she takes the quiz. For example, you can have a page shown if they pass, and then show the default if they fail.</p>
+		<p>If you only need the one landing page, leave just the default and edit it and then click the Save button.</p>
+		<p>To add a new landing page, click Add New Landing Page. A new section will appear with the new page.</p>
+		<p>For your extra pages, you must designate what score the user must be above and what score the user must be below to see the page. If the user does not fall into any, the default page will be show.</p>
+		<p>Be sure to save after any changes are made!</p>
 	</div>
 
 	<?php

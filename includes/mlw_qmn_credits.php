@@ -57,17 +57,23 @@ function mlw_generate_about_page()
 	<hr />
 	<h3>What's New In <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Several New Widgets To Quiz Dashboard</li>
-		<li>Added A Timer Mechanism To Track How Long User Takes On Quiz</li>
-		<li>Added New About Update Page</li>
-		<li>Fixed Saving Results Bug</li>
-		<li>Fixed Random Number On Quiz Options Page Bug</li>
+		<li>Added Ability To Set Up Different Landing Pages Based On Score</li>
+		<li>Added Ability To Give Certificate After Quiz</li>
+		<li>Added Customizable Text Section At End Of Quiz</li>
+		<li>Enhanced Quiz Total Stats Widget</li>
+		<li>Minor Design Changes To Quiz</li>
+		<li>Fixed Session_Start Bug</li>
+		<li>Fixed Division By Zero Bug</li>
+		<li>Fixed Total Stats Deleted Bug</li>
+		<li>Fixed Dashboard Rounding Bug</li>
+		<li>Fixed Notice Of Unknown Company Field Bug</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
 		<li>Time Limits</li>
 		<li>Quiz Pagination</li>
-		<li>Multiple Custom Landing Pages</li>
+		<li>Importing Questions</li>
+		<li>Stats For Each Quiz</li>
 	</ul>
 		
 	<div id="dialog" title="Help">

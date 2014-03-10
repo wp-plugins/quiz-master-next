@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 1.7.1
+Version: 1.8.1
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -75,7 +75,7 @@ add_action('admin_notices', 'mlw_qmn_notice');
 function mlw_qmn_notice() {
     if ( get_option('mlw_qmn_review_notice') == 1 && current_user_can( 'manage_options' ) ) {
         echo '<div class="updated"><p>';
-        printf(__('You have been using the Quiz Master Next plugin for a while now! Thanks for choosing to use this plugin. If it has benefited your website, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a> or a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>. | <a href="%1$s">Hide Notice</a>'), '?mlw_qmn_ignore_notice=0');
+        printf(__('You have been using the Quiz Master Next plugin for a while now! Thanks for choosing to use this plugin. If it has benefited your website, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. | <a href="%1$s">Hide Notice</a>'), '?mlw_qmn_ignore_notice=0');
         echo "</p></div>";
     }
 }

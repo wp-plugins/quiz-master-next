@@ -23,6 +23,8 @@ function mlw_quiz_activate()
 			message_after TEXT NOT NULL,
 			
 			message_comment TEXT NOT NULL,
+			
+			message_end_template TEXT NOT NULL,
 
 			user_email_template TEXT NOT NULL,
 			
@@ -77,6 +79,8 @@ function mlw_quiz_activate()
 			total_user_tries INT NOT NULL,
 			
 			total_user_tries_text TEXT NOT NULL,
+			
+			certificate_template TEXT NOT NULL,
 
 			quiz_views INT NOT NULL,
 

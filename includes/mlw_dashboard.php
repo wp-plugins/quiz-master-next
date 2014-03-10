@@ -144,8 +144,9 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p><?php _e("Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider donating or please consider rating this plugin ", "mlw_qmn_text_domain"); ?><a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next"><?php _e("here", "mlw_qmn_text_domain"); ?></a>.</p>
+	<p>Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. Thank you!</p>
 	
+	<!--Display Widget Boxes-->
 	<div style="float:left; width:19%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss10','advanced','');  ?>	
 	</div>
@@ -174,8 +175,6 @@ function mlw_generate_quiz_dashboard(){
 		<?php do_meta_boxes('quiz_wpss4','advanced','');  ?>	
 	</div>
 	
-	
-	
 	<!--<div style="clear:both">-->
 	
 	<div style="float:left; width:38%;" class="inner-sidebar1">
@@ -201,7 +200,9 @@ function mlw_generate_quiz_dashboard(){
 	</div>
 	
 	<div style="clear:both">
-		
+	
+	
+	<!--Dialogs-->	
 	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>
 	<p>This page is the main admin dashboard for the Quiz Master Next. It contains many useful widgets for the admin.</p>
@@ -219,6 +220,7 @@ function mlw_generate_quiz_dashboard(){
 	<?php
 }
 
+//Quiz Daily Stats Widget - shows graph of quizzes taken each day for last 7 days
 function mlw_dashboard_box()
 {
 	//Gather the weekly stats, one variable for each day for the graph
@@ -233,47 +235,64 @@ function mlw_dashboard_box()
 	$mlw_quiz_taken_yesterday = $wpdb->get_results($sql);
 	$mlw_quiz_taken_yesterday = $wpdb->num_rows;
 	
-	$mlw_three_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-2, date("Y"));
+	$mlw_two_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-2, date("Y"));
+	$mlw_two_days_ago = date("Y-m-d", $mlw_two_days_ago);
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_two_days_ago." 00:00:00' AND '".$mlw_two_days_ago." 23:59:59') AND deleted=0";
+	$mlw_quiz_taken_two_days = $wpdb->get_results($sql);
+	$mlw_quiz_taken_two_days = $wpdb->num_rows;
+	
+	$mlw_three_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-3, date("Y"));
 	$mlw_three_days_ago = date("Y-m-d", $mlw_three_days_ago);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_three_days_ago." 00:00:00' AND '".$mlw_three_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_three_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_three_days = $wpdb->num_rows;
 	
-	$mlw_four_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-3, date("Y"));
+	$mlw_four_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-4, date("Y"));
 	$mlw_four_days_ago = date("Y-m-d", $mlw_four_days_ago);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_four_days_ago." 00:00:00' AND '".$mlw_four_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_four_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_four_days = $wpdb->num_rows;
 	
-	$mlw_five_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-4, date("Y"));
+	$mlw_five_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-5, date("Y"));
 	$mlw_five_days_ago = date("Y-m-d", $mlw_five_days_ago);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_five_days_ago." 00:00:00' AND '".$mlw_five_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_five_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_five_days = $wpdb->num_rows;
 	
-	$mlw_six_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-5, date("Y"));
+	$mlw_six_days_ago =  mktime(0, 0, 0, date("m")  , date("d")-6, date("Y"));
 	$mlw_six_days_ago = date("Y-m-d", $mlw_six_days_ago);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_six_days_ago." 00:00:00' AND '".$mlw_six_days_ago." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_six_days = $wpdb->get_results($sql);
 	$mlw_quiz_taken_six_days = $wpdb->num_rows;
 	
-	$mlw_last_week =  mktime(0, 0, 0, date("m")  , date("d")-6, date("Y"));
+	$mlw_last_week =  mktime(0, 0, 0, date("m")  , date("d")-7, date("Y"));
 	$mlw_last_week = date("Y-m-d", $mlw_last_week);
 	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".$mlw_last_week." 23:59:59') AND deleted=0";
 	$mlw_quiz_taken_week = $wpdb->get_results($sql);
 	$mlw_quiz_taken_week = $wpdb->num_rows;
 	?>
 	<div>
-	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_week.",".$mlw_quiz_taken_six_days.",".$mlw_quiz_taken_five_days.",".$mlw_quiz_taken_four_days.",".$mlw_quiz_taken_three_days.",".$mlw_quiz_taken_yesterday.",".$mlw_quiz_taken_today; ?></span>
+	<span class="inlinesparkline"><?php echo $mlw_quiz_taken_week.",".$mlw_quiz_taken_six_days.",".$mlw_quiz_taken_five_days.",".$mlw_quiz_taken_four_days.",".$mlw_quiz_taken_three_days.",".$mlw_quiz_taken_two_days.",".$mlw_quiz_taken_yesterday.",".$mlw_quiz_taken_today; ?></span>
 	</div>
 	<?php
 }
 
+//Quiz Total Stats - shows other useful stats
 function mlw_dashboard_box_three()
 {
-	//Gather some other useful stats
+	//Function Variables
 	global $wpdb;
-	$sql = "SELECT SUM(quiz_views) AS QuizViews FROM " . $wpdb->prefix . "mlw_quizzes";
+	
+	//Stats From Quiz Table
+	$mlw_stat_total_quiz = $wpdb->get_var( "SELECT COUNT(*) FROM ".$wpdb->prefix."mlw_quizzes" );
+	$mlw_stat_total_deleted_quiz = $wpdb->get_var( "SELECT COUNT(*) FROM ".$wpdb->prefix."mlw_quizzes WHERE deleted=1" );
+	$mlw_stat_total_active_quiz = $wpdb->get_var( "SELECT COUNT(*) FROM ".$wpdb->prefix."mlw_quizzes WHERE deleted=0" );
+	
+	//Stats From Question Table
+	$mlw_stat_total_questions = $wpdb->get_var( "SELECT COUNT(*) FROM ".$wpdb->prefix."mlw_questions" );
+	
+	
+	$sql = "SELECT SUM(quiz_views) AS QuizViews FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted=0";
 	$mlw_quiz_views = $wpdb->get_results($sql);
 
 	foreach($mlw_quiz_views as $mlw_eaches) {
@@ -281,7 +300,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 
-	$sql = "SELECT SUM(quiz_taken) AS QuizTaken FROM " . $wpdb->prefix . "mlw_quizzes";
+	$sql = "SELECT SUM(quiz_taken) AS QuizTaken FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted=0";
 	$mlw_quiz_taken = $wpdb->get_results($sql);
 
 	foreach($mlw_quiz_taken as $mlw_eaches) {
@@ -289,7 +308,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 	
-	$sql = "SELECT ROUND(AVG(quiz_views), 0) AS AvgViews FROM " . $wpdb->prefix . "mlw_quizzes";
+	$sql = "SELECT ROUND(AVG(quiz_views), 0) AS AvgViews FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted=0";
 	$mlw_average_views = $wpdb->get_results($sql);
 
 	foreach($mlw_average_views as $mlw_eaches) {
@@ -297,7 +316,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 	
-	$sql = "SELECT ROUND(AVG(quiz_taken), 0) AS AvgTaken FROM " . $wpdb->prefix . "mlw_quizzes";
+	$sql = "SELECT ROUND(AVG(quiz_taken), 0) AS AvgTaken FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted=0";
 	$mlw_average_taken = $wpdb->get_results($sql);
 
 	foreach($mlw_average_taken as $mlw_eaches) {
@@ -305,7 +324,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 	
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes ORDER BY quiz_views DESC LIMIT 1";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted=0 ORDER BY quiz_views DESC LIMIT 1";
 	$mlw_quiz_most_viewed = $wpdb->get_results($sql);
 
 	foreach($mlw_quiz_most_viewed as $mlw_eaches) {
@@ -313,7 +332,7 @@ function mlw_dashboard_box_three()
 		break;
 	}
 	
-	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes ORDER BY quiz_taken DESC LIMIT 1";
+	$sql = "SELECT quiz_name FROM " . $wpdb->prefix . "mlw_quizzes WHERE deleted=0 ORDER BY quiz_taken DESC LIMIT 1";
 	$mlw_quiz_most_taken = $wpdb->get_results($sql);
 
 	foreach($mlw_quiz_most_taken as $mlw_eaches) {
@@ -324,19 +343,35 @@ function mlw_dashboard_box_three()
 	<div>
 	<table width='100%'>
 	<tr>
-	<td align='left'>Total Times All Quizzes Have Been Viewed</td>
+	<td align='left'>Total Created Quizzes</td>
+	<td align='right'><?php echo $mlw_stat_total_quiz; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Total Deleted Quizzes</td>
+	<td align='right'><?php echo $mlw_stat_total_deleted_quiz; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Total Active Quizzes</td>
+	<td align='right'><?php echo $mlw_stat_total_active_quiz; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Total Created Questions</td>
+	<td align='right'><?php echo $mlw_stat_total_questions; ?></td>
+	</tr>
+	<tr>
+	<td align='left'>Total Times All Active Quizzes Have Been Viewed</td>
 	<td align='right'><?php echo $mlw_quiz_views; ?></td>
 	</tr>
 	<tr>
-	<td align='left'>Total Times All Quizzes Have Been Taken</td>
+	<td align='left'>Total Times All Active Quizzes Have Been Taken</td>
 	<td align='right'><?php echo $mlw_quiz_taken; ?></td>
 	</tr>
 	<tr>
-	<td align='left'>Average Amount Each Quiz Has Been Viewed</td>
+	<td align='left'>Average Amount Each Active Quiz Has Been Viewed</td>
 	<td align='right'><?php echo $mlw_average_views; ?></td>
 	</tr>
 	<tr>
-	<td align='left'>Average Amount Each Quiz Has Been Taken</td>
+	<td align='left'>Average Amount Each Active Quiz Has Been Taken</td>
 	<td align='right'><?php echo $mlw_average_taken; ?></td>
 	</tr>
 	<tr>
@@ -523,6 +558,7 @@ function mlw_dashboard_box_seven()
 	</tr>
 	</table>
 	</form>
+	<p>Disclaimer: in order to better assist you, this form will also send some useful information about your WordPress installation such as version of plugin, version of WordPress, and website url along with your message.</p>
 	</div>
 	<?php
 }
@@ -593,7 +629,7 @@ function mlw_qmn_weekly_percent_taken_widget()
 	
 	if ($mlw_qmn_last_week_taken != 0)
 	{
-		$mlw_qmn_analyze_week = (($mlw_qmn_this_week_taken - $mlw_qmn_last_week_taken) / $mlw_qmn_last_week_taken) * 100;
+		$mlw_qmn_analyze_week = round((($mlw_qmn_this_week_taken - $mlw_qmn_last_week_taken) / $mlw_qmn_last_week_taken) * 100, 2);
 	}
 	else
 	{
@@ -636,7 +672,7 @@ function mlw_qmn_daily_percent_taken_widget()
 	$mlw_qmn_last_weekday_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_week." 00:00:00' AND '".$mlw_last_week." 23:59:59') AND deleted=0");
 	if ($mlw_qmn_last_weekday_taken != 0)
 	{
-		$mlw_qmn_analyze_today = (($mlw_qmn_today_taken - $mlw_qmn_last_weekday_taken) / $mlw_qmn_last_weekday_taken) * 100;
+		$mlw_qmn_analyze_today = round((($mlw_qmn_today_taken - $mlw_qmn_last_weekday_taken) / $mlw_qmn_last_weekday_taken) * 100, 2);
 	}
 	else
 	{
@@ -678,7 +714,7 @@ function mlw_qmn_monthly_percent_taken_widget()
 	$mlw_this_month = date("Y-m-d", $mlw_this_month);
 	$mlw_qmn_this_month_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_month." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0");
 	
-	$mlw_last_month_start =  mktime(0, 0, 0, date("m")  , date("d")-60, date("Y"));
+	$mlw_last_month_start =  mktime(0, 0, 0, date("m")  , date("d")-59, date("Y"));
 	$mlw_last_month_start = date("Y-m-d", $mlw_last_month_start);
 	$mlw_last_month_end =  mktime(0, 0, 0, date("m")  , date("d")-30, date("Y"));
 	$mlw_last_month_end = date("Y-m-d", $mlw_last_month_end);
@@ -686,7 +722,7 @@ function mlw_qmn_monthly_percent_taken_widget()
 	
 	if ($mlw_qmn_last_month_taken != 0)
 	{
-		$mlw_qmn_analyze_month = (($mlw_qmn_this_month_taken - $mlw_qmn_last_month_taken) / $mlw_qmn_last_month_taken) * 100;
+		$mlw_qmn_analyze_month = round((($mlw_qmn_this_month_taken - $mlw_qmn_last_month_taken) / $mlw_qmn_last_month_taken) * 100, 2);
 	}
 	else
 	{
@@ -736,7 +772,7 @@ function mlw_qmn_quaterly_percent_taken_widget()
 	
 	if ($mlw_qmn_last_quater_taken != 0)
 	{
-		$mlw_qmn_analyze_quater = (($mlw_qmn_this_quater_taken - $mlw_qmn_last_quater_taken) / $mlw_qmn_last_quater_taken) * 100;
+		$mlw_qmn_analyze_quater = round((($mlw_qmn_this_quater_taken - $mlw_qmn_last_quater_taken) / $mlw_qmn_last_quater_taken) * 100, 2);
 	}
 	else
 	{

@@ -4,19 +4,21 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.7.1
+Stable tag: 1.8.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
 
 == Description ==
 
-Use this plugin to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results.
+Use this plugin to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results. You can set up what the user sees after he or she takes the quiz based on the user's score. You can also have the plugin create a certificate for the user as well!
 
 = Features =
 
 * Allows for Unlimited Quizzes, Tests, Surveys, Contact Forms, etc..
 * Allows for Unlimited Questions in each Quiz
+* Allows for Unlimited landing pages for each quiz based on the user's score
+* Allows for you to create certificates for the user
 * Can use HTML for questions
 * Can embed Youtube videos in questions
 * Can ask for user's contact information at beginning or end of quiz
@@ -88,6 +90,19 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.8.1 (March 8, 2014) =
+ * Added Customizable Text Section At End Of Quiz
+ * Added Ability To Set Up Different Landing Pages Based On Score
+ * Added Ability To Give Certificate After Quiz
+ * Enhanced Quiz Total Stats Widget
+ * Minor Design Changes To Quiz
+ * Fixed Session_Start Bug
+ * Fixed Division By Zero Bug
+ * Fixed Total Stats Deleted Bug
+ * Fixed Dashboard Rounding Bug
+ * Fixed Notice Unknown Company Field Bug
+
 
 = 1.7.1 (March 6, 2014) =
  * Added Several New Widgets To Quiz Dashboard
@@ -326,6 +341,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.8.1 =
+Upgrade to 1.8.1 to get the ability to have different landing pages based on the user's score, give users certificates, and an additional customizable text section at the end of quiz. Plus minor design changes to quiz and Quiz Dashboard and lots of bug fixes.
 
 = 1.7.1 =
 This update adds new widgets to Quiz Dashboard, adds a timer mechanism, and fixes several minor bugs.
