@@ -125,34 +125,9 @@ function mlw_quiz_shortcode($atts)
 	 		}
 		</script>
 		<style type="text/css">
-			input.submitButton
-			{
-				border: none;
-				-moz-border-radius: 20px;
-				-webkit-border-radius: 20px;
-				-khtml-border-radius: 20px;
-				border-radius: 20px;
-				display: block;
-				font: 18px Georgia, "Times New Roman", Times, serif;
-				letter-spacing: 1px;
-				margin: auto;
-				padding: 7px 25px;
-				text-shadow: 0 1px 1px #000000;
-				text-transform: uppercase;
+			form.mlw_quiz_form input[type=radio],
+			form.mlw_quiz_form input[type=submit] {
 				cursor: pointer;
-			}
-			form.mlw_quiz_form input[type=radio] {
-				float: left;
-				margin-right: 10px;
-				cursor: pointer;
-			}
-			form.mlw_quiz_form input[type=text],
-			form.mlw_quiz_form textarea
-			{
-				-moz-border-radius: 20px;
-				-webkit-border-radius: 20px;
-				-khtml-border-radius: 20px;
-				border-radius: 20px;
 			}
 			form.mlw_quiz_form input:not([type=submit]):focus,
 			form.mlw_quiz_form textarea:focus {
@@ -386,7 +361,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<input style='display: none;' type='text' name='email' id='email' />";
 		$mlw_display .= "<input type='hidden' name='timer' id='timer' value='0'/>";
 		$mlw_display .= "<input type='hidden' name='complete_quiz' value='confirmation' />";
-		$mlw_display .= "<input type='submit' class='submitButton' value='".$mlw_quiz_options->submit_button_text."' />";
+		$mlw_display .= "<input type='submit' value='".$mlw_quiz_options->submit_button_text."' />";
 		$mlw_display .= "<span name='mlw_error_message_bottom' id='mlw_error_message_bottom' style='color: red;'></span><br />";
 		$mlw_display .= "</form>";
 		

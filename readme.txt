@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
@@ -91,7 +91,10 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 
 == Changelog ==
 
-= 1.8.1 (March 8, 2014) =
+= 1.8.2 (March 11, 2014) =
+ * Minor Bug Fixes
+
+= 1.8.1 (March 10, 2014) =
  * Added Customizable Text Section At End Of Quiz
  * Added Ability To Set Up Different Landing Pages Based On Score
  * Added Ability To Give Certificate After Quiz
