@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.8.2";
+	$data = "1.9.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -127,6 +127,43 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD certificate_template TEXT NOT NULL AFTER total_user_tries_text";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET certificate_template='Enter your text here!'";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 1.9.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'social_media'") != "social_media")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD social_media INT NOT NULL AFTER certificate_template";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET social_media='0'";
+			$results = $wpdb->query( $update_sql );
+		}
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'social_media_text'") != "social_media_text")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD social_media_text TEXT NOT NULL AFTER social_media";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET social_media_text='I just score a %CORRECT_SCORE%% on %QUIZ_NAME%!'";
+			$results = $wpdb->query( $update_sql );
+		}
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'pagination'") != "pagination")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD pagination INT NOT NULL AFTER social_media_text";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET pagination=0";
+			$results = $wpdb->query( $update_sql );
+		}
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'pagination_text'") != "pagination_text")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD pagination_text TEXT NOT NULL AFTER pagination";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET pagination_text='Next'";
+			$results = $wpdb->query( $update_sql );
+		}
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'timer_limit'") != "timer_limit")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD timer_limit INT NOT NULL AFTER pagination_text";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET timer_limit=0";
 			$results = $wpdb->query( $update_sql );
 		}
 		

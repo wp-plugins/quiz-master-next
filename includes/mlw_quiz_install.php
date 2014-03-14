@@ -81,6 +81,16 @@ function mlw_quiz_activate()
 			total_user_tries_text TEXT NOT NULL,
 			
 			certificate_template TEXT NOT NULL,
+			
+			social_media INT NOT NULL,
+			
+			social_media_text TEXT NOT NULL,
+			
+			pagination INT NOT NULL,
+			
+			pagination_text TEXT NOT NULL,
+			
+			timer_limit INT NOT NULL,
 
 			quiz_views INT NOT NULL,
 

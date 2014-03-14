@@ -188,7 +188,7 @@ function mlw_generate_quiz_options()
 		//Variables for save templates form
 		$mlw_before_message = $_POST["mlw_quiz_before_message"];
 		$mlw_qmn_message_end = $_POST["message_end_template"];
-		//$mlw_after_message = $_POST["mlw_quiz_after_message"];
+		$mlw_qmn_social_medi_text = $_POST["mlw_quiz_social_media_text_template"];
 		$mlw_user_tries_text = $_POST["mlw_quiz_total_user_tries_text"];
 		$mlw_user_email_template = $_POST["mlw_quiz_user_email_template"];
 		$mlw_admin_email_template = $_POST["mlw_quiz_admin_email_template"];
@@ -199,11 +199,12 @@ function mlw_generate_quiz_options()
 		$mlw_phone_field_text = $_POST["mlw_phoneText"];
 		$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
 		$mlw_comment_field_text = $_POST["mlw_commentText"];
+		$mlw_qmn_next_field = $_POST["pagination_text"];
 		$mlw_email_from_text = $_POST["emailFromText"];
 		$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_next_field."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -235,6 +236,9 @@ function mlw_generate_quiz_options()
 	{
 		//Variables for save options form
 		$mlw_system = $_POST["system"];
+		$mlw_qmn_pagination = intval($_POST["pagination"]);
+		$mlw_qmn_social_media = intval($_POST["social_media"]);
+		$mlw_qmn_timer = intval($_POST["timer_limit"]);
 		$mlw_qmn_questions_from_total = $_POST["question_from_total"];
 		$mlw_randomness_order = $_POST["randomness_order"];
 		$mlw_total_user_tries = intval($_POST["total_user_tries"]);
@@ -250,7 +254,7 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_loggedin_contact = $_POST["loggedin_user_contact"];
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total.", total_user_tries=".$mlw_total_user_tries." WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total.", total_user_tries=".$mlw_total_user_tries.", social_media=".$mlw_qmn_social_media.", pagination=".$mlw_qmn_pagination.", timer_limit=".$mlw_qmn_timer." WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -681,7 +685,13 @@ function mlw_generate_quiz_options()
     			$j( "#userPhone" ).buttonset();
   		});
   		$j(function() {
+  				$j( "#pagination" ).buttonset();
+  		});
+  		$j(function() {
   				$j( "#commentSection" ).buttonset();
+  		});
+  		$j(function() {
+  				$j( "#social_media" ).buttonset();
   		});
   		$j(function() {
   				$j( "#comments" ).buttonset();
@@ -1505,6 +1515,10 @@ function mlw_generate_quiz_options()
 					<td><input name="mlw_commentText" type="text" id="mlw_commentText" value="<?php echo $mlw_quiz_options->comment_field_text; ?>" class="regular-text" /></td>
 				</tr>
 				<tr valign="top">
+					<th scope="row"><label for="pagination_text">Text for next button</label></th>
+					<td><input name="pagination_text" type="text" id="pagination_text" value="<?php echo $mlw_quiz_options->pagination_text; ?>" class="regular-text" /></td>
+				</tr>
+				<tr valign="top">
 					<th scope="row"><label for="emailFromText">What is the From Name for the email sent to users and admin?</label></th>
 					<td><input name="emailFromText" type="text" id="emailFromText" value="<?php echo $mlw_quiz_options->email_from_text; ?>" class="regular-text" /></td>
 				</tr>
@@ -1522,6 +1536,22 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %CORRECT_ANSWER_INFO%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_question_answer_template" name="mlw_quiz_question_answer_template"><?php echo $mlw_quiz_options->question_answer_template; ?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td width="30%">
+						<strong>Social Media Sharing Text</strong>
+						<br />
+						<p>Allowed Variables: </p>
+						<p style="margin: 2px 0">- %POINT_SCORE%</p>
+						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
+						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
+						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
+						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
+						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %TIMER%</p>
+					</td>
+					<td><textarea cols="80" rows="15" id="mlw_quiz_social_media_text_template" name="mlw_quiz_social_media_text_template"><?php echo $mlw_quiz_options->social_media_text; ?></textarea>
 					</td>
 				</tr>
 			</table>
@@ -1548,6 +1578,25 @@ function mlw_generate_quiz_options()
 				</div></td>
 			</tr>
 			<tr valign="top">
+				<th scope="row"><label for="pagination">Would you like all the questions on one page or would you rather one question per page?</label></th>
+				<td><div id="pagination">
+				    <input type="radio" id="pagination_radio" name="pagination" <?php if ($mlw_quiz_options->pagination == 0) {echo 'checked="checked"';} ?> value='0' /><label for="pagination_radio">All On One Page</label>
+				    <input type="radio" id="pagination_radio2" name="pagination" <?php if ($mlw_quiz_options->pagination == 1) {echo 'checked="checked"';} ?> value='1' /><label for="pagination_radio2">One Question Per Page</label>
+				</div></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="timer_limit">How many minutes does the user have to finish the quiz? (Leave 0 for no time limit)</label></th>
+				<td>
+				    <input name="timer_limit" type="number" step="1" min="0" id="timer_limit" value="<?php echo $mlw_quiz_options->timer_limit; ?>" class="regular-text" />
+				</td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="total_user_tries">How many times can a user take this quiz? (Leave 0 for as many times as the user wants to. Currently only works for registered users)</label></th>
+				<td>
+				    <input name="total_user_tries" type="number" step="1" min="0" id="total_user_tries" value="<?php echo $mlw_quiz_options->total_user_tries; ?>" class="regular-text" />
+				</td>
+			</tr>
+			<tr valign="top">
 				<th scope="row"><label for="question_from_total">How many questions should be loaded for quiz? (Leave 0 to load all questions)</label></th>
 				<td>
 				    <input name="question_from_total" type="number" step="1" min="0" id="question_from_total" value="<?php echo $mlw_quiz_options->question_from_total; ?>" class="regular-text" />
@@ -1559,13 +1608,7 @@ function mlw_generate_quiz_options()
 				    <input type="radio" id="radio23" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 0) {echo 'checked="checked"';} ?> value='0' /><label for="radio23">No</label>
 				    <input type="radio" id="radio24" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio24">Yes</label>
 				</div></td>
-			</tr>
-			<tr valign="top">
-				<th scope="row"><label for="total_user_tries">How many times can a user take this quiz? (Leave 0 for as many times as the user wants to. Currently only works for registered users)</label></th>
-				<td>
-				    <input name="total_user_tries" type="number" step="1" min="0" id="total_user_tries" value="<?php echo $mlw_quiz_options->total_user_tries; ?>" class="regular-text" />
-				</td>
-			</tr>
+			</tr>			
 			<tr valign="top">
 				<th scope="row"><label for="contact_info_location">Would you like to ask for the contact information at the beginning or at the end of the quiz?</label></th>
 				<td><div id="contact_info_location">
@@ -1636,6 +1679,13 @@ function mlw_generate_quiz_options()
 			<tr valign="top">
 				<th scope="row"><label for="adminEmail">What email should we send the admin email to?</label></th>
 				<td><input name="adminEmail" type="email" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
+			</tr>
+			<tr valign="top">
+				<th scope="row"><label for="social_media">Show social media sharing buttons? (Twitter only so far)</label></th>
+				<td><div id="social_media">
+				    <input type="radio" id="social_media_radio" name="social_media" <?php if ($mlw_quiz_options->social_media == 0) {echo 'checked="checked"';} ?> value='0' /><label for="social_media_radio">No</label>
+				    <input type="radio" id="social_media_radio2" name="social_media" <?php if ($mlw_quiz_options->social_media == 1) {echo 'checked="checked"';} ?> value='1' /><label for="social_media_radio2">Yes</label>
+				</div></td>
 			</tr>
 		</table>
 		<button id="save_options_button" onclick="javascript: document.quiz_options_form.submit();">Save Options</button>

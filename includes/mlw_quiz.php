@@ -19,6 +19,8 @@ function mlw_quiz_shortcode($atts)
 	$mlw_display = "";
 	global $wpdb;
 	$mlw_qmn_isAllowed = true;
+	$mlw_qmn_section_count = 1;
+	$mlw_qmn_section_limit = 0;
 
 
 	//Load quiz
@@ -70,6 +72,8 @@ function mlw_quiz_shortcode($atts)
 	
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'jquery-ui-core' );
+	wp_enqueue_script( 'jquery-effects-core' );
+	wp_enqueue_script( 'jquery-effects-slide' );
 	wp_enqueue_script( 'jquery-ui-dialog' );
 	wp_enqueue_script( 'jquery-ui-button' );
 	wp_enqueue_script( 'jquery-ui-accordion' );
@@ -98,7 +102,7 @@ function mlw_quiz_shortcode($atts)
 		    max-width: 500px !important;
 		}
  	</style>
- 	<?php
+ 	<?php		
 
 	/*
 	The following code is for displaying the quiz and completion screen
@@ -114,6 +118,110 @@ function mlw_quiz_shortcode($atts)
 	//Display Quiz
 	if (!isset($_POST["complete_quiz"]) && $mlw_quiz_options->quiz_name != "" && $mlw_qmn_isAllowed)
 	{
+		//Calculate number of pages if pagination is turned on
+		if ($mlw_quiz_options->pagination != 0)
+		{
+			$mlw_qmn_section_limit = 2 + $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_questions WHERE quiz_id=%d AND deleted=0", $mlw_quiz_id ) );
+			if ($mlw_quiz_options->comment_section == 0)
+			{
+				$mlw_qmn_section_limit = $mlw_qmn_section_limit + 1;
+			}
+			?>
+			<script type="text/javascript">
+				var $j = jQuery.noConflict();
+				$j(function() {
+				$j( ".quiz_section" ).hide();
+				$j( ".quiz_section" ).not( ".quiz_end" ).append( "<br /><a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"nextSlide();\"><?php echo $mlw_quiz_options->pagination_text; ?></a>" );
+				window.mlw_quiz_slide = 1;
+				window.mlw_quiz_total_slides = <?php echo $mlw_qmn_section_limit; ?>;
+				nextSlide();
+				});
+				function nextSlide()
+				{
+				    if (window.mlw_quiz_slide == window.mlw_quiz_total_slides)
+				    {
+				        $j(".quiz_link").html("Submit");
+				    } 
+				    if (window.mlw_quiz_slide > window.mlw_quiz_total_slides)
+				    {
+				    	document.quizForm.submit();
+				        exit();
+				    }
+				    y = window.mlw_quiz_slide-1;
+				    $j( ".quiz_section.slide"+y ).hide();
+				    $j( ".quiz_section.slide"+window.mlw_quiz_slide ).show( "slide", {direction: "right"} );
+				    window.mlw_quiz_slide++;
+				}
+			</script>
+			<style type="text/css">
+				a.mlw_qmn_quiz_link
+				{
+					    border-radius: 4px;
+					    position: relative;
+					    background-image: linear-gradient(#fff,#dedede);
+						background-color: #eee;
+						border: #ccc solid 1px;
+						color: #333;
+						text-shadow: 0 1px 0 rgba(255,255,255,.5);
+						box-sizing: border-box;
+					    display: inline-block;
+					    padding: 5px 5px 5px 5px;
+   						margin: auto;
+				}
+			</style>
+			<?php
+		}
+		if ($mlw_quiz_options->timer_limit != 0)
+		{
+			?>
+			<div id="mlw_qmn_timer"></div>
+			<script type="text/javascript">
+				var minutes = <?php echo $mlw_quiz_options->timer_limit; ?>;
+				window.amount = (minutes*60);
+				document.getElementById("mlw_qmn_timer").innerHTML = minToSec(window.amount);
+				window.counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+				function timer()
+				{
+					window.amount=window.amount-1;
+				    document.getElementById("mlw_qmn_timer").innerHTML = minToSec(window.amount);
+				  	if (window.amount <= 0)
+				  	{
+				    	clearInterval(window.counter);
+				    	document.quizForm.submit();
+				     	return;
+				  	}
+				}
+				function minToSec(amount)
+				{
+				    var minutes = Math.floor(amount/60);
+				    var seconds = amount - (minutes * 60);
+				    if (seconds == '0') 
+				    { 
+				        seconds = "00"; 
+				    }
+				    else if (seconds < 10)
+				    {
+				        seconds = '0' + seconds;
+				    }
+				    return minutes+":"+seconds;
+				}
+			</script>
+			<style type="text/css">
+				#mlw_qmn_timer {
+					position:fixed;
+					top:200px;
+					right:0px;
+					width:130px;
+					color:#00CCFF;
+					border-radius: 15px;
+					background:#000000;
+					text-align: center;
+					padding: 15px 15px 15px 15px
+				}
+			</style>
+			<?php
+		}
+		
 		?>
 		<script type="text/javascript">
 			var myVar=setInterval("mlwQmnTimer();",1000);
@@ -123,17 +231,23 @@ function mlw_quiz_shortcode($atts)
 	 			x = x + 1;
 	 			document.getElementById("timer").value = x;
 	 		}
+	 		
 		</script>
 		<style type="text/css">
-			form.mlw_quiz_form input[type=radio],
-			form.mlw_quiz_form input[type=submit] {
+			div.mlw_qmn_quiz input[type=radio],
+			div.mlw_qmn_quiz input[type=submit],
+			div.mlw_qmn_quiz label {
 				cursor: pointer;
 			}
-			form.mlw_quiz_form input:not([type=submit]):focus,
-			form.mlw_quiz_form textarea:focus {
+			div.mlw_qmn_quiz input:not([type=submit]):focus,
+			div.mlw_qmn_quiz textarea:focus {
 				background: #eaeaea;
 			}
-			</style>
+			div.mlw_qmn_quiz_section
+			{
+			
+			}
+		</style>
 		<?
 		//Update the quiz views
 		$mlw_views = $mlw_quiz_options->quiz_views;
@@ -212,27 +326,31 @@ function mlw_quiz_shortcode($atts)
 			}		
 		</script>";
 		
-		
 		//Begin the quiz
+		$mlw_display .= "<div class='mlw_qmn_quiz'>";
+		$mlw_display .= "<form name='quizForm' action='' method='post' class='mlw_quiz_form' onsubmit='return mlw_validateForm()' >";
+		$mlw_display .= "<div class='quiz_section slide".$mlw_qmn_section_count."'>";
 		$mlw_message_before = $mlw_quiz_options->message_before;
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
 		$mlw_display .= "<span>".$mlw_message_before."</span><br />";
 		$mlw_display .= "<span name='mlw_error_message' id='mlw_error_message' style='color: red;'></span><br />";
-		$mlw_display .= "<form name='quizForm' action='' method='post' class='mlw_quiz_form' onsubmit='return mlw_validateForm()' >";
 
 		if ($mlw_quiz_options->contact_info_location == 0)
 		{
 			$mlw_display .= mlwDisplayContactInfo($mlw_quiz_options);
 		}
+		$mlw_display .= "</div>";
 		
 		//Display the questions
 		foreach($mlw_questions as $mlw_question) {
+			$mlw_qmn_section_count = $mlw_qmn_section_count + 1;
+			$mlw_display .= "<div class='quiz_section slide".$mlw_qmn_section_count."'>";
 			$mlw_display .= "<span style='font-weight:bold;'>".htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES)."</span><br />";
 			if ($mlw_question->question_type == 0)
 			{
 				if ($mlw_question->answer_one != "")
 				{
-					$mlw_display .= "<input type='radio' required name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_one' value='1' /> <label for='question".$mlw_question->question_id."_one'>".htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES)."</label>";
+					$mlw_display .= "<input type='radio' checked='checked'  required name='question".$mlw_question->question_id."' id='question".$mlw_question->question_id."_one' value='1' /> <label for='question".$mlw_question->question_id."_one'>".htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES)."</label>";
 					$mlw_display .= "<br />";
 				}
 				if ($mlw_question->answer_two != "")
@@ -265,7 +383,7 @@ function mlw_quiz_shortcode($atts)
 			{
 				if ($mlw_question->answer_one != "")
 				{
-					$mlw_display .= "<input type='radio' required name='question".$mlw_question->question_id."' value='1' />".htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES);
+					$mlw_display .= "<input type='radio' checked='checked'  required name='question".$mlw_question->question_id."' value='1' />".htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES);
 				}
 				if ($mlw_question->answer_two != "")
 				{
@@ -334,18 +452,24 @@ function mlw_quiz_shortcode($atts)
 				$mlw_display .= "<span title=\"".htmlspecialchars_decode($mlw_question->hints, ENT_QUOTES)."\" style=\"text-decoration:underline;color:rgb(0,0,255);\">Hint</span>";
 				$mlw_display .= "<br /><br />";
 			}
-			$mlw_display .= "<br />";
+			$mlw_display .= "</div>";
+			if ( $mlw_quiz_options->pagination == 0) { $mlw_display .= "<br />"; }
 		}
 		
 		//Display comment box if needed
 		if ($mlw_quiz_options->comment_section == 0)
 		{
+			$mlw_qmn_section_count = $mlw_qmn_section_count + 1;
+			$mlw_display .= "<div class='quiz_section slide".$mlw_qmn_section_count."'>";
 			$mlw_message_comments = $mlw_quiz_options->message_comment;
 			$mlw_message_comments = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_comments);
 			$mlw_display .= "<label for='mlwQuizComments' style='font-weight:bold;'>".$mlw_message_comments."</label>";
 			$mlw_display .= "<textarea cols='70' rows='15' id='mlwQuizComments' name='mlwQuizComments' ></textarea>";
-			$mlw_display .= "<br /><br />";
+			$mlw_display .= "</div>";
+			if ( $mlw_quiz_options->pagination == 0) { $mlw_display .= "<br /><br />"; }
 		}
+		$mlw_qmn_section_count = $mlw_qmn_section_count + 1;
+		$mlw_display .= "<div class='quiz_section slide".$mlw_qmn_section_count." quiz_end'>";
 		if ($mlw_quiz_options->message_end_template != '')
 		{
 			$mlw_message_end = $mlw_quiz_options->message_end_template;
@@ -364,6 +488,8 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<input type='submit' value='".$mlw_quiz_options->submit_button_text."' />";
 		$mlw_display .= "<span name='mlw_error_message_bottom' id='mlw_error_message_bottom' style='color: red;'></span><br />";
 		$mlw_display .= "</form>";
+		$mlw_display .= "</div>";
+		$mlw_display .= "</div>";
 		
 	}
 	//Display Completion Screen
@@ -641,6 +767,21 @@ function mlw_quiz_shortcode($atts)
 			$mlw_message_after = str_replace( "%CERTIFICATE_LINK%" , $mlw_certificate_link, $mlw_message_after);
 			$mlw_message_after = str_replace( "\n" , "<br>", $mlw_message_after);
 			$mlw_display .= $mlw_message_after;
+		}
+		
+		if ($mlw_quiz_options->social_media == 1)
+		{
+			$mlw_social_message = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_quiz_options->social_media_text);
+			$mlw_social_message = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_social_message);
+			$mlw_social_message = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_social_message);
+			$mlw_social_message = str_replace( "%TOTAL_QUESTIONS%" , $mlw_total_questions, $mlw_social_message);
+			$mlw_social_message = str_replace( "%CORRECT_SCORE%" , $mlw_total_score, $mlw_social_message);
+			$mlw_social_message = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_social_message);
+			$mlw_social_message = str_replace( "%TIMER%" , $mlw_qmn_timer, $mlw_social_message);
+			$mlw_display .= "<br />
+			<a href=\"https://twitter.com/share\" data-size=\"large\" data-text=\"".esc_attr($mlw_social_message)."\" class=\"twitter-share-button\" data-lang=\"en\">Tweet</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"https://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>
+			<br />";
 		}
 	
 		//Prepare and send the user email

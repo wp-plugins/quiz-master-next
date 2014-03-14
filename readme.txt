@@ -4,50 +4,58 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.8.2
+Stable tag: 1.9.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Use this plugin to add multiple quizzes, tests, surveys, or contact forms to your website.
+The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
 
 == Description ==
 
-Use this plugin to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results. You can set up what the user sees after he or she takes the quiz based on the user's score. You can also have the plugin create a certificate for the user as well!
+The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results. You can set up what the user sees after he or she takes the quiz based on the user's score. You can also have the plugin create a certificate for the user as well!
 
-= Features =
+= Have Unlimted Quizzes, Tests, Surveys, Contact Forms, etc.. =
+Each of your quizzes can have **unlimited** questions! Your questions can contain **HTML** to show images, Youtube videos and more.
 
-* Allows for Unlimited Quizzes, Tests, Surveys, Contact Forms, etc..
-* Allows for Unlimited Questions in each Quiz
-* Allows for Unlimited landing pages for each quiz based on the user's score
-* Allows for you to create certificates for the user
-* Can use HTML for questions
-* Can embed Youtube videos in questions
-* Can ask for user's contact information at beginning or end of quiz
-* Can email user after taking the quiz
-* Can email an admin after a user takes the quiz
-* Can score the quiz using an incorrect/correct system, a points based system, or a not-graded system
+= Customize Your Text =
+All the text your users see can be **customized**. Everything from the text blocks throughout the quiz to the submit button.
+
+= Mulitple Landing Pages For Each Quiz =
+Each quiz can have **unlimited** results pages that can be customized with your text. Show different results pages based on the users score!
+
+= Emails After Completion Of Quiz =
+After the user takes a quiz, you can have the plugin email you and the user with results. This too can be customized with your own text.
+
+= Very Flexible =
+Your quiz can be graded with an incorrect/correct system or a points-based system. Or not at all. You ask for contact information at the beginning or the end and you decide which fields are required. You can decide to use all the questions or only a select few chosen at random.
+
+= Useful For Businesses =
+The plugin features useful **statistics** that show how many times each quiz has been viewed and taken and plots the data on several different **graphs** so you can see how the quizzes are doing at a glance. Also, the plugin includes an **audit trail** that logs every action done on the admin side so you can keep up with who is doing what!
+
+= Saves The Results For Later Use =
+The plugin will **save** the results, the user's answers, the user's comments, and more!
+
+= Other Useful Features =
+
+* Allow the user to share the results on *social networks*
+* Show all questions on one page or have only one question per page
+* Allows for you to create **certificates** for the user
 * Can set amount of tries a user has to take the quiz
-* Can enable comment boxes for each question and/or comment section at the end of the quiz
-* Can enable hints for questions
+* Can enable **comment boxes** for each question and/or comment section at the end of the quiz
+* Can enable **hints** for questions
 * Can show user why the answer is the correct answer
-* Can load set number of questions from question bank or all questions
-* Saves the results after a user takes the quiz
-* Saves the users answers and comments after taking the quiz
-* Features audit trail so admins can keep track of who adds, edits, or deletes quizzes and questions
-* Features useful statistics for how many have quizzes been taken
-* Create surveys by utilizing the comment boxes instead of answers
-* Create Contact Forms
-* Customize templates for landing page after the quiz has been taken
-* Customize emails that are sent to users and admins
 * Questions can be in predetermined order or random
-* Leaderboards for every quiz which can be used as shortcode or in included widget
+* **Leaderboards** for every quiz which can be used as shortcode or in included widget
+* Keep track how long a user takes on the quiz
+* Able to set up time limits on the quiz
+* And **Much** More...
 
-Be sure to check out all of our plugins in our Master Suite. Visit our plugins page for details: (http://mylocalwebstop.com/wordpress-plugins/)
+Be sure to check out all of our plugins in our Master Suite. Visit our plugins page for details: [My Local Webstop Plugins](http://mylocalwebstop.com/wordpress-plugins/)
 
 
 == Installation ==
 
 We now offer an installation service to assist you in this process. We will install any or all of our plugins and spend up to 2 hours with you for consultaion and training. Visit our website for details.
-(http://mylocalwebstop.com/services/)
+[My Local Webstop Services](http://mylocalwebstop.com/services/)
 
 **Or**
 
@@ -71,10 +79,10 @@ On each page, there is a "?" next to the page title. Clicking on it will bring u
 There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the widget on the quiz dashboard within the plugin to contact me and I will help you.
 
 = I need a lot of help setting up my quiz, what can you do to help? =
-We now offer a monthly premium support plan that offers priority response, access to a premium support-only forum, and includes 1-on-1 training! For details, visit our services page: (http://mylocalwebstop.com/services/)
+We now offer a monthly premium support plan that offers priority response, access to a premium support-only forum, and includes 1-on-1 training! For details, visit our services page: [My Local Webstop Services](http://mylocalwebstop.com/services/)
 
 = Do you offer any 1-on-1 training to assist me in using this plugin? =
-We now offer an installation service that includes 1-on-1 training as well as a monthly support plan that includes 1-on-1 training. For details, visit our services page: (http://mylocalwebstop.com/services/)
+We now offer an installation service that includes 1-on-1 training as well as a monthly support plan that includes 1-on-1 training. For details, visit our services page: [My Local Webstop Services](http://mylocalwebstop.com/services/)
 
 = I have an idea, how do I contact you? =
 Feel free to use the widget on the quiz dashboard within the plugin or from the contact page at mylocalwebstop.com.
@@ -90,6 +98,13 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.9.1 (March 13, 2014) =
+ * Added Ability To Show One Question At A Time Instead Of All At Once
+ * Added Ability To Allow Users To Share Results On Twitter
+ * Added Ability To Set Time Limits On Quiz
+ * Minor Design Changes To Quiz
+ * Minor Bug Fixes
 
 = 1.8.2 (March 11, 2014) =
  * Minor Bug Fixes
@@ -344,6 +359,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.9.1 =
+Upgrade to 1.9.1 to get the ability for pagination on the quiz and to allow your users to share their results on Twitter.
 
 = 1.8.1 =
 Upgrade to 1.8.1 to get the ability to have different landing pages based on the user's score, give users certificates, and an additional customizable text section at the end of quiz. Plus minor design changes to quiz and Quiz Dashboard and lots of bug fixes.
