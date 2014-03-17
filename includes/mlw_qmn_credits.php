@@ -57,18 +57,19 @@ function mlw_generate_about_page()
 	<hr />
 	<h3>What's New In <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Show One Question At A Time Instead Of All At Once</li>
-		<li>Added Ability To Allow Users To Share Results On Twitter</li>
-		<li>Added Ability To Set Time Limits On Quiz</li>
+		<li>Added Ability To Delete Landing Pages</li>
+		<li>Added Ability To Have HTML In Correct Answer Info Field</li>
+		<li>Added %CURRENT_DATE% field to show current date</li>
+		<li>Added Previous Question Button To Paginated Quiz</li>
+		<li>Add Timer To Title Bar</li>
 		<li>Minor Design Changes To Quiz</li>
-		<li>Minor Bug Fixes</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
 		<li>Importing Questions</li>
 		<li>Stats For Each Quiz</li>
 		<li>Multiple Right Answers</li>
-		<li>Graded Text Answers</li>
+		<li>Graded Open Text Answers</li>
 		<li>Quiz Styling</li>
 	</ul>
 		

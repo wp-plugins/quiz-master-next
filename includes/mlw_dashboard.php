@@ -485,6 +485,11 @@ function mlw_dashboard_box_six()
 		<h2>Plugin Installation Services</h2>
 		<p>We will install any or all of our WordPress plugins on your existing WordPress site. This includes 1 year access to premium support-only forums.</p>
 		<p>Up to 2 hours of consultation and training included.</p>
+		<hr />
+		<h2>WordPress Maintenance Services</h2>
+		<p>Our maintenance service includes around the clock security monitoring, off-site backups, plugin updates, theme updates, WordPress updates, and WordPress training videos.</p>
+		<p>Our Premium Plugin Support is included!</p>
+		<p>Up to 30 minutes of support, consultation, and training included each month.</p>
 		<br />
 		<p>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</p>
 	</div>

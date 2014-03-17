@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.9.1";
+	$data = "1.9.2";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -166,6 +166,7 @@ function mlw_quiz_update()
 			$update_sql = "UPDATE ".$table_name." SET timer_limit=0";
 			$results = $wpdb->query( $update_sql );
 		}
+		
 		
 		global $wpdb;
 		$table_name = $wpdb->prefix . "mlw_questions";

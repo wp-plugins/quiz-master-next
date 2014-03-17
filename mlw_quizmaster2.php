@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 1.9.1
+Version: 1.9.2
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -39,7 +39,7 @@ include("includes/mlw_qmn_credits.php");
 
 ///Activation Actions
 add_action('admin_menu', 'mlw_add_menu');
-add_action('init', 'mlw_quiz_update');
+add_action('admin_init', 'mlw_quiz_update');
 add_action('widgets_init', create_function('', 'return register_widget("Mlw_Qmn_Leaderboard_Widget");'));
 add_shortcode('mlw_quizmaster', 'mlw_quiz_shortcode');
 add_shortcode('mlw_quizmaster_leaderboard', 'mlw_quiz_leaderboard_shortcode');

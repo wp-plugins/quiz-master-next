@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -98,6 +98,14 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.9.2 (March 17, 2014) =
+ * Added Ability To Delete Landing Pages
+ * Added Ability To Have HTML In Correct Answer Info Field
+ * Added Previous Question Button To Paginated Quiz
+ * Minor Design Changes To Quiz
+ * Add Timer To Title Bar
+ * Added %CURRENT_DATE% field
 
 = 1.9.1 (March 13, 2014) =
  * Added Ability To Show One Question At A Time Instead Of All At Once
@@ -359,6 +367,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 1.9.2 =
+Upgrade to have the ability to delete landing pages, allow users to go back when paginating questions, and have HTML in the correct answer info field!
 
 = 1.9.1 =
 Upgrade to 1.9.1 to get the ability for pagination on the quiz and to allow your users to share their results on Twitter.

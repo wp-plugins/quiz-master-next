@@ -46,7 +46,7 @@ function mlw_generate_quiz_options()
 		$edit_answer_five_points = intval($_POST["edit_answer_five_points"]);
 		$edit_answer_six = htmlspecialchars($_POST["edit_answer_six"], ENT_QUOTES);
 		$edit_answer_six_points = intval($_POST["edit_answer_six_points"]);
-		$edit_correct_answer = $_POST["edit_correct_answer"];
+		$edit_correct_answer = htmlspecialchars($_POST["edit_correct_answer"], ENT_QUOTES);
 		$edit_question_answer_info = $_POST["edit_correct_answer_info"];
 		$mlw_edit_question_id = intval($_POST["edit_question_id"]);
 		$mlw_edit_question_type = $_POST["edit_question_type"];
@@ -123,7 +123,7 @@ function mlw_generate_quiz_options()
 		$answer_five_points = intval($_POST["answer_five_points"]);
 		$answer_six = htmlspecialchars($_POST["answer_six"], ENT_QUOTES);
 		$answer_six_points = intval($_POST["answer_six_points"]);
-		$correct_answer = $_POST["correct_answer"];
+		$correct_answer = htmlspecialchars($_POST["correct_answer"], ENT_QUOTES);
 		$question_answer_info = $_POST["correct_answer_info"];
 		$question_type = $_POST["question_type"];
 		$comments = htmlspecialchars($_POST["comments"], ENT_QUOTES);
@@ -199,12 +199,12 @@ function mlw_generate_quiz_options()
 		$mlw_phone_field_text = $_POST["mlw_phoneText"];
 		$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
 		$mlw_comment_field_text = $_POST["mlw_commentText"];
-		$mlw_qmn_next_field = $_POST["pagination_text"];
+		$mlw_qmn_pagination_field = serialize(array( $_POST["pagination_prev_text"], $_POST["pagination_next_text"] ));
 		$mlw_email_from_text = $_POST["emailFromText"];
 		$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_next_field."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_pagination_field."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -408,8 +408,11 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_new_landing_array = array();
 		while ($i <= $mlw_qmn_landing_total)
 		{
-			$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), $_POST["message_after_".$i]);
-			$mlw_qmn_new_landing_array[] = $mlw_qmn_landing_each;
+			if ($_POST["message_after_".$i] != "Delete")
+			{
+				$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), $_POST["message_after_".$i]);
+				$mlw_qmn_new_landing_array[] = $mlw_qmn_landing_each;	
+			}
 			$i++;
 		}
 		$mlw_qmn_new_landing_array = serialize($mlw_qmn_new_landing_array);
@@ -495,6 +498,13 @@ function mlw_generate_quiz_options()
 	if (!is_array($mlw_message_after_array)) {
         // something went wrong, initialize to empty array
         $mlw_message_after_array = array(array(0, 0, $mlw_quiz_options->message_after));
+    }
+    
+    //Load Pagination Text
+    $mlw_qmn_pagination_text = "";
+	$mlw_qmn_pagination_text = @unserialize($mlw_quiz_options->pagination_text);
+	if (!is_array($mlw_qmn_pagination_text)) {
+        $mlw_qmn_pagination_text = array('Previous', $mlw_quiz_options->pagination_text);
     }
 	?>
 	<!-- css -->
@@ -807,6 +817,11 @@ function mlw_generate_quiz_options()
 			if (comments == 2) document.getElementById("editCommentRadio3").checked = true;
 			*/
 		};
+		function delete_landing(id)
+		{
+			document.getElementById('message_after_'+id).value = "Delete";
+			document.mlw_quiz_save_landing_form.submit();	
+		}
 	</script>
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
@@ -943,7 +958,7 @@ function mlw_generate_quiz_options()
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."', '".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES)))."','".$mlw_question_info->answer_one_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES)))."','".$mlw_question_info->answer_two_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES)))."','".$mlw_question_info->answer_three_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES)))."','".$mlw_question_info->answer_four_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES)))."','".$mlw_question_info->answer_five_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES)))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".$mlw_question_info->question_answer_info."', '".$mlw_question_info->comments."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->hints, ENT_QUOTES))."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."', '".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES)))."','".$mlw_question_info->answer_one_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES)))."','".$mlw_question_info->answer_two_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES)))."','".$mlw_question_info->answer_three_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES)))."','".$mlw_question_info->answer_four_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES)))."','".$mlw_question_info->answer_five_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES)))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".esc_attr(htmlspecialchars_decode($mlw_question_info->question_answer_info, ENT_QUOTES))."', '".$mlw_question_info->comments."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->hints, ENT_QUOTES))."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 			}
 			
@@ -1361,6 +1376,9 @@ function mlw_generate_quiz_options()
 				<td><strong>%TIMER%</strong> - The amount of time user spent of quiz</td>
 				<td><strong>%CERTIFICATE_LINK%</strong> - The link to the certificate after completing the quiz</td>
 			</tr>
+			<tr>
+				<td><strong>%CURRENT_DATE%</strong> - The Current Date</td>
+			</tr>
 			</table>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
 			<?php
@@ -1378,6 +1396,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_before_message" name="mlw_quiz_before_message"><?php echo $mlw_quiz_options->message_before; ?></textarea>
 					</td>
@@ -1388,6 +1407,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_before_comments" name="mlw_quiz_before_comments"><?php echo $mlw_quiz_options->message_comment; ?></textarea>
 					</td>
@@ -1398,6 +1418,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="message_end_template" name="message_end_template"><?php echo $mlw_quiz_options->message_end_template; ?></textarea>
 					</td>
@@ -1420,6 +1441,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 						<p style="margin: 2px 0">- %TIMER%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td>Now you can have different landing pages based on the user score! This field is now edited on the Quiz Landing Page tab.
 					</td>
@@ -1430,6 +1452,7 @@ function mlw_generate_quiz_options()
 						<br />
 						<p>Allowed Variables: </p>
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_total_user_tries_text" name="mlw_quiz_total_user_tries_text"><?php echo $mlw_quiz_options->total_user_tries_text; ?></textarea>
 					</td>
@@ -1458,6 +1481,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 						<p style="margin: 2px 0">- %TIMER%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_user_email_template" name="mlw_quiz_user_email_template"><?php echo $mlw_quiz_options->user_email_template; ?></textarea>
 					</td>
@@ -1480,6 +1504,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
 						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
 						<p style="margin: 2px 0">- %TIMER%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_admin_email_template" name="mlw_quiz_admin_email_template"><?php echo $mlw_quiz_options->admin_email_template; ?></textarea>
 					</td>
@@ -1515,8 +1540,12 @@ function mlw_generate_quiz_options()
 					<td><input name="mlw_commentText" type="text" id="mlw_commentText" value="<?php echo $mlw_quiz_options->comment_field_text; ?>" class="regular-text" /></td>
 				</tr>
 				<tr valign="top">
-					<th scope="row"><label for="pagination_text">Text for next button</label></th>
-					<td><input name="pagination_text" type="text" id="pagination_text" value="<?php echo $mlw_quiz_options->pagination_text; ?>" class="regular-text" /></td>
+					<th scope="row"><label for="pagination_prev_text">Text for previous button</label></th>
+					<td><input name="pagination_prev_text" type="text" id="pagination_prev_text" value="<?php echo $mlw_qmn_pagination_text[0]; ?>" class="regular-text" /></td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="pagination_next_text">Text for next button</label></th>
+					<td><input name="pagination_next_text" type="text" id="pagination_next_text" value="<?php echo $mlw_qmn_pagination_text[1]; ?>" class="regular-text" /></td>
 				</tr>
 				<tr valign="top">
 					<th scope="row"><label for="emailFromText">What is the From Name for the email sent to users and admin?</label></th>
@@ -1550,6 +1579,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
 						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
 						<p style="margin: 2px 0">- %TIMER%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
 					<td><textarea cols="80" rows="15" id="mlw_quiz_social_media_text_template" name="mlw_quiz_social_media_text_template"><?php echo $mlw_quiz_options->social_media_text; ?></textarea>
 					</td>
@@ -1794,6 +1824,7 @@ function mlw_generate_quiz_options()
 					<p style="margin: 2px 0">- %USER_BUSINESS%</p>
 					<p style="margin: 2px 0">- %USER_PHONE%</p>
 					<p style="margin: 2px 0">- %USER_EMAIL%</p>
+					<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 				</td>
 				<td><label for="certificate_template">Allowed tags: &lt;b&gt; - bold, &lt;i&gt;-italics, &lt;u&gt;-underline, &lt;br&gt;-New Line or start a new line by pressing enter</label><textarea cols="80" rows="15" id="certificate_template" name="certificate_template"><?php echo $mlw_certificate_options[1]; ?></textarea>
 				</td>
@@ -1911,7 +1942,7 @@ function mlw_generate_quiz_options()
 					{
 						echo "<tr{$alternate}>";
 							echo "<td>";
-								echo $mlw_each_count;
+								echo $mlw_each_count."<div><span style='color:green;font-size:12px;'><a onclick=\"\$j('#trying_delete_".$mlw_each_count."').show();\">Delete</a></span></div><div style=\"display: none;\" id='trying_delete_".$mlw_each_count."'>Are you sure?<br /><a onclick=\"delete_landing(".$mlw_each_count.")\">Yes</a>|<a onclick=\"\$j('#trying_delete_".$mlw_each_count."').hide();\">No</a></div>";
 							echo "</td>";
 							echo "<td>";
 								echo "<input type='text' id='message_after_begin_".$mlw_each_count."' name='message_after_begin_".$mlw_each_count."' title='What score must the user score better than to see this page' value='".$mlw_each[0]."'/>";
