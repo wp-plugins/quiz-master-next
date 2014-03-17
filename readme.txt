@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.3
 Tested up to: 3.8.1
-Stable tag: 1.9.2
+Stable tag: 1.9.3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -98,6 +98,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 1.9.3 (March 17, 2014) =
+ * Fixed Bug: Unexpected T_CONSTANT_ENCAPSED_STRING When Activating
 
 = 1.9.2 (March 17, 2014) =
  * Added Ability To Delete Landing Pages

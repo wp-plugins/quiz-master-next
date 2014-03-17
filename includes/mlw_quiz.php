@@ -680,17 +680,17 @@ function mlw_quiz_shortcode($atts)
 			$mlw_message_certificate = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message_certificate);
 			$mlw_message_certificate = str_replace( "\n" , "<br>", $mlw_message_certificate);
 			$mlw_qmn_certifiicate_file = "<?php
-			include(\"".plugin_dir_path( __FILE__ )."WriteHTML.php\");
+			include '".plugin_dir_path( __FILE__ )."WriteHTML.php';
 			\$pdf = new PDF_HTML();
 			\$pdf->AddPage('L');";
-			$mlw_qmn_certifiicate_file .= $mlw_certificate_options[3] != '' ? "\$pdf->Image('".$mlw_certificate_options[3]."',0,0,\$pdf->w, \$pdf->h);" : '';
+			$mlw_qmn_certifiicate_file .= $mlw_certificate_options[3] != '' ? "\$pdf->Image('{$mlw_certificate_options[3]}',0,0,\$pdf->w, \$pdf->h);" : '';
 			$mlw_qmn_certifiicate_file .= "\$pdf->Ln(20);
 			\$pdf->SetFont('Arial','B',24);
-			\$pdf->MultiCell(280,20,'".$mlw_certificate_options[0]."', 0, 'C');
+			\$pdf->MultiCell(280,20,'{$mlw_certificate_options[0]}', 0, 'C');
 			\$pdf->Ln(15);
 			\$pdf->SetFont('Arial','',16);
-			\$pdf->WriteHTML('<p align=\"center\">".$mlw_message_certificate."</p>');";
-			$mlw_qmn_certifiicate_file .= $mlw_certificate_options[2] != '' ? "\$pdf->Image('".$mlw_certificate_options[2]."',110,130);" : '';
+			\$pdf->WriteHTML('<p align=\"center\">{$mlw_message_certificate}</p>');";
+			$mlw_qmn_certifiicate_file .= $mlw_certificate_options[2] != '' ? "\$pdf->Image('{$mlw_certificate_options[2]}',110,130);" : '';
 			$mlw_qmn_certifiicate_file .= "\$pdf->Output('mlw_qmn_certificate.pdf', 'D');
 			unlink(__FILE__);
 			?>";
