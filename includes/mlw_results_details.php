@@ -39,23 +39,29 @@ function mlw_generate_result_details()
 			$mlw_message_certificate = str_replace( "%USER_PHONE%" , $mlw_quiz_results->email, $mlw_message_certificate);
 			$mlw_message_certificate = str_replace( "%USER_EMAIL%" , $mlw_quiz_results->phone, $mlw_message_certificate);
 			$mlw_message_certificate = str_replace( "\n" , "<br>", $mlw_message_certificate);
-			$mlw_qmn_certifiicate_file = "<?php
-			include(\"".plugin_dir_path( __FILE__ )."WriteHTML.php\");
-			\$pdf = new PDF_HTML();
-			\$pdf->AddPage('L');";
-			$mlw_qmn_certifiicate_file .= $mlw_certificate_options[3] != '' ? "\$pdf->Image('".$mlw_certificate_options[3]."',0,0,\$pdf->w, \$pdf->h);" : '';
-			$mlw_qmn_certifiicate_file .= "\$pdf->Ln(20);
-			\$pdf->SetFont('Arial','B',24);
-			\$pdf->MultiCell(280,20,'".$mlw_certificate_options[0]."', 0, 'C');
-			\$pdf->Ln(15);
-			\$pdf->SetFont('Arial','',16);
-			\$pdf->WriteHTML('<p align=\"center\">".$mlw_message_certificate."</p>');";
-			$mlw_qmn_certifiicate_file .= $mlw_certificate_options[2] != '' ? "\$pdf->Image('".$mlw_certificate_options[2]."',110,130);" : '';
-			$mlw_qmn_certifiicate_file .= "\$pdf->Output('mlw_qmn_certificate.pdf', 'D');
-			unlink(__FILE__);
-			?>";
+			$plugindirpath=plugin_dir_path( __FILE__ );
+			$mlw_qmn_certificate_file=<<<EOC
+<?php
+include("$plugindirpath/WriteHTML.php");
+\$pdf=new PDF_HTML();
+\$pdf->AddPage('L');
+EOC;
+			$mlw_qmn_certificate_file.=$mlw_certificate_options[3] != '' ? '$pdf->Image("'.$mlw_certificate_options[3].'",0,0,$pdf->w, $pdf->h);' : '';
+			$mlw_qmn_certificate_file.=<<<EOC
+\$pdf->Ln(20);
+\$pdf->SetFont('Arial','B',24);
+\$pdf->MultiCell(280,20,'$mlw_certificate_options[0]',0,'C');
+\$pdf->Ln(15);
+\$pdf->SetFont('Arial','',16);
+\$pdf->WriteHTML("<p align='center'>$mlw_message_certificate</p>");
+EOC;
+			$mlw_qmn_certificate_file.=$mlw_certificate_options[2] != '' ? '$pdf->Image("'.$mlw_certificate_options[2].'",110,130);' : '';
+			$mlw_qmn_certificate_file.=<<<EOC
+\$pdf->Output('mlw_qmn_certificate.pdf','D');
+unlink(__FILE__);
+EOC;
 			$mlw_qmn_certificate_filename = "../".str_replace(home_url()."/", '', plugin_dir_url( __FILE__ ))."certificates/mlw_qmn_quiz".date("YmdHis")."admin.php";
-			file_put_contents($mlw_qmn_certificate_filename, $mlw_qmn_certifiicate_file);
+			file_put_contents($mlw_qmn_certificate_filename, $mlw_qmn_certificate_file);
 			$mlw_qmn_certificate_filename = plugin_dir_url( __FILE__ )."certificates/mlw_qmn_quiz".date("YmdHis")."admin.php";		
 		}
 		
