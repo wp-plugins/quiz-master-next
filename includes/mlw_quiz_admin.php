@@ -20,7 +20,7 @@ function mlw_generate_quiz_admin()
 	//Create new quiz
 	if ( isset( $_POST["create_quiz"] ) && $_POST["create_quiz"] == "confirmation" )
 	{
-		$quiz_name = $_POST["quiz_name"];
+		$quiz_name = htmlspecialchars($_POST["quiz_name"], ENT_QUOTES);
 		//Insert New Quiz Into Table
 		$mlw_leaderboard_default = "<h3>Leaderboard for %QUIZ_NAME%</h3>
 			1. %FIRST_PLACE_NAME%-%FIRST_PLACE_SCORE%<br />
@@ -90,7 +90,7 @@ function mlw_generate_quiz_admin()
 	if (isset($_POST["quiz_name_editted"]) && $_POST["quiz_name_editted"] == "confirmation")
 	{
 		$mlw_edit_quiz_id = $_POST["edit_quiz_id"];
-		$mlw_edit_quiz_name = $_POST["edit_quiz_name"];
+		$mlw_edit_quiz_name = htmlspecialchars($_POST["edit_quiz_name"], ENT_QUOTES);
 		$mlw_update_quiz_table = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_name='".$mlw_edit_quiz_name."' WHERE quiz_id=".$mlw_edit_quiz_id;
 		$results = $wpdb->query( $mlw_update_quiz_table );
 		if ($results != false)
@@ -118,7 +118,7 @@ function mlw_generate_quiz_admin()
 	{
 		$table_name = $wpdb->prefix . "mlw_quizzes";
 		$mlw_duplicate_quiz_id = $_POST["duplicate_quiz_id"];
-		$mlw_duplicate_quiz_name = $_POST["duplicate_new_quiz_name"];
+		$mlw_duplicate_quiz_name = htmlspecialchars($_POST["duplicate_new_quiz_name"], ENT_QUOTES);
 		$mlw_qmn_duplicate_data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes WHERE quiz_id=%d", $mlw_duplicate_quiz_id ) );
 		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, message_end_template, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, certificate_template, social_media, social_media_text, pagination, pagination_text, timer_limit, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->message_end_template."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->loggedin_user_contact.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", ".$mlw_qmn_duplicate_data->question_from_total.", ".$mlw_qmn_duplicate_data->total_user_tries.", '".$mlw_qmn_duplicate_data->total_user_tries_text."', '".$mlw_qmn_duplicate_data->certificate_template."', ".$mlw_qmn_duplicate_data->social_media.", '".$mlw_qmn_duplicate_data->social_media_text."', ".$mlw_qmn_duplicate_data->pagination.", '".$mlw_qmn_duplicate_data->pagination_text."', ".$mlw_qmn_duplicate_data->timer_limit.", 0, 0, 0)" );
 		if ($results != false)
@@ -350,7 +350,7 @@ function mlw_generate_quiz_admin()
 		else $alternate = " class=\"alternate\"";
 		$quotes_list .= "<tr{$alternate}>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_id . "</span></td>";
-		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_name ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_quiz_info->quiz_name, ENT_QUOTES))."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a> | <a href='#' onclick=\"duplicateQuiz('".$mlw_quiz_info->quiz_id."','".$mlw_quiz_info->quiz_name."')\">Duplicate</a></span></div></td>";
+		$quotes_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . esc_js($mlw_quiz_info->quiz_name) ." </span><span style='color:green;font-size:12px;'><a onclick=\"editQuizName('".$mlw_quiz_info->quiz_id."','".esc_js($mlw_quiz_info->quiz_name)."')\" href='#'>(Edit Name)</a></span><div><span style='color:green;font-size:12px;'><a href='admin.php?page=mlw_quiz_options&&quiz_id=".$mlw_quiz_info->quiz_id."'>Edit</a> | <a onclick=\"deleteQuiz('".$mlw_quiz_info->quiz_id."','".esc_js($mlw_quiz_info->quiz_name)."')\" href='#'>Delete</a> | <a href='admin.php?page=mlw_quiz_results&&quiz_id=".$mlw_quiz_info->quiz_id."'>Results</a> | <a href='#' onclick=\"duplicateQuiz('".$mlw_quiz_info->quiz_id."','".esc_js($mlw_quiz_info->quiz_name)."')\">Duplicate</a></span></div></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>[mlw_quizmaster_leaderboard mlw_quiz=".$mlw_quiz_info->quiz_id."]</span></td>";
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->quiz_views . "</span></td>";

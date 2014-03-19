@@ -277,7 +277,7 @@ function mlw_quiz_shortcode($atts)
 			
 			}
 		</style>
-		<?
+		<?php
 		//Update the quiz views
 		$mlw_views = $mlw_quiz_options->quiz_views;
 		$mlw_views += 1;
@@ -359,7 +359,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<div class='mlw_qmn_quiz'>";
 		$mlw_display .= "<form name='quizForm' action='' method='post' class='mlw_quiz_form' onsubmit='return mlw_validateForm()' >";
 		$mlw_display .= "<div class='quiz_section  quiz_begin slide".$mlw_qmn_section_count."'>";
-		$mlw_message_before = $mlw_quiz_options->message_before;
+		$mlw_message_before = htmlspecialchars_decode($mlw_quiz_options->message_before, ENT_QUOTES);
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);
 		$mlw_message_before = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message_before);
 		$mlw_display .= "<span>".$mlw_message_before."</span><br />";
@@ -470,12 +470,12 @@ function mlw_quiz_shortcode($atts)
 			}
 			if ($mlw_question->comments == 0)
 			{
-				$mlw_display .= "<input type='text' x-webkit-speech id='mlwComment".$mlw_question->question_id."' name='mlwComment".$mlw_question->question_id."' value='".$mlw_quiz_options->comment_field_text."' onclick='clear_field(this)'/>";
+				$mlw_display .= "<input type='text' x-webkit-speech id='mlwComment".$mlw_question->question_id."' name='mlwComment".$mlw_question->question_id."' value='".esc_attr(htmlspecialchars_decode($mlw_quiz_options->comment_field_text, ENT_QUOTES))."' onclick='clear_field(this)'/>";
 				$mlw_display .= "<br />";
 			}
 			if ($mlw_question->comments == 2)
 			{
-				$mlw_display .= "<textarea cols='70' rows='5' id='mlwComment".$mlw_question->question_id."' name='mlwComment".$mlw_question->question_id."' onclick='clear_field(this)'>".$mlw_quiz_options->comment_field_text."</textarea>";
+				$mlw_display .= "<textarea cols='70' rows='5' id='mlwComment".$mlw_question->question_id."' name='mlwComment".$mlw_question->question_id."' onclick='clear_field(this)'>".htmlspecialchars_decode($mlw_quiz_options->comment_field_text, ENT_QUOTES)."</textarea>";
 				$mlw_display .= "<br />";
 			}
 			if ($mlw_question->hints != "")
@@ -492,7 +492,7 @@ function mlw_quiz_shortcode($atts)
 		{
 			$mlw_qmn_section_count = $mlw_qmn_section_count + 1;
 			$mlw_display .= "<div class='quiz_section slide".$mlw_qmn_section_count."'>";
-			$mlw_message_comments = $mlw_quiz_options->message_comment;
+			$mlw_message_comments = htmlspecialchars_decode($mlw_quiz_options->message_comment, ENT_QUOTES);
 			$mlw_message_comments = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_comments);
 			$mlw_message_comments = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message_comments);
 			$mlw_display .= "<label for='mlwQuizComments' style='font-weight:bold;'>".$mlw_message_comments."</label><br />";
@@ -504,7 +504,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<div class='quiz_section slide".$mlw_qmn_section_count." quiz_end'>";
 		if ($mlw_quiz_options->message_end_template != '')
 		{
-			$mlw_message_end = $mlw_quiz_options->message_end_template;
+			$mlw_message_end = htmlspecialchars_decode($mlw_quiz_options->message_end_template, ENT_QUOTES);
 			$mlw_message_end = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_end);
 			$mlw_message_end = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message_end);
 			$mlw_display .= "<span>".$mlw_message_end."</span>";
@@ -519,7 +519,7 @@ function mlw_quiz_shortcode($atts)
 		$mlw_display .= "<input type='hidden' name='total_questions' id='total_questions' value='".$mlw_qmn_total_questions."'/>";
 		$mlw_display .= "<input type='hidden' name='timer' id='timer' value='0'/>";
 		$mlw_display .= "<input type='hidden' name='complete_quiz' value='confirmation' />";
-		$mlw_display .= "<input type='submit' value='".$mlw_quiz_options->submit_button_text."' />";
+		$mlw_display .= "<input type='submit' value='".esc_attr(htmlspecialchars_decode($mlw_quiz_options->submit_button_text, ENT_QUOTES))."' />";
 		$mlw_display .= "<span name='mlw_error_message_bottom' id='mlw_error_message_bottom' style='color: red;'></span><br />";
 		$mlw_display .= "</form>";
 		$mlw_display .= "</div>";
@@ -559,11 +559,11 @@ function mlw_quiz_shortcode($atts)
 		$results = $wpdb->query( $update );
 
 		//See which answers were correct and award points if necessary
+		$mlw_user_text = "";
+		$mlw_correct_text = "";
 		foreach($mlw_questions as $mlw_question) {
 			if (isset($_POST["question".$mlw_question->question_id]) || isset($_POST["mlwComment".$mlw_question->question_id]))
 			{
-				$mlw_user_text;
-				$mlw_correct_text;
 				//$mlw_total_questions += 1;
 				if (isset($_POST["question".$mlw_question->question_id]))
 				{
@@ -619,12 +619,12 @@ function mlw_quiz_shortcode($atts)
 					$mlw_qm_question_comment = "";
 				}
 				
-				$mlw_question_answer_display = $mlw_quiz_options->question_answer_template;
+				$mlw_question_answer_display = htmlspecialchars_decode($mlw_quiz_options->question_answer_template, ENT_QUOTES);
 				$mlw_question_answer_display = str_replace( "%QUESTION%" , htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES), $mlw_question_answer_display);
 				$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
 				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
 				$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $mlw_qm_question_comment, $mlw_question_answer_display);
-				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , htmlspecialchars_decode($mlw_question->question_answer_info), $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , htmlspecialchars_decode($mlw_question->question_answer_info, ENT_QUOTES), $mlw_question_answer_display);
 	
 				$mlw_question_answers .= $mlw_question_answer_display;
 				$mlw_question_answers .= "<br />";
@@ -722,7 +722,7 @@ EOC;
 				//Check to see if default
 				if ($mlw_each[0] == 0 && $mlw_each[1] == 0)
 				{
-					$mlw_message_after = $mlw_each[2];
+					$mlw_message_after = htmlspecialchars_decode($mlw_each[2], ENT_QUOTES);
 					$mlw_message_after = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message_after);
 					$mlw_message_after = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_message_after);
 					$mlw_message_after = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message_after);
@@ -747,7 +747,7 @@ EOC;
 					//Check to see if points fall in correct range
 					if ($mlw_points >= $mlw_each[0] && $mlw_points <= $mlw_each[1])
 					{
-						$mlw_message_after = $mlw_each[2];
+						$mlw_message_after = htmlspecialchars_decode($mlw_each[2], ENT_QUOTES);
 						$mlw_message_after = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message_after);
 						$mlw_message_after = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_message_after);
 						$mlw_message_after = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message_after);
@@ -770,7 +770,7 @@ EOC;
 					//Check to see if score fall in correct range
 					if ($mlw_total_score >= $mlw_each[0] && $mlw_total_score <= $mlw_each[1])
 					{
-						$mlw_message_after = $mlw_each[2];
+						$mlw_message_after = htmlspecialchars_decode($mlw_each[2], ENT_QUOTES);
 						$mlw_message_after = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message_after);
 						$mlw_message_after = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_message_after);
 						$mlw_message_after = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message_after);
@@ -796,7 +796,7 @@ EOC;
 		else
 		{
 			//Prepare the after quiz message
-			$mlw_message_after = $mlw_quiz_options->message_after;
+			$mlw_message_after = htmlspecialchars_decode($mlw_quiz_options->message_after, ENT_QUOTES);
 			$mlw_message_after = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message_after);
 			$mlw_message_after = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_message_after);
 			$mlw_message_after = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message_after);
@@ -831,6 +831,9 @@ EOC;
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"https://platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>
 			<br />";
 		}
+		
+		//Switch email type to HTML
+		add_filter( 'wp_mail_content_type', 'mlw_qmn_set_html_content_type' );
 	
 		//Prepare and send the user email
 		$mlw_message = "";
@@ -838,7 +841,7 @@ EOC;
 		{
 			if ($mlw_user_email != "")
 			{
-				$mlw_message = $mlw_quiz_options->user_email_template;
+				$mlw_message = htmlspecialchars_decode($mlw_quiz_options->user_email_template, ENT_QUOTES);
 				$mlw_message = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message);
 				$mlw_message = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_message);
 				$mlw_message = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message);
@@ -854,7 +857,9 @@ EOC;
 				$mlw_message = str_replace( "%TIMER%" , $mlw_qmn_timer, $mlw_message);
 				$mlw_message = str_replace( "%CERTIFICATE_LINK%" , $mlw_certificate_link, $mlw_message);
 				$mlw_message = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message);
-				$mlw_message = str_replace( "<br />" , "\n", $mlw_message);
+				$mlw_message = str_replace( "\n" , "<br>", $mlw_message);
+				$mlw_message = str_replace( "<br/>" , "<br>", $mlw_message);
+				$mlw_message = str_replace( "<br />" , "<br>", $mlw_message);
 				$mlw_headers = 'From: '.$mlw_quiz_options->email_from_text.' <'.$mlw_quiz_options->admin_email.'>' . "\r\n";
 				wp_mail($mlw_user_email, "Quiz Results For ".$mlw_quiz_options->quiz_name, $mlw_message, $mlw_headers);
 			}
@@ -864,7 +869,7 @@ EOC;
 		$mlw_message = "";
 		if ($mlw_quiz_options->send_admin_email == "0")
 		{
-			$mlw_message = $mlw_quiz_options->admin_email_template;
+			$mlw_message = htmlspecialchars_decode($mlw_quiz_options->admin_email_template, ENT_QUOTES);
 			$mlw_message = str_replace( "%POINT_SCORE%" , $mlw_points, $mlw_message);
 			$mlw_message = str_replace( "%AVERAGE_POINT%" , $mlw_average_points, $mlw_message);
 			$mlw_message = str_replace( "%AMOUNT_CORRECT%" , $mlw_correct, $mlw_message);
@@ -881,10 +886,15 @@ EOC;
 			$mlw_message = str_replace( "%CERTIFICATE_LINK%" , $mlw_certificate_link, $mlw_message);
 			$mlw_message = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message);
 			$mlw_message .= " This email was generated by the Quiz Master Next script by Frank Corso";
-			$mlw_message = str_replace( "<br />" , "\n", $mlw_message);
+			$mlw_message = str_replace( "\n" , "<br>", $mlw_message);
+			$mlw_message = str_replace( "<br/>" , "<br>", $mlw_message);
+			$mlw_message = str_replace( "<br />" , "<br>", $mlw_message);
 			$mlw_headers = 'From: '.$mlw_quiz_options->email_from_text.' <'.$mlw_quiz_options->admin_email.'>' . "\r\n";
 			wp_mail($mlw_quiz_options->admin_email, "Quiz Results For ".$mlw_quiz_options->quiz_name, $mlw_message, $mlw_headers);
 		}
+		
+		//Remove HTML type for emails
+		remove_filter( 'wp_mail_content_type', 'mlw_qmn_set_html_content_type' );
 
 		//Save the results into database
 		$mlw_quiz_results = "Quiz was taken in: ".$mlw_qmn_timer." seconds."."\n".$mlw_question_answers."\n".$mlw_qm_quiz_comments;
@@ -929,26 +939,26 @@ function mlwDisplayContactInfo($mlw_quiz_options)
 		$current_user = wp_get_current_user();
 		if ($mlw_quiz_options->user_name != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->name_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserName' value='".$current_user->display_name."' />";
 			$mlw_contact_display .= "<br /><br />";
 
 		}
 		if ($mlw_quiz_options->user_comp != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->business_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserComp' value='' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
 		if ($mlw_quiz_options->user_email != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->email_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserEmail' value='".$current_user->user_email."' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
 		if ($mlw_quiz_options->user_phone != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->phone_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserPhone' value='' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
@@ -964,29 +974,37 @@ function mlwDisplayContactInfo($mlw_quiz_options)
 		//See if the site wants to ask for any contact information, then ask for it
 		if ($mlw_quiz_options->user_name != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->name_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->name_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserName' value='' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
 		if ($mlw_quiz_options->user_comp != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->business_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->business_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserComp' value='' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
 		if ($mlw_quiz_options->user_email != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->email_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->email_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserEmail' value='' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
 		if ($mlw_quiz_options->user_phone != 2)
 		{
-			$mlw_contact_display .= "<span style='font-weight:bold;';>".$mlw_quiz_options->phone_field_text."</span><br />";
+			$mlw_contact_display .= "<span style='font-weight:bold;';>".htmlspecialchars_decode($mlw_quiz_options->phone_field_text, ENT_QUOTES)."</span><br />";
 			$mlw_contact_display .= "<input type='text' x-webkit-speech name='mlwUserPhone' value='' />";
 			$mlw_contact_display .= "<br /><br />";
 		}
 	}
 	return $mlw_contact_display;
+}
+
+/*
+This function helps set the email type to HTML
+*/
+function mlw_qmn_set_html_content_type() {
+
+	return 'text/html';
 }
 ?>

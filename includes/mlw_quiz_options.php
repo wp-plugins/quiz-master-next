@@ -186,22 +186,22 @@ function mlw_generate_quiz_options()
 	if ( isset($_POST["save_templates"]) && $_POST["save_templates"] == "confirmation")
 	{
 		//Variables for save templates form
-		$mlw_before_message = $_POST["mlw_quiz_before_message"];
-		$mlw_qmn_message_end = $_POST["message_end_template"];
-		$mlw_qmn_social_medi_text = $_POST["mlw_quiz_social_media_text_template"];
-		$mlw_user_tries_text = $_POST["mlw_quiz_total_user_tries_text"];
-		$mlw_user_email_template = $_POST["mlw_quiz_user_email_template"];
-		$mlw_admin_email_template = $_POST["mlw_quiz_admin_email_template"];
-		$mlw_submit_button_text = $_POST["mlw_submitText"];
-		$mlw_name_field_text = $_POST["mlw_nameText"];
-		$mlw_business_field_text = $_POST["mlw_businessText"];
-		$mlw_email_field_text = $_POST["mlw_emailText"];
-		$mlw_phone_field_text = $_POST["mlw_phoneText"];
-		$mlw_before_comments = $_POST["mlw_quiz_before_comments"];
-		$mlw_comment_field_text = $_POST["mlw_commentText"];
+		$mlw_before_message = htmlspecialchars($_POST["mlw_quiz_before_message"], ENT_QUOTES);
+		$mlw_qmn_message_end = htmlspecialchars($_POST["message_end_template"], ENT_QUOTES);
+		$mlw_qmn_social_medi_text = htmlspecialchars($_POST["mlw_quiz_social_media_text_template"], ENT_QUOTES);
+		$mlw_user_tries_text = htmlspecialchars($_POST["mlw_quiz_total_user_tries_text"], ENT_QUOTES);
+		$mlw_user_email_template = htmlspecialchars($_POST["mlw_quiz_user_email_template"], ENT_QUOTES);
+		$mlw_admin_email_template = htmlspecialchars($_POST["mlw_quiz_admin_email_template"], ENT_QUOTES);
+		$mlw_submit_button_text = htmlspecialchars($_POST["mlw_submitText"], ENT_QUOTES);
+		$mlw_name_field_text = htmlspecialchars($_POST["mlw_nameText"], ENT_QUOTES);
+		$mlw_business_field_text = htmlspecialchars($_POST["mlw_businessText"], ENT_QUOTES);
+		$mlw_email_field_text = htmlspecialchars($_POST["mlw_emailText"], ENT_QUOTES);
+		$mlw_phone_field_text = htmlspecialchars($_POST["mlw_phoneText"], ENT_QUOTES);
+		$mlw_before_comments = htmlspecialchars($_POST["mlw_quiz_before_comments"], ENT_QUOTES);
+		$mlw_comment_field_text = htmlspecialchars($_POST["mlw_commentText"], ENT_QUOTES);
 		$mlw_qmn_pagination_field = serialize(array( $_POST["pagination_prev_text"], $_POST["pagination_next_text"] ));
 		$mlw_email_from_text = $_POST["emailFromText"];
-		$mlw_question_answer_template = $_POST["mlw_quiz_question_answer_template"];
+		$mlw_question_answer_template = htmlspecialchars($_POST["mlw_quiz_question_answer_template"], ENT_QUOTES);
 		$quiz_id = $_POST["quiz_id"];
 		
 		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_pagination_field."' WHERE quiz_id=".$quiz_id;
@@ -410,7 +410,7 @@ function mlw_generate_quiz_options()
 		{
 			if ($_POST["message_after_".$i] != "Delete")
 			{
-				$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), $_POST["message_after_".$i]);
+				$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), htmlspecialchars($_POST["message_after_".$i], ENT_QUOTES));
 				$mlw_qmn_new_landing_array[] = $mlw_qmn_landing_each;	
 			}
 			$i++;
@@ -958,7 +958,7 @@ function mlw_generate_quiz_options()
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES)))."', '".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES)))."','".$mlw_question_info->answer_one_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES)))."','".$mlw_question_info->answer_two_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES)))."','".$mlw_question_info->answer_three_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES)))."','".$mlw_question_info->answer_four_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES)))."','".$mlw_question_info->answer_five_points."','".str_replace('"', '&quot;', str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES)))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".esc_attr(htmlspecialchars_decode($mlw_question_info->question_answer_info, ENT_QUOTES))."', '".$mlw_question_info->comments."','".str_replace("'", "\'", htmlspecialchars_decode($mlw_question_info->hints, ENT_QUOTES))."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".esc_js(htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES))."', '".esc_js(htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".esc_js(htmlspecialchars_decode($mlw_question_info->question_answer_info, ENT_QUOTES))."', '".$mlw_question_info->comments."','".esc_js(htmlspecialchars_decode($mlw_question_info->hints, ENT_QUOTES))."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 			}
 			

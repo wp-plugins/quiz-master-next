@@ -57,12 +57,10 @@ function mlw_generate_about_page()
 	<hr />
 	<h3>What's New In <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Delete Landing Pages</li>
-		<li>Added Ability To Have HTML In Correct Answer Info Field</li>
-		<li>Added %CURRENT_DATE% field to show current date</li>
-		<li>Added Previous Question Button To Paginated Quiz</li>
-		<li>Add Timer To Title Bar</li>
-		<li>Minor Design Changes To Quiz</li>
+		<li>Fixed Duplicate Quiz Bug</li>
+		<li>Fixed Uneditable Question Bug</li>
+		<li>Fixed Parse Bug</li>
+		<li>Made Email Now Send As HTML</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
