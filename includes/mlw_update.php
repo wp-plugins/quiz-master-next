@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "1.9.6";
+	$data = "2.0.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -212,6 +212,10 @@ function mlw_quiz_update()
 			wp_redirect( "admin.php?page=mlw_qmn_about" );
 			exit;
         }
+	}
+	if ( ! get_option('mlw_advert_shows'))
+	{
+		add_option('mlw_advert_shows' , 'true');
 	}
 }
 ?>

@@ -67,9 +67,7 @@ EOC;
 		
 		
 		//Load Results
-		$table_name = $wpdb->prefix . "mlw_results";
-		$sql = "SELECT quiz_results FROM " . $wpdb->prefix . "mlw_results WHERE result_id=".$mlw_result_id."";
-		$mlw_results_data = $wpdb->get_results($sql);
+		$mlw_results_data = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE result_id=".intval($mlw_result_id));
 		
 		?>
 		<!-- css -->
@@ -80,7 +78,6 @@ EOC;
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-dialog' );
 		wp_enqueue_script( 'jquery-ui-button' );
-		wp_enqueue_script( 'jquery-ui-accordion' );
 		wp_enqueue_script( 'jquery-ui-tooltip' );
 		wp_enqueue_script( 'jquery-ui-tabs' );
 		wp_enqueue_script( 'jquery-effects-blind' );
@@ -107,11 +104,9 @@ EOC;
 				$j('#opener').click(function() {
 					$j('#dialog').dialog('open');
 					return false;
-			}	);
-			});
-			$j(function() {
+				});
 				$j("button").button();
-			
+				$j( "#tabs" ).tabs();
 			});
 		</script>
 		<style>
@@ -130,25 +125,137 @@ EOC;
 		<div class="wrap">
 		<div class='mlw_quiz_options'>
 		<h2>Quiz Results<a id="opener" href="">(?)</a></h2>
-		<form action="" method="post" name="create_certificate_form">
-			<input type="hidden" name="create_certificate" value="confirmation" />
-			<input type="submit" value="Create Certificate" />
-		</form>
-		<?php 
-			if (isset($_POST["create_certificate"]) && $_POST["create_certificate"] == "confirmation")
-			{
-				echo "<a href='".$mlw_qmn_certificate_filename."' style='color: blue;'>Download Certificate Here</a><br />";
-			}
-			foreach($mlw_results_data as $mlw_results_info) {
-			echo htmlspecialchars_decode($mlw_results_info->quiz_results, ENT_QUOTES);
-			}
-		?>
+		<div id="tabs">
+			<ul>
+			    <li><a href="#tabs-1">Quiz Results</a></li>
+			    <li><a href="#tabs-2">Quiz Tools</a></li>
+			</ul>
+			<div id="tabs-1">
+				<h2>Quiz Results From <?php echo $mlw_results_data->quiz_name; ?></h2>
+				<table>
+					<tr>
+						<td>Name Provided: </td>
+						<td><?php echo $mlw_results_data->name; ?></td>
+					</tr>
+					<tr>
+						<td>Business Provided: </td>
+						<td><?php echo $mlw_results_data->business; ?></td>
+					</tr>
+					<tr>
+						<td>Email Provided: </td>
+						<td><?php echo $mlw_results_data->email; ?></td>
+					</tr>
+					<tr>
+						<td>Phone Provided: </td>
+						<td><?php echo $mlw_results_data->phone; ?></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<?php
+							if ($mlw_results_data->quiz_system == 0)
+							{
+							?>
+								<td>Score Received:</td>
+								<td><?php echo $mlw_results_data->correct."/".$mlw_results_data->total." or ".$mlw_results_data->correct_score."%"; ?></td>
+							<?php
+							}
+							else if ($mlw_results_data->quiz_system == 1)
+							{								
+							?>
+								<td>Score Received:</td>
+								<td><?php echo $mlw_results_data->point_score." Points"; ?></td>
+							<?php
+							}
+						?>
+					</tr>
+				</table>
+				<br />
+				<br />
+				<h3>Answers Provided</h3>
+				<?php
+					$mlw_qmn_results_array = @unserialize($mlw_results_data->quiz_results);
+					if (!is_array($mlw_qmn_results_array)) {
+						echo htmlspecialchars_decode($mlw_results_data->quiz_results, ENT_QUOTES);
+					}
+					else
+					{
+						?>
+						This quiz was completed in <?php echo $mlw_qmn_results_array[0]; ?> seconds.<br />
+						<br />
+						The comments entered into the comment box (if enabled):<br />
+						<?php echo $mlw_qmn_results_array[2]; ?><br />
+						<br />
+						The answers were as follows:<br />
+						<br />
+						<?php
+						$mlw_qmn_answer_array = $mlw_qmn_results_array[1];
+						foreach( $mlw_qmn_answer_array as $mlw_each )
+						{
+							echo htmlspecialchars_decode($mlw_each[0], ENT_QUOTES)."<br />";
+							echo "Answer Provided: ".htmlspecialchars_decode($mlw_each[1], ENT_QUOTES)."<br />";
+							echo "Correct Answer: ".htmlspecialchars_decode($mlw_each[2], ENT_QUOTES)."<br />";
+							echo "Comments Entered: <br />".htmlspecialchars_decode($mlw_each[3], ENT_QUOTES)."<br />";
+							echo "<br /><br />";
+						}
+						?>
+						<?php
+					}
+				?>
+			</div>
+			<div id="tabs-2">	
+				<form action="" method="post" name="create_certificate_form">
+					<input type="hidden" name="create_certificate" value="confirmation" />
+					<input type="submit" value="Create Certificate" />
+				</form>
+				<?php
+				if (isset($_POST["create_certificate"]) && $_POST["create_certificate"] == "confirmation")
+				{
+					echo "<a href='".$mlw_qmn_certificate_filename."' style='color: blue;'>Download Certificate Here</a><br />";
+				}
+				?>
+			</div>
+			
+	
 		<div id="dialog" title="Help">
 		<h3><b>Help</b></h3>
 		<p>This page shows the results from the taken quiz.</p>
 		<p>The top section shows the question, the user's answer, and the correct answer.</p>
 		<p>The bottom section shows the text from the comment box if enabled.</p>
 		</div>	
+		</div>
+		<?php
+		if ( get_option('mlw_advert_shows') == 'true' )
+		{
+		?>
+			<style>
+				div.help_decide
+				{
+					display: block;
+					text-align:center;
+					letter-spacing: 1px;
+					margin: auto;
+					text-shadow: 0 1px 1px #000000;
+					background: #0d97d8;
+					border: 5px solid #106daa;
+					-moz-border-radius: 20px;
+					-webkit-border-radius: 20px;
+					-khtml-border-radius: 20px;
+					border-radius: 20px;
+					color: #FFFFFF;
+				}
+				div.help_decide a
+				{
+					color: yellow;
+				}		
+			</style>
+			<div class="help_decide">
+				<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
+			</div>
+		<?php
+		}
+		?>
 		</div>
 		</div>
 		

@@ -2,9 +2,9 @@
 Contributors: fpcorso
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ
 Tags: quiz, test, score, survey, contact, form, email, answer, question
-Requires at least: 3.3
+Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 1.9.6
+Stable tag: 2.0.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -55,7 +55,7 @@ Be sure to check out all of our plugins in our Master Suite. Visit our plugins p
 == Installation ==
 
 We now offer an installation service to assist you in this process. We will install any or all of our plugins and spend up to 2 hours with you for consultaion and training. Visit our website for details.
-[My Local Webstop Services](http://mylocalwebstop.com/services/)
+[My Local Webstop Plugin Installation](http://mylocalwebstop.com/product/plugin-installation/)
 
 **Or**
 
@@ -79,10 +79,10 @@ On each page, there is a "?" next to the page title. Clicking on it will bring u
 There is a How-To page that has many useful how-to's to assist you on using the plugin. If you still have any trouble, feel free to use the widget on the quiz dashboard within the plugin to contact me and I will help you.
 
 = I need a lot of help setting up my quiz, what can you do to help? =
-We now offer a monthly premium support plan that offers priority response, access to a premium support-only forum, and includes 1-on-1 training! For details, visit our services page: [My Local Webstop Services](http://mylocalwebstop.com/services/)
+We now offer a premium support plan that offers priority response, access to a premium support-only forum, and includes 1-on-1 training! For details, visit our services page: [My Local Webstop Services](http://mylocalwebstop.com/product/plugin-premium-support/)
 
 = Do you offer any 1-on-1 training to assist me in using this plugin? =
-We now offer an installation service that includes 1-on-1 training as well as a monthly support plan that includes 1-on-1 training. For details, visit our services page: [My Local Webstop Services](http://mylocalwebstop.com/services/)
+We now offer an installation service that includes 1-on-1 training as well as a monthly support plan that includes 1-on-1 training. For details, visit our services page: [My Local Webstop Services](http://mylocalwebstop.com/product/plugin-installation/)
 
 = I have an idea, how do I contact you? =
 Feel free to use the widget on the quiz dashboard within the plugin or from the contact page at mylocalwebstop.com.
@@ -98,6 +98,12 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 2.0.1 (March 22, 2014) =
+ * Added Pagination On Quiz Results Page
+ * Redesigned Results Detail Page
+ * Fixed PHP Notice On Quizzes Page
+ * Allow HTML/CSS in Landing Pages
 
 = 1.9.6 (March 19, 2014) =
  * Fixed Duplicate Quiz Bug
@@ -382,6 +388,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.0.1 =
+Upgrade to fix minor bugs and enable pagination on results page.
 
 = 1.9.2 =
 Upgrade to have the ability to delete landing pages, allow users to go back when paginating questions, and have HTML in the correct answer info field!

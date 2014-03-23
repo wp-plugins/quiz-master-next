@@ -410,13 +410,13 @@ function mlw_generate_quiz_options()
 		{
 			if ($_POST["message_after_".$i] != "Delete")
 			{
-				$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), htmlspecialchars($_POST["message_after_".$i], ENT_QUOTES));
-				$mlw_qmn_new_landing_array[] = $mlw_qmn_landing_each;	
+				$mlw_qmn_landing_each = array(intval($_POST["message_after_begin_".$i]), intval($_POST["message_after_end_".$i]), htmlspecialchars(stripslashes($_POST["message_after_".$i]), ENT_QUOTES));
+				$mlw_qmn_new_landing_array[] = $mlw_qmn_landing_each;
 			}
 			$i++;
 		}
 		$mlw_qmn_new_landing_array = serialize($mlw_qmn_new_landing_array);
-		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after=%s WHERE quiz_id=%d", $mlw_qmn_new_landing_array, $mlw_qmn_landing_id ) );
+		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after='%s' WHERE quiz_id=%d", $mlw_qmn_new_landing_array, $mlw_qmn_landing_id ) );
 		if ($mlw_new_landing_results != false)
 		{
 			$mlw_hasSavedLanding = true;
@@ -1993,6 +1993,38 @@ function mlw_generate_quiz_options()
 		</div>		
 	</div>
 	</div>
+	
+	<?php
+	if ( get_option('mlw_advert_shows') == 'true' )
+	{
+	?>
+		<style>
+			div.help_decide
+			{
+				display: block;
+				text-align:center;
+				letter-spacing: 1px;
+				margin: auto;
+				text-shadow: 0 1px 1px #000000;
+				background: #0d97d8;
+				border: 5px solid #106daa;
+				-moz-border-radius: 20px;
+				-webkit-border-radius: 20px;
+				-khtml-border-radius: 20px;
+				border-radius: 20px;
+				color: #FFFFFF;
+			}
+			div.help_decide a
+			{
+				color: yellow;
+			}		
+		</style>
+		<div class="help_decide">
+			<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
+		</div>
+	<?php
+	}
+	?>
 
 
 	<!--Dialogs-->

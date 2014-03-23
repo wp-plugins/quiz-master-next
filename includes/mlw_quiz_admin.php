@@ -196,12 +196,12 @@ function mlw_generate_quiz_admin()
 		}	);
 		});
 		$j(function() {
-			$j("button, #prev_page, #next_page").button({
+			$j("#prev_page, #next_page").button();
+		    $j("#new_quiz_button, #new_quiz_button_two").button({
 		      icons: {
 		        primary: "ui-icon-circle-plus"
 		      }
-		    });
-		
+		    });		
 		});
 		$j(function() {
 			$j('#new_quiz_dialog').dialog({
@@ -340,7 +340,6 @@ function mlw_generate_quiz_admin()
 		}
 	?>
 	<button id="new_quiz_button_two">Create New Quiz</button>
-	<br />
 	<?php 
 	$quotes_list = "";
 	$display = "";
@@ -361,24 +360,26 @@ function mlw_generate_quiz_admin()
 	if( $mlw_qmn_quiz_page > 0 )
 	{
 	   	$mlw_qmn_previous_page = $mlw_qmn_quiz_page - 2;
-	   	$display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_previous_page\">Previous 10 Quizzes</a>";
+	   	$display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_previous_page\">Previous 10 Quizzes</a>";
 	   	if( $mlw_qmn_quiz_left > $mlw_qmn_table_limit )
 	   	{
-			$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_quiz_page\">Next 10 Quizzes</a>";
+			$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_quiz_page\">Next 10 Quizzes</a>";
 	   	}
 	}
 	else if( $mlw_qmn_quiz_page == 0 )
 	{
 	   if( $mlw_qmn_quiz_left > $mlw_qmn_table_limit )
 	   {
-			$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_quiz_page\">Next 10 Quizzes</a>";
+			$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_quiz_page\">Next 10 Quizzes</a>";
 	   }
 	}
 	else if( $mlw_qmn_quiz_left < $mlw_qmn_table_limit )
 	{
 	   $mlw_qmn_previous_page = $mlw_qmn_quiz_page - 2;
-	   $display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_previous_page\">Previous 10 Quizzes</a>";
+	   $display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_admin&&mlw_quiz_page=$mlw_qmn_previous_page\">Previous 10 Quizzes</a>";
 	}
+	
+	$display .= "<br />";
 
 	$display .= "<table class=\"widefat\">";
 		$display .= "<thead><tr>
@@ -403,6 +404,38 @@ function mlw_generate_quiz_admin()
 	?>
 
 	<button id="new_quiz_button">Create New Quiz</button>
+	
+	<?php
+	if ( get_option('mlw_advert_shows') == 'true' )
+	{
+	?>
+		<style>
+			div.help_decide
+			{
+				display: block;
+				text-align:center;
+				letter-spacing: 1px;
+				margin: auto;
+				text-shadow: 0 1px 1px #000000;
+				background: #0d97d8;
+				border: 5px solid #106daa;
+				-moz-border-radius: 20px;
+				-webkit-border-radius: 20px;
+				-khtml-border-radius: 20px;
+				border-radius: 20px;
+				color: #FFFFFF;
+			}
+			div.help_decide a
+			{
+				color: yellow;
+			}		
+		</style>
+		<div class="help_decide">
+			<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
+		</div>
+	<?php
+	}
+	?>
 	
 	<!--Dialogs-->
 	

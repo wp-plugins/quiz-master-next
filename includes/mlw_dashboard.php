@@ -52,9 +52,12 @@ function mlw_generate_quiz_dashboard(){
 	add_meta_box("wpss_mrts", 'Quiz Total Stats', "mlw_dashboard_box_three", "quiz_wpss3");
 	add_meta_box("wpss_mrts", 'Quiz Weekly Stats - Times Taken', "mlw_dashboard_box_four", "quiz_wpss4");
 	add_meta_box("wpss_mrts", 'Quiz Monthly Stats - Times Taken', "mlw_dashboard_box_five", "quiz_wpss5");
-	add_meta_box("wpss_mrts", 'My Local Webstop Services', "mlw_dashboard_box_six", "quiz_wpss6"); 
 	add_meta_box("wpss_mrts", 'Support', "mlw_dashboard_box_seven", "quiz_wpss7");
-	add_meta_box("wpss_mrts", 'Contribution', "mlw_dashboard_box_eight", "quiz_wpss8");
+	if ( get_option('mlw_advert_shows') == 'true' )
+	{
+		add_meta_box("wpss_mrts", 'My Local Webstop Services', "mlw_dashboard_box_six", "quiz_wpss6"); 
+		add_meta_box("wpss_mrts", 'Contribution', "mlw_dashboard_box_eight", "quiz_wpss8");
+	}
 	add_meta_box("wpss_mrts", 'News From My Local Webstop', "mlw_dashboard_box_nine", "quiz_wpss9");
 	add_meta_box("wpss_mrts", 'Quizzes Taken Today', "mlw_qmn_daily_percent_taken_widget", "quiz_wpss10");
 	add_meta_box("wpss_mrts", 'Quizzes Taken Last 7 Days', "mlw_qmn_weekly_percent_taken_widget", "quiz_wpss11");
@@ -144,7 +147,7 @@ function mlw_generate_quiz_dashboard(){
 	<h2>Quiz Master Next <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
 	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p>Thank you for trying out this plugin. I hope you find it beneficial to your website. If it is, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. Thank you!</p>
+	<p>Thank you for using this plugin. I hope you find it beneficial to your website. <?php if ( get_option('mlw_advert_shows') == 'true' ) { ?> If it is, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. <?php } ?>Thank you!</p>
 	
 	<!--Display Widget Boxes-->
 	<div style="float:left; width:19%;" class="inner-sidebar1">
@@ -164,7 +167,7 @@ function mlw_generate_quiz_dashboard(){
 	</div>
 	
 	<div style="float:right; width:24%; " class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss6','advanced',''); ?>	
+		<?php if ( get_option('mlw_advert_shows') == 'true' ) {do_meta_boxes('quiz_wpss6','advanced','');} ?>	
 	</div>
 	
 	<div style="float:left; width:38%;" class="inner-sidebar1">
@@ -196,7 +199,7 @@ function mlw_generate_quiz_dashboard(){
 	</div>
 	
 	<div style="float:right; width:24%; " class="inner-sidebar1">
-		<?php do_meta_boxes('quiz_wpss8','advanced',''); ?>	
+		<?php if ( get_option('mlw_advert_shows') == 'true' ) {do_meta_boxes('quiz_wpss8','advanced','');} ?>	
 	</div>
 	
 	<div style="clear:both">
@@ -479,19 +482,19 @@ function mlw_dashboard_box_six()
 	?>
 	<div>
 		<h2>Plugin Premium Support</h2>
-		<p>Plugin Premium Support includes priority response, priority feature requests, access to premium support-only forums, and access to WordPress training videos through wp101.</p>
-		<p>Up to 1 hour of consultation and training included during 1st month.</p>
-		<hr />
+		<p>Plugin Premium Support includes 1 year of priority support, priority feature requests, and access to WordPress training videos.</p>
+		<p>You can also purchase 1-on-1 training to go with your support!</p>
+		<p>For details, visit our <a href="http://mylocalwebstop.com/product/plugin-premium-support/" target="_blank" style="color:blue;">Plugin Premium Support</a> page.</p>
+		<hr /> 
 		<h2>Plugin Installation Services</h2>
-		<p>We will install any or all of our WordPress plugins on your existing WordPress site. This includes 1 year access to premium support-only forums.</p>
-		<p>Up to 2 hours of consultation and training included.</p>
+		<p>We will install and configure any or all of our WordPress plugins on your existing WordPress site.</p>
+		<p>We also offer 1-on-1 training to go with your installation!</p>
+		<p>For details, visit our <a href="http://mylocalwebstop.com/product/plugin-installation/" target="_blank" style="color:blue;">Plugin Installation</a> page.</p>
 		<hr />
 		<h2>WordPress Maintenance Services</h2>
-		<p>Our maintenance service includes around the clock security monitoring, off-site backups, plugin updates, theme updates, WordPress updates, and WordPress training videos.</p>
-		<p>Our Premium Plugin Support is included!</p>
+		<p>Our maintenance service includes around the clock security monitoring, off-site backups, plugin updates, theme updates, WordPress updates, WordPress training videos, and a Monthly Status Report.</p>
 		<p>Up to 30 minutes of support, consultation, and training included each month.</p>
-		<br />
-		<p>Visit our <a href="http://mylocalwebstop.com/services/" target="_blank" style="color:blue;">services</a> page for details.</p>
+		<p>Visit our <a href="http://mylocalwebstop.com/wordpress-maintenance-services/" target="_blank" style="color:blue;">WordPress Maintenance Services</a> page for details.</p>
 	</div>
 	<?php
 }

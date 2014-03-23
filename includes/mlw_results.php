@@ -33,15 +33,28 @@ function mlw_generate_quiz_results()
 	}
 
 	global $wpdb;
-
-	$sql = "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE deleted='0'";
+	$mlw_qmn_table_limit = 30;
+	$mlw_qmn_results_count = $wpdb->get_var( "SELECT COUNT(result_id) FROM " . $wpdb->prefix . "mlw_results WHERE deleted='0'" );
+	
+	if( isset($_GET['mlw_result_page'] ) )
+	{
+	   $mlw_qmn_result_page = $_GET['mlw_result_page'] + 1;
+	   $mlw_qmn_result_begin = $mlw_qmn_table_limit * $mlw_qmn_result_page ;
+	}
+	else
+	{
+	   $mlw_qmn_result_page = 0;
+	   $mlw_qmn_result_begin = 0;
+	}
+	$mlw_qmn_result_left = $mlw_qmn_results_count - ($mlw_qmn_result_page * $mlw_qmn_table_limit);
 	if (isset($_GET["quiz_id"]) && $_GET["quiz_id"] != "")
 	{
-		$sql .= " AND quiz_id=".intval($_GET["quiz_id"]);
+		$mlw_quiz_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE deleted='0' AND quiz_id=%d ORDER BY result_id DESC LIMIT %d, %d", intval($_GET["quiz_id"]), $mlw_qmn_result_begin, $mlw_qmn_table_limit ) );
 	}
-	$sql .= " ORDER BY result_id DESC";
-
-	$mlw_quiz_data = $wpdb->get_results($sql);
+	else
+	{
+		$mlw_quiz_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_results WHERE deleted='0' ORDER BY result_id DESC LIMIT %d, %d", $mlw_qmn_result_begin, $mlw_qmn_table_limit ) );
+	}
 	?>
 	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
@@ -81,7 +94,7 @@ function mlw_generate_quiz_results()
 		}	);
 		});
 		$j(function() {
-			$j("button").button();
+			$j("button, #prev_page, #next_page").button();
 		
 		});
 		function deleteResults(id,quizName){
@@ -157,6 +170,28 @@ function mlw_generate_quiz_results()
 		$quotes_list .= "<td><span style='font-size:16px;'>" . $mlw_quiz_info->time_taken ."</span></td>";
 		$quotes_list .= "</tr>";
 	}
+	
+	if( $mlw_qmn_result_page > 0 )
+	{
+	   	$mlw_qmn_previous_page = $mlw_qmn_result_page - 2;
+	   	$display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_results&&mlw_result_page=$mlw_qmn_previous_page\">Previous $mlw_qmn_table_limit Quizzes</a>";
+	   	if( $mlw_qmn_result_left > $mlw_qmn_table_limit )
+	   	{
+			$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_results&&mlw_result_page=$mlw_qmn_result_page\">Next $mlw_qmn_table_limit Quizzes</a>";
+	   	}
+	}
+	else if( $mlw_qmn_result_page == 0 )
+	{
+	   if( $mlw_qmn_result_left > $mlw_qmn_table_limit )
+	   {
+			$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_results&&mlw_result_page=$mlw_qmn_result_page\">Next $mlw_qmn_table_limit Quizzes</a>";
+	   }
+	}
+	else if( $mlw_qmn_result_left < $mlw_qmn_table_limit )
+	{
+	   $mlw_qmn_previous_page = $mlw_qmn_result_page - 2;
+	   $display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_results&&mlw_result_page=$mlw_qmn_previous_page\">Previous $mlw_qmn_table_limit Quizzes</a>";
+	}
 
 	$display .= "<table class=\"widefat\">";
 		$display .= "<thead><tr>
@@ -172,6 +207,38 @@ function mlw_generate_quiz_results()
 		$display .= "<tbody id=\"the-list\">{$quotes_list}</tbody>";
 		$display .= "</table>";
 	echo $display;
+	?>
+	
+	<?php
+	if ( get_option('mlw_advert_shows') == 'true' )
+	{
+	?>
+		<style>
+			div.help_decide
+			{
+				display: block;
+				text-align:center;
+				letter-spacing: 1px;
+				margin: auto;
+				text-shadow: 0 1px 1px #000000;
+				background: #0d97d8;
+				border: 5px solid #106daa;
+				-moz-border-radius: 20px;
+				-webkit-border-radius: 20px;
+				-khtml-border-radius: 20px;
+				border-radius: 20px;
+				color: #FFFFFF;
+			}
+			div.help_decide a
+			{
+				color: yellow;
+			}		
+		</style>
+		<div class="help_decide">
+			<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
+		</div>
+	<?php
+	}
 	?>
 
 	<div id="dialog" title="Help" style="display:none;">
