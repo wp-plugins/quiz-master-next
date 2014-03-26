@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "2.0.1";
+	$data = "2.1.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -164,6 +164,57 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD timer_limit INT NOT NULL AFTER pagination_text";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET timer_limit=0";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 2.1.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'quiz_stye'") != "quiz_stye")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD quiz_stye TEXT NOT NULL AFTER timer_limit";
+			$results = $wpdb->query( $sql );
+			$mlw_style_default = "
+				div.mlw_qmn_quiz input[type=radio],
+				div.mlw_qmn_quiz input[type=submit],
+				div.mlw_qmn_quiz label {
+					cursor: pointer;
+				}
+				div.mlw_qmn_quiz input:not([type=submit]):focus,
+				div.mlw_qmn_quiz textarea:focus {
+					background: #eaeaea;
+				}
+				div.mlw_qmn_quiz {
+					text-align: left;
+				}
+				div.quiz_section {
+					
+				}
+				div.mlw_qmn_timer {
+					position:fixed;
+					top:200px;
+					right:0px;
+					width:130px;
+					color:#00CCFF;
+					border-radius: 15px;
+					background:#000000;
+					text-align: center;
+					padding: 15px 15px 15px 15px
+				}
+				div.mlw_qmn_quiz input[type=submit],
+				a.mlw_qmn_quiz_link
+				{
+					    border-radius: 4px;
+					    position: relative;
+					    background-image: linear-gradient(#fff,#dedede);
+						background-color: #eee;
+						border: #ccc solid 1px;
+						color: #333;
+						text-shadow: 0 1px 0 rgba(255,255,255,.5);
+						box-sizing: border-box;
+					    display: inline-block;
+					    padding: 5px 5px 5px 5px;
+   						margin: auto;
+				}";
+			$update_sql = "UPDATE ".$table_name." SET quiz_stye='".$mlw_style_default."'";
 			$results = $wpdb->query( $update_sql );
 		}
 		

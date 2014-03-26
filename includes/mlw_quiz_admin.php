@@ -28,10 +28,52 @@ function mlw_generate_quiz_admin()
 			3. %THIRD_PLACE_NAME%-%THIRD_PLACE_SCORE%<br />
 			4. %FOURTH_PLACE_NAME%-%FOURTH_PLACE_SCORE%<br />
 			5. %FIFTH_PLACE_NAME%-%FIFTH_PLACE_SCORE%<br />";
+		$mlw_style_default = "
+				div.mlw_qmn_quiz input[type=radio],
+				div.mlw_qmn_quiz input[type=submit],
+				div.mlw_qmn_quiz label {
+					cursor: pointer;
+				}
+				div.mlw_qmn_quiz input:not([type=submit]):focus,
+				div.mlw_qmn_quiz textarea:focus {
+					background: #eaeaea;
+				}
+				div.mlw_qmn_quiz {
+					text-align: left;
+				}
+				div.quiz_section {
+					
+				}
+				div.mlw_qmn_timer {
+					position:fixed;
+					top:200px;
+					right:0px;
+					width:130px;
+					color:#00CCFF;
+					border-radius: 15px;
+					background:#000000;
+					text-align: center;
+					padding: 15px 15px 15px 15px
+				}
+				div.mlw_qmn_quiz input[type=submit],
+				a.mlw_qmn_quiz_link
+				{
+					    border-radius: 4px;
+					    position: relative;
+					    background-image: linear-gradient(#fff,#dedede);
+						background-color: #eee;
+						border: #ccc solid 1px;
+						color: #333;
+						text-shadow: 0 1px 0 rgba(255,255,255,.5);
+						box-sizing: border-box;
+					    display: inline-block;
+					    padding: 5px 5px 5px 5px;
+   						margin: auto;
+				}";
 		$mlw_question_answer_default = "%QUESTION%<br /> Answer Provided: %USER_ANSWER%<br /> Correct Answer: %CORRECT_ANSWER%<br /> Comments Entered: %USER_COMMENTS%<br />";
 		$insert = "INSERT INTO " . $table_name .
-			"(quiz_id, quiz_name, message_before, message_after, message_comment, message_end_template, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, certificate_template, social_media, social_media_text, pagination, pagination_text, timer_limit, quiz_views, quiz_taken, deleted) " .
-			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', '', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 'Enter Your Text Here', 'Enter Your Text Here!', 0, 'I just score a %CORRECT_SCORE%% on %QUIZ_NAME%!', 0, 'Next', 0, 0, 0, 0)";
+			"(quiz_id, quiz_name, message_before, message_after, message_comment, message_end_template, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, certificate_template, social_media, social_media_text, pagination, pagination_text, timer_limit, quiz_stye, quiz_views, quiz_taken, deleted) " .
+			"VALUES (NULL , '" . $quiz_name . "' , 'Enter your text here', 'Enter your text here', 'Enter your text here', '', 'Enter your text here', 'Enter your text here', 'Submit Quiz', 'Name', 'Business', 'Email', 'Phone Number', 'Comments', 'Wordpress', '".$mlw_question_answer_default."', '".$mlw_leaderboard_default."', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '".get_option( 'admin_email', 'Enter email' )."', 0, 0, 0, 'Enter Your Text Here', 'Enter Your Text Here!', 0, 'I just score a %CORRECT_SCORE%% on %QUIZ_NAME%!', 0, 'Next', 0, '".$mlw_style_default."', 0, 0, 0)";
 		$results = $wpdb->query( $insert );
 		if ($results != false)
 		{
@@ -120,7 +162,7 @@ function mlw_generate_quiz_admin()
 		$mlw_duplicate_quiz_id = $_POST["duplicate_quiz_id"];
 		$mlw_duplicate_quiz_name = htmlspecialchars($_POST["duplicate_new_quiz_name"], ENT_QUOTES);
 		$mlw_qmn_duplicate_data = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM " . $wpdb->prefix . "mlw_quizzes WHERE quiz_id=%d", $mlw_duplicate_quiz_id ) );
-		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, message_end_template, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, certificate_template, social_media, social_media_text, pagination, pagination_text, timer_limit, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->message_end_template."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->loggedin_user_contact.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", ".$mlw_qmn_duplicate_data->question_from_total.", ".$mlw_qmn_duplicate_data->total_user_tries.", '".$mlw_qmn_duplicate_data->total_user_tries_text."', '".$mlw_qmn_duplicate_data->certificate_template."', ".$mlw_qmn_duplicate_data->social_media.", '".$mlw_qmn_duplicate_data->social_media_text."', ".$mlw_qmn_duplicate_data->pagination.", '".$mlw_qmn_duplicate_data->pagination_text."', ".$mlw_qmn_duplicate_data->timer_limit.", 0, 0, 0)" );
+		$results = $wpdb->query( "INSERT INTO ".$table_name." (quiz_id, quiz_name, message_before, message_after, message_comment, message_end_template, user_email_template, admin_email_template, submit_button_text, name_field_text, business_field_text, email_field_text, phone_field_text, comment_field_text, email_from_text, question_answer_template, leaderboard_template, system, randomness_order, loggedin_user_contact, show_score, send_user_email, send_admin_email, contact_info_location, user_name, user_comp, user_email, user_phone, admin_email, comment_section, question_from_total, total_user_tries, total_user_tries_text, certificate_template, social_media, social_media_text, pagination, pagination_text, timer_limit, quiz_stye, quiz_views, quiz_taken, deleted) VALUES (NULL , '".$mlw_duplicate_quiz_name."' , '".$mlw_qmn_duplicate_data->message_before."', '".$mlw_qmn_duplicate_data->message_after."', '".$mlw_qmn_duplicate_data->message_comment."', '".$mlw_qmn_duplicate_data->message_end_template."', '".$mlw_qmn_duplicate_data->user_email_template."', '".$mlw_qmn_duplicate_data->admin_email_template."', '".$mlw_qmn_duplicate_data->submit_button_text."', '".$mlw_qmn_duplicate_data->name_field_text."', '".$mlw_qmn_duplicate_data->business_field_text."', '".$mlw_qmn_duplicate_data->email_field_text."', '".$mlw_qmn_duplicate_data->phone_field_text."', '".$mlw_qmn_duplicate_data->comment_field_text."', '".$mlw_qmn_duplicate_data->email_from_text."', '".$mlw_qmn_duplicate_data->question_answer_template."', '".$mlw_qmn_duplicate_data->leaderboard_template."', ".$mlw_qmn_duplicate_data->system.", ".$mlw_qmn_duplicate_data->randomness_order.", ".$mlw_qmn_duplicate_data->loggedin_user_contact.", ".$mlw_qmn_duplicate_data->show_score.", ".$mlw_qmn_duplicate_data->send_user_email.", ".$mlw_qmn_duplicate_data->send_admin_email.", ".$mlw_qmn_duplicate_data->contact_info_location.", ".$mlw_qmn_duplicate_data->user_name.", ".$mlw_qmn_duplicate_data->user_comp.", ".$mlw_qmn_duplicate_data->user_email.", ".$mlw_qmn_duplicate_data->user_phone.", '".get_option( 'admin_email', 'Enter email' )."', ".$mlw_qmn_duplicate_data->comment_section.", ".$mlw_qmn_duplicate_data->question_from_total.", ".$mlw_qmn_duplicate_data->total_user_tries.", '".$mlw_qmn_duplicate_data->total_user_tries_text."', '".$mlw_qmn_duplicate_data->certificate_template."', ".$mlw_qmn_duplicate_data->social_media.", '".$mlw_qmn_duplicate_data->social_media_text."', ".$mlw_qmn_duplicate_data->pagination.", '".$mlw_qmn_duplicate_data->pagination_text."', ".$mlw_qmn_duplicate_data->timer_limit.", '".$mlw_qmn_duplicate_data->quiz_stye."', 0, 0, 0)" );
 		if ($results != false)
 		{
 			$hasDuplicatedQuiz = true;
@@ -405,38 +447,7 @@ function mlw_generate_quiz_admin()
 
 	<button id="new_quiz_button">Create New Quiz</button>
 	
-	<?php
-	if ( get_option('mlw_advert_shows') == 'true' )
-	{
-	?>
-		<style>
-			div.help_decide
-			{
-				display: block;
-				text-align:center;
-				letter-spacing: 1px;
-				margin: auto;
-				text-shadow: 0 1px 1px #000000;
-				background: #0d97d8;
-				border: 5px solid #106daa;
-				-moz-border-radius: 20px;
-				-webkit-border-radius: 20px;
-				-khtml-border-radius: 20px;
-				border-radius: 20px;
-				color: #FFFFFF;
-			}
-			div.help_decide a
-			{
-				color: yellow;
-			}		
-		</style>
-		<div class="help_decide">
-			<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
-		</div>
-	<?php
-	}
-	?>
-	
+	<?php echo mlw_qmn_show_adverts(); ?>
 	<!--Dialogs-->
 	
 	<!--New Quiz Dialog-->

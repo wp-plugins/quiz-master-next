@@ -28,4 +28,6 @@ global $wpdb;
 	delete_option('mlw_quiz_master_version');
 	
 	delete_option('mlw_qmn_review_notice');
+	
+	delete_option('mlw_advert_shows');
 ?>

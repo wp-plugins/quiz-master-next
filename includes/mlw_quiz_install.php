@@ -91,6 +91,8 @@ function mlw_quiz_activate()
 			pagination_text TEXT NOT NULL,
 			
 			timer_limit INT NOT NULL,
+			
+			quiz_stye TEXT NOT NULL,
 
 			quiz_views INT NOT NULL,
 

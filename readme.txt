@@ -2,9 +2,9 @@
 Contributors: fpcorso
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ
 Tags: quiz, test, score, survey, contact, form, email, answer, question
-Requires at least: 3.5
+Requires at least: 3.6
 Tested up to: 3.8.1
-Stable tag: 2.0.1
+Stable tag: 2.1.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -98,6 +98,12 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 2.1.1 (March 26, 2014) =
+ * Added Ability To Edit Style For Each Quiz
+ * Fixed Tried Quiz Too Many Times Text Bug
+ * Fixed Dashboard Quartely Widget Bug
+ * Minor Design Changes To Quiz Options Page
 
 = 2.0.1 (March 22, 2014) =
  * Added Pagination On Quiz Results Page
@@ -388,6 +394,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.1.1 =
+Upgrade to have the ability to edit the css styles for each quiz! Plus minor bugs fixes.
 
 = 2.0.1 =
 Upgrade to fix minor bugs and enable pagination on results page.

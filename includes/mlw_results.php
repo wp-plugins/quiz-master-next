@@ -209,37 +209,7 @@ function mlw_generate_quiz_results()
 	echo $display;
 	?>
 	
-	<?php
-	if ( get_option('mlw_advert_shows') == 'true' )
-	{
-	?>
-		<style>
-			div.help_decide
-			{
-				display: block;
-				text-align:center;
-				letter-spacing: 1px;
-				margin: auto;
-				text-shadow: 0 1px 1px #000000;
-				background: #0d97d8;
-				border: 5px solid #106daa;
-				-moz-border-radius: 20px;
-				-webkit-border-radius: 20px;
-				-khtml-border-radius: 20px;
-				border-radius: 20px;
-				color: #FFFFFF;
-			}
-			div.help_decide a
-			{
-				color: yellow;
-			}		
-		</style>
-		<div class="help_decide">
-			<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
-		</div>
-	<?php
-	}
-	?>
+	<?php echo mlw_qmn_show_adverts(); ?>
 
 	<div id="dialog" title="Help" style="display:none;">
 	<h3><b>Help</b></h3>

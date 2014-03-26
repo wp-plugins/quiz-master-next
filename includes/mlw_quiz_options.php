@@ -22,6 +22,7 @@ function mlw_generate_quiz_options()
 	$mlw_hasResetQuizStats = false;
 	$mlw_hasAddedLanding = false;
 	$mlw_hasSavedLanding = false;
+	$mlw_hasSavedStyle = false;
 	$mlw_qmn_isQueryError = false;
 	$mlw_qmn_error_code = '0000';
 	
@@ -434,6 +435,38 @@ function mlw_generate_quiz_options()
 		{
 			$mlw_qmn_isQueryError = true;
 			$mlw_qmn_error_code = '0014';
+		}
+	}
+	
+	/*
+	Code For Quiz Style Tab
+	*/
+	
+	if (isset($_POST["save_style_options"]) && $_POST["save_style_options"] == "confirmation")
+	{
+		//Function Variables
+		$mlw_qmn_style_id = intval($_POST["style_quiz_id"]);
+		$mlw_qmn_style = htmlspecialchars(stripslashes($_POST["quiz_css"]), ENT_QUOTES);
+		
+		//Save the new css
+		$mlw_save_stle_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET quiz_stye='%s' WHERE quiz_id=%d", $mlw_qmn_style, $mlw_qmn_style_id ) );
+		if ($mlw_save_stle_results != false)
+		{
+			$mlw_hasSavedStyle = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Styles Have Been Saved For Quiz Number ".$mlw_qmn_landing_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0015';
 		}
 	}
 	
@@ -935,6 +968,15 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
+		if ($mlw_hasSavedStyle)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> The styles have been saved successfully!</p>
+	</div>
+	<?php
+		}
 	?>
 	<div id="tabs">
 		<ul>
@@ -944,7 +986,8 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>	
 		    <li><a href="#tabs-5">Quiz Certificate (Beta)</a></li>
 		    <li><a href="#tabs-6">Quiz Landing Page</a></li>
-		    <li><a href="#tabs-7">Quiz Tools</a></li>
+		    <li><a href="#tabs-7">Quiz Styling</a></li>
+		    <li><a href="#tabs-8">Quiz Tools</a></li>
 		</ul>
   		<div id="tabs-1">
   			<button id="new_question_button_two">Add Question</button><button id="question_tab_help">Help</button>
@@ -1881,17 +1924,7 @@ function mlw_generate_quiz_options()
 			
 			<tr>
 				<td><strong>%COMMENT_SECTION%</strong> - The comments the user entered into comment box if enabled</td>
-				<td><strong>%QUESTION%</strong> - The question that the user answered</td>
-			</tr>
-			
-			<tr>
-				<td><strong>%USER_ANSWER%</strong> - The answer the user gave for the question</td>
-				<td><strong>%CORRECT_ANSWER%</strong> - The correct answer for the question</td>
-			</tr>
-			
-			<tr>
-				<td><strong>%USER_COMMENTS%</strong> - The comments the user provided in the comment field for the question</td>
-				<td><strong>%CORRECT_ANSWER_INFO%</strong> - Reason why the correct answer is the correct answer</td>
+				
 			</tr>
 			<tr>
 				<td><strong>%TIMER%</strong> - The amount of time user spent of quiz</td>
@@ -1979,6 +2012,72 @@ function mlw_generate_quiz_options()
 		</form>
 	</div>
 	<div id="tabs-7">
+		<h3>Quiz CSS</h3>
+		<p>This page allows you to edit the css styles for the quiz.</p>
+		<p>Entire quiz is wrapped in class 'mlw_qmn_quiz'</p>
+		<p>Each page of the quiz is wrapped in class 'quiz_section'</p>
+		<p>Each button shown for pagination (i.e Next/Previous) is wrapped in class 'mlw_qmn_quiz_link'</p>
+		<p>Timer is wrapped in class 'mlw_qmn_timer'</p>
+		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>
+		<?php
+			echo "<form action='' method='post' name='quiz_style_form'>";
+			echo "<input type='hidden' name='save_style_options' value='confirmation' />";
+			echo "<input type='hidden' name='style_quiz_id' value='".$quiz_id."' />";
+		?>
+		<table class="form-table">
+			<tr>
+				<td width="66%"><textarea style="width: 100%; height: 100%;" id="quiz_css" name="quiz_css"><?php echo $mlw_quiz_options->quiz_stye; ?></textarea>
+				</td>	
+				<td width="30%">
+					<strong>Default:</strong><br />
+					div.mlw_qmn_quiz input[type=radio],<br />
+					div.mlw_qmn_quiz input[type=submit],<br />
+					div.mlw_qmn_quiz label {<br />
+						cursor: pointer;<br />
+					}<br />
+					div.mlw_qmn_quiz input:not([type=submit]):focus,<br />
+					div.mlw_qmn_quiz textarea:focus {<br />
+						background: #eaeaea;<br />
+					}<br />
+					div.mlw_qmn_quiz {<br />
+						text-align: left;<br />
+					}<br />
+					div.quiz_section {<br />
+						<br />
+					}<br />
+					div.mlw_qmn_timer {<br />
+						position:fixed;<br />
+						top:200px;<br />
+						right:0px;<br />
+						width:130px;<br />
+						color:#00CCFF;<br />
+						border-radius: 15px;<br />
+						background:#000000;<br />
+						text-align: center;<br />
+						padding: 15px 15px 15px 15px<br />
+					}<br />
+					div.mlw_qmn_quiz input[type=submit],<br />
+					a.mlw_qmn_quiz_link<br />
+					{<br />
+						    border-radius: 4px;<br />
+						    position: relative;<br />
+						    background-image: linear-gradient(#fff,#dedede);<br />
+							background-color: #eee;<br />
+							border: #ccc solid 1px;<br />
+							color: #333;<br />
+							text-shadow: 0 1px 0 rgba(255,255,255,.5);<br />
+							box-sizing: border-box;<br />
+						    display: inline-block;<br />
+						    padding: 5px 5px 5px 5px;<br />
+	   						margin: auto;<br />
+					}<br />
+				</td>
+			</tr>
+		</table>
+		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>
+		</form>
+	</div>
+	<div id="tabs-8">
 		<p>Use this button to reset all the stats collected for this quiz (Quiz Views and Times Quiz Has Been Taken). </p>
 		<button id="mlw_reset_stats_button">Reset Quiz Views And Taken Stats</button>
 		<div id="mlw_reset_stats_dialog" title="Reset Stats For This Quiz" style="display:none;">
@@ -1994,37 +2093,7 @@ function mlw_generate_quiz_options()
 	</div>
 	</div>
 	
-	<?php
-	if ( get_option('mlw_advert_shows') == 'true' )
-	{
-	?>
-		<style>
-			div.help_decide
-			{
-				display: block;
-				text-align:center;
-				letter-spacing: 1px;
-				margin: auto;
-				text-shadow: 0 1px 1px #000000;
-				background: #0d97d8;
-				border: 5px solid #106daa;
-				-moz-border-radius: 20px;
-				-webkit-border-radius: 20px;
-				-khtml-border-radius: 20px;
-				border-radius: 20px;
-				color: #FFFFFF;
-			}
-			div.help_decide a
-			{
-				color: yellow;
-			}		
-		</style>
-		<div class="help_decide">
-			<p>Need support or features? Check out our Plugin Add-On Store for premium support, installation services, and more! Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a>!</p>
-		</div>
-	<?php
-	}
-	?>
+	<?php echo mlw_qmn_show_adverts(); ?>
 
 
 	<!--Dialogs-->

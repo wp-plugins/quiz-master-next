@@ -144,11 +144,9 @@ function mlw_generate_quiz_dashboard(){
 		}
 	</style>
 	<div class="wrap">
-	<h2>Quiz Master Next <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
+	<h2>Quiz Master Next Version <?php echo $mlw_quiz_version; ?><?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
-	<h3>Version <?php echo $mlw_quiz_version; ?></h3>
-	<p>Thank you for using this plugin. I hope you find it beneficial to your website. <?php if ( get_option('mlw_advert_shows') == 'true' ) { ?> If it is, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. <?php } ?>Thank you!</p>
-	
+	<?php echo mlw_qmn_show_adverts(); ?>
 	<!--Display Widget Boxes-->
 	<div style="float:left; width:19%;" class="inner-sidebar1">
 		<?php do_meta_boxes('quiz_wpss10','advanced','');  ?>	
@@ -768,13 +766,13 @@ function mlw_qmn_quaterly_percent_taken_widget()
 {
 	global $wpdb;
 	
-	$mlw_this_quater =  mktime(0, 0, 0, date("m")  , date("d")-119, date("Y"));
+	$mlw_this_quater =  mktime(0, 0, 0, date("m")  , date("d")-89, date("Y"));
 	$mlw_this_quater = date("Y-m-d", $mlw_this_quater);
 	$mlw_qmn_this_quater_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_this_quater." 00:00:00' AND '".date("Y-m-d")." 23:59:59') AND deleted=0");
 	
-	$mlw_last_quater_start =  mktime(0, 0, 0, date("m")  , date("d")-240, date("Y"));
+	$mlw_last_quater_start =  mktime(0, 0, 0, date("m")  , date("d")-179, date("Y"));
 	$mlw_last_quater_start = date("Y-m-d", $mlw_last_quater_start);
-	$mlw_last_quater_end =  mktime(0, 0, 0, date("m")  , date("d")-120, date("Y"));
+	$mlw_last_quater_end =  mktime(0, 0, 0, date("m")  , date("d")-90, date("Y"));
 	$mlw_last_quater_end = date("Y-m-d", $mlw_last_quater_end);
 	$mlw_qmn_last_quater_taken = $wpdb->get_var( "SELECT COUNT(*) FROM " . $wpdb->prefix . "mlw_results WHERE (time_taken_real BETWEEN '".$mlw_last_quater_start." 00:00:00' AND '".$mlw_last_quater_end." 23:59:59') AND deleted=0");
 	
