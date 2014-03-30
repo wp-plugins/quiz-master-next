@@ -239,6 +239,7 @@ function mlw_generate_quiz_options()
 		$mlw_system = $_POST["system"];
 		$mlw_qmn_pagination = intval($_POST["pagination"]);
 		$mlw_qmn_social_media = intval($_POST["social_media"]);
+		$mlw_qmn_question_numbering = intval($_POST["question_numbering"]);
 		$mlw_qmn_timer = intval($_POST["timer_limit"]);
 		$mlw_qmn_questions_from_total = $_POST["question_from_total"];
 		$mlw_randomness_order = $_POST["randomness_order"];
@@ -255,7 +256,7 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_loggedin_contact = $_POST["loggedin_user_contact"];
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total.", total_user_tries=".$mlw_total_user_tries.", social_media=".$mlw_qmn_social_media.", pagination=".$mlw_qmn_pagination.", timer_limit=".$mlw_qmn_timer." WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total.", total_user_tries=".$mlw_total_user_tries.", social_media=".$mlw_qmn_social_media.", pagination=".$mlw_qmn_pagination.", timer_limit=".$mlw_qmn_timer.", question_numbering=".$mlw_qmn_question_numbering." WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -735,6 +736,7 @@ function mlw_generate_quiz_options()
   		});
   		$j(function() {
   				$j( "#social_media" ).buttonset();
+  				$j( "#question_numbering" ).buttonset();
   		});
   		$j(function() {
   				$j( "#comments" ).buttonset();
@@ -1373,7 +1375,7 @@ function mlw_generate_quiz_options()
 			<h3>Template Variables</h3>
 			<table class="form-table">
 			<tr>
-				<td><strong>%POINT_SCORE%</strong> - Score for the quiz when using points</td>
+				<td><strong>%POINT_SCORE%</strong> - Total points user earned when taking quiz</td>
 				<td><strong>%AVERAGE_POINT%</strong> - The average amount of points user had per question</td>
 			</tr>
 	
@@ -1383,7 +1385,7 @@ function mlw_generate_quiz_options()
 			</tr>
 			
 			<tr>
-				<td><strong>%CORRECT_SCORE%</strong> - Score for the quiz when using correct answers</td>
+				<td><strong>%CORRECT_SCORE%</strong> - The percent score for the quiz showing percent of total quetions answered correctly</td>
 			</tr>
 	
 			<tr>
@@ -1754,10 +1756,17 @@ function mlw_generate_quiz_options()
 				<td><input name="adminEmail" type="email" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
 			</tr>
 			<tr valign="top">
+				<th scope="row"><label for="question_numbering">Show question number on quiz?</label></th>
+				<td><div id="question_numbering">
+				    <input type="radio" id="question_numbering_radio2" name="question_numbering" <?php if ($mlw_quiz_options->question_numbering == 1) {echo 'checked="checked"';} ?> value='1' /><label for="question_numbering_radio2">Yes</label>
+				    <input type="radio" id="question_numbering_radio" name="question_numbering" <?php if ($mlw_quiz_options->question_numbering == 0) {echo 'checked="checked"';} ?> value='0' /><label for="question_numbering_radio">No</label>
+				</div></td>
+			</tr>
+			<tr valign="top">
 				<th scope="row"><label for="social_media">Show social media sharing buttons? (Twitter only so far)</label></th>
 				<td><div id="social_media">
-				    <input type="radio" id="social_media_radio" name="social_media" <?php if ($mlw_quiz_options->social_media == 0) {echo 'checked="checked"';} ?> value='0' /><label for="social_media_radio">No</label>
-				    <input type="radio" id="social_media_radio2" name="social_media" <?php if ($mlw_quiz_options->social_media == 1) {echo 'checked="checked"';} ?> value='1' /><label for="social_media_radio2">Yes</label>
+					<input type="radio" id="social_media_radio2" name="social_media" <?php if ($mlw_quiz_options->social_media == 1) {echo 'checked="checked"';} ?> value='1' /><label for="social_media_radio2">Yes</label>
+				    <input type="radio" id="social_media_radio" name="social_media" <?php if ($mlw_quiz_options->social_media == 0) {echo 'checked="checked"';} ?> value='0' /><label for="social_media_radio">No</label>				    
 				</div></td>
 			</tr>
 		</table>
@@ -2016,6 +2025,11 @@ function mlw_generate_quiz_options()
 		<p>This page allows you to edit the css styles for the quiz.</p>
 		<p>Entire quiz is wrapped in class 'mlw_qmn_quiz'</p>
 		<p>Each page of the quiz is wrapped in class 'quiz_section'</p>
+		<p>Message before quiz text is wrapped in class 'mlw_qmn_message_before'</p>
+		<p>The text for each question is wrapped in class 'mlw_qmn_question'</p>
+		<p>Each comment field for the questions is wrapped in class 'mlw_qmn_question_comment'</p>
+		<p>Label text for comment section is wrapped in class 'mlw_qmn_comment_section_text'</p>
+		<p>The message displayed at end of quiz is wrapped in class 'mlw_qmn_message_end'</p>
 		<p>Each button shown for pagination (i.e Next/Previous) is wrapped in class 'mlw_qmn_quiz_link'</p>
 		<p>Timer is wrapped in class 'mlw_qmn_timer'</p>
 		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>

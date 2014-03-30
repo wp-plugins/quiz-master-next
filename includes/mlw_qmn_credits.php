@@ -87,23 +87,28 @@ function mlw_generate_about_page()
 		<a href="#" class="nav-tab nav-tab-active">
 			What&#8217;s New In <?php echo $mlw_quiz_version; ?>	</a>
 	</h2>
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can edit the style for each quiz!</h2>
-	<p>This new version brings the ability to edit the css for each quiz. Simply go to the new Quiz Style tab on the Quiz options page to see the current css as well as the recommended default css. The css classes for the page are listed at the top of the tab with an explanation as to what they are assigned to.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can show question numbers on your quiz!</h2>
+	<p>This new version brings the ability to show the question number next to the question. Navigate to the Quiz Options tab to change the "Show question number on quiz?" option to Yes.</p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Edit Style For Each Quiz</li>
-		<li>Fixed Tried Quiz Too Many Times Text Bug</li>
-		<li>Fixed Dashboard Quartely Widget Bug</li>
-		<li>Minor Design Changes To Quiz Options Page</li>
+		<li>Added Ability To Show Question Numbers</li>
+		<li>Added More CSS Classes To Quiz Page For Better Styling Options</li>
+		<li>Changed Timer To Disable Fields Instead Of Submit Form When Time Is Up</li>
+		<li>Fixed Pagination Javascript Bug</li>
+		<li>Minor Design Change To Quiz</li>
+		<li>Minor Design Change To Quiz Options Page</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
 		<li>Importing Questions</li>
 		<li>Stats For Each Quiz</li>
-		<li>Multiple Right Answers</li>
+		<li>Multiple Right Answers (Checkboxes)</li>
 		<li>Graded Open Text Answers</li>
 		<li>Exporting Of Results</li>
+		<li>Unlimited Amount Of Answers</li>
+		<li>Randomized Answers</li>
+		<li>Force Login/Register Option</li>
 	</ul>
 		
 	<div id="dialog" title="Help">

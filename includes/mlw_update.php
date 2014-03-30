@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "2.1.1";
+	$data = "2.2.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -215,6 +215,15 @@ function mlw_quiz_update()
    						margin: auto;
 				}";
 			$update_sql = "UPDATE ".$table_name." SET quiz_stye='".$mlw_style_default."'";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 2.2.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'question_numbering'") != "question_numbering")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD question_numbering INT NOT NULL AFTER quiz_stye";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET question_numbering='0'";
 			$results = $wpdb->query( $update_sql );
 		}
 		
