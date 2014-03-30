@@ -137,25 +137,16 @@ function mlw_quiz_shortcode($atts)
 		    }
 			?>
 			<script type="text/javascript">
-				if (window.addEventListener)
-			        window.addEventListener('load', mlwQmnPagination, false)
-			    else if (window.attachEvent)
-			        window.attachEvent('onload', mlwQmnPagination)
-			    else
-			        window.onload = mlwQmnPagination;
-        		function mlwQmnPagination()
-        		{
-					var $j = jQuery.noConflict();
-					$j(function() {
-					$j( ".quiz_section" ).hide();
-					$j( ".quiz_section" ).append( "<br />" );
-					$j( ".quiz_section" ).not( ".quiz_begin" ).append( "<a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"prevSlide();\"><?php echo $mlw_qmn_pagination_text[0]; ?></a>" );
-					$j( ".quiz_section" ).not( ".quiz_end" ).append( "<a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"nextSlide();\"><?php echo $mlw_qmn_pagination_text[1]; ?></a>" );
-					window.mlw_quiz_slide = 0;
-					window.mlw_quiz_total_slides = <?php echo $mlw_qmn_section_limit; ?>;
-					nextSlide();
-					});
-        		}
+				var $j = jQuery.noConflict();
+				$j(function() {
+				$j( ".quiz_section" ).hide();
+				$j( ".quiz_section" ).append( "<br />" );
+				$j( ".quiz_section" ).not( ".quiz_begin" ).append( "<a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"prevSlide();\"><?php echo $mlw_qmn_pagination_text[0]; ?></a>" );
+				$j( ".quiz_section" ).not( ".quiz_end" ).append( "<a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"nextSlide();\"><?php echo $mlw_qmn_pagination_text[1]; ?></a>" );
+				window.mlw_quiz_slide = 0;
+				window.mlw_quiz_total_slides = <?php echo $mlw_qmn_section_limit; ?>;
+				nextSlide();
+				});
 				function nextSlide()
 				{
 					window.mlw_quiz_slide++;
