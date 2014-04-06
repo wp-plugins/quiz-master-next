@@ -404,7 +404,7 @@ function mlw_quiz_shortcode($atts)
 				}
 				$mlw_display .= "<br />";
 			}
-			else
+			elseif ($mlw_question->question_type == 2)
 			{
 				$mlw_display .= "<select required name='question".$mlw_question->question_id."'>";
 				if ($mlw_question->answer_one != "")
@@ -433,6 +433,11 @@ function mlw_quiz_shortcode($atts)
 				}						
 				$mlw_display .= "</select>";
 				$mlw_display .= "<br />";
+			}
+			else
+			{
+				$mlw_display .= "<input type='text' name='question".$mlw_question->question_id."' />";
+				$mlw_display .= "<br />";				
 			}
 			if ($mlw_question->comments == 0)
 			{
@@ -532,50 +537,94 @@ function mlw_quiz_shortcode($atts)
 			if (isset($_POST["question".$mlw_question->question_id]) || isset($_POST["mlwComment".$mlw_question->question_id]))
 			{
 				//$mlw_total_questions += 1;
-				if (isset($_POST["question".$mlw_question->question_id]))
+				if ( isset($_POST["question".$mlw_question->question_id]) )
 				{
-					$mlw_user_answer = $_POST["question".$mlw_question->question_id];
-					if ($mlw_user_answer == $mlw_question->correct_answer)
+					if ( $mlw_question->question_type == 0 || $mlw_question->question_type == 1 || $mlw_question->question_type == 2 )
 					{
-						$mlw_correct += 1;
+						$mlw_user_answer = $_POST["question".$mlw_question->question_id];
+						if ($mlw_user_answer == $mlw_question->correct_answer)
+						{
+							$mlw_correct += 1;
+						}
+						if ($mlw_user_answer == 1) 
+						{
+							$mlw_points += $mlw_question->answer_one_points;
+							$mlw_user_text = $mlw_question->answer_one;
+						}
+						if ($mlw_user_answer == 2) 
+						{
+							$mlw_points += $mlw_question->answer_two_points;
+							$mlw_user_text = $mlw_question->answer_two;
+						}
+						if ($mlw_user_answer == 3) 
+						{
+							$mlw_points += $mlw_question->answer_three_points;
+							$mlw_user_text = $mlw_question->answer_three;
+						}
+						if ($mlw_user_answer == 4) 
+						{
+							$mlw_points += $mlw_question->answer_four_points;
+							$mlw_user_text = $mlw_question->answer_four;
+						}
+						if ($mlw_user_answer == 5) 
+						{
+							$mlw_points += $mlw_question->answer_five_points;
+							$mlw_user_text = $mlw_question->answer_five;
+						}
+						if ($mlw_user_answer == 6) 
+						{
+							$mlw_points += $mlw_question->answer_six_points;
+							$mlw_user_text = $mlw_question->answer_six;
+						}
+						
+						if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
+						if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
+						if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
+						if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
+						if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
+						if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
 					}
-					if ($mlw_user_answer == 1) 
+					elseif ( $mlw_question->question_type == 3 )
 					{
-						$mlw_points += $mlw_question->answer_one_points;
-						$mlw_user_text = $mlw_question->answer_one;
+						$mlw_correct_text = $mlw_question->answer_one;
+						$mlw_user_answer = $_POST["question".$mlw_question->question_id];
+						if (strtoupper($mlw_user_answer) == strtoupper($mlw_question->answer_one)) 
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_question->answer_one_points;
+							$mlw_user_text = $mlw_question->answer_one;
+						}
+						elseif (strtoupper($mlw_user_answer) == strtoupper($mlw_question->answer_two)) 
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_question->answer_two_points;
+							$mlw_user_text = $mlw_question->answer_two;
+						}
+						elseif (strtoupper($mlw_user_answer) == strtoupper($mlw_question->answer_three)) 
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_question->answer_three_points;
+							$mlw_user_text = $mlw_question->answer_three;
+						}
+						elseif (strtoupper($mlw_user_answer) == strtoupper($mlw_question->answer_four)) 
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_question->answer_four_points;
+							$mlw_user_text = $mlw_question->answer_four;
+						}
+						elseif (strtoupper($mlw_user_answer) == strtoupper($mlw_question->answer_five)) 
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_question->answer_five_points;
+							$mlw_user_text = $mlw_question->answer_five;
+						}
+						elseif (strtoupper($mlw_user_answer) == strtoupper($mlw_question->answer_six)) 
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_question->answer_six_points;
+							$mlw_user_text = $mlw_question->answer_six;
+						}
 					}
-					if ($mlw_user_answer == 2) 
-					{
-						$mlw_points += $mlw_question->answer_two_points;
-						$mlw_user_text = $mlw_question->answer_two;
-					}
-					if ($mlw_user_answer == 3) 
-					{
-						$mlw_points += $mlw_question->answer_three_points;
-						$mlw_user_text = $mlw_question->answer_three;
-					}
-					if ($mlw_user_answer == 4) 
-					{
-						$mlw_points += $mlw_question->answer_four_points;
-						$mlw_user_text = $mlw_question->answer_four;
-					}
-					if ($mlw_user_answer == 5) 
-					{
-						$mlw_points += $mlw_question->answer_five_points;
-						$mlw_user_text = $mlw_question->answer_five;
-					}
-					if ($mlw_user_answer == 6) 
-					{
-						$mlw_points += $mlw_question->answer_six_points;
-						$mlw_user_text = $mlw_question->answer_six;
-					}
-					
-					if ($mlw_question->correct_answer == 1) {$mlw_correct_text = $mlw_question->answer_one;}
-					if ($mlw_question->correct_answer == 2) {$mlw_correct_text = $mlw_question->answer_two;}
-					if ($mlw_question->correct_answer == 3) {$mlw_correct_text = $mlw_question->answer_three;}
-					if ($mlw_question->correct_answer == 4) {$mlw_correct_text = $mlw_question->answer_four;}
-					if ($mlw_question->correct_answer == 5) {$mlw_correct_text = $mlw_question->answer_five;}
-					if ($mlw_question->correct_answer == 6) {$mlw_correct_text = $mlw_question->answer_six;}
 				}
 				if (isset($_POST["mlwComment".$mlw_question->question_id]))
 				{

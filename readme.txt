@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.6
 Tested up to: 3.8.1
-Stable tag: 2.2.2
+Stable tag: 2.3.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -18,6 +18,9 @@ Each of your quizzes can have **unlimited** questions! Your questions can contai
 
 = Customize Your Text =
 All the text your users see can be **customized**. Everything from the text blocks throughout the quiz to the submit button.
+
+= Different Types Of Questions =
+You can have *multiple choice* (radio buttons), *true and false*, and *open answer* question. More types are being supported in future updates!
 
 = Mulitple Landing Pages For Each Quiz =
 Each quiz can have **unlimited** results pages that can be customized with your text. Show different results pages based on the users score!
@@ -98,6 +101,10 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 2.3.1 (April 6, 2014) =
+ * Added Ability To Have Graded Open Answer Questions
+ * Minor Design Changes
 
 = 2.2.2 (March 30, 2014) =
  * Reverted To Previous Pagination Javascript

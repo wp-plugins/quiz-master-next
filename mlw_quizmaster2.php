@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 2.2.2
+Version: 2.3.1
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -116,7 +116,7 @@ function mlw_qmn_show_adverts()
 				$mlw_advert_text = "Would you like to support this plugin but do not need or want premium support? Please consider our inexpensive 'Advertisements Be Gone' add-on which will get rid of these ads. Visit our <a href=\"http://mylocalwebstop.com/shop/\">Plugin Add-On Store</a> for details!";
 				break;
 			case 4:
-				$mlw_advert_text = "Need a plugin to show off testimonials from customers or clients? Be sure to check out our new Testimonial Master plugin. Visit our <a href=\"http://mylocalwebstop.com/wordpress-plugins/\">WordPress Plugins Page</a> for details!";
+				$mlw_advert_text = "Need to be able to export the results of your quizzes? Be sure to check out our new Export Results add-on in our <a href=\"http://mylocalwebstop.com/shop/\">Plugin Add-On Store</a>!";
 				break;
 			default:
 				$mlw_advert_text = "Need support or features? Check out our Premium Support options! Visit our <a href=\"http://mylocalwebstop.com/shop/\">Plugin Add-On Store</a> for details!";

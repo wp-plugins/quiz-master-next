@@ -87,25 +87,22 @@ function mlw_generate_about_page()
 		<a href="#" class="nav-tab nav-tab-active">
 			What&#8217;s New In <?php echo $mlw_quiz_version; ?>	</a>
 	</h2>
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can show question numbers on your quiz!</h2>
-	<p>This new version brings the ability to show the question number next to the question. Navigate to the Quiz Options tab to change the "Show question number on quiz?" option to Yes.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can have graded open answer questions!</h2>
+	<p>This new version brings the ability to have open answer questions. When adding or editing a question, you will see that the question type option has a new option "Open Answer" Selecting this will show the user a blank field to enter their answer into. Enter the correct answers into the answer fields.</p>
+	<br />
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Premium Add-Ons!</h2>
+	<p>We have recently added 3 new premium add-ons into our plugin store! Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href=\"http://mylocalwebstop.com/shop/\">Plugin Add-On Store</a> for details! </p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Show Question Numbers</li>
-		<li>Added More CSS Classes To Quiz Page For Better Styling Options</li>
-		<li>Changed Timer To Disable Fields Instead Of Submit Form When Time Is Up</li>
-		<li>Fixed Pagination Javascript Bug</li>
-		<li>Minor Design Change To Quiz</li>
-		<li>Minor Design Change To Quiz Options Page</li>
+		<li>Added Ability To Have Graded Open Answer Questions</li>
+		<li>Minor Design Changes</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
 		<li>Importing Questions</li>
 		<li>Stats For Each Quiz</li>
 		<li>Multiple Right Answers (Checkboxes)</li>
-		<li>Graded Open Text Answers</li>
-		<li>Exporting Of Results</li>
 		<li>Unlimited Amount Of Answers</li>
 		<li>Randomized Answers</li>
 		<li>Force Login/Register Option</li>

@@ -838,19 +838,10 @@ function mlw_generate_quiz_options()
 			if (question_type == 0) $j('#editTypeRadio1').attr('checked', true).button('refresh');
 			if (question_type == 1) $j('#editTypeRadio2').attr('checked', true).button('refresh');
 			if (question_type == 2) $j('#editTypeRadio3').attr('checked', true).button('refresh');
-			/*
-			if (question_type == 0) document.getElementById("editTypeRadio1").checked = true;
-			if (question_type == 1) document.getElementById("editTypeRadio2").checked = true;
-			if (question_type == 2) document.getElementById("editTypeRadio3").checked = true;
-			*/
+			if (question_type == 3) $j('#editTypeRadio4').attr('checked', true).button('refresh');
 			if (comments == 0) $j('#editCommentRadio1').attr('checked', true).button('refresh');
 			if (comments == 1) $j('#editCommentRadio2').attr('checked', true).button('refresh');
 			if (comments == 2) $j('#editCommentRadio3').attr('checked', true).button('refresh');
-			/*
-			if (comments == 0) document.getElementById("editCommentRadio1").checked = true;
-			if (comments == 1) document.getElementById("editCommentRadio2").checked = true;
-			if (comments == 2) document.getElementById("editCommentRadio3").checked = true;
-			*/
 		};
 		function delete_landing(id)
 		{
@@ -1181,6 +1172,7 @@ function mlw_generate_quiz_options()
 				<input type="radio" id="typeRadio1" name="question_type" checked="checked" value=0 /><label for="typeRadio1">Normal (Vertical Radio)</label>
 				<input type="radio" id="typeRadio2" name="question_type" value=1 /><label for="typeRadio2">Horizontal Radio</label>
 				<input type="radio" id="typeRadio3" name="question_type" value=2 /><label for="typeRadio3">Drop Down</label>
+				<input type="radio" id="typeRadio4" name="question_type" value=3 /><label for="typeRadio4">Open Answer</label>
 			</div></td>
 			</tr>
 			<tr valign="top">
@@ -1345,6 +1337,7 @@ function mlw_generate_quiz_options()
 				<input type="radio" id="editTypeRadio1" name="edit_question_type" checked="checked" value=0 /><label for="editTypeRadio1">Normal (Vertical Radio)</label>
 				<input type="radio" id="editTypeRadio2" name="edit_question_type" value=1 /><label for="editTypeRadio2">Horizontal Radio</label>
 				<input type="radio" id="editTypeRadio3" name="edit_question_type" value=2 /><label for="editTypeRadio3">Drop Down</label>
+				<input type="radio" id="editTypeRadio4" name="edit_question_type" value=3 /><label for="editTypeRadio4">Open Answer</label>
 			</div></td>
 			</tr>
 			<tr valign="top">
