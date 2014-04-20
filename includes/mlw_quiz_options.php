@@ -22,6 +22,8 @@ function mlw_generate_quiz_options()
 	$mlw_hasResetQuizStats = false;
 	$mlw_hasAddedLanding = false;
 	$mlw_hasSavedLanding = false;
+	$mlw_hasAddedEmail = false;
+	$mlw_hasSavedEmail = false;
 	$mlw_hasSavedStyle = false;
 	$mlw_qmn_isQueryError = false;
 	$mlw_qmn_error_code = '0000';
@@ -191,8 +193,6 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_message_end = htmlspecialchars($_POST["message_end_template"], ENT_QUOTES);
 		$mlw_qmn_social_medi_text = htmlspecialchars($_POST["mlw_quiz_social_media_text_template"], ENT_QUOTES);
 		$mlw_user_tries_text = htmlspecialchars($_POST["mlw_quiz_total_user_tries_text"], ENT_QUOTES);
-		$mlw_user_email_template = htmlspecialchars($_POST["mlw_quiz_user_email_template"], ENT_QUOTES);
-		$mlw_admin_email_template = htmlspecialchars($_POST["mlw_quiz_admin_email_template"], ENT_QUOTES);
 		$mlw_submit_button_text = htmlspecialchars($_POST["mlw_submitText"], ENT_QUOTES);
 		$mlw_name_field_text = htmlspecialchars($_POST["mlw_nameText"], ENT_QUOTES);
 		$mlw_business_field_text = htmlspecialchars($_POST["mlw_businessText"], ENT_QUOTES);
@@ -205,7 +205,7 @@ function mlw_generate_quiz_options()
 		$mlw_question_answer_template = htmlspecialchars($_POST["mlw_quiz_question_answer_template"], ENT_QUOTES);
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', user_email_template='".$mlw_user_email_template."', admin_email_template='".$mlw_admin_email_template."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_pagination_field."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_pagination_field."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -350,6 +350,97 @@ function mlw_generate_quiz_options()
 	}
 	
 	/*
+	Code For Quiz Emails Tab
+	*/
+	
+	//Check to add new user email template
+	if (isset($_POST["mlw_add_email_page"]) && $_POST["mlw_add_email_page"] == "confirmation")
+	{
+		//Function variables
+		$mlw_qmn_add_email_id = intval($_POST["mlw_add_email_quiz_id"]);
+		$mlw_qmn_user_email = $wpdb->get_var( $wpdb->prepare( "SELECT user_email_template FROM ".$wpdb->prefix."mlw_quizzes WHERE quiz_id=%d", $mlw_qmn_add_email_id ) );
+	
+		//Load user email and check if it is array already. If not, turn it into one
+		$mlw_qmn_email_array = @unserialize($mlw_qmn_user_email);
+		if (is_array($mlw_qmn_email_array))
+		{
+			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here');
+			array_unshift($mlw_qmn_email_array , $mlw_new_landing_array);
+			$mlw_qmn_email_array = serialize($mlw_qmn_email_array);
+			
+		}
+		else
+		{
+			$mlw_qmn_email_array = array(array(0, 0, $mlw_qmn_user_email));
+			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here');
+			array_unshift($mlw_qmn_email_array , $mlw_new_landing_array);
+			$mlw_qmn_email_array = serialize($mlw_qmn_email_array);
+		}
+		//Update message_after with new array then check to see if worked
+		$mlw_new_email_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET user_email_template='%s' WHERE quiz_id=%d", $mlw_qmn_email_array, $mlw_qmn_add_email_id ) );
+		if ($mlw_new_email_results != false)
+		{
+			$mlw_hasAddedEmail = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'New User Email Has Been Created For Quiz Number ".$mlw_qmn_add_email_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0016';
+		}
+	}
+	
+	//Check to save email templates
+	if (isset($_POST["mlw_save_email_template"]) && $_POST["mlw_save_email_template"] == "confirmation")
+	{
+		//Function Variables
+		$mlw_qmn_email_id = intval($_POST["mlw_email_quiz_id"]);
+		$mlw_qmn_email_template_total = intval($_POST["mlw_email_template_total"]);
+		$mlw_qmn_admin_email = htmlspecialchars(stripslashes($_POST["mlw_quiz_admin_email_template"]), ENT_QUOTES);
+		
+		//Create new array
+		$i = 1;
+		$mlw_qmn_new_email_array = array();
+		while ($i <= $mlw_qmn_email_template_total)
+		{
+			if ($_POST["user_email_".$i] != "Delete")
+			{
+				$mlw_qmn_email_each = array(intval($_POST["user_email_begin_".$i]), intval($_POST["user_email_end_".$i]), htmlspecialchars(stripslashes($_POST["user_email_".$i]), ENT_QUOTES));
+				$mlw_qmn_new_email_array[] = $mlw_qmn_email_each;
+			}
+			$i++;
+		}
+		$mlw_qmn_new_email_array = serialize($mlw_qmn_new_email_array);
+		$mlw_new_email_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET user_email_template='%s', admin_email_template='%s' WHERE quiz_id=%d", $mlw_qmn_new_email_array, $mlw_qmn_admin_email, $mlw_qmn_email_id ) );
+		if ($mlw_new_email_results != false)
+		{
+			$mlw_hasSavedEmail = true;
+			
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Email Templates Have Been Saved For Quiz Number ".$mlw_qmn_email_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );	
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0017';
+		}
+	}
+	
+	/*
 	Code For Quiz Landing Page Tab
 	*/
 	
@@ -461,7 +552,7 @@ function mlw_generate_quiz_options()
 			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
 			$insert = "INSERT INTO " . $table_name .
 				"(trail_id, action_user, action, time) " .
-				"VALUES (NULL , '" . $current_user->display_name . "' , 'Styles Have Been Saved For Quiz Number ".$mlw_qmn_landing_id."' , '" . date("h:i:s A m/d/Y") . "')";
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Styles Have Been Saved For Quiz Number ".$mlw_qmn_style_id."' , '" . date("h:i:s A m/d/Y") . "')";
 			$results = $wpdb->query( $insert );	
 		}
 		else
@@ -525,6 +616,14 @@ function mlw_generate_quiz_options()
 	if (!is_array($mlw_certificate_options)) {
         // something went wrong, initialize to empty array
         $mlw_certificate_options = array('Enter title here', 'Enter text here', '', '', 1);
+    }
+    
+    
+    //Load Email Templates
+    $mlw_qmn_user_email_array = @unserialize($mlw_quiz_options->user_email_template);
+	if (!is_array($mlw_qmn_user_email_array)) {
+        // something went wrong, initialize to empty array
+        $mlw_qmn_user_email_array = array(array(0, 0, $mlw_quiz_options->user_email_template));
     }
     
     //Load Landing Pages
@@ -668,6 +767,25 @@ function mlw_generate_quiz_options()
 		}	);
 		});
 		
+			$j(function() {
+			$j('#email_template_help_dialog').dialog({
+				autoOpen: false,
+				show: 'blind',
+				width:700,
+				hide: 'explode',
+				buttons: {
+				Ok: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+		
+			$j('#email_tab_help').click(function() {
+				$j('#email_template_help_dialog').dialog('open');
+				return false;
+		}	);
+		});
+		
 		$j(function() {
 			$j('#mlw_reset_stats_dialog').dialog({
 				autoOpen: false,
@@ -696,7 +814,9 @@ function mlw_generate_quiz_options()
 			$j("#accordion").accordion({
 				heightStyle: "content"
 			});
-
+			$j("#email_accordion").accordion({
+				heightStyle: "content"
+			});
 		});
 		$j(function() {
     			$j( "#system" ).buttonset();
@@ -754,7 +874,7 @@ function mlw_generate_quiz_options()
   				$j( "#edit_comments" ).buttonset();
   		});
 		$j(function() {
-			$j("button, #prev_page, #next_page").button();
+			$j("button, #prev_page, #next_page, #new_email_button_top, #new_email_button_bottom").button();
 		
 		});
 		$j(function() {
@@ -847,6 +967,11 @@ function mlw_generate_quiz_options()
 		{
 			document.getElementById('message_after_'+id).value = "Delete";
 			document.mlw_quiz_save_landing_form.submit();	
+		}
+		function delete_email(id)
+		{
+			document.getElementById('user_email_'+id).value = "Delete";
+			document.mlw_quiz_save_email_form.submit();	
 		}
 	</script>
 	<div class="wrap">
@@ -952,6 +1077,24 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
+		if ($mlw_hasAddedEmail)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> A new email has been added successfully!</p>
+	</div>
+	<?php
+		}
+		if ($mlw_hasSavedEmail)
+		{
+	?>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> The email templates have been saved successfully!</p>
+	</div>
+	<?php
+		}
 		if ($mlw_UpdatedCertificate)
 		{
 	?>
@@ -978,6 +1121,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-3">Quiz Options</a></li>
 		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>	
 		    <li><a href="#tabs-5">Quiz Certificate (Beta)</a></li>
+		    <li><a href="#tabs-9">Quiz Emails</a></li>
 		    <li><a href="#tabs-6">Quiz Landing Page</a></li>
 		    <li><a href="#tabs-7">Quiz Styling</a></li>
 		    <li><a href="#tabs-8">Quiz Tools</a></li>
@@ -1001,23 +1145,23 @@ function mlw_generate_quiz_options()
 			if( $mlw_qmn_question_page > 0 )
 			{
 			   	$mlw_qmn_previous_page = $mlw_qmn_question_page - 2;
-			   	$display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_previous_page&&quiz_id=$quiz_id\">Previous 10 Questions</a>";
+			   	$display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_previous_page&&quiz_id=$quiz_id\">Previous 10 Questions</a>";
 			   	if( $mlw_qmn_question_left > $mlw_qmn_table_limit )
 			   	{
-					$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_question_page&&quiz_id=$quiz_id\">Next 10 Questions</a>";
+					$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_question_page&&quiz_id=$quiz_id\">Next 10 Questions</a>";
 			   	}
 			}
 			else if( $mlw_qmn_question_page == 0 )
 			{
 			   if( $mlw_qmn_question_left > $mlw_qmn_table_limit )
 			   {
-					$display .= "<a id=\"next_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_question_page&&quiz_id=$quiz_id\">Next 10 Questions</a>";
+					$display .= "<a id=\"next_page\" href=\"?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_question_page&&quiz_id=$quiz_id\">Next 10 Questions</a>";
 			   }
 			}
 			else if( $mlw_qmn_question_left < $mlw_qmn_table_limit )
 			{
 			   $mlw_qmn_previous_page = $mlw_qmn_question_page - 2;
-			   $display .= "<a id=\"prev_page\" href=\"$_PHP_SELF?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_previous_page&&quiz_id=$quiz_id\">Previous 10 Questions</a>";
+			   $display .= "<a id=\"prev_page\" href=\"?page=mlw_quiz_options&&mlw_question_page=$mlw_qmn_previous_page&&quiz_id=$quiz_id\">Previous 10 Questions</a>";
 			}
 
 			$display .= "<table class=\"widefat\">";
@@ -1500,55 +1644,7 @@ function mlw_generate_quiz_options()
 			</div>
 			<h3><a href="#">Email Template</a></h3>
 			<div>
-			<table class="form-table">
-				<tr>
-					<td width="30%">
-						<strong>Email sent to user after completion (If turned on in options)</strong>
-						<br />
-						<p>Allowed Variables: </p>
-						<p style="margin: 2px 0">- %POINT_SCORE%</p>
-						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
-						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
-						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
-						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
-						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
-						<p style="margin: 2px 0">- %USER_NAME%</p>
-						<p style="margin: 2px 0">- %USER_BUSINESS%</p>
-						<p style="margin: 2px 0">- %USER_PHONE%</p>
-						<p style="margin: 2px 0">- %USER_EMAIL%</p>
-						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
-						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
-						<p style="margin: 2px 0">- %TIMER%</p>
-						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
-					</td>
-					<td><textarea cols="80" rows="15" id="mlw_quiz_user_email_template" name="mlw_quiz_user_email_template"><?php echo $mlw_quiz_options->user_email_template; ?></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td width="30%">
-						<strong>Email sent to admin after completion (If turned on in options)</strong>
-						<br />
-						<p>Allowed Variables: </p>
-						<p style="margin: 2px 0">- %POINT_SCORE%</p>
-						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
-						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
-						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
-						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
-						<p style="margin: 2px 0">- %USER_NAME%</p>
-						<p style="margin: 2px 0">- %USER_BUSINESS%</p>
-						<p style="margin: 2px 0">- %USER_PHONE%</p>
-						<p style="margin: 2px 0">- %USER_EMAIL%</p>
-						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
-						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
-						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
-						<p style="margin: 2px 0">- %TIMER%</p>
-						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
-					</td>
-					<td><textarea cols="80" rows="15" id="mlw_quiz_admin_email_template" name="mlw_quiz_admin_email_template"><?php echo $mlw_quiz_options->admin_email_template; ?></textarea>
-					</td>
-				</tr>
-			</table>
-
+				<h3>You can now send differnt emails based on score! Edit your email templates from the new Quiz Emails tab.</h3>
 			</div>
 			<h3><a href="#">Other Template</a></h3>
 			<div>
@@ -1892,6 +1988,156 @@ function mlw_generate_quiz_options()
 		<button id="save_certificate_button" onclick="javascript: document.quiz_certificate_options_form.submit();">Save Certificate Options</button>
 		</form>
 	</div>
+	<div id="tabs-9">
+		<h3>Template Variables</h3>
+		<table class="form-table">
+			<tr>
+				<td><strong>%POINT_SCORE%</strong> - Score for the quiz when using points</td>
+				<td><strong>%AVERAGE_POINT%</strong> - The average amount of points user had per question</td>
+			</tr>
+	
+			<tr>
+				<td><strong>%AMOUNT_CORRECT%</strong> - The number of correct answers the user had</td>
+				<td><strong>%TOTAL_QUESTIONS%</strong> - The total number of questions in the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%CORRECT_SCORE%</strong> - Score for the quiz when using correct answers</td>
+			</tr>
+	
+			<tr>
+				<td><strong>%USER_NAME%</strong> - The name the user entered before the quiz</td>
+				<td><strong>%USER_BUSINESS%</strong> - The business the user entered before the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%USER_PHONE%</strong> - The phone number the user entered before the quiz</td>
+				<td><strong>%USER_EMAIL%</strong> - The email the user entered before the quiz</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%QUIZ_NAME%</strong> - The name of the quiz</td>
+				<td><strong>%QUESTIONS_ANSWERS%</strong> - Shows the question, the answer the user provided, and the correct answer</td>
+			</tr>
+			
+			<tr>
+				<td><strong>%COMMENT_SECTION%</strong> - The comments the user entered into comment box if enabled</td>
+				<td><strong>%TIMER%</strong> - The amount of time user spent of quiz</td>
+			</tr>
+		</table>
+		<form method="post" action="" name="mlw_quiz_add_email_form">
+			<input type='hidden' name='mlw_add_email_page' value='confirmation' />
+			<input type='hidden' name='mlw_add_email_quiz_id' value='<?php echo $quiz_id; ?>' />
+		</form>
+		<button id="save_email_button" onclick="javascript: document.mlw_quiz_save_email_form.submit();">Save Email Templates</button>
+		<button id="email_tab_help">Help</button>
+		<form method="post" action="" name="mlw_quiz_save_email_form">
+		<div id="email_accordion">
+			<h3><a href="#">Email Sent To User</a></h3>
+			<div>				
+				<a id="new_email_button_top" href="#" onclick="javascript: document.mlw_quiz_add_email_form.submit();">Add New Email</a>
+				<table class="widefat">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Score Greater Than</th>
+							<th>Score Less Than</th>
+							<th>Email To Send</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$mlw_each_count = 0;
+						$alternate = "";
+						foreach($mlw_qmn_user_email_array as $mlw_each)
+						{
+							if($alternate) $alternate = "";
+							else $alternate = " class=\"alternate\"";
+							$mlw_each_count += 1;
+							if ($mlw_each[0] == 0 && $mlw_each[1] == 0)
+							{
+								echo "<tr{$alternate}>";
+									echo "<td>";
+										echo "Default";
+									echo "</td>";
+									echo "<td>";
+										echo "<input type='hidden' id='user_email_begin_".$mlw_each_count."' name='user_email_begin_".$mlw_each_count."' value='0'/>-";
+									echo "</td>";
+									echo "<td>";
+										echo "<input type='hidden' id='user_email_end_".$mlw_each_count."' name='user_email_end_".$mlw_each_count."' value='0'/>-";
+									echo "</td>";
+									echo "<td>";
+										echo "<textarea cols='80' rows='15' id='user_email_".$mlw_each_count."' name='user_email_".$mlw_each_count."'>".$mlw_each[2]."</textarea>";
+									echo "</td>";
+								echo "</tr>";
+								break;
+							}
+							else
+							{
+								echo "<tr{$alternate}>";
+									echo "<td>";
+										echo $mlw_each_count."<div><span style='color:green;font-size:12px;'><a onclick=\"\$j('#trying_delete_email_".$mlw_each_count."').show();\">Delete</a></span></div><div style=\"display: none;\" id='trying_delete_email_".$mlw_each_count."'>Are you sure?<br /><a onclick=\"delete_email(".$mlw_each_count.")\">Yes</a>|<a onclick=\"\$j('#trying_delete_email_".$mlw_each_count."').hide();\">No</a></div>";
+									echo "</td>";
+									echo "<td>";
+										echo "<input type='text' id='user_email_begin_".$mlw_each_count."' name='user_email_begin_".$mlw_each_count."' title='What score must the user score better than to see this page' value='".$mlw_each[0]."'/>";
+									echo "</td>";
+									echo "<td>";
+										echo "<input type='text' id='user_email_end_".$mlw_each_count."' name='user_email_end_".$mlw_each_count."' title='What score must the user score worse than to see this page' value='".$mlw_each[1]."' />";
+									echo "</td>";
+									echo "<td>";
+										echo "<textarea cols='80' rows='15' id='user_email_".$mlw_each_count."' title='What email will the user be sent' name='user_email_".$mlw_each_count."'>".$mlw_each[2]."</textarea>";
+									echo "</td>";
+								echo "</tr>";
+							}
+						}
+						?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>ID</th>
+							<th>Score Greater Than</th>
+							<th>Score Less Than</th>
+							<th>Email To Send</th>
+						</tr>
+					</tfoot>
+				</table>
+				<a id="new_email_button_bottom" href="#" onclick="javascript: document.mlw_quiz_add_email_form.submit();">Add New Email</a>
+				<input type='hidden' name='mlw_save_email_template' value='confirmation' />
+				<input type='hidden' name='mlw_email_quiz_id' value='<?php echo $quiz_id; ?>' />
+				<input type='hidden' name='mlw_email_template_total' value='<?php echo $mlw_each_count; ?>' />
+			</div>
+			<h3><a href="#">Email Sent To Admin</a></h3>
+			<div>
+				<table class="form-table">
+					<tr>
+						<td width="30%">
+							<strong>Email sent to admin after completion (If turned on in options)</strong>
+							<br />
+							<p>Allowed Variables: </p>
+							<p style="margin: 2px 0">- %POINT_SCORE%</p>
+							<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
+							<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
+							<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
+							<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
+							<p style="margin: 2px 0">- %USER_NAME%</p>
+							<p style="margin: 2px 0">- %USER_BUSINESS%</p>
+							<p style="margin: 2px 0">- %USER_PHONE%</p>
+							<p style="margin: 2px 0">- %USER_EMAIL%</p>
+							<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+							<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
+							<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
+							<p style="margin: 2px 0">- %TIMER%</p>
+							<p style="margin: 2px 0">- %CURRENT_DATE%</p>
+						</td>
+						<td><textarea cols="80" rows="15" id="mlw_quiz_admin_email_template" name="mlw_quiz_admin_email_template"><?php echo $mlw_quiz_options->admin_email_template; ?></textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		</form>
+		<button id="save_email_button" onclick="javascript: document.mlw_quiz_save_email_form.submit();">Save Email Templates</button>
+	</div>
 	<div id="tabs-6">
 		<h3>Template Variables</h3>
 			<table class="form-table">
@@ -2016,13 +2262,13 @@ function mlw_generate_quiz_options()
 	<div id="tabs-7">
 		<h3>Quiz CSS</h3>
 		<p>This page allows you to edit the css styles for the quiz.</p>
-		<p>Entire quiz is wrapped in class 'mlw_qmn_quiz'</p>
-		<p>Each page of the quiz is wrapped in class 'quiz_section'</p>
-		<p>Message before quiz text is wrapped in class 'mlw_qmn_message_before'</p>
+		<p>Entire quiz is a div with class 'mlw_qmn_quiz'</p>
+		<p>Each page of the quiz is div with class 'quiz_section'</p>
+		<p>Message before quiz text is a span with class 'mlw_qmn_message_before'</p>
 		<p>The text for each question is wrapped in class 'mlw_qmn_question'</p>
 		<p>Each comment field for the questions is wrapped in class 'mlw_qmn_question_comment'</p>
 		<p>Label text for comment section is wrapped in class 'mlw_qmn_comment_section_text'</p>
-		<p>The message displayed at end of quiz is wrapped in class 'mlw_qmn_message_end'</p>
+		<p>The message displayed at end of quiz is a span with class 'mlw_qmn_message_end'</p>
 		<p>Each button shown for pagination (i.e Next/Previous) is wrapped in class 'mlw_qmn_quiz_link'</p>
 		<p>Timer is wrapped in class 'mlw_qmn_timer'</p>
 		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>
@@ -2169,6 +2415,16 @@ function mlw_generate_quiz_options()
 		<p>If you only need the one landing page, leave just the default and edit it and then click the Save button.</p>
 		<p>To add a new landing page, click Add New Landing Page. A new section will appear with the new page.</p>
 		<p>For your extra pages, you must designate what score the user must be above and what score the user must be below to see the page. If the user does not fall into any, the default page will be show.</p>
+		<p>Be sure to save after any changes are made!</p>
+	</div>
+	
+	<div id="email_template_help_dialog" title="Help" style="display: none;">
+		<h3><b>Help</b></h3>
+		<p>This page allows you to add, edit, and delete email templates for your quiz!</p>
+		<p>You can have unlimited different emails to send the user after he or she takes the quiz. For example, you can have an email sent if they pass, and then send the default if they fail.</p>
+		<p>If you only need the one email, leave just the default and edit it and then click the Save button.</p>
+		<p>To add a new email, click Add New Email. A new section will appear with the email.</p>
+		<p>For your extra emails, you must designate what score the user must be above and what score the user must be below to receive the email. If the user does not fall into any, the default email will be sent.</p>
 		<p>Be sure to save after any changes are made!</p>
 	</div>
 

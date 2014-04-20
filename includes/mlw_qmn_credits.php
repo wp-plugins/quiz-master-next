@@ -87,16 +87,18 @@ function mlw_generate_about_page()
 		<a href="#" class="nav-tab nav-tab-active">
 			What&#8217;s New In <?php echo $mlw_quiz_version; ?>	</a>
 	</h2>
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can have graded open answer questions!</h2>
-	<p>This new version brings the ability to have open answer questions. When adding or editing a question, you will see that the question type option has a new option "Open Answer" Selecting this will show the user a blank field to enter their answer into. Enter the correct answers into the answer fields.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can have send different emails based on score!</h2>
+	<p>This new version adds the ability to send the user different emails based on the score earned. Simply go to the new Quiz Emails tab and fill in your default email. Click the Add New Email button to add a different email template.</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Premium Add-Ons!</h2>
-	<p>We have recently added 3 new premium add-ons into our plugin store! Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href=\"http://mylocalwebstop.com/shop/\">Plugin Add-On Store</a> for details! </p>
+	<p>We have recently added 3 new premium add-ons into our plugin store! Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a> for details! </p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Have Graded Open Answer Questions</li>
-		<li>Minor Design Changes</li>
+		<li>Added Ability To Send Different Emails To Users Based On Score</li>
+		<li>Added New Quiz Emails Tab</li>
+		<li>Fixed Required Question Bug</li>
+		<li>Fixed Landing Page Bug</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
