@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.6
 Tested up to: 3.9
-Stable tag: 2.4.1
+Stable tag: 2.5.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -14,13 +14,13 @@ The easiest and most flexible way to add multiple quizzes, tests, and surveys to
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results. You can set up what the user sees after he or she takes the quiz based on the user's score. You can also have the plugin create a certificate for the user as well!
 
 = Have Unlimted Quizzes, Tests, Surveys, Contact Forms, etc.. =
-Each of your quizzes can have **unlimited** questions! Your questions can contain **HTML** to show images, Youtube videos and more.
+Each of your quizzes can have **unlimited** questions and each of those questions can have **unlimited** answers! Your questions can contain **HTML** to show images, Youtube videos and more.
 
 = Customize Your Text =
 All the text your users see can be **customized**. Everything from the text blocks throughout the quiz to the submit button.
 
 = Different Types Of Questions =
-You can have *multiple choice* (radio buttons), *true and false*, and *open answer* question. More types are being supported in future updates!
+You can have **multiple choice** (radio buttons), **true and false**, **open answer** question, **drop down**, and **multiple response** (checkboxes). More types are being supported in future updates!
 
 = Mulitple Landing Pages For Each Quiz =
 Each quiz can have **unlimited** results pages that can be customized with your text. Show different results pages based on the users score!
@@ -92,15 +92,23 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 
 == Screenshots ==
 
-1. Quiz Admin Page
-2. Quiz Options Page
-3. Quiz Dashboard Page
+1. Quiz Admin Page (With Advertisement Be Gone Add-On)
+2. Quiz Options Page (With Advertisement Be Gone Add-On)
+3. Quiz Dashboard Page (With Advertisement Be Gone Add-On)
 4. Example Quiz
 5. Example Survey
 6. Quiz Results Page
 7. Example Contact Form
 
 == Changelog ==
+
+= 2.5.1 (May 3, 2014) =
+ * Rebuilt Answer System
+ * Added Ability To Have Unlimited Answers
+ * Added Ability To Randomize Answers
+ * Added New Question Type - Multiple Response (Checkboxes)
+ * Added Ability To Send Admin Email To Multiple Users
+ * Minor Design Changes To Quiz Options Page
 
 = 2.4.1 (April 20, 2014) =
  * Added New Quiz Emails Tab
@@ -418,6 +426,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.5.1 =
+Upgrade for many new features including unlimited answers, random answers, new question type, and more!
 
 = 2.4.1 =
 Upgrade to be able to send different emails based on user's score. Also, minor bug fixes included.

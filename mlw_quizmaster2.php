@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 2.4.1
+Version: 2.5.1
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -73,11 +73,34 @@ function mlw_add_menu()
 //Admin Notice
 add_action('admin_notices', 'mlw_qmn_notice');
 function mlw_qmn_notice() {
-    if ( get_option('mlw_qmn_review_notice') == 1 && current_user_can( 'manage_options' ) ) {
-        echo '<div class="updated"><p>';
-        printf(__('You have been using the Quiz Master Next plugin for a while now! Thanks for choosing to use this plugin. If it has benefited your website, please consider a <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ">donation</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. | <a href="%1$s">Hide Notice</a>'), '?mlw_qmn_ignore_notice=0');
+    if ( get_option('mlw_qmn_review_notice') == 1 && current_user_can( 'manage_options' ) ) 
+    {	
+		echo "
+		<style>
+			div.help_decide
+			{
+				display: block;
+				text-align:center;
+				letter-spacing: 1px;
+				margin: auto;
+				text-shadow: 0 1px 1px #000000;
+				background: #0d97d8;
+				border: 5px solid #106daa;
+				-moz-border-radius: 20px;
+				-webkit-border-radius: 20px;
+				-khtml-border-radius: 20px;
+				border-radius: 20px;
+				color: #FFFFFF;
+			}
+			div.help_decide a
+			{
+				color: yellow;
+			}		
+			</style>";
+        echo '<div class="help_decide"><p>';
+        printf(__('You have been using the Quiz Master Next plugin for a while now! Thanks for choosing to use this plugin. If it has benefited your website, please consider purchasing an <a href="http://mylocalwebstop.com/shop/">add-on</a>, a <a href="http://wordpress.org/support/view/plugin-reviews/quiz-master-next">review</a>, or taking this <a href="http://mylocalwebstop.com/sample-survey/" target="_blank">survey</a>. | <a href="%1$s">Hide Notice</a>'), '?page=quiz-master-next/mlw_quizmaster2.php&&mlw_qmn_ignore_notice=0');
         echo "</p></div>";
-    }
+	}
 }
 //Check to see if notices should be shown or dismissed
 add_action('admin_init', 'mlw_qmn_notice_ignore');

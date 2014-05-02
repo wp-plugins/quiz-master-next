@@ -127,6 +127,8 @@ function mlw_quiz_activate()
 
 			question_name TEXT NOT NULL,
 			
+			answer_array TEXT NOT NULL,
+			
 			answer_one TEXT NOT NULL,
 			
 			answer_one_points INT NOT NULL,

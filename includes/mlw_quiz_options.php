@@ -37,28 +37,33 @@ function mlw_generate_quiz_options()
 	{
 		//Variables from edit question form
 		$edit_question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["edit_question_name"], ENT_QUOTES))));
-		$edit_answer_one = htmlspecialchars($_POST["edit_answer_one"], ENT_QUOTES);
-		$edit_answer_one_points = intval($_POST["edit_answer_one_points"]);
-		$edit_answer_two = htmlspecialchars($_POST["edit_answer_two"], ENT_QUOTES);
-		$edit_answer_two_points = intval($_POST["edit_answer_two_points"]);
-		$edit_answer_three = htmlspecialchars($_POST["edit_answer_three"], ENT_QUOTES);
-		$edit_answer_three_points = intval($_POST["edit_answer_three_points"]);
-		$edit_answer_four = htmlspecialchars($_POST["edit_answer_four"], ENT_QUOTES);
-		$edit_answer_four_points = intval($_POST["edit_answer_four_points"]);
-		$edit_answer_five = htmlspecialchars($_POST["edit_answer_five"], ENT_QUOTES);
-		$edit_answer_five_points = intval($_POST["edit_answer_five_points"]);
-		$edit_answer_six = htmlspecialchars($_POST["edit_answer_six"], ENT_QUOTES);
-		$edit_answer_six_points = intval($_POST["edit_answer_six_points"]);
-		$edit_correct_answer = htmlspecialchars($_POST["edit_correct_answer"], ENT_QUOTES);
 		$edit_question_answer_info = $_POST["edit_correct_answer_info"];
 		$mlw_edit_question_id = intval($_POST["edit_question_id"]);
 		$mlw_edit_question_type = $_POST["edit_question_type"];
 		$edit_comments = htmlspecialchars($_POST["edit_comments"], ENT_QUOTES);
 		$edit_hint = htmlspecialchars($_POST["edit_hint"], ENT_QUOTES);
 		$edit_question_order = intval($_POST["edit_question_order"]);
+		$mlw_edit_answer_total = intval($_POST["question_".$mlw_edit_question_id."_answer_total"]);
+		$i = 1;
+		$mlw_qmn_new_answer_array = array();
+		while ($i <= $mlw_edit_answer_total)
+		{
+			if ($_POST["edit_answer_".$i] != "")
+			{
+				$mlw_qmn_correct = 0;
+				if (isset($_POST["edit_answer_".$i."_correct"]) && $_POST["edit_answer_".$i."_correct"] == 1)
+				{
+					$mlw_qmn_correct = 1;
+				}
+				$mlw_qmn_answer_each = array(htmlspecialchars(stripslashes($_POST["edit_answer_".$i]), ENT_QUOTES), intval($_POST["edit_answer_".$i."_points"]), $mlw_qmn_correct);
+				$mlw_qmn_new_answer_array[] = $mlw_qmn_answer_each;
+			}
+			$i++;
+		}
+		$mlw_qmn_new_answer_array = serialize($mlw_qmn_new_answer_array);
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."', answer_one='".$edit_answer_one."', answer_one_points='".$edit_answer_one_points."', answer_two='".$edit_answer_two."', answer_two_points='".$edit_answer_two_points."', answer_three='".$edit_answer_three."', answer_three_points='".$edit_answer_three_points."', answer_four='".$edit_answer_four."', answer_four_points='".$edit_answer_four_points."', answer_five='".$edit_answer_five."', answer_five_points='".$edit_answer_five_points."', answer_six='".$edit_answer_six."', answer_six_points='".$edit_answer_six_points."', correct_answer='".$edit_correct_answer."', question_answer_info='".$edit_question_answer_info."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."' WHERE question_id=".$mlw_edit_question_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."',answer_array='".$mlw_qmn_new_answer_array."', question_answer_info='".$edit_question_answer_info."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."' WHERE question_id=".$mlw_edit_question_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -114,28 +119,33 @@ function mlw_generate_quiz_options()
 	{
 		//Variables from new question form
 		$question_name = trim(preg_replace('/\s+/',' ', nl2br(htmlspecialchars($_POST["question_name"], ENT_QUOTES))));
-		$answer_one = htmlspecialchars($_POST["answer_one"], ENT_QUOTES);
-		$answer_one_points = intval($_POST["answer_one_points"]);
-		$answer_two = htmlspecialchars($_POST["answer_two"], ENT_QUOTES);
-		$answer_two_points = intval($_POST["answer_two_points"]);
-		$answer_three = htmlspecialchars($_POST["answer_three"], ENT_QUOTES);
-		$answer_three_points = intval($_POST["answer_three_points"]);
-		$answer_four = htmlspecialchars($_POST["answer_four"], ENT_QUOTES);
-		$answer_four_points = intval($_POST["answer_four_points"]);
-		$answer_five = htmlspecialchars($_POST["answer_five"], ENT_QUOTES);
-		$answer_five_points = intval($_POST["answer_five_points"]);
-		$answer_six = htmlspecialchars($_POST["answer_six"], ENT_QUOTES);
-		$answer_six_points = intval($_POST["answer_six_points"]);
-		$correct_answer = htmlspecialchars($_POST["correct_answer"], ENT_QUOTES);
 		$question_answer_info = $_POST["correct_answer_info"];
 		$question_type = $_POST["question_type"];
 		$comments = htmlspecialchars($_POST["comments"], ENT_QUOTES);
 		$hint = htmlspecialchars($_POST["hint"], ENT_QUOTES);
 		$new_question_order = intval($_POST["new_question_order"]);
+		$mlw_answer_total = intval($_POST["new_question_answer_total"]);
+		$i = 1;
+		$mlw_qmn_new_answer_array = array();
+		while ($i <= $mlw_answer_total)
+		{
+			if ($_POST["answer_".$i] != "")
+			{
+				$mlw_qmn_correct = 0;
+				if (isset($_POST["answer_".$i."_correct"]) && $_POST["answer_".$i."_correct"] == 1)
+				{
+					$mlw_qmn_correct = 1;
+				}
+				$mlw_qmn_answer_each = array(htmlspecialchars(stripslashes($_POST["answer_".$i]), ENT_QUOTES), intval($_POST["answer_".$i."_points"]), $mlw_qmn_correct);
+				$mlw_qmn_new_answer_array[] = $mlw_qmn_answer_each;
+			}
+			$i++;
+		}
+		$mlw_qmn_new_answer_array = serialize($mlw_qmn_new_answer_array);
 		$quiz_id = $_POST["quiz_id"];
 		$table_name = $wpdb->prefix . "mlw_questions";
 		$insert = "INSERT INTO " . $table_name .
-			" (question_id, quiz_id, question_name, answer_one, answer_one_points, answer_two, answer_two_points, answer_three, answer_three_points, answer_four, answer_four_points, answer_five, answer_five_points, answer_six, answer_six_points, correct_answer, question_answer_info, comments, hints, question_order, question_type, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '" . $answer_one . "', ".$answer_one_points.", '" . $answer_two . "', ".$answer_two_points.", '" . $answer_three . "', ".$answer_three_points.", '" . $answer_four . "', ".$answer_four_points.", '" . $answer_five . "', ".$answer_five_points.", '" . $answer_six . "', ".$answer_six_points.", ".$correct_answer.", '".$question_answer_info."', '".$comments."', '".$hint."', ".$new_question_order.", '".$question_type."', 0)";
+			" (question_id, quiz_id, question_name, answer_array, question_answer_info, comments, hints, question_order, question_type, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '".$mlw_qmn_new_answer_array."', '".$question_answer_info."', '".$comments."', '".$hint."', ".$new_question_order.", '".$question_type."', 0)";
 		$results = $wpdb->query( $insert );
 		if ($results != false)
 		{
@@ -611,6 +621,29 @@ function mlw_generate_quiz_options()
 		}
 	}
 	
+	//Load and prepare answer arrays
+	$mlw_qmn_answer_arrays = array();
+	foreach($mlw_question_data as $mlw_question_info) {
+		$mlw_qmn_answer_array_each = @unserialize($mlw_question_info->answer_array);
+		if ( !is_array($mlw_qmn_answer_array_each) )
+		{
+			$mlw_answer_array_correct = array(0, 0, 0, 0, 0, 0);
+			$mlw_answer_array_correct[$mlw_question_info->correct_answer-1] = 1;
+			$mlw_qmn_answer_arrays[$mlw_question_info->question_id] = array(
+				array($mlw_question_info->answer_one, $mlw_question_info->answer_one_points, $mlw_answer_array_correct[0]),
+				array($mlw_question_info->answer_two, $mlw_question_info->answer_two_points, $mlw_answer_array_correct[1]),
+				array($mlw_question_info->answer_three, $mlw_question_info->answer_three_points, $mlw_answer_array_correct[2]),
+				array($mlw_question_info->answer_four, $mlw_question_info->answer_four_points, $mlw_answer_array_correct[3]),
+				array($mlw_question_info->answer_five, $mlw_question_info->answer_five_points, $mlw_answer_array_correct[4]),
+				array($mlw_question_info->answer_six, $mlw_question_info->answer_six_points, $mlw_answer_array_correct[5]));
+		}
+		else
+		{
+			$mlw_qmn_answer_arrays[$mlw_question_info->question_id] = $mlw_qmn_answer_array_each;
+		}
+	}
+	
+	
 	//Load Certificate Options Variables
 	$mlw_certificate_options = @unserialize($mlw_quiz_options->certificate_template);
 	if (!is_array($mlw_certificate_options)) {
@@ -862,19 +895,10 @@ function mlw_generate_quiz_options()
   				$j( "#comments" ).buttonset();
   		});
   		$j(function() {
-  				$j( "#question_type" ).buttonset();
-  		});
-  		$j(function() {
-  				$j( "#edit_question_type" ).buttonset();
-  		});
-  		$j(function() {
   				$j( "#enableCertificates" ).buttonset();
   		});
-  		$j(function() {
-  				$j( "#edit_comments" ).buttonset();
-  		});
 		$j(function() {
-			$j("button, #prev_page, #next_page, #new_email_button_top, #new_email_button_bottom").button();
+			$j("button, #prev_page, #next_page, #new_email_button_top, #new_email_button_bottom, #new_answer_button").button();
 		
 		});
 		$j(function() {
@@ -918,8 +942,8 @@ function mlw_generate_quiz_options()
 			idText.innerHTML = id;
 			idHidden.value = id;		
 		};
-		function editQuestion(id, question, answerOne, answerOnePoints, answerTwo, answerTwoPoints, answerThree, answerThreePoints, answerFour, answerFourPoints, answerFive, answerFivePoints, answerSix, answerSixPoints, correctAnswer, answer_info, comments, hint, question_order, question_type){
-			$j("#edit_question_dialog").dialog({
+		function editQuestion(id){
+			$j("#edit_question_dialog_"+id).dialog({
 				autoOpen: false,
 				show: 'blind',
 				width:800,
@@ -930,38 +954,7 @@ function mlw_generate_quiz_options()
 					}
 				}
 			});
-			$j("#edit_question_dialog").dialog('open');
-			var idHidden = document.getElementById("edit_question_id");
-			idHidden.value = id;
-			document.getElementById("edit_question_name").value = question;
-			document.getElementById("edit_answer_one").value = answerOne;	
-			document.getElementById("edit_answer_two").value = answerTwo;
-			document.getElementById("edit_answer_three").value = answerThree;	
-			document.getElementById("edit_answer_four").value = answerFour;
-			document.getElementById("edit_answer_five").value = answerFive;	
-			document.getElementById("edit_answer_six").value = answerSix;
-			document.getElementById("edit_answer_one_points").value = answerOnePoints;
-			document.getElementById("edit_answer_two_points").value = answerTwoPoints;
-			document.getElementById("edit_answer_three_points").value = answerThreePoints;
-			document.getElementById("edit_answer_four_points").value = answerFourPoints;
-			document.getElementById("edit_answer_five_points").value = answerFivePoints;
-			document.getElementById("edit_answer_six_points").value = answerSixPoints;
-			document.getElementById("edit_correct_answer_info").value = answer_info;
-			document.getElementById("edit_hint").value = hint;
-			document.getElementById("edit_question_order").value = question_order;
-			if (correctAnswer == 1) document.getElementById("edit_correct_one").checked = true;
-			if (correctAnswer == 2) document.getElementById("edit_correct_two").checked = true;
-			if (correctAnswer == 3) document.getElementById("edit_correct_three").checked = true;
-			if (correctAnswer == 4) document.getElementById("edit_correct_four").checked = true;
-			if (correctAnswer == 5) document.getElementById("edit_correct_five").checked = true;
-			if (correctAnswer == 6) document.getElementById("edit_correct_six").checked = true;
-			if (question_type == 0) $j('#editTypeRadio1').attr('checked', true).button('refresh');
-			if (question_type == 1) $j('#editTypeRadio2').attr('checked', true).button('refresh');
-			if (question_type == 2) $j('#editTypeRadio3').attr('checked', true).button('refresh');
-			if (question_type == 3) $j('#editTypeRadio4').attr('checked', true).button('refresh');
-			if (comments == 0) $j('#editCommentRadio1').attr('checked', true).button('refresh');
-			if (comments == 1) $j('#editCommentRadio2').attr('checked', true).button('refresh');
-			if (comments == 2) $j('#editCommentRadio3').attr('checked', true).button('refresh');
+			$j("#edit_question_dialog_"+id).dialog('open');
 		};
 		function delete_landing(id)
 		{
@@ -972,6 +965,20 @@ function mlw_generate_quiz_options()
 		{
 			document.getElementById('user_email_'+id).value = "Delete";
 			document.mlw_quiz_save_email_form.submit();	
+		}
+		function mlw_add_new_question(id)
+		{
+			var total_answers = parseFloat(document.getElementById("question_"+id+"_answer_total").value);
+			total_answers = total_answers + 1;
+			document.getElementById("question_"+id+"_answer_total").value = total_answers;
+			jQuery("#question_"+id+"_answers").append("<tr valign='top'><td><span style='font-weight:bold;'>Answer "+total_answers+"</span></td><td><input type='text' name='edit_answer_"+total_answers+"' id='edit_answer_"+total_answers+"' style='border-color:#000000;color:#3300CC;cursor:hand;width: 250px;'/></td><td><input type='text' name='edit_answer_"+total_answers+"_points' id='edit_answer_"+total_answers+"_points' value=0 style='border-color:#000000;color:#3300CC; cursor:hand;'/></td><td><input type='checkbox' id='edit_answer_"+total_answers+"_correct' name='edit_answer_"+total_answers+"_correct' value=1 /></td></tr>");
+		}
+		function mlw_add_answer_to_new_question()
+		{
+			var total_answers = parseFloat(document.getElementById("new_question_answer_total").value);
+			total_answers = total_answers + 1;
+			document.getElementById("new_question_answer_total").value = total_answers;
+			jQuery("#new_question_answers").append("<tr valign='top'><td><span style='font-weight:bold;'>Answer "+total_answers+"</span></td><td><input type='text' name='answer_"+total_answers+"' id='answer_"+total_answers+"' style='border-color:#000000;color:#3300CC;cursor:hand;width: 250px;'/></td><td><input type='text' name='answer_"+total_answers+"_points' id='answer_"+total_answers+"_points' value=0 style='border-color:#000000;color:#3300CC; cursor:hand;'/></td><td><input type='checkbox' id='answer_"+total_answers+"_correct' name='answer_"+total_answers+"_correct' value=1 /></td></tr>");
 		}
 	</script>
 	<div class="wrap">
@@ -1122,7 +1129,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-4">Quiz Leaderboard</a></li>	
 		    <li><a href="#tabs-5">Quiz Certificate (Beta)</a></li>
 		    <li><a href="#tabs-9">Quiz Emails</a></li>
-		    <li><a href="#tabs-6">Quiz Landing Page</a></li>
+		    <li><a href="#tabs-6">Quiz Results Page</a></li>
 		    <li><a href="#tabs-7">Quiz Styling</a></li>
 		    <li><a href="#tabs-8">Quiz Tools</a></li>
 		</ul>
@@ -1138,8 +1145,118 @@ function mlw_generate_quiz_options()
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."','".esc_js(htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES))."', '".esc_js(htmlspecialchars_decode($mlw_question_info->answer_one, ENT_QUOTES))."','".$mlw_question_info->answer_one_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_two, ENT_QUOTES))."','".$mlw_question_info->answer_two_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_three, ENT_QUOTES))."','".$mlw_question_info->answer_three_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_four, ENT_QUOTES))."','".$mlw_question_info->answer_four_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_five, ENT_QUOTES))."','".$mlw_question_info->answer_five_points."','".esc_js(htmlspecialchars_decode($mlw_question_info->answer_six, ENT_QUOTES))."','".$mlw_question_info->answer_six_points."','".$mlw_question_info->correct_answer."', '".esc_js(htmlspecialchars_decode($mlw_question_info->question_answer_info, ENT_QUOTES))."', '".$mlw_question_info->comments."','".esc_js(htmlspecialchars_decode($mlw_question_info->hints, ENT_QUOTES))."', '".$mlw_question_info->question_order."', '".$mlw_question_info->question_type."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
+				
+				
+				$mlw_question_answer_array = $mlw_qmn_answer_arrays[$mlw_question_info->question_id];
+				?>
+				<div id="edit_question_dialog_<?php echo $mlw_question_info->question_id; ?>" title="Edit Question" style="display:none;">
+				<?php
+				echo "<form action='' method='post'>";
+				echo "<input type='hidden' name='edit_question' value='confirmation' />";
+				echo "<input type='hidden' id='edit_question_id' name='edit_question_id' value='".$mlw_question_info->question_id."' />";
+				echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
+				?>
+				<table class="wide" style="text-align: left; white-space: nowrap;" id="question_<?php echo $mlw_question_info->question_id; ?>_answers" name="question_<?php echo $mlw_question_info->question_id; ?>_answers">
+				<tr>
+				<td><span style='font-weight:bold;'>Question</span></td>
+				<td colspan="3">
+					<textarea name="edit_question_name" id="edit_question_name" style="width: 500px; height: 150px;"><?php echo htmlspecialchars_decode($mlw_question_info->question_name, ENT_QUOTES); ?></textarea>
+				</td>
+				</tr>
+				<tr valign="top">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				</tr>
+				<tr valign="top">
+				<td>&nbsp;</td>
+				<td><span style='font-weight:bold;'>Answers</span></td>
+				<td><span style='font-weight:bold;'>Points Worth</span></td>
+				<td><span style='font-weight:bold;'>Correct Answer</span></td>
+				</tr>
+				<?php
+				$mlw_answer_total = 0;
+				foreach($mlw_question_answer_array as $mlw_question_answer_each)
+				{
+					$mlw_answer_total = $mlw_answer_total + 1;
+					?>
+					<tr valign="top">
+					<td><span style='font-weight:bold;'>Answer <?php echo $mlw_answer_total; ?></span></td>
+					<td>
+					<input type="text" name="edit_answer_<?php echo $mlw_answer_total; ?>" id="edit_answer_<?php echo $mlw_answer_total; ?>" value="<?php echo esc_attr(htmlspecialchars_decode($mlw_question_answer_each[0], ENT_QUOTES)); ?>" style="border-color:#000000;
+						color:#3300CC; 
+						cursor:hand;
+						width: 250px;"/>
+					</td>
+					<td>
+					<input type="text" name="edit_answer_<?php echo $mlw_answer_total; ?>_points" id="edit_answer_<?php echo $mlw_answer_total; ?>_points" value="<?php echo $mlw_question_answer_each[1]; ?>" style="border-color:#000000;
+						color:#3300CC; 
+						cursor:hand;"/>
+					</td>
+					<td><input type="checkbox" id="edit_answer_<?php echo $mlw_answer_total; ?>_correct" name="edit_answer_<?php echo $mlw_answer_total; ?>_correct" <?php if ($mlw_question_answer_each[2] == 1) { echo 'checked="checked"'; } ?> value=1 /></td>
+					</tr>			
+					<?php
+				}
+				?>
+				</table>
+				<a href="#" id="new_answer_button" onclick="mlw_add_new_question(<?php echo $mlw_question_info->question_id; ?>);">Add New Answer!</a>
+				<br />
+				<br />
+				<table class="wide" style="text-align: left; white-space: nowrap;">
+				<tr>
+					<td><span style='font-weight:bold;'>Correct Answer Info:</span></td>
+					<td colspan="3"><input type="text" name="edit_correct_answer_info" id="edit_correct_answer_info" style="border-color:#000000;
+					color:#3300CC; 
+					cursor:hand;
+					width:550px;" value="<?php echo esc_attr(htmlspecialchars_decode($mlw_question_info->question_answer_info, ENT_QUOTES)); ?>"/></td>
+				</tr>
+				<tr valign="top">
+				<td><span style='font-weight:bold;'>Hint</span></td>
+				<td colspan="3">
+				<input type="text" name="edit_hint" id="edit_hint" style="border-color:#000000;
+					color:#3300CC; 
+					cursor:hand;
+					width:550px;" value="<?php echo htmlspecialchars_decode($mlw_question_info->hints, ENT_QUOTES); ?>"/>
+				</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr valign="top">
+				<td><span style='font-weight:bold;'>Question Type?</span></td>
+				<td colspan="3">
+					<select name="edit_question_type">
+						<option value="0" <?php if ($mlw_question_info->question_type == 0) { echo 'selected="selected"'; } ?>>Normal Multiple Choice (Vertical Radio)</option>
+						<option value="1" <?php if ($mlw_question_info->question_type == 1) { echo 'selected="selected"'; } ?>>Horizontal Multiple Choice (Horizontal Radio)</option>
+						<option value="2" <?php if ($mlw_question_info->question_type == 2) { echo 'selected="selected"'; } ?>>Drop Down (Select)</option>
+						<option value="3" <?php if ($mlw_question_info->question_type == 3) { echo 'selected="selected"'; } ?>>Open Answer (Text Input)</option>
+						<option value="4" <?php if ($mlw_question_info->question_type == 4) { echo 'selected="selected"'; } ?>>Multiple Response (Checkbox)</option>
+					</select>
+				</div></td>
+				</tr>
+				<tr valign="top">
+				<td><span style='font-weight:bold;'>Comment Field?</span></td>
+				<td colspan="3">
+					<input type="radio" id="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio1" name="edit_comments" value=0 <?php if ($mlw_question_info->comments == 0) { echo 'checked="checked"'; } ?>/><label for="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio1">Small Text Field</label>
+					<input type="radio" id="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio3" name="edit_comments" value=2 <?php if ($mlw_question_info->comments == 2) { echo 'checked="checked"'; } ?>/><label for="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio3">Large Text Field</label>
+					<input type="radio" id="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio2" name="edit_comments" value=1 <?php if ($mlw_question_info->comments == 1) { echo 'checked="checked"'; } ?>/><label for="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio2">None</label>
+				</td>
+				</tr>
+				<tr valign="top">
+				<td><span style='font-weight:bold;'>Question Order</span></td>
+				<td>
+				<input type="number" step="1" min="1" name="edit_question_order" value="<?php echo $mlw_question_info->question_order; ?>" id="edit_question_order" style="border-color:#000000;
+					color:#3300CC; 
+					cursor:hand;"/>
+				</td>
+				</tr>
+				</table>
+				<input type="hidden" name="question_<?php echo $mlw_question_info->question_id; ?>_answer_total" id="question_<?php echo $mlw_question_info->question_id; ?>_answer_total" value="<?php echo $mlw_answer_total; ?>" />
+				<p class='submit'><input type='submit' class='button-primary' value='Edit Question' /></p>
+				</form>
+				</div>	
+				
+				<?php
 			}
 			
 			if( $mlw_qmn_question_page > 0 )
@@ -1185,7 +1302,7 @@ function mlw_generate_quiz_options()
 			echo "<input type='hidden' name='create_question' value='confirmation' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 			?>		
-			<table>
+			<table class="wide" style="text-align: left; white-space: nowrap;" id="new_question_answers" name="new_question_answers">
 			<tr>
 			<td><span style='font-weight:bold;'>Question</span></td>
 			<td colspan="3">
@@ -1202,96 +1319,30 @@ function mlw_generate_quiz_options()
 			<td><span style='font-weight:bold;'>Points Worth<a href="#" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0.">?</a></span></td>
 			<td><span style='font-weight:bold;'>Correct Answer<a href="#" title="Select the correct answer.">?</a></span></td>
 			</tr>
+			<?php
+			$mlw_answer_total = 0;
+			$mlw_answer_total = $mlw_answer_total + 1;
+			?>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer One</span></td>
+			<td><span style='font-weight:bold;'>Answer <?php echo $mlw_answer_total; ?></span></td>
 			<td>
-			<input type="text" name="answer_one" value="" style="border-color:#000000;
+			<input type="text" name="answer_<?php echo $mlw_answer_total; ?>" id="answer_<?php echo $mlw_answer_total; ?>" value="" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;
 				width: 250px;"/>
 			</td>
 			<td>
-			<input type="text" name="answer_one_points" value="0" style="border-color:#000000;
+			<input type="text" name="answer_<?php echo $mlw_answer_total; ?>_points" id="answer_<?php echo $mlw_answer_total; ?>_points" value=0 style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
-			<td><input type="radio" name="correct_answer" checked="checked" value=1 /></td>
+			<td><input type="checkbox" id="answer_<?php echo $mlw_answer_total; ?>_correct" name="answer_<?php echo $mlw_answer_total; ?>_correct" checked="checked" value=1 /></td>
 			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Two</span></td>
-			<td>
-			<input type="text" name="answer_two" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="answer_two_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" name="correct_answer" value=2 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Three</span></td>
-			<td>
-			<input type="text" name="answer_three" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="answer_three_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" name="correct_answer" value=3 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Four</span></td>
-			<td>
-			<input type="text" name="answer_four" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="answer_four_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" name="correct_answer" value=4 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Five</span></td>
-			<td>
-			<input type="text" name="answer_five" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="answer_five_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" name="correct_answer" value=5 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Six</span></td>
-			<td>
-			<input type="text" name="answer_six" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="answer_six_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" name="correct_answer" value=6 /></td>
-			</tr>
+			</table>
+			<a href="#" id="new_answer_button" onclick="mlw_add_answer_to_new_question();">Add New Answer!</a>
+			<br />
+			<br />
+			<table class="wide" style="text-align: left; white-space: nowrap;">
 			<tr>
 				<td><span style='font-weight:bold;'>Correct Answer Info<a href="#" title="Enter in the reason why the correct answer is correct. Add this to the %QUESTIONS_ANSWERS% template using the new %CORRECT_ANSWER_INFO% variable.">?</a></span></td>
 				<td colspan="3"><input type="text" name="correct_answer_info" value="" id="correct_answer_info" style="border-color:#000000;
@@ -1312,11 +1363,14 @@ function mlw_generate_quiz_options()
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
 			<td><span style='font-weight:bold;'>Question Type<a href="#" title="The normal setting will show the question as it would normally; the horizontal setting will show the answers going across rather than down; the drop down setting will show the answers in a drop down menu instead of the raidio button." >?</a></span></td>
-			<td colspan="3"><div id="question_type">
-				<input type="radio" id="typeRadio1" name="question_type" checked="checked" value=0 /><label for="typeRadio1">Normal (Vertical Radio)</label>
-				<input type="radio" id="typeRadio2" name="question_type" value=1 /><label for="typeRadio2">Horizontal Radio</label>
-				<input type="radio" id="typeRadio3" name="question_type" value=2 /><label for="typeRadio3">Drop Down</label>
-				<input type="radio" id="typeRadio4" name="question_type" value=3 /><label for="typeRadio4">Open Answer</label>
+			<td colspan="3">
+				<select name="question_type">
+					<option value="0" selected="selected">Normal Multiple Choice (Vertical Radio)</option>
+					<option value="1">Horizontal Multiple Choice (Horizontal Radio)</option>
+					<option value="2">Drop Down (Select)</option>
+					<option value="3">Open Answer (Text Input)</option>
+					<option value="4">Multiple Response (Checkbox)</option>
+				</select>
 			</div></td>
 			</tr>
 			<tr valign="top">
@@ -1336,6 +1390,7 @@ function mlw_generate_quiz_options()
 			</td>
 			</tr>
 			</table>
+			<input type="hidden" name="new_question_answer_total" id="new_question_answer_total" value="<?php echo $mlw_answer_total; ?>" />
 			<?php
 			echo "<p class='submit'><input type='submit' class='button-primary' value='Create Question' /></p>";
 			echo "</form>";
@@ -1343,169 +1398,7 @@ function mlw_generate_quiz_options()
 			</div>
 
 			
-			<div id="edit_question_dialog" title="Edit Question" style="display:none;">
-			<?php
-			echo "<form action='' method='post'>";
-			echo "<input type='hidden' name='edit_question' value='confirmation' />";
-			echo "<input type='hidden' id='edit_question_id' name='edit_question_id' value='' />";
-			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
-			?>
-			<table class="wide" style="text-align: left; white-space: nowrap;">
-			<tr>
-			<td><span style='font-weight:bold;'>Question</span></td>
-			<td colspan="3">
-				<textarea name="edit_question_name" id="edit_question_name" style="width: 500px; height: 150px;"></textarea>
-			</td>
-			</tr>
-			<tr valign="top">
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			</tr>
-			<tr valign="top">
-			<td>&nbsp;</td>
-			<td><span style='font-weight:bold;'>Answers</span></td>
-			<td><span style='font-weight:bold;'>Points Worth</span></td>
-			<td><span style='font-weight:bold;'>Correct Answer</span></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer One</span></td>
-			<td>
-			<input type="text" name="edit_answer_one" id="edit_answer_one" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="edit_answer_one_points" id="edit_answer_one_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" id="edit_correct_one" name="edit_correct_answer" checked="checked" value=1 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Two</span></td>
-			<td>
-			<input type="text" name="edit_answer_two" id="edit_answer_two" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="edit_answer_two_points" id="edit_answer_two_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" id="edit_correct_two" name="edit_correct_answer" value=2 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Three</span></td>
-			<td>
-			<input type="text" name="edit_answer_three" id="edit_answer_three" value="" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="edit_answer_three_points" id="edit_answer_three_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" id="edit_correct_three" name="edit_correct_answer" value=3 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Four</span></td>
-			<td>
-			<input type="text" name="edit_answer_four" value="" id="edit_answer_four" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="edit_answer_four_points" id="edit_answer_four_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" id="edit_correct_four" name="edit_correct_answer" value=4 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Five</span></td>
-			<td>
-			<input type="text" name="edit_answer_five" value="" id="edit_answer_five" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="edit_answer_five_points" id="edit_answer_five_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" id="edit_correct_five" name="edit_correct_answer" value=5 /></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Answer Six</span></td>
-			<td>
-			<input type="text" name="edit_answer_six" value="" id="edit_answer_six" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width: 250px;"/>
-			</td>
-			<td>
-			<input type="text" name="edit_answer_six_points" id="edit_answer_six_points" value="0" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			<td><input type="radio" id="edit_correct_six" name="edit_correct_answer" value=6 /></td>
-			</tr>
-			<tr>
-				<td><span style='font-weight:bold;'>Correct Answer Info:</span></td>
-				<td colspan="3"><input type="text" name="edit_correct_answer_info" value="" id="edit_correct_answer_info" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width:550px;"/></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Hint</span></td>
-			<td colspan="3">
-			<input type="text" name="edit_hint" value="" id="edit_hint" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;
-				width:550px;"/>
-			</td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Question Type?</span></td>
-			<td colspan="3"><div id="edit_question_type">
-				<input type="radio" id="editTypeRadio1" name="edit_question_type" checked="checked" value=0 /><label for="editTypeRadio1">Normal (Vertical Radio)</label>
-				<input type="radio" id="editTypeRadio2" name="edit_question_type" value=1 /><label for="editTypeRadio2">Horizontal Radio</label>
-				<input type="radio" id="editTypeRadio3" name="edit_question_type" value=2 /><label for="editTypeRadio3">Drop Down</label>
-				<input type="radio" id="editTypeRadio4" name="edit_question_type" value=3 /><label for="editTypeRadio4">Open Answer</label>
-			</div></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Comment Field?</span></td>
-			<td colspan="3"><div id="edit_comments">
-				<input type="radio" id="editCommentRadio1" name="edit_comments" value=0 /><label for="editCommentRadio1">Small Text Field</label>
-				<input type="radio" id="editCommentRadio3" name="edit_comments" value=2 /><label for="editCommentRadio3">Large Text Field</label>
-				<input type="radio" id="editCommentRadio2" name="edit_comments" value=1 /><label for="editCommentRadio2">None</label>
-			</div></td>
-			</tr>
-			<tr valign="top">
-			<td><span style='font-weight:bold;'>Question Order</span></td>
-			<td>
-			<input type="number" step="1" min="1" name="edit_question_order" value="" id="edit_question_order" style="border-color:#000000;
-				color:#3300CC; 
-				cursor:hand;"/>
-			</td>
-			</tr>
-			</table>
-			<?php
-			echo "<p class='submit'><input type='submit' class='button-primary' value='Edit Question' /></p>";
-			echo "</form>";
-			?>
-			</div>	
+
 
   		</div>
   		<div id="tabs-2">
@@ -1769,8 +1662,9 @@ function mlw_generate_quiz_options()
 			<tr valign="top">
 				<th scope="row"><label for="randomness_order">Are the questions random? (Question Order will not apply if this is yes)</label></th>
 				<td><div id="randomness_order">
+					<input type="radio" id="radio24" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio24">Random Questions</label>
+					<input type="radio" id="randomness2" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 2) {echo 'checked="checked"';} ?> value='2' /><label for="randomness2">Random Questions And Answers</label>
 				    <input type="radio" id="radio23" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 0) {echo 'checked="checked"';} ?> value='0' /><label for="radio23">No</label>
-				    <input type="radio" id="radio24" name="randomness_order" <?php if ($mlw_quiz_options->randomness_order == 1) {echo 'checked="checked"';} ?> value='1' /><label for="radio24">Yes</label>
 				</div></td>
 			</tr>			
 			<tr valign="top">
@@ -1841,7 +1735,7 @@ function mlw_generate_quiz_options()
 				</div></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><label for="adminEmail">What email should we send the admin email to?</label></th>
+				<th scope="row"><label for="adminEmail">What emails should we send the admin email to? Separate emails with a comma.</label></th>
 				<td><input name="adminEmail" type="email" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
 			</tr>
 			<tr valign="top">

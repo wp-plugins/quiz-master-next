@@ -87,26 +87,32 @@ function mlw_generate_about_page()
 		<a href="#" class="nav-tab nav-tab-active">
 			What&#8217;s New In <?php echo $mlw_quiz_version; ?>	</a>
 	</h2>
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can have send different emails based on score!</h2>
-	<p>This new version adds the ability to send the user different emails based on the score earned. Simply go to the new Quiz Emails tab and fill in your default email. Click the Add New Email button to add a different email template.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Now you can use the rebuilt answers system!</h2>
+	<p>In this new version, I completely rebuilt the system that handles the answers. This new system allows for unlimited answers! When adding or editing a question, you will see the new Add Answer button that will add a new answer to your list of answers.</p>
 	<br />
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Premium Add-Ons!</h2>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Question Type - Multiple Response (Checkboxes)</h2>
+	<p>The new answer systems allows for the new question type - multiple response. This is a feature that has been asked for several times and I am excited to finally have it built! When adding or editing a question, you will see the new question type.</p>
+	<br />
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Random Answers At Last</h2>
+	<p>The new answer systems also allows for the answers to be randomized as well! Simply navigate to the Quiz Options tab and the option "Are the questions random?" to the new "Random Questions And Answers" choice.</p>
+	<br />
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
 	<p>We have recently added 3 new premium add-ons into our plugin store! Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">Plugin Add-On Store</a> for details! </p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Send Different Emails To Users Based On Score</li>
-		<li>Added New Quiz Emails Tab</li>
-		<li>Fixed Required Question Bug</li>
-		<li>Fixed Landing Page Bug</li>
+		<li>Rebuilt Answer System</li>
+		<li>Added Ability To Have Unlimited Answers</li>
+		<li>Added Ability To Randomize Answers</li>
+		<li>Added New Question Type - Multiple Response (Checkboxes)</li>
+		<li>Added Ability To Send Admin Email To Multiple Users</li>
+		<li>Minor Design Changes To Quiz Options Page</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
 		<li>Importing Questions</li>
+		<li>Ability To Choose How Many Questions Shown Per Page</li>
 		<li>Stats For Each Quiz</li>
-		<li>Multiple Right Answers (Checkboxes)</li>
-		<li>Unlimited Amount Of Answers</li>
-		<li>Randomized Answers</li>
 		<li>Force Login/Register Option</li>
 	</ul>
 		
