@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.6
 Tested up to: 3.9
-Stable tag: 2.5.1
+Stable tag: 2.6.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -101,6 +101,10 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 7. Example Contact Form
 
 == Changelog ==
+
+= 2.6.1 (May 7, 2014) =
+ * Added UTF-8 Support For Special Characters And Non-Latin Languages
+ * Fixed Question Bank Showing All Answers Bug
 
 = 2.5.1 (May 3, 2014) =
  * Rebuilt Answer System
@@ -426,6 +430,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.6.1 =
+Upgrade to be able to support special characters and non-latin based languages.
 
 = 2.5.1 =
 Upgrade for many new features including unlimited answers, random answers, new question type, and more!

@@ -435,6 +435,7 @@ function mlw_quiz_shortcode($atts)
 						$mlw_answer_total++;
 						if ($mlw_qmn_answer_each[0] != "")
 						{
+							$mlw_display .= "<input type='hidden' name='question".$mlw_question->question_id."' value='This value doesn't matter' />";
 							$mlw_display .= "<input type='checkbox' name='question".$mlw_question->question_id."_".$mlw_answer_total."' id='question".$mlw_question->question_id."_".$mlw_answer_total."' value='".esc_attr($mlw_qmn_answer_each[0])."' /> <label for='question".$mlw_question->question_id."_".$mlw_answer_total."'>".htmlspecialchars_decode($mlw_qmn_answer_each[0], ENT_QUOTES)."</label>";
 							$mlw_display .= "<br />";
 						}
@@ -663,111 +664,114 @@ function mlw_quiz_shortcode($atts)
 		foreach($mlw_questions as $mlw_question) {
 			$mlw_user_text = "";
 			$mlw_correct_text = "";
-			if ( $mlw_question->question_type == 0 || $mlw_question->question_type == 1 || $mlw_question->question_type == 2)
+			if ( isset($_POST["question".$mlw_question->question_id]) || isset($_POST["mlwComment".$mlw_question->question_id]) )
 			{
-				if (isset($_POST["question".$mlw_question->question_id]))
+				if ( $mlw_question->question_type == 0 || $mlw_question->question_type == 1 || $mlw_question->question_type == 2)
 				{
-					$mlw_user_answer = $_POST["question".$mlw_question->question_id];
-				}
-				else
-				{
-					$mlw_user_answer = " ";
-				}						
-				$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
-				foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
-				{
-					if (htmlspecialchars(stripslashes($mlw_user_answer), ENT_QUOTES) == esc_attr($mlw_qmn_question_answers_each[0]))
+					if (isset($_POST["question".$mlw_question->question_id]))
 					{
-						$mlw_points += $mlw_qmn_question_answers_each[1];
-						$mlw_user_text .= strval($mlw_qmn_question_answers_each[0]);
-						if ($mlw_qmn_question_answers_each[2] == 1)
+						$mlw_user_answer = $_POST["question".$mlw_question->question_id];
+					}
+					else
+					{
+						$mlw_user_answer = " ";
+					}						
+					$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
+					foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
+					{
+						if (htmlspecialchars(stripslashes($mlw_user_answer), ENT_QUOTES) == esc_attr($mlw_qmn_question_answers_each[0]))
 						{
-							$mlw_correct += 1;
-						}
-					}
-					if ($mlw_qmn_question_answers_each[2] == 1)
-					{
-						$mlw_correct_text .= $mlw_qmn_question_answers_each[0];
-					}
-				}
-			}
-			elseif ( $mlw_question->question_type == 3 )
-			{
-				$mlw_correct_text .= strval($mlw_question->answer_one);
-				if (isset($_POST["question".$mlw_question->question_id]))
-				{
-					$mlw_user_answer = $_POST["question".$mlw_question->question_id];
-				}
-				else
-				{
-					$mlw_user_answer = " ";
-				}
-				$mlw_user_text .= strval($mlw_user_answer);
-				$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
-				foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
-				{
-					if (strtoupper($mlw_user_answer) == strtoupper($mlw_qmn_question_answers_each[0]))
-					{
-						$mlw_correct += 1;
-						$mlw_points += $mlw_qmn_question_answers_each[1];
-						break;
-					}
-				}
-			}
-			elseif ( $mlw_question->question_type == 4 )
-			{
-				$mlw_qmn_user_correct_answers = 0;
-				$mlw_qmn_total_correct_answers = 0;
-				$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
-				$mlw_qmn_total_answers = count($mlw_qmn_question_answers_array);
-				foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
-				{
-					for ($i = 1; $i <= $mlw_qmn_total_answers; $i++) {
-					    if (isset($_POST["question".$mlw_question->question_id."_".$i]) && htmlspecialchars(stripslashes($_POST["question".$mlw_question->question_id."_".$i]), ENT_QUOTES) == esc_attr($mlw_qmn_question_answers_each[0]))
-					    {
-					    	$mlw_points += $mlw_qmn_question_answers_each[1];
-							$mlw_user_text .= strval($mlw_qmn_question_answers_each[0]).".";
+							$mlw_points += $mlw_qmn_question_answers_each[1];
+							$mlw_user_text .= strval($mlw_qmn_question_answers_each[0]);
 							if ($mlw_qmn_question_answers_each[2] == 1)
 							{
-								$mlw_qmn_user_correct_answers += 1;
+								$mlw_correct += 1;
 							}
-							else
-							{
-								$mlw_qmn_user_correct_answers = -1;
-							}
-					    }
-					}
-					if ($mlw_qmn_question_answers_each[2] == 1)
-					{
-						$mlw_correct_text .= $mlw_qmn_question_answers_each[0].".";
-						$mlw_qmn_total_correct_answers++;
+						}
+						if ($mlw_qmn_question_answers_each[2] == 1)
+						{
+							$mlw_correct_text .= $mlw_qmn_question_answers_each[0];
+						}
 					}
 				}
-				if ($mlw_qmn_user_correct_answers == $mlw_qmn_total_correct_answers)
+				elseif ( $mlw_question->question_type == 3 )
 				{
-					$mlw_correct += 1;
+					$mlw_correct_text .= strval($mlw_question->answer_one);
+					if (isset($_POST["question".$mlw_question->question_id]))
+					{
+						$mlw_user_answer = $_POST["question".$mlw_question->question_id];
+					}
+					else
+					{
+						$mlw_user_answer = " ";
+					}
+					$mlw_user_text .= strval($mlw_user_answer);
+					$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
+					foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
+					{
+						if (strtoupper($mlw_user_answer) == strtoupper($mlw_qmn_question_answers_each[0]))
+						{
+							$mlw_correct += 1;
+							$mlw_points += $mlw_qmn_question_answers_each[1];
+							break;
+						}
+					}
 				}
+				elseif ( $mlw_question->question_type == 4 )
+				{
+					$mlw_qmn_user_correct_answers = 0;
+					$mlw_qmn_total_correct_answers = 0;
+					$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
+					$mlw_qmn_total_answers = count($mlw_qmn_question_answers_array);
+					foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
+					{
+						for ($i = 1; $i <= $mlw_qmn_total_answers; $i++) {
+						    if (isset($_POST["question".$mlw_question->question_id."_".$i]) && htmlspecialchars(stripslashes($_POST["question".$mlw_question->question_id."_".$i]), ENT_QUOTES) == esc_attr($mlw_qmn_question_answers_each[0]))
+						    {
+						    	$mlw_points += $mlw_qmn_question_answers_each[1];
+								$mlw_user_text .= strval($mlw_qmn_question_answers_each[0]).".";
+								if ($mlw_qmn_question_answers_each[2] == 1)
+								{
+									$mlw_qmn_user_correct_answers += 1;
+								}
+								else
+								{
+									$mlw_qmn_user_correct_answers = -1;
+								}
+						    }
+						}
+						if ($mlw_qmn_question_answers_each[2] == 1)
+						{
+							$mlw_correct_text .= $mlw_qmn_question_answers_each[0].".";
+							$mlw_qmn_total_correct_answers++;
+						}
+					}
+					if ($mlw_qmn_user_correct_answers == $mlw_qmn_total_correct_answers)
+					{
+						$mlw_correct += 1;
+					}
+				}
+				if (isset($_POST["mlwComment".$mlw_question->question_id]))
+				{
+					$mlw_qm_question_comment = $_POST["mlwComment".$mlw_question->question_id];
+				}
+				else
+				{
+					$mlw_qm_question_comment = "";
+				}
+				
+				$mlw_question_answer_display = htmlspecialchars_decode($mlw_quiz_options->question_answer_template, ENT_QUOTES);
+				$mlw_question_answer_display = str_replace( "%QUESTION%" , htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES), $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $mlw_qm_question_comment, $mlw_question_answer_display);
+				$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , htmlspecialchars_decode($mlw_question->question_answer_info, ENT_QUOTES), $mlw_question_answer_display);
+	
+				$mlw_qmn_answer_array[] = array($mlw_question->question_name, htmlspecialchars($mlw_user_text, ENT_QUOTES), htmlspecialchars($mlw_correct_text, ENT_QUOTES), htmlspecialchars(stripslashes($mlw_qm_question_comment), ENT_QUOTES));
+				
+				$mlw_question_answers .= $mlw_question_answer_display;
+				$mlw_question_answers .= "<br />";
 			}
-			if (isset($_POST["mlwComment".$mlw_question->question_id]))
-			{
-				$mlw_qm_question_comment = $_POST["mlwComment".$mlw_question->question_id];
-			}
-			else
-			{
-				$mlw_qm_question_comment = "";
-			}
-			
-			$mlw_question_answer_display = htmlspecialchars_decode($mlw_quiz_options->question_answer_template, ENT_QUOTES);
-			$mlw_question_answer_display = str_replace( "%QUESTION%" , htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES), $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%USER_ANSWER%" , $mlw_user_text, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER%" , $mlw_correct_text, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%USER_COMMENTS%" , $mlw_qm_question_comment, $mlw_question_answer_display);
-			$mlw_question_answer_display = str_replace( "%CORRECT_ANSWER_INFO%" , htmlspecialchars_decode($mlw_question->question_answer_info, ENT_QUOTES), $mlw_question_answer_display);
-
-			$mlw_qmn_answer_array[] = array($mlw_question->question_name, htmlspecialchars($mlw_user_text, ENT_QUOTES), htmlspecialchars($mlw_correct_text, ENT_QUOTES), htmlspecialchars(stripslashes($mlw_qm_question_comment), ENT_QUOTES));
-			
-			$mlw_question_answers .= $mlw_question_answer_display;
-			$mlw_question_answers .= "<br />";
 		}
 		
 		//Calculate Total Percent Score And Average Points Only If Total Questions Doesn't Equal Zero To Avoid Division By Zero Error

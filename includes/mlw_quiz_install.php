@@ -104,7 +104,9 @@ function mlw_quiz_activate()
 
 			PRIMARY KEY  (quiz_id)
 
-		);";
+		)
+		
+		CHARACTER SET utf8";
 
 		$results = $wpdb->query( $sql );
 
@@ -169,7 +171,9 @@ function mlw_quiz_activate()
 
 			PRIMARY KEY  (question_id)
 
-		);";
+		)
+		
+		CHARACTER SET utf8";
 
 		$results = $wpdb->query( $sql );
 
@@ -221,7 +225,9 @@ function mlw_quiz_activate()
 
 			PRIMARY KEY  (result_id)
 
-		);";
+		)
+		
+		CHARACTER SET utf8";
 
 		$results = $wpdb->query( $sql );
 
@@ -269,7 +275,9 @@ function mlw_quiz_activate()
 
 			PRIMARY KEY  (trail_id)
 
-		);";
+		)
+		
+		CHARACTER SET utf8";
 
 		$results = $wpdb->query( $sql );
 
