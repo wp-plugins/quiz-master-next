@@ -103,17 +103,19 @@ function mlw_quiz_shortcode($atts)
 	wp_enqueue_script( 'jquery-ui-accordion' );
 	wp_enqueue_script( 'jquery-ui-tooltip' );
 	wp_enqueue_script( 'jquery-ui-tabs' );
-?>
-<!-- css -->
+	?>
+	<!-- css -->
 	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
-<script type="text/javascript">
+	<script type="text/javascript">
+		setTimeout(function(){
 		var $j = jQuery.noConflict();
 		// increase the default animation speed to exaggerate the effect
 		$j.fx.speeds._default = 1000;
 		$j(function() {
    			 $j( document ).tooltip();
  		});
- 	</script>
+		}, 100);
+	</script>
  	<style type="text/css">
  		.ui-tooltip
 		{
@@ -160,16 +162,16 @@ function mlw_quiz_shortcode($atts)
 		    }
 			?>
 			<script type="text/javascript">
+				setTimeout(function(){
 				var $j = jQuery.noConflict();
-				$j(function() {
 				$j( ".quiz_section" ).hide();
 				$j( ".quiz_section" ).append( "<br />" );
-				$j( ".quiz_section" ).not( ".quiz_begin" ).append( "<a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"prevSlide();\"><?php echo $mlw_qmn_pagination_text[0]; ?></a>" );
-				$j( ".quiz_section" ).not( ".quiz_end" ).append( "<a class=\"mlw_qmn_quiz_link\" href='#' onclick=\"nextSlide();\"><?php echo $mlw_qmn_pagination_text[1]; ?></a>" );
+				$j( ".quiz_section" ).not( ".quiz_begin" ).append( "<a class=\"mlw_qmn_quiz_link\" href=\"javascript:prevSlide();\"><?php echo $mlw_qmn_pagination_text[0]; ?></a>" );
+				$j( ".quiz_section" ).not( ".quiz_end" ).append( "<a class=\"mlw_qmn_quiz_link\" href=\"javascript:nextSlide();\"><?php echo $mlw_qmn_pagination_text[1]; ?></a>" );
 				window.mlw_quiz_slide = 0;
 				window.mlw_quiz_total_slides = <?php echo $mlw_qmn_section_limit; ?>;
 				nextSlide();
-				});
+				}, 100);
 				function nextSlide()
 				{
 					window.mlw_quiz_slide++;
@@ -211,11 +213,13 @@ function mlw_quiz_shortcode($atts)
 			?>
 			<div id="mlw_qmn_timer" class="mlw_qmn_timer"></div>
 			<script type="text/javascript">
+				setTimeout(function(){
 				var minutes = <?php echo $mlw_quiz_options->timer_limit; ?>;
 				window.amount = (minutes*60);
 				window.titleText = window.document.title;
 				document.getElementById("mlw_qmn_timer").innerHTML = minToSec(window.amount);
-				window.counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+				window.counter=setInterval(timer, 1000);
+				}, 100);
 				function timer()
 				{
 					window.amount=window.amount-1;
@@ -557,7 +561,7 @@ function mlw_quiz_shortcode($atts)
 			}
 			if ($mlw_question->hints != "")
 			{
-				$mlw_display .= "<span title=\"".htmlspecialchars_decode($mlw_question->hints, ENT_QUOTES)."\" style=\"text-decoration:underline;color:rgb(0,0,255);\">Hint</span>";
+				$mlw_display .= "<span title=\"".htmlspecialchars_decode($mlw_question->hints, ENT_QUOTES)."\" style=\"text-decoration:underline;color:rgb(0,0,255);\" class='mlw_qmn_hint_link'>Hint</span>";
 				$mlw_display .= "<br /><br />";
 			}
 			$mlw_display .= "</div>";
