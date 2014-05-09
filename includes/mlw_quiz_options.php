@@ -28,6 +28,8 @@ function mlw_generate_quiz_options()
 	$mlw_qmn_isQueryError = false;
 	$mlw_qmn_error_code = '0000';
 	
+	if ($quiz_id != "")
+	{
 	/*
 	Code for quiz questions tab
 	*/
@@ -983,10 +985,6 @@ function mlw_generate_quiz_options()
 	</script>
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
-	<?php
-		if ($quiz_id != "")
-	{
-	?>
 	<h2>Quiz Options For <?php echo $mlw_quiz_options->quiz_name; ?><a id="opener" href="">(?)</a></h2>
 	<?php if ($hasUpdatedLeaderboardOptions)
 		{
@@ -2322,19 +2320,30 @@ function mlw_generate_quiz_options()
 		<p>Be sure to save after any changes are made!</p>
 	</div>
 
+	</div>
+	</div>
 	<?php
 	}
 	else
 	{
-	?>
-	<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
-	<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-	<strong>Hey!</strong> Please go to the quizzes page and click on the Edit link from the quiz you wish to edit.</p>
-	<?php
+		?>
+		<!-- css -->
+		<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" />
+		<!-- jquery scripts -->
+		<?php
+		wp_enqueue_script( 'jquery' );
+		wp_enqueue_script( 'jquery-ui-core' );
+		?>
+		<div class="wrap">
+		<div class='mlw_quiz_options'>
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Hey!</strong> Please go to the quizzes page and click on the Edit link from the quiz you wish to edit.</p
+		</div>
+		</div>
+		<?php
 	}
 	?>
-	</div>
-	</div>
 <?php
 }
 ?>
