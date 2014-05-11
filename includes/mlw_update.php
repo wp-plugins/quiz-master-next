@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "2.6.3";
+	$data = "2.6.4";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -281,6 +281,17 @@ function mlw_quiz_update()
 		$results = $wpdb->query( "ALTER TABLE ".$wpdb->prefix . "mlw_quizzes CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci" );
 		$results = $wpdb->query( "ALTER TABLE ".$wpdb->prefix . "mlw_results CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci" );
 		
+		
+		global $wpdb;
+		$table_name = $wpdb->prefix . "mlw_results";
+		//Update 2.6.4
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'user'") != "user")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD user INT NOT NULL AFTER phone";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET user=0";
+			$results = $wpdb->query( $update_sql );
+		}
 		update_option('mlw_quiz_master_version' , $data);
 		if(!isset($_GET['activate-multi']))
         {

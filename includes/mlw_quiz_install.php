@@ -214,6 +214,8 @@ function mlw_quiz_activate()
 			email TEXT NOT NULL,
 
 			phone TEXT NOT NULL,
+			
+			user INT NOT NULL,
 
 			time_taken TEXT NOT NULL,
 			

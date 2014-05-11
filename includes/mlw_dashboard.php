@@ -144,7 +144,7 @@ function mlw_generate_quiz_dashboard(){
 		}
 	</style>
 	<div class="wrap">
-	<h2>Quiz Master Next Version <?php echo $mlw_quiz_version; ?><?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
+	<h2>Quiz Master Next Version <?php echo $mlw_quiz_version; ?> <?php _e("Dashboard", "mlw_qmn_text_domain"); ?><a id="opener" href="">(?)</a></h2>
 	
 	<?php echo mlw_qmn_show_adverts(); ?>
 	<!--Display Widget Boxes-->
