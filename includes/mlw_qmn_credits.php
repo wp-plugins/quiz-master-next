@@ -87,23 +87,26 @@ function mlw_generate_about_page()
 		<a href="#" class="nav-tab nav-tab-active">
 			What&#8217;s New In <?php echo $mlw_quiz_version; ?>	</a>
 	</h2>
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Unicode Compatibility</h2>
-	<p>Version 2.6.1 sets all the database tables up to support unicode which means that your quizzes can support special characters and non-latin languages.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Set Number Of Questions Per Page</h2>
+	<p>This update allows you to set the number of questions per page! Simply navigate to the Quiz Options tab and change the new "How many questions per page would you like?" option to the amount you would like. Set it to 0 to have all the quesitons on one page.</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
 	<p>We have 4 new premium add-ons in our WordPress Store: Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added UTF-8 Support For Special Characters And Non-Latin Languages</li>
-		<li>Fixed Question Bank Showing All Answers Bug</li>
+		<li>Added Ability To Set Number Of Question Per Page</li>
+		<li>Fixed HTML Not Showing On Results Page Bug</li>
+		<li>Fixed Timer Not Disabling New Fields Bug</li>
+		<li>Fixed Timer Submitting Disabled Fields Bug</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>
 		<li>Importing Questions</li>
-		<li>Ability To Choose How Many Questions Shown Per Page</li>
 		<li>Stats For Each Quiz</li>
 		<li>Force Login/Register Option</li>
+		<li>Categories</li>
+		<li>More Social Media Integration</li>
 	</ul>
 		
 	<div id="dialog" title="Help">

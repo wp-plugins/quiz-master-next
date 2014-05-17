@@ -2,9 +2,9 @@
 Contributors: fpcorso
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ
 Tags: quiz, test, score, survey, contact, form, email, answer, question
-Requires at least: 3.7
+Requires at least: 3.5.1
 Tested up to: 3.9.1
-Stable tag: 2.6.4
+Stable tag: 2.7.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -29,7 +29,7 @@ Each quiz can have **unlimited** results pages that can be customized with your 
 After the user takes a quiz, you can have the plugin email you and the user with results. This too can be customized with your own text.
 
 = Very Flexible =
-Your quiz can be graded with an incorrect/correct system or a points-based system. Or not at all. You ask for contact information at the beginning or the end and you decide which fields are required. You can decide to use all the questions or only a select few chosen at random.
+Your quiz can be graded with an incorrect/correct system or a points-based system. Or not at all. You ask for contact information at the beginning or the end and you decide which contact fields are required. You can decide to use all the questions or only a select few chosen at random. You can also set the number of questions per page or have all the questions on one page.
 
 = Useful For Businesses =
 The plugin features useful **statistics** that show how many times each quiz has been viewed and taken and plots the data on several different **graphs** so you can see how the quizzes are doing at a glance. Also, the plugin includes an **audit trail** that logs every action done on the admin side so you can keep up with who is doing what!
@@ -102,6 +102,12 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 2.7.1 (May 16, 2014) =
+ * Added Ability To Set Number Of Question Per Page
+ * Fixed HTML Not Showing On Results Page Bug
+ * Fixed Timer Not Disabling New Fields Bug
+ * Fixed Timer Submitting Disabled Fields Bug
 
 = 2.6.4 (May 12, 2014) =
  * Bug Fixes
@@ -440,6 +446,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.7.1 =
+Upgrade to have the ability to set number of questions per page and more bug fixes.
 
 = 2.6.4 =
 Upgrade for bug fixes.

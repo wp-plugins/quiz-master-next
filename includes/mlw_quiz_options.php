@@ -453,10 +453,10 @@ function mlw_generate_quiz_options()
 	}
 	
 	/*
-	Code For Quiz Landing Page Tab
+	Code For Quiz Results Page Tab
 	*/
 	
-	//Check to add new landing page
+	//Check to add new results page
 	if (isset($_POST["mlw_add_landing_page"]) && $_POST["mlw_add_landing_page"] == "confirmation")
 	{
 		//Function variables
@@ -1069,7 +1069,7 @@ function mlw_generate_quiz_options()
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<strong>Success!</strong> A new landing page has been added successfully!</p>
+		<strong>Success!</strong> A new results page has been added successfully!</p>
 	</div>
 	<?php
 		}
@@ -1078,7 +1078,7 @@ function mlw_generate_quiz_options()
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
 		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
-		<strong>Success!</strong> The landing pages have been saved successfully!</p>
+		<strong>Success!</strong> The results pages have been saved successfully!</p>
 	</div>
 	<?php
 		}
@@ -1516,7 +1516,7 @@ function mlw_generate_quiz_options()
 						<p style="margin: 2px 0">- %TIMER%</p>
 						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
 					</td>
-					<td>Now you can have different landing pages based on the user score! This field is now edited on the Quiz Landing Page tab.
+					<td>Now you can have different results pages based on the user score! This field is now edited on the Quiz Results Page tab.
 					</td>
 				</tr>
 				<tr>
@@ -1633,11 +1633,10 @@ function mlw_generate_quiz_options()
 				</div></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><label for="pagination">Would you like all the questions on one page or would you rather one question per page?</label></th>
-				<td><div id="pagination">
-				    <input type="radio" id="pagination_radio" name="pagination" <?php if ($mlw_quiz_options->pagination == 0) {echo 'checked="checked"';} ?> value='0' /><label for="pagination_radio">All On One Page</label>
-				    <input type="radio" id="pagination_radio2" name="pagination" <?php if ($mlw_quiz_options->pagination == 1) {echo 'checked="checked"';} ?> value='1' /><label for="pagination_radio2">One Question Per Page</label>
-				</div></td>
+				<th scope="row"><label for="pagination">How many questions per page would you like? (Leave 0 for all questions on one page)</label></th>
+				<td>
+					<input type="number" step="1" min="0" max="1000" name="pagination" value="<?php echo $mlw_quiz_options->pagination; ?>" class="regular-text" />
+				</td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><label for="timer_limit">How many minutes does the user have to finish the quiz? (Leave 0 for no time limit)</label></th>
@@ -2071,8 +2070,8 @@ function mlw_generate_quiz_options()
 				<td><strong>%CERTIFICATE_LINK%</strong> - The link to the certificate after completing the quiz</td>
 			</tr>
 		</table>
-		<button id="save_landing_button" onclick="javascript: document.mlw_quiz_save_landing_form.submit();">Save Landing Pages</button>
-		<button id="new_landing_button" onclick="javascript: document.mlw_quiz_add_landing_form.submit();">Add New Landing Page</button>
+		<button id="save_landing_button" onclick="javascript: document.mlw_quiz_save_landing_form.submit();">Save Results Pages</button>
+		<button id="new_landing_button" onclick="javascript: document.mlw_quiz_add_landing_form.submit();">Add New Results Page</button>
 		<button id="landing_page_help">Help</button>
 		<form method="post" action="" name="mlw_quiz_save_landing_form" style=" display:inline!important;">
 		<table class="widefat">
@@ -2081,7 +2080,7 @@ function mlw_generate_quiz_options()
 					<th>ID</th>
 					<th>Score Greater Than</th>
 					<th>Score Less Than</th>
-					<th>Landing Page Shown</th>
+					<th>Results Page Shown</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -2136,19 +2135,19 @@ function mlw_generate_quiz_options()
 					<th>ID</th>
 					<th>Score Greater Than</th>
 					<th>Score Less Than</th>
-					<th>Landing Page Shown</th>
+					<th>Results Page Shown</th>
 				</tr>
 			</tfoot>
 		</table>
 		<input type='hidden' name='mlw_save_landing_pages' value='confirmation' />
 		<input type='hidden' name='mlw_landing_quiz_id' value='<?php echo $quiz_id; ?>' />
 		<input type='hidden' name='mlw_landing_page_total' value='<?php echo $mlw_each_count; ?>' />
-		<button id="save_landing_button" onclick="javascript: document.mlw_quiz_save_landing_form.submit();">Save Landing Pages</button>
+		<button id="save_landing_button" onclick="javascript: document.mlw_quiz_save_landing_form.submit();">Save Results Pages</button>
 		</form>
 		<form method="post" action="" name="mlw_quiz_add_landing_form" style=" display:inline!important;">
 			<input type='hidden' name='mlw_add_landing_page' value='confirmation' />
 			<input type='hidden' name='mlw_add_landing_quiz_id' value='<?php echo $quiz_id; ?>' />
-			<button id="new_landing_button" onclick="javascript: document.mlw_quiz_add_landing_form.submit();">Add New Landing Page</button>
+			<button id="new_landing_button" onclick="javascript: document.mlw_quiz_add_landing_form.submit();">Add New Results Page</button>
 		</form>
 	</div>
 	<div id="tabs-7">
@@ -2302,11 +2301,11 @@ function mlw_generate_quiz_options()
 	
 	<div id="landing_page_help_dialog" title="Help" style="display: none;">
 		<h3><b>Help</b></h3>
-		<p>This page allows you to add, edit, and delete landing pages for your quiz!</p>
-		<p>You can have unlimited different landing pages to show the user after he or she takes the quiz. For example, you can have a page shown if they pass, and then show the default if they fail.</p>
-		<p>If you only need the one landing page, leave just the default and edit it and then click the Save button.</p>
-		<p>To add a new landing page, click Add New Landing Page. A new section will appear with the new page.</p>
-		<p>For your extra pages, you must designate what score the user must be above and what score the user must be below to see the page. If the user does not fall into any, the default page will be show.</p>
+		<p>This page allows you to add, edit, and delete results pages for your quiz!</p>
+		<p>You can have unlimited different results pages to show the user after he or she takes the quiz. For example, you can have a page shown if they pass, and then show the default if they fail.</p>
+		<p>If you only need the one results page, leave just the default and edit it and then click the Save button.</p>
+		<p>To add a new results page, click Add New Results Page. A new section will appear with the new page.</p>
+		<p>For your extra pages, you must designate what score the user must be above and what score the user must be below to see the page. If the user does not fall into any, the default page will be shown.</p>
 		<p>Be sure to save after any changes are made!</p>
 	</div>
 	
