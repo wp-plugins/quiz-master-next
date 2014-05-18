@@ -112,7 +112,7 @@ function mlw_quiz_shortcode($atts)
 		// increase the default animation speed to exaggerate the effect
 		$j.fx.speeds._default = 1000;
 		$j(function() {
-   			 $j( document ).tooltip();
+   			 $j( ".mlw_qmn_quiz" ).tooltip();
  		});
 		}, 100);
 	</script>
@@ -258,7 +258,7 @@ function mlw_quiz_shortcode($atts)
 			<script type="text/javascript">
 				setTimeout(function(){
 				var minutes = 0;
-				if (window.sessionStorage.getItem('mlw_time_quiz<?php echo $mlw_quiz_id; ?>') >= 0)
+				if (window.sessionStorage.getItem('mlw_started_quiz<?php echo $mlw_quiz_id; ?>') == "yes" && window.sessionStorage.getItem('mlw_time_quiz<?php echo $mlw_quiz_id; ?>') >= 0)
 				{
 					minutes = window.sessionStorage.getItem('mlw_time_quiz<?php echo $mlw_quiz_id; ?>');
 				}
@@ -279,6 +279,7 @@ function mlw_quiz_shortcode($atts)
 						window.amount = 0;	
 					}
 					window.sessionStorage.setItem('mlw_time_quiz<?php echo $mlw_quiz_id; ?>', window.amount/60);
+					window.sessionStorage.setItem('mlw_started_quiz<?php echo $mlw_quiz_id; ?>', "yes");
 				    document.getElementById("mlw_qmn_timer").innerHTML = minToSec(window.amount);
 				    window.document.title = minToSec(window.amount) + " " + window.titleText;
 				  	if (window.amount <= 0)
@@ -676,8 +677,9 @@ function mlw_quiz_shortcode($atts)
 	else
 	{
 		?>
-		<script>
+		<script type="text/javascript">
 			window.sessionStorage.setItem('mlw_time_quiz<?php echo $mlw_quiz_id; ?>', 'completed');
+			window.sessionStorage.setItem('mlw_started_quiz<?php echo $mlw_quiz_id; ?>', "no");
 		</script>
 		<?php
 		if (empty($mlw_spam_email) && $mlw_qmn_isAllowed)
