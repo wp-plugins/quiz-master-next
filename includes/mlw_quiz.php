@@ -726,6 +726,9 @@ function mlw_quiz_shortcode($atts)
 		$mlw_total_score = 0;
 		$mlw_question_answers = "";
 		isset($_POST["total_questions"]) ? $mlw_total_questions = intval($_POST["total_questions"]) : $mlw_total_questions = 0;
+		
+		//Integration Action
+		do_action('mlw_qmn_load_results_page');
 
 		//Update the amount of times the quiz has been taken
 		$mlw_taken = $mlw_quiz_options->quiz_taken;
