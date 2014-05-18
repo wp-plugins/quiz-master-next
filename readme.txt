@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.5.1
 Tested up to: 3.9.1
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -52,7 +52,8 @@ The plugin will **save** the results, the user's answers, the user's comments, a
 * Able to set up time limits on the quiz
 * And **Much** More...
 
-Be sure to check out all of our plugins in our Master Suite. Visit our plugins page for details: [My Local Webstop Plugins](http://mylocalwebstop.com/wordpress-plugins/)
+= Quiz Master Next Add-ons =
+While Quiz Master Next is fully functional and is packed full of features that will meet the needs of most, we do offer vaious extra features and support available in our [Wordpress Store](http://mylocalwebstop.com/shop/)
 
 
 == Installation ==
@@ -102,6 +103,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 2.7.3 (May 19, 2014) =
+ * Fixed Open Answer Not Showing Correct Answer Bug
 
 = 2.7.2 (May 18, 2014) =
  * Fixed Timer Not Restarting Bug
@@ -450,6 +454,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.7.3 =
+Upgrade for bug fixes.
 
 = 2.7.2 =
 Upgrade for bug fixes.

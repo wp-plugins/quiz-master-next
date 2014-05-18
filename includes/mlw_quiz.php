@@ -772,7 +772,6 @@ function mlw_quiz_shortcode($atts)
 				}
 				elseif ( $mlw_question->question_type == 3 )
 				{
-					$mlw_correct_text .= strval(htmlspecialchars_decode($mlw_question->answer_one, ENT_QUOTES));
 					if (isset($_POST["question".$mlw_question->question_id]))
 					{
 						$mlw_user_answer = $_POST["question".$mlw_question->question_id];
@@ -785,6 +784,7 @@ function mlw_quiz_shortcode($atts)
 					$mlw_qmn_question_answers_array = $mlw_qmn_loaded_answer_arrays[$mlw_question->question_id];
 					foreach($mlw_qmn_question_answers_array as $mlw_qmn_question_answers_each)
 					{
+						$mlw_correct_text = strval(htmlspecialchars_decode($mlw_qmn_question_answers_each[0], ENT_QUOTES));
 						if (strtoupper($mlw_user_answer) == strtoupper($mlw_qmn_question_answers_each[0]))
 						{
 							$mlw_correct += 1;

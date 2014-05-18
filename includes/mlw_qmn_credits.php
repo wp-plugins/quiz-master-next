@@ -91,7 +91,7 @@ function mlw_generate_about_page()
 	<p>This update allows you to set the number of questions per page! Simply navigate to the Quiz Options tab and change the new "How many questions per page would you like?" option to the amount you would like. Set it to 0 to have all the quesitons on one page.</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
-	<p>We have 4 new premium add-ons in our WordPress Store: Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
+	<p>We have several new premium add-ons in our WordPress Store: MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
