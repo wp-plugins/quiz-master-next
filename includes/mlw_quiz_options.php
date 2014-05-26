@@ -711,42 +711,6 @@ function mlw_generate_quiz_options()
 		}	);
 		});
 		$j(function() {
-			$j('#questions_help_dialog').dialog({
-				autoOpen: false,
-				show: 'blind',
-				width:700,
-				hide: 'explode',
-				buttons: {
-				Ok: function() {
-					$j(this).dialog('close');
-					}
-				}
-			});
-		
-			$j('#question_tab_help').click(function() {
-				$j('#questions_help_dialog').dialog('open');
-				return false;
-		}	);
-		});
-		$j(function() {
-			$j('#templates_help_dialog').dialog({
-				autoOpen: false,
-				show: 'blind',
-				width:700,
-				hide: 'explode',
-				buttons: {
-				Ok: function() {
-					$j(this).dialog('close');
-					}
-				}
-			});
-		
-			$j('#template_tab_help').click(function() {
-				$j('#templates_help_dialog').dialog('open');
-				return false;
-		}	);
-		});
-		$j(function() {
 			$j('#options_help_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
@@ -985,7 +949,7 @@ function mlw_generate_quiz_options()
 	</script>
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
-	<h2>Quiz Options For <?php echo $mlw_quiz_options->quiz_name; ?><a id="opener" href="">(?)</a></h2>
+	<h2>Quiz Settings For <?php echo $mlw_quiz_options->quiz_name; ?><a id="opener" href="">(?)</a></h2>
 	<?php if ($hasUpdatedLeaderboardOptions)
 		{
 	?>
@@ -1132,7 +1096,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-8">Quiz Tools</a></li>
 		</ul>
   		<div id="tabs-1">
-  			<button id="new_question_button_two">Add Question</button><button id="question_tab_help">Help</button>
+  			<button id="new_question_button_two">Add Question</button>
   			<br />
 			<?php
 			$question_list = "";
@@ -1221,7 +1185,7 @@ function mlw_generate_quiz_options()
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr valign="top">
-				<td><span style='font-weight:bold;'>Question Type?</span></td>
+				<td><span style='font-weight:bold;'>Question Type</span></td>
 				<td colspan="3">
 					<select name="edit_question_type">
 						<option value="0" <?php if ($mlw_question_info->question_type == 0) { echo 'selected="selected"'; } ?>>Normal Multiple Choice (Vertical Radio)</option>
@@ -1233,7 +1197,7 @@ function mlw_generate_quiz_options()
 				</div></td>
 				</tr>
 				<tr valign="top">
-				<td><span style='font-weight:bold;'>Comment Field?</span></td>
+				<td><span style='font-weight:bold;'>Comment Field</span></td>
 				<td colspan="3">
 					<input type="radio" id="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio1" name="edit_comments" value=0 <?php if ($mlw_question_info->comments == 0) { echo 'checked="checked"'; } ?>/><label for="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio1">Small Text Field</label>
 					<input type="radio" id="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio3" name="edit_comments" value=2 <?php if ($mlw_question_info->comments == 2) { echo 'checked="checked"'; } ?>/><label for="<?php echo $mlw_question_info->question_id; ?>_editCommentRadio3">Large Text Field</label>
@@ -1304,7 +1268,7 @@ function mlw_generate_quiz_options()
 			<tr>
 			<td><span style='font-weight:bold;'>Question</span></td>
 			<td colspan="3">
-				<textarea name="question_name" id="question_name" style="width: 500px; height: 150px;" title="Enter the question here. Feel free to use HTML, embed Youtube videos, link to images, etc..."></textarea>
+				<textarea name="question_name" id="question_name" style="width: 500px; height: 150px;"></textarea>
 			</td>
 			</tr>
 			<tr valign="top">
@@ -1313,9 +1277,9 @@ function mlw_generate_quiz_options()
 			</tr>
 			<tr valign="top">
 			<td>&nbsp;</td>
-			<td><span style='font-weight:bold;'>Answers<a href='#' title="Enter the question's answers here. If you are using this quiz as a survey or form, you can leave all the answers blank to only show the comment field.">?</a></span></td>
-			<td><span style='font-weight:bold;'>Points Worth<a href="#" title="If you have your quiz set up using the point system, enter how many points this answer is worth here. If you are not using the point system, leave this as 0.">?</a></span></td>
-			<td><span style='font-weight:bold;'>Correct Answer<a href="#" title="Select the correct answer.">?</a></span></td>
+			<td><span style='font-weight:bold;'>Answers</span></td>
+			<td><span style='font-weight:bold;'>Points Worth</span></td>
+			<td><span style='font-weight:bold;'>Correct Answer</span></td>
 			</tr>
 			<?php
 			$mlw_answer_total = 0;
@@ -1342,14 +1306,14 @@ function mlw_generate_quiz_options()
 			<br />
 			<table class="wide" style="text-align: left; white-space: nowrap;">
 			<tr>
-				<td><span style='font-weight:bold;'>Correct Answer Info<a href="#" title="Enter in the reason why the correct answer is correct. Add this to the %QUESTIONS_ANSWERS% template using the new %CORRECT_ANSWER_INFO% variable.">?</a></span></td>
+				<td><span style='font-weight:bold;'>Correct Answer Info</span></td>
 				<td colspan="3"><input type="text" name="correct_answer_info" value="" id="correct_answer_info" style="border-color:#000000;
 				color:#3300CC; 
 				cursor:hand;
 				width:550px;"/></td>
 			</tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Hint<a href="#" title="Enter the question's hint." >?</a></span></td>
+			<td><span style='font-weight:bold;'>Hint</span></td>
 			<td colspan="3">
 			<input type="text" name="hint" value="" id="hint" style="border-color:#000000;
 				color:#3300CC; 
@@ -1360,7 +1324,7 @@ function mlw_generate_quiz_options()
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Question Type<a href="#" title="The normal setting will show the question as it would normally; the horizontal setting will show the answers going across rather than down; the drop down setting will show the answers in a drop down menu instead of the raidio button." >?</a></span></td>
+			<td><span style='font-weight:bold;'>Question Type</span></td>
 			<td colspan="3">
 				<select name="question_type">
 					<option value="0" selected="selected">Normal Multiple Choice (Vertical Radio)</option>
@@ -1372,7 +1336,7 @@ function mlw_generate_quiz_options()
 			</div></td>
 			</tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Comment Field<a href="#" title="The small text field setting will show a small field similar to the answer field above; the large text field setting will show a large text area; the none setting will now show any comment section for this question." >?</a></span></td>
+			<td><span style='font-weight:bold;'>Comment Field</span></td>
 			<td colspan="3"><div id="comments">
 				<input type="radio" id="commentsRadio1" name="comments" value=0 /><label for="commentsRadio1">Small Text Field</label>
 				<input type="radio" id="commentsRadio3" name="comments" value=2 /><label for="commentsRadio3">Large Text Field</label>
@@ -1380,7 +1344,7 @@ function mlw_generate_quiz_options()
 			</div></td>
 			</tr>
 			<tr valign="top">
-			<td><span style='font-weight:bold;'>Question Order<a href="#" title="Enter the place of the question in the quiz. If you do not have a certain order, you can leave this as 1.">?</a></span></td>
+			<td><span style='font-weight:bold;'>Question Order</span></td>
 			<td>
 			<input type="number" step="1" min="1" name="new_question_order" value="1" id="new_question_order" style="border-color:#000000;
 				color:#3300CC; 
@@ -1400,7 +1364,7 @@ function mlw_generate_quiz_options()
 
   		</div>
   		<div id="tabs-2">
-			<h3>Template Variables</h3>
+			<h3 style="text-align: center;">Template Variables</h3>
 			<table class="form-table">
 			<tr>
 				<td><strong>%POINT_SCORE%</strong> - Total points user earned when taking quiz</td>
@@ -1453,15 +1417,13 @@ function mlw_generate_quiz_options()
 				<td><strong>%CURRENT_DATE%</strong> - The Current Date</td>
 			</tr>
 			</table>
-			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button><button id="template_tab_help">Help</button>
+			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button>
 			<?php
 			echo "<form action='' method='post' name='quiz_template_form'>";
 			echo "<input type='hidden' name='save_templates' value='confirmation' />";
 			echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
 			?>
-    			<div id="accordion">
-			<h3><a href="#">Message Template</a></h3>
-			<div>
+			<h3 style="text-align: center;">Message Templates</h3>
 			<table class="form-table">
 				<tr>
 					<td width="30%">
@@ -1498,29 +1460,6 @@ function mlw_generate_quiz_options()
 				</tr>
 				<tr>
 					<td width="30%">
-						<strong>Message Displayed After Quiz</strong>
-						<br />
-						<p>Allowed Variables: </p>
-						<p style="margin: 2px 0">- %POINT_SCORE%</p>
-						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
-						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
-						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
-						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
-						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
-						<p style="margin: 2px 0">- %USER_NAME%</p>
-						<p style="margin: 2px 0">- %USER_BUSINESS%</p>
-						<p style="margin: 2px 0">- %USER_PHONE%</p>
-						<p style="margin: 2px 0">- %USER_EMAIL%</p>
-						<p style="margin: 2px 0">- %COMMENT_SECTION%</p>
-						<p style="margin: 2px 0">- %QUESTIONS_ANSWERS%</p>
-						<p style="margin: 2px 0">- %TIMER%</p>
-						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
-					</td>
-					<td>Now you can have different results pages based on the user score! This field is now edited on the Quiz Results Page tab.
-					</td>
-				</tr>
-				<tr>
-					<td width="30%">
 						<strong>Message Displayed If User Has Tried Quiz Too Many Times</strong>
 						<br />
 						<p>Allowed Variables: </p>
@@ -1530,15 +1469,39 @@ function mlw_generate_quiz_options()
 					<td><textarea cols="80" rows="15" id="mlw_quiz_total_user_tries_text" name="mlw_quiz_total_user_tries_text"><?php echo $mlw_quiz_options->total_user_tries_text; ?></textarea>
 					</td>
 				</tr>
+				<tr>
+					<td width="30%">
+						<strong>%QUESTIONS_ANSWERS% Text</strong>
+						<br />
+						<p>Allowed Variables: </p>
+						<p style="margin: 2px 0">- %QUESTION%</p>
+						<p style="margin: 2px 0">- %USER_ANSWER%</p>
+						<p style="margin: 2px 0">- %CORRECT_ANSWER%</p>
+						<p style="margin: 2px 0">- %USER_COMMENTS%</p>
+						<p style="margin: 2px 0">- %CORRECT_ANSWER_INFO%</p>
+					</td>
+					<td><textarea cols="80" rows="15" id="mlw_quiz_question_answer_template" name="mlw_quiz_question_answer_template"><?php echo $mlw_quiz_options->question_answer_template; ?></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td width="30%">
+						<strong>Social Media Sharing Text</strong>
+						<br />
+						<p>Allowed Variables: </p>
+						<p style="margin: 2px 0">- %POINT_SCORE%</p>
+						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
+						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
+						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
+						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
+						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
+						<p style="margin: 2px 0">- %TIMER%</p>
+						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
+					</td>
+					<td><textarea cols="80" rows="15" id="mlw_quiz_social_media_text_template" name="mlw_quiz_social_media_text_template"><?php echo $mlw_quiz_options->social_media_text; ?></textarea>
+					</td>
+				</tr>
 			</table>
-
-			</div>
-			<h3><a href="#">Email Template</a></h3>
-			<div>
-				<h3>You can now send differnt emails based on score! Edit your email templates from the new Quiz Emails tab.</h3>
-			</div>
-			<h3><a href="#">Other Template</a></h3>
-			<div>
+			<h3 style="text-align: center;">Other Templates</h3>
 			<table class="form-table">
 				<tr valign="top">
 					<th scope="row"><label for="mlw_submitText">Text for submit button</label></th>
@@ -1577,42 +1540,6 @@ function mlw_generate_quiz_options()
 					<td><input name="emailFromText" type="text" id="emailFromText" value="<?php echo $mlw_quiz_options->email_from_text; ?>" class="regular-text" /></td>
 				</tr>
 			</table>
-			<table class="form-table">
-				<tr>
-					<td width="30%">
-						<strong>%QUESTIONS_ANSWERS% Text</strong>
-						<br />
-						<p>Allowed Variables: </p>
-						<p style="margin: 2px 0">- %QUESTION%</p>
-						<p style="margin: 2px 0">- %USER_ANSWER%</p>
-						<p style="margin: 2px 0">- %CORRECT_ANSWER%</p>
-						<p style="margin: 2px 0">- %USER_COMMENTS%</p>
-						<p style="margin: 2px 0">- %CORRECT_ANSWER_INFO%</p>
-					</td>
-					<td><textarea cols="80" rows="15" id="mlw_quiz_question_answer_template" name="mlw_quiz_question_answer_template"><?php echo $mlw_quiz_options->question_answer_template; ?></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td width="30%">
-						<strong>Social Media Sharing Text</strong>
-						<br />
-						<p>Allowed Variables: </p>
-						<p style="margin: 2px 0">- %POINT_SCORE%</p>
-						<p style="margin: 2px 0">- %AVERAGE_POINT%</p>
-						<p style="margin: 2px 0">- %AMOUNT_CORRECT%</p>
-						<p style="margin: 2px 0">- %TOTAL_QUESTIONS%</p>
-						<p style="margin: 2px 0">- %CORRECT_SCORE%</p>
-						<p style="margin: 2px 0">- %QUIZ_NAME%</p>
-						<p style="margin: 2px 0">- %TIMER%</p>
-						<p style="margin: 2px 0">- %CURRENT_DATE%</p>
-					</td>
-					<td><textarea cols="80" rows="15" id="mlw_quiz_social_media_text_template" name="mlw_quiz_social_media_text_template"><?php echo $mlw_quiz_options->social_media_text; ?></textarea>
-					</td>
-				</tr>
-			</table>
-			
-			</div>
-			</div>
 			<button id="save_template_button" onclick="javascript: document.quiz_template_form.submit();">Save Templates</button>
 			<?php echo "</form>"; ?>
   		</div>
@@ -2151,8 +2078,7 @@ function mlw_generate_quiz_options()
 		</form>
 	</div>
 	<div id="tabs-7">
-		<h3>Quiz CSS</h3>
-		<p>This page allows you to edit the css styles for the quiz.</p>
+		<h3>Quiz Styles</h3>
 		<p>Entire quiz is a div with class 'mlw_qmn_quiz'</p>
 		<p>Each page of the quiz is div with class 'quiz_section'</p>
 		<p>Message before quiz text is a span with class 'mlw_qmn_message_before'</p>
@@ -2224,6 +2150,7 @@ function mlw_generate_quiz_options()
 	<div id="tabs-8">
 		<p>Use this button to reset all the stats collected for this quiz (Quiz Views and Times Quiz Has Been Taken). </p>
 		<button id="mlw_reset_stats_button">Reset Quiz Views And Taken Stats</button>
+		<?php do_action('mlw_qmn_quiz_tools'); ?>
 		<div id="mlw_reset_stats_dialog" title="Reset Stats For This Quiz" style="display:none;">
 		<p>Are you sure you want to reset the stats to 0? All views and taken stats for this quiz will be reset. This is permanent and cannot be undone.</p>
 		<?php
@@ -2256,26 +2183,6 @@ function mlw_generate_quiz_options()
 	<div id="dialog" title="Help" style="display:none;">
 		<h3><b>Help</b></h3>
 		<p>This page is used edit the questions and options for your quiz.  Use the help buttons on each tab for assistance.</p>
-	</div>
-	
-	<div id="questions_help_dialog" title="Help" style="display:none;">
-		<p>The question table lists the order the question appears in and the question itself.</p>
-		<p>To edit a question, use the Edit link below the question.</p>
-		<p>To add a question, click on the Add Question button. This will open a window for you to add a question. The window will ask for the question and up to 6 answers. If you are using the points system, enter in the amount of points each answer is worth. If you are using the correct system, check the answer that is the correct answer. 
-		You can then choose which style of question you would like by selecting an option for the "Question Type?" option. You can choose if you would like a comment field after the question by selecting an option to the "Comment Field?" question. You can also have a hint displayed to the user. You can then choose the order which the question is 
-		asked by editing the "Question Order" option. Click create question when you are finished.</p>
-	</div>
-	
-	<div id="templates_help_dialog" title="Help" style="display:none;">
-		<p>This tab is used to edit the different messages the user and admin may see.</p>
-		<p>The Message Displayed Before Quiz text is shown to the user at the beginning of the quiz.</p>
-		<p>The Message Display Before Comment Box is shown to the user right before the section the user can type in comments if that option is enabled.</p>
-		<p>The Message Displayed After Quiz text is show to the user after the quiz has been taken.</p>
-		<p>The Email sent to user after completion text is the email that is sent to the user after completing the quiz. (This is only used if you have turned on the option on the options tab.)</p>
-		<p>The Email sent to admin after completion text is the email that is sent to the admin after the quiz has been completed.</p>
-		<p>The other templates section is for customizing the text on the submit button as well as the fields where are user can input his or her information.</p>
-		<p>The %QUESTIONS_ANSWERS% Text area is where you can change the test shown in place of the %QUESTIONS_ANSWERS% variable.</p>
-		<p>Some templates are able to have variables inside the text. When the quiz is run, these variables will change to their values.</p>
 	</div>
 	
 	<div id="options_help_dialog" title="Help" style="display:none;">

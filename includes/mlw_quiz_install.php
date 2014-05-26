@@ -95,6 +95,8 @@ function mlw_quiz_activate()
 			quiz_stye TEXT NOT NULL,
 			
 			question_numbering INT NOT NULL,
+			
+			quiz_settings TEXT NOT NULL,
 
 			quiz_views INT NOT NULL,
 

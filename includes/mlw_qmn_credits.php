@@ -87,18 +87,18 @@ function mlw_generate_about_page()
 		<a href="#" class="nav-tab nav-tab-active">
 			What&#8217;s New In <?php echo $mlw_quiz_version; ?>	</a>
 	</h2>
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Set Number Of Questions Per Page</h2>
-	<p>This update allows you to set the number of questions per page! Simply navigate to the Quiz Options tab and change the new "How many questions per page would you like?" option to the amount you would like. Set it to 0 to have all the quesitons on one page.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Many Minor Design Changes</h2>
+	<p>This update is the first of many to start making Quiz Master Next easier to use and understand. This first step has a few pages renamed and a few sections redesigned.</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
 	<p>We have several new premium add-ons in our WordPress Store: MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Added Ability To Set Number Of Question Per Page</li>
-		<li>Fixed HTML Not Showing On Results Page Bug</li>
-		<li>Fixed Timer Not Disabling New Fields Bug</li>
-		<li>Fixed Timer Submitting Disabled Fields Bug</li>
+		<li>Took Out Help Related Tool Tips</li>
+		<li>Design Changes To Quiz Text Tab For Easier Navigation</li>
+		<li>Deleted How-To Page, Please Use Documentation On Our Website</li>
+		<li>Renamed Quiz Options Page As Quiz Settings To Avoid Confusion With Quiz Options Tab</li>
 	</ul>
 	<h3>What's Coming Soon</h3>
 	<ul>

@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 2.7.3
+Version: 2.8.1
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
@@ -31,7 +31,6 @@ include("includes/mlw_results.php");
 include("includes/mlw_results_details.php");
 include("includes/mlw_tools.php");
 include("includes/mlw_leaderboard.php");
-include("includes/mlw_help.php");
 include("includes/mlw_update.php");
 include("includes/mlw_qmn_widgets.php");
 include("includes/mlw_qmn_credits.php");
@@ -60,11 +59,10 @@ function mlw_add_menu()
 	{
 		add_menu_page('Quiz Master Next', 'Quiz Dashboard', 'moderate_comments', __FILE__, 'mlw_generate_quiz_dashboard', 'dashicons-feedback');
 		add_submenu_page(__FILE__, 'Quizzes', 'Quizzes', 'moderate_comments', 'mlw_quiz_admin', 'mlw_generate_quiz_admin');
-		add_submenu_page(__FILE__, 'Quiz Options', 'Quiz Options', 'moderate_comments', 'mlw_quiz_options', 'mlw_generate_quiz_options');
+		add_submenu_page(__FILE__, 'Quiz Settings', 'Quiz Settings', 'moderate_comments', 'mlw_quiz_options', 'mlw_generate_quiz_options');
 		add_submenu_page(__FILE__, 'Quiz Results', 'Quiz Results', 'moderate_comments', 'mlw_quiz_results', 'mlw_generate_quiz_results');
 		add_submenu_page(__FILE__, 'Quiz Result Details', 'Quiz Result Details', 'moderate_comments', 'mlw_quiz_result_details', 'mlw_generate_result_details');
 		add_submenu_page(__FILE__, 'Tools', 'Tools', 'manage_options', 'mlw_quiz_tools', 'mlw_generate_quiz_tools');
-		add_submenu_page(__FILE__, 'How-To', 'How-To', 'moderate_comments', 'mlw_how_to', 'mlw_generate_help_page');
 		add_submenu_page(__FILE__, 'QMN About', 'QMN About', 'manage_options', 'mlw_qmn_about', 'mlw_generate_about_page');
 	}
 }

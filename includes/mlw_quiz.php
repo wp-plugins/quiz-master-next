@@ -16,6 +16,7 @@ function mlw_quiz_shortcode($atts)
 	
 	//Variables needed throughout script
 	$mlw_quiz_id = intval($quiz);
+	$GLOBALS['mlw_qmn_quiz'] = $mlw_quiz_id;
 	$mlw_display = "";
 	global $wpdb;
 	$mlw_qmn_isAllowed = true;
@@ -661,6 +662,10 @@ function mlw_quiz_shortcode($atts)
 		{
 			$mlw_display .= mlwDisplayContactInfo($mlw_quiz_options);
 		}
+		ob_start();
+	        do_action('mlw_qmn_end_quiz_section');
+	        $mlw_display .= ob_get_contents();
+	    ob_end_clean();
 		$mlw_display .= "<span style='display: none;'>If you are human, leave this field blank or you will be considered spam:</span>";
 		$mlw_display .= "<input style='display: none;' type='text' name='email' id='email' />";
 		$mlw_display .= "<input type='hidden' name='total_questions' id='total_questions' value='".$mlw_qmn_total_questions."'/>";
