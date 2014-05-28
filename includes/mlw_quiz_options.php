@@ -1660,7 +1660,7 @@ function mlw_generate_quiz_options()
 			</tr>
 			<tr valign="top">
 				<th scope="row"><label for="adminEmail">What emails should we send the admin email to? Separate emails with a comma.</label></th>
-				<td><input name="adminEmail" type="email" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
+				<td><input name="adminEmail" type="text" id="adminEmail" value="<?php echo $mlw_quiz_options->admin_email; ?>" class="regular-text" /></td>
 			</tr>
 			<tr valign="top">
 				<th scope="row"><label for="question_numbering">Show question number on quiz?</label></th>
