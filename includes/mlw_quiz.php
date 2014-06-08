@@ -210,6 +210,8 @@ function mlw_quiz_shortcode($atts)
 					    jQuery( ".quiz_section.slide"+window.mlw_quiz_slide ).show();
 					}
 					window.mlw_previous = 0;
+					window.location.hash = "mlw_does_not_exist";
+					window.location.hash = "mlw_top_of_quiz";
 				    
 				}
 				function prevSlide(mlw_pagination)
@@ -248,6 +250,8 @@ function mlw_quiz_shortcode($atts)
 					    jQuery( ".quiz_section.slide"+window.mlw_quiz_slide ).show();	
 					}
 					window.mlw_previous = 1;
+					window.location.hash = "mlw_does_not_exist";
+					window.location.hash = "mlw_top_of_quiz";
 				}
 			</script>
 			<?php
@@ -415,6 +419,7 @@ function mlw_quiz_shortcode($atts)
 		//Begin the quiz
 		$mlw_display .= "<div class='mlw_qmn_quiz'>";
 		$mlw_display .= "<form name='quizForm' action='' method='post' class='mlw_quiz_form' onsubmit='return mlw_validateForm()' >";
+		$mlw_display .= "<span id='mlw_top_of_quiz'></span>";
 		$mlw_display .= "<div class='quiz_section  quiz_begin slide".$mlw_qmn_section_count."'>";
 		$mlw_message_before = htmlspecialchars_decode($mlw_quiz_options->message_before, ENT_QUOTES);
 		$mlw_message_before = str_replace( "%QUIZ_NAME%" , $mlw_quiz_options->quiz_name, $mlw_message_before);

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, survey, contact, form, email, answer, question
 Requires at least: 3.7.1
 Tested up to: 3.9.1
-Stable tag: 2.8.2
+Stable tag: 2.8.3
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -103,6 +103,10 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 2.8.3 (June 8, 2014) =
+ * Next/Previous Buttons Now Scroll Page To Top Of Quiz
+ * Minor Bug Fixes
 
 = 2.8.2 (May 28, 2014) =
  * Minor Bug Fixes
@@ -463,6 +467,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.8.3 =
+Upgrade for minor bug fixes.
 
 = 2.8.2 =
 Upgrade for minor bug fixes.

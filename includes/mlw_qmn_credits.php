@@ -95,18 +95,26 @@ function mlw_generate_about_page()
 	<br />
 	<h3>Changelog For <?php echo $mlw_quiz_version; ?></h3>
 	<ul>
-		<li>Took Out Help Related Tool Tips</li>
-		<li>Design Changes To Quiz Text Tab For Easier Navigation</li>
-		<li>Deleted How-To Page, Please Use Documentation On Our Website</li>
-		<li>Renamed Quiz Options Page As Quiz Settings To Avoid Confusion With Quiz Options Tab</li>
+		<li>Minor Bug Fixes</li>
 	</ul>
-	<h3>What's Coming Soon</h3>
+	<h3>Requested Features By Premium Support Users</h3>
+	<ul>
+		<li>None</li>
+	</ul>
+	<h3>Requested Features By Non-Premium Support Users</h3>
 	<ul>
 		<li>Importing Questions</li>
 		<li>Stats For Each Quiz</li>
 		<li>Force Login/Register Option</li>
 		<li>Categories</li>
 		<li>More Social Media Integration</li>
+		<li>Show Question Amount On Pagination</li>
+		<li>Edit Email Subject</li>
+		<li>Required Questions</li>
+		<li>Duplicate Question</li>
+		<li>Allow Quiz To Not Show Start Page</li>
+		<li>Progress Bar For Timer</li>
+		<li>Ability To Redirect User Instead Of Showing Results Page</li>
 	</ul>
 		
 	<div id="dialog" title="Help">

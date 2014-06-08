@@ -3,7 +3,7 @@
 /*
 Plugin Name: Quiz Master Next
 Description: Use this plugin to add multiple quizzes, tests, or surveys to your website.
-Version: 2.8.2
+Version: 2.8.3
 Author: Frank Corso
 Author URI: http://www.mylocalwebstop.com/
 Plugin URI: http://www.mylocalwebstop.com/
