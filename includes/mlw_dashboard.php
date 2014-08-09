@@ -564,7 +564,7 @@ function mlw_dashboard_box_seven()
 	</tr>
 	</table>
 	</form>
-	<p>Disclaimer: in order to better assist you, this form will also send some useful information about your WordPress installation such as version of plugin, version of WordPress, and website url along with your message.</p>
+	<p>Disclaimer: In order to better assist you, this form will also send some useful information about your WordPress installation such as version of plugin, version of WordPress, and website url along with your message.</p>
 	</div>
 	<?php
 }
