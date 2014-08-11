@@ -89,24 +89,35 @@ function mlw_generate_about_page()
 	<div class="mlw_qmn_icon_wrap">Version <?php echo $mlw_quiz_version; ?></div>
 	<h2 class="nav-tab-wrapper">
 		<a href="javascript:mlw_qmn_setTab(1);" id="mlw_qmn_tab_1" class="nav-tab nav-tab-active">
-			What&#8217;s New In 2.8</a>
+			What&#8217;s New In 2.9</a>
 		<a href="javascript:mlw_qmn_setTab(2);" id="mlw_qmn_tab_2" class="nav-tab">
 			Changelog For <?php echo $mlw_quiz_version; ?>	</a>
 		<a href="javascript:mlw_qmn_setTab(3);" id="mlw_qmn_tab_3" class="nav-tab">
 			Requested Features</a>
 	</h2>
 	<div id="mlw_quiz_what_new">
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Many Minor Design Changes</h2>
-	<p>This update is the first of many to start making Quiz Master Next easier to use and understand. This first step has a few pages renamed and a few sections redesigned.</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Facebook Sharing</h2>
+	<p style="text-align: center;">You users can now share their results with their facebook friends in addition to their twitter friends!</p>
+	<br />
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Question Type</h2>
+	<p style="text-align: center;">This update gives you a new question type - Large Open Answer. This type will give you a large text box for your users to fill in as opposed to the smaller text field for the regular open answer.</p>
+	<br />
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Edit The Email's Subject</h2>
+	<p style="text-align: center;">You can now edit the subject of the email sent to your user after they submit your form.</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
-	<p>We have several new premium add-ons in our WordPress Store: MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
+	<p style="text-align: center;">We have several new premium add-ons in our WordPress Store: MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	</div>
 	<div id="mlw_quiz_changelog" style="display: none;">
-	<h3><?php echo $mlw_quiz_version; ?> (August 9, 2014)</h3>
+	<h3><?php echo $mlw_quiz_version; ?> (August 11, 2014)</h3>
 	<ul>
-		<li>* Minor Bug Fixes</li>
-		<li>* Minor Design Tweaks To About Page</li>
+		<li>* Added Facebook Sharing</li>
+		<li>* Added Ability To Edit Email Subject</li>
+		<li>* Added Large Open Answer Question Type</li>
+		<li>* Added Ability For Points To Have Decimal Values</li>
+		<li>* Fixed Not All Questions Showing In Results Bug</li>
+		<li>* Fixed Not Valid Email On Non-Required Email Bug</li>
+		<li>* Fixed Special Character Not Grading Properly In Open Answer Bug</li>
 	</ul>
 	</div>
 	<div id="mlw_quiz_requested" style="display: none;">
@@ -122,7 +133,6 @@ function mlw_generate_about_page()
 		<li>Categories</li>
 		<li>More Social Media Integration</li>
 		<li>Show Question Amount On Pagination</li>
-		<li>Edit Email Subject</li>
 		<li>Required Questions</li>
 		<li>Duplicate Question</li>
 		<li>Allow Quiz To Not Show Start Page</li>

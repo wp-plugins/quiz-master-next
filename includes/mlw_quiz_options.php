@@ -57,7 +57,7 @@ function mlw_generate_quiz_options()
 				{
 					$mlw_qmn_correct = 1;
 				}
-				$mlw_qmn_answer_each = array(htmlspecialchars(stripslashes($_POST["edit_answer_".$i]), ENT_QUOTES), intval($_POST["edit_answer_".$i."_points"]), $mlw_qmn_correct);
+				$mlw_qmn_answer_each = array(htmlspecialchars(stripslashes($_POST["edit_answer_".$i]), ENT_QUOTES), floatval($_POST["edit_answer_".$i."_points"]), $mlw_qmn_correct);
 				$mlw_qmn_new_answer_array[] = $mlw_qmn_answer_each;
 			}
 			$i++;
@@ -138,7 +138,7 @@ function mlw_generate_quiz_options()
 				{
 					$mlw_qmn_correct = 1;
 				}
-				$mlw_qmn_answer_each = array(htmlspecialchars(stripslashes($_POST["answer_".$i]), ENT_QUOTES), intval($_POST["answer_".$i."_points"]), $mlw_qmn_correct);
+				$mlw_qmn_answer_each = array(htmlspecialchars(stripslashes($_POST["answer_".$i]), ENT_QUOTES), floatval($_POST["answer_".$i."_points"]), $mlw_qmn_correct);
 				$mlw_qmn_new_answer_array[] = $mlw_qmn_answer_each;
 			}
 			$i++;
@@ -376,15 +376,15 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_email_array = @unserialize($mlw_qmn_user_email);
 		if (is_array($mlw_qmn_email_array))
 		{
-			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here');
+			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here', 'Quiz Results For %QUIZ_NAME%');
 			array_unshift($mlw_qmn_email_array , $mlw_new_landing_array);
 			$mlw_qmn_email_array = serialize($mlw_qmn_email_array);
 			
 		}
 		else
 		{
-			$mlw_qmn_email_array = array(array(0, 0, $mlw_qmn_user_email));
-			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here');
+			$mlw_qmn_email_array = array(array(0, 0, $mlw_qmn_user_email, 'Quiz Results For %QUIZ_NAME%'));
+			$mlw_new_landing_array = array(0, 100, 'Enter Your Text Here', 'Quiz Results For %QUIZ_NAME%');
 			array_unshift($mlw_qmn_email_array , $mlw_new_landing_array);
 			$mlw_qmn_email_array = serialize($mlw_qmn_email_array);
 		}
@@ -425,7 +425,7 @@ function mlw_generate_quiz_options()
 		{
 			if ($_POST["user_email_".$i] != "Delete")
 			{
-				$mlw_qmn_email_each = array(intval($_POST["user_email_begin_".$i]), intval($_POST["user_email_end_".$i]), htmlspecialchars(stripslashes($_POST["user_email_".$i]), ENT_QUOTES));
+				$mlw_qmn_email_each = array(intval($_POST["user_email_begin_".$i]), intval($_POST["user_email_end_".$i]), htmlspecialchars(stripslashes($_POST["user_email_".$i]), ENT_QUOTES), htmlspecialchars(stripslashes($_POST["user_email_subject_".$i]), ENT_QUOTES));
 				$mlw_qmn_new_email_array[] = $mlw_qmn_email_each;
 			}
 			$i++;
@@ -658,7 +658,7 @@ function mlw_generate_quiz_options()
     $mlw_qmn_user_email_array = @unserialize($mlw_quiz_options->user_email_template);
 	if (!is_array($mlw_qmn_user_email_array)) {
         // something went wrong, initialize to empty array
-        $mlw_qmn_user_email_array = array(array(0, 0, $mlw_quiz_options->user_email_template));
+        $mlw_qmn_user_email_array = array(array(0, 0, $mlw_quiz_options->user_email_template, 'Quiz Results For %QUIZ_NAME%'));
     }
     
     //Load Landing Pages
@@ -1192,6 +1192,7 @@ function mlw_generate_quiz_options()
 						<option value="1" <?php if ($mlw_question_info->question_type == 1) { echo 'selected="selected"'; } ?>>Horizontal Multiple Choice (Horizontal Radio)</option>
 						<option value="2" <?php if ($mlw_question_info->question_type == 2) { echo 'selected="selected"'; } ?>>Drop Down (Select)</option>
 						<option value="3" <?php if ($mlw_question_info->question_type == 3) { echo 'selected="selected"'; } ?>>Open Answer (Text Input)</option>
+						<option value="5" <?php if ($mlw_question_info->question_type == 5) { echo 'selected="selected"'; } ?>>Open Answer (Large Text Input)</option>
 						<option value="4" <?php if ($mlw_question_info->question_type == 4) { echo 'selected="selected"'; } ?>>Multiple Response (Checkbox)</option>
 					</select>
 				</div></td>
@@ -1331,6 +1332,7 @@ function mlw_generate_quiz_options()
 					<option value="1">Horizontal Multiple Choice (Horizontal Radio)</option>
 					<option value="2">Drop Down (Select)</option>
 					<option value="3">Open Answer (Text Input)</option>
+					<option value="5">Open Answer (Large Text Input)</option>
 					<option value="4">Multiple Response (Checkbox)</option>
 				</select>
 			</div></td>
@@ -1670,7 +1672,7 @@ function mlw_generate_quiz_options()
 				</div></td>
 			</tr>
 			<tr valign="top">
-				<th scope="row"><label for="social_media">Show social media sharing buttons? (Twitter only so far)</label></th>
+				<th scope="row"><label for="social_media">Show social media sharing buttons? (Twitter & Facebook)</label></th>
 				<td><div id="social_media">
 					<input type="radio" id="social_media_radio2" name="social_media" <?php if ($mlw_quiz_options->social_media == 1) {echo 'checked="checked"';} ?> value='1' /><label for="social_media_radio2">Yes</label>
 				    <input type="radio" id="social_media_radio" name="social_media" <?php if ($mlw_quiz_options->social_media == 0) {echo 'checked="checked"';} ?> value='0' /><label for="social_media_radio">No</label>				    
@@ -1860,6 +1862,7 @@ function mlw_generate_quiz_options()
 							<th>ID</th>
 							<th>Score Greater Than</th>
 							<th>Score Less Than</th>
+							<th>Subject</th>
 							<th>Email To Send</th>
 						</tr>
 					</thead>
@@ -1872,6 +1875,10 @@ function mlw_generate_quiz_options()
 							if($alternate) $alternate = "";
 							else $alternate = " class=\"alternate\"";
 							$mlw_each_count += 1;
+							if (!isset($mlw_each[3]))
+							{
+								$mlw_each[3] = "Quiz Results For %QUIZ_NAME%";
+							}
 							if ($mlw_each[0] == 0 && $mlw_each[1] == 0)
 							{
 								echo "<tr{$alternate}>";
@@ -1883,6 +1890,9 @@ function mlw_generate_quiz_options()
 									echo "</td>";
 									echo "<td>";
 										echo "<input type='hidden' id='user_email_end_".$mlw_each_count."' name='user_email_end_".$mlw_each_count."' value='0'/>-";
+									echo "</td>";
+									echo "<td>";
+										echo "<input type='text' id='user_email_subject_".$mlw_each_count."' name='user_email_subject_".$mlw_each_count."' value='".$mlw_each[3]."' />";
 									echo "</td>";
 									echo "<td>";
 										echo "<textarea cols='80' rows='15' id='user_email_".$mlw_each_count."' name='user_email_".$mlw_each_count."'>".$mlw_each[2]."</textarea>";
@@ -1903,6 +1913,9 @@ function mlw_generate_quiz_options()
 										echo "<input type='text' id='user_email_end_".$mlw_each_count."' name='user_email_end_".$mlw_each_count."' title='What score must the user score worse than to see this page' value='".$mlw_each[1]."' />";
 									echo "</td>";
 									echo "<td>";
+										echo "<input type='text' id='user_email_subject_".$mlw_each_count."' name='user_email_subject_".$mlw_each_count."' value='".$mlw_each[3]."' />";
+									echo "</td>";
+									echo "<td>";
 										echo "<textarea cols='80' rows='15' id='user_email_".$mlw_each_count."' title='What email will the user be sent' name='user_email_".$mlw_each_count."'>".$mlw_each[2]."</textarea>";
 									echo "</td>";
 								echo "</tr>";
@@ -1915,6 +1928,7 @@ function mlw_generate_quiz_options()
 							<th>ID</th>
 							<th>Score Greater Than</th>
 							<th>Score Less Than</th>
+							<th>Subject</th>
 							<th>Email To Send</th>
 						</tr>
 					</tfoot>
@@ -2182,7 +2196,7 @@ function mlw_generate_quiz_options()
 	
 	<div id="dialog" title="Help" style="display:none;">
 		<h3><b>Help</b></h3>
-		<p>This page is used edit the questions and options for your quiz.  Use the help buttons on each tab for assistance.</p>
+		<p>Having trouble using this page? Be sure to check out our useful <a href='http://mylocalwebstop.com/plugin-documentation/' target="_blank" style="color:blue;">Plugin Documentation</a>!</p>
 	</div>
 	
 	<div id="options_help_dialog" title="Help" style="display:none;">

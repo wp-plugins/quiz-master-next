@@ -1,17 +1,17 @@
 === Quiz Master Next ===
 Contributors: fpcorso
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ
-Tags: quiz, test, score, survey, contact, form, email, answer, question
+Tags: quiz, test, score, exam, survey, contact, form, email, answer, question
 Requires at least: 3.7.1
 Tested up to: 3.9.1
-Stable tag: 2.8.5
+Stable tag: 2.9.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
 
 == Description ==
 
-The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results. You can set up what the user sees after he or she takes the quiz based on the user's score. You can also have the plugin create a certificate for the user as well!
+The easiest and most flexible way to add multiple quizzes, tests, surveys, and contact forms to your website. This plugin allows for unlimited quizzes each with unlimited amount of questions. The plugin allows you to create the quiz, add it to any page using a customized shortcode, allows the user to take the quiz, and then saves the results. You can set up what the user sees after he or she takes the quiz based on the user's score. You can also have the plugin create a certificate for the user as well!
 
 = Have Unlimted Quizzes, Tests, Surveys, Contact Forms, etc.. =
 Each of your quizzes can have **unlimited** questions and each of those questions can have **unlimited** answers! Your questions can contain **HTML** to show images, Youtube videos and more.
@@ -103,6 +103,15 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 2.9.1 (August 11, 2014) =
+ * Added Facebook Sharing
+ * Added Ability To Edit Email Subject
+ * Added Large Open Answer Question Type
+ * Added Ability For Points To Have Decimal Values
+ * Fixed Not All Questions Showing In Results Bug
+ * Fixed Not Valid Email On Non-Required Email Bug
+ * Fixed Special Character Not Grading Properly In Open Answer Bug
 
 = 2.8.5 (August 9, 2014) =
  * Minor Bug Fixes
@@ -474,6 +483,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 2.9.1 =
+Upgrade for facebook sharing, a new question type, the ability to edit the email's subject, and much more!
 
 = 2.8.5 =
 Upgrade for minor bug fixes.
