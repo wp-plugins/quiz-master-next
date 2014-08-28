@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "2.9.1";
+	$data = "3.0.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -233,6 +233,15 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD quiz_settings TEXT NOT NULL AFTER question_numbering";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET quiz_settings=''";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 3.0.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'theme_selected'") != "theme_selected")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD theme_selected TEXT NOT NULL AFTER quiz_settings";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET theme_selected='default'";
 			$results = $wpdb->query( $update_sql );
 		}
 		

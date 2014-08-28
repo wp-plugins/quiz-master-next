@@ -550,10 +550,11 @@ function mlw_generate_quiz_options()
 	{
 		//Function Variables
 		$mlw_qmn_style_id = intval($_POST["style_quiz_id"]);
+		$mlw_qmn_theme = $_POST["save_quiz_theme"];
 		$mlw_qmn_style = htmlspecialchars(stripslashes($_POST["quiz_css"]), ENT_QUOTES);
 		
 		//Save the new css
-		$mlw_save_stle_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET quiz_stye='%s' WHERE quiz_id=%d", $mlw_qmn_style, $mlw_qmn_style_id ) );
+		$mlw_save_stle_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET quiz_stye='%s', theme_selected='%s' WHERE quiz_id=%d", $mlw_qmn_style, $mlw_qmn_theme, $mlw_qmn_style_id ) );
 		if ($mlw_save_stle_results != false)
 		{
 			$mlw_hasSavedStyle = true;
@@ -946,6 +947,13 @@ function mlw_generate_quiz_options()
 			document.getElementById("new_question_answer_total").value = total_answers;
 			jQuery("#new_question_answers").append("<tr valign='top'><td><span style='font-weight:bold;'>Answer "+total_answers+"</span></td><td><input type='text' name='answer_"+total_answers+"' id='answer_"+total_answers+"' style='border-color:#000000;color:#3300CC;cursor:hand;width: 250px;'/></td><td><input type='text' name='answer_"+total_answers+"_points' id='answer_"+total_answers+"_points' value=0 style='border-color:#000000;color:#3300CC; cursor:hand;'/></td><td><input type='checkbox' id='answer_"+total_answers+"_correct' name='answer_"+total_answers+"_correct' value=1 /></td></tr>");
 		}
+		function mlw_qmn_theme(theme)
+		{
+			document.getElementById('save_quiz_theme').value = theme;
+			jQuery("div.mlw_qmn_themeBlockActive").toggleClass("mlw_qmn_themeBlockActive");
+			jQuery("#mlw_qmn_theme_block_"+theme).toggleClass("mlw_qmn_themeBlockActive");
+			
+		}
 	</script>
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
@@ -1093,7 +1101,7 @@ function mlw_generate_quiz_options()
 		    <li><a href="#tabs-9">Quiz Emails</a></li>
 		    <li><a href="#tabs-6">Quiz Results Page</a></li>
 		    <li><a href="#tabs-7">Quiz Styling</a></li>
-		    <li><a href="#tabs-8">Quiz Tools</a></li>
+		    <li><a href="#tabs-8">Quiz Tools/Add-Ons</a></li>
 		</ul>
   		<div id="tabs-1">
   			<button id="new_question_button_two">Add Question</button>
@@ -1103,10 +1111,37 @@ function mlw_generate_quiz_options()
 			$display = "";
 			$alternate = "";
 			foreach($mlw_question_data as $mlw_question_info) {
+				$mlw_question_type_text = "";
+				switch ($mlw_question_info->question_type) {
+					case 0:
+						$mlw_question_type_text = "Multiple Choice";
+						break;
+					case 1:
+						$mlw_question_type_text = "Horizontal Multiple Choice";
+						break;
+					case 2:
+						$mlw_question_type_text = "Drop Down";
+						break;
+					case 3:
+						$mlw_question_type_text = "Small Open Answer";
+						break;
+					case 4:
+						$mlw_question_type_text = "Multiple Response";
+						break;
+					case 5:
+						$mlw_question_type_text = "Large Open Answer";
+						break;
+					case 6:
+						$mlw_question_type_text = "Text Block";
+						break;
+					default:
+						$mlw_question_type_text = "Error Code ";
+				}
 				if($alternate) $alternate = "";
 				else $alternate = " class=\"alternate\"";
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
+				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_type_text . "</span></td>";
 				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
 				$question_list .= "</tr>";
 				
@@ -1194,6 +1229,7 @@ function mlw_generate_quiz_options()
 						<option value="3" <?php if ($mlw_question_info->question_type == 3) { echo 'selected="selected"'; } ?>>Open Answer (Text Input)</option>
 						<option value="5" <?php if ($mlw_question_info->question_type == 5) { echo 'selected="selected"'; } ?>>Open Answer (Large Text Input)</option>
 						<option value="4" <?php if ($mlw_question_info->question_type == 4) { echo 'selected="selected"'; } ?>>Multiple Response (Checkbox)</option>
+						<option value="6" <?php if ($mlw_question_info->question_type == 6) { echo 'selected="selected"'; } ?>>Text Block</option>
 					</select>
 				</div></td>
 				</tr>
@@ -1247,12 +1283,14 @@ function mlw_generate_quiz_options()
 			$display .= "<table class=\"widefat\">";
 				$display .= "<thead><tr>
 					<th>Question Order</th>
-					<th>Question Name</th>
+					<th>Question Type</th>
+					<th>Question</th>
 				</tr></thead>";
 				$display .= "<tbody id=\"the-list\">{$question_list}</tbody>";
 				$display .= "<tfoot><tr>
 					<th>Question Order</th>
-					<th>Question Name</th>
+					<th>Question Type</th>
+					<th>Question</th>
 				</tr></tfoot>";
 				$display .= "</table>";
 			echo $display;
@@ -1334,6 +1372,7 @@ function mlw_generate_quiz_options()
 					<option value="3">Open Answer (Text Input)</option>
 					<option value="5">Open Answer (Large Text Input)</option>
 					<option value="4">Multiple Response (Checkbox)</option>
+					<option value="6">Text Block</option>
 				</select>
 			</div></td>
 			</tr>
@@ -2092,7 +2131,44 @@ function mlw_generate_quiz_options()
 		</form>
 	</div>
 	<div id="tabs-7">
+		<?php
+			echo "<form action='' method='post' name='quiz_style_form'>";
+			echo "<input type='hidden' name='save_style_options' value='confirmation' />";
+			echo "<input type='hidden' name='style_quiz_id' value='".$quiz_id."' />";
+			echo "<input type='hidden' name='save_quiz_theme' id='save_quiz_theme' value='".$mlw_quiz_options->theme_selected."' />";
+		?>
 		<h3>Quiz Styles</h3>
+		<p>Choose your style:</p>
+		<style>
+			div.mlw_qmn_themeBlock
+			{
+				cursor: pointer;
+				position: relative;
+				height: 100px;
+				width: 100px;
+				background-color: #eee;
+				color: blue;
+				border: #ccc solid 1px;
+				border-radius: 4px;
+				padding: 5px 5px 5px 5px;
+				display: inline-block;
+				box-sizing: border-box;
+				margin: auto;
+			}
+			div.mlw_qmn_themeBlockActive
+			{
+				background-color: yellow;
+			}
+		</style>
+		<div onclick="mlw_qmn_theme('default');" id="mlw_qmn_theme_block_default" class="mlw_qmn_themeBlock <?php if ($mlw_quiz_options->theme_selected == 'default') {echo 'mlw_qmn_themeBlockActive';} ?>">Custom</div>
+		<?php do_action('mlw_qmn_quiz_themes'); ?>
+		<script>
+			mlw_qmn_theme('<?php echo $mlw_quiz_options->theme_selected; ?>');			
+		</script>
+		<br /><br />
+		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>
+		<hr />
+		<h3>Custom Theme CSS</h3>
 		<p>Entire quiz is a div with class 'mlw_qmn_quiz'</p>
 		<p>Each page of the quiz is div with class 'quiz_section'</p>
 		<p>Message before quiz text is a span with class 'mlw_qmn_message_before'</p>
@@ -2103,11 +2179,7 @@ function mlw_generate_quiz_options()
 		<p>Each button shown for pagination (i.e Next/Previous) is wrapped in class 'mlw_qmn_quiz_link'</p>
 		<p>Timer is wrapped in class 'mlw_qmn_timer'</p>
 		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>
-		<?php
-			echo "<form action='' method='post' name='quiz_style_form'>";
-			echo "<input type='hidden' name='save_style_options' value='confirmation' />";
-			echo "<input type='hidden' name='style_quiz_id' value='".$quiz_id."' />";
-		?>
+
 		<table class="form-table">
 			<tr>
 				<td width="66%"><textarea style="width: 100%; height: 100%;" id="quiz_css" name="quiz_css"><?php echo $mlw_quiz_options->quiz_stye; ?></textarea>

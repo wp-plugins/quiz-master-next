@@ -3,8 +3,8 @@ Contributors: fpcorso
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ
 Tags: quiz, test, score, exam, survey, contact, form, email, answer, question
 Requires at least: 3.7.1
-Tested up to: 3.9.1
-Stable tag: 2.9.1
+Tested up to: 3.9.2
+Stable tag: 3.0.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -103,6 +103,15 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 3.0.1 (August 28, 2014) =
+ * Added New Style Manager
+ * Added Ability For Non-Question Question Types
+ * Added New Text Block Question Type
+ * Added Question Type Column To Question List
+ * Minor Design Changes To Quiz Questions Tab
+ * Fixed Results Delete Link Not Working Bug
+ * Fixed Quiz Name Showing Escaped Values Bug
 
 = 2.9.1 (August 11, 2014) =
  * Added Facebook Sharing
@@ -483,6 +492,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 3.0.1 =
+Upgrade for new style manager, new non-question types, text block question type, and various design/bug fixes!
 
 = 2.9.1 =
 Upgrade for facebook sharing, a new question type, the ability to edit the email's subject, and much more!

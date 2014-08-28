@@ -89,35 +89,35 @@ function mlw_generate_about_page()
 	<div class="mlw_qmn_icon_wrap">Version <?php echo $mlw_quiz_version; ?></div>
 	<h2 class="nav-tab-wrapper">
 		<a href="javascript:mlw_qmn_setTab(1);" id="mlw_qmn_tab_1" class="nav-tab nav-tab-active">
-			What&#8217;s New In 2.9</a>
+			What&#8217;s New In 3.0</a>
 		<a href="javascript:mlw_qmn_setTab(2);" id="mlw_qmn_tab_2" class="nav-tab">
 			Changelog For <?php echo $mlw_quiz_version; ?>	</a>
 		<a href="javascript:mlw_qmn_setTab(3);" id="mlw_qmn_tab_3" class="nav-tab">
 			Requested Features</a>
 	</h2>
 	<div id="mlw_quiz_what_new">
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Facebook Sharing</h2>
-	<p style="text-align: center;">You users can now share their results with their facebook friends in addition to their twitter friends!</p>
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Style Manager</h2>
+	<p style="text-align: center;">I just finished the basics of the new style manager. On the Quiz Styling tab, you will see the style you have currently selected. The new style manager makes it easier to shares styles. In future versions, I will add ability to import and export the styles to make this process even easier.</p>
+	<br />
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Quiz Master Next Can Now Handle Non-Question Question Types</h2>
+	<p style="text-align: center;">In previous versions, to add elements to your quiz in the questions that are not part of the question was very difficult. I have changed the way the plugin handles the question types so that I can create question types that are not questions. In future versions, you will be able to add a video, images, and more using the new question type system. These non-questions will not be part of the quiz but will be able to be placed between questions!</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Question Type</h2>
-	<p style="text-align: center;">This update gives you a new question type - Large Open Answer. This type will give you a large text box for your users to fill in as opposed to the smaller text field for the regular open answer.</p>
-	<br />
-	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Edit The Email's Subject</h2>
-	<p style="text-align: center;">You can now edit the subject of the email sent to your user after they submit your form.</p>
+	<p style="text-align: center;">The first of the non-question question types is the new Text Block. With this type, you can create a block of text that supports HTML and have it inbetween your questions!</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
 	<p style="text-align: center;">We have several new premium add-ons in our WordPress Store: MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	</div>
 	<div id="mlw_quiz_changelog" style="display: none;">
-	<h3><?php echo $mlw_quiz_version; ?> (August 11, 2014)</h3>
+	<h3><?php echo $mlw_quiz_version; ?> (August 28, 2014)</h3>
 	<ul>
-		<li>* Added Facebook Sharing</li>
-		<li>* Added Ability To Edit Email Subject</li>
-		<li>* Added Large Open Answer Question Type</li>
-		<li>* Added Ability For Points To Have Decimal Values</li>
-		<li>* Fixed Not All Questions Showing In Results Bug</li>
-		<li>* Fixed Not Valid Email On Non-Required Email Bug</li>
-		<li>* Fixed Special Character Not Grading Properly In Open Answer Bug</li>
+		<li>* Added New Style Manager</li>
+		<li>* Added Ability For Non-Question Question Types</li>
+		<li>* Added New Text Block Question Type</li>
+		<li>* Added Question Type Column To Question List</li>
+		<li>* Minor Design Changes To Quiz Questions Tab</li>
+		<li>* Fixed Results Delete Link Not Working Bug</li>
+		<li>* Fixed Quiz Name Showing Escaped Values Bug</li>
 	</ul>
 	</div>
 	<div id="mlw_quiz_requested" style="display: none;">
@@ -140,6 +140,10 @@ function mlw_generate_about_page()
 		<li>Ability To Redirect User Instead Of Showing Results Page</li>
 		<li>Multi-Delete Option For Quiz Results</li>
 		<li>Spam Prevention</li>
+		<li>Graphical Click Aware Questions</li>
+		<li>Results Bar Graph For Users Taking Polls</li>
+		<li>Head To Head Comparison Questions</li>
+		<li>Enhanced Leaderboard</li>
 	</ul>
 	</div>
 	</div>
