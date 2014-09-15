@@ -17,6 +17,7 @@ function mlw_generate_quiz_options()
 	$hasUpdatedOptions = false;
 	$hasUpdatedTemplates = false;
 	$hasDeletedQuestion = false;
+	$hasDuplicatedQuestion = false;
 	$hasUpdatedQuestion = false;
 	$mlw_UpdatedCertificate = false;
 	$mlw_hasResetQuizStats = false;
@@ -46,6 +47,19 @@ function mlw_generate_quiz_options()
 		$edit_hint = htmlspecialchars($_POST["edit_hint"], ENT_QUOTES);
 		$edit_question_order = intval($_POST["edit_question_order"]);
 		$mlw_edit_answer_total = intval($_POST["question_".$mlw_edit_question_id."_answer_total"]);
+		$mlw_row_settings = $wpdb->get_row( $wpdb->prepare( "SELECT question_settings FROM " . $wpdb->prefix . "mlw_questions" . " WHERE question_id=%d", $mlw_edit_question_id ) );
+		$mlw_settings = @unserialize($mlw_row_settings->question_settings);
+		if ( !is_array($mlw_settings) )
+		{
+			$mlw_settings = array();
+			$mlw_settings['required'] = intval($_POST["edit_required"]);
+		}
+		if ( !isset($mlw_settings['required']))
+		{
+			$mlw_settings['required'] = intval($_POST["edit_required"]);	
+		}
+		$mlw_settings['required'] = intval($_POST["edit_required"]);		
+		$mlw_settings = serialize($mlw_settings);
 		$i = 1;
 		$mlw_qmn_new_answer_array = array();
 		while ($i <= $mlw_edit_answer_total)
@@ -65,7 +79,7 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_new_answer_array = serialize($mlw_qmn_new_answer_array);
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."',answer_array='".$mlw_qmn_new_answer_array."', question_answer_info='".$edit_question_answer_info."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."' WHERE question_id=".$mlw_edit_question_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_questions" . " SET question_name='".$edit_question_name."',answer_array='".$mlw_qmn_new_answer_array."', question_answer_info='".$edit_question_answer_info."', comments='".$edit_comments."', hints='".$edit_hint."', question_order='".$edit_question_order."', question_type='".$mlw_edit_question_type."', question_settings='".$mlw_settings."' WHERE question_id=".$mlw_edit_question_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -114,7 +128,91 @@ function mlw_generate_quiz_options()
 			$mlw_qmn_isQueryError = true;
 			$mlw_qmn_error_code = '0002';
 		}
-	}		
+	}
+	
+	//Duplicate Questions
+	if ( isset($_POST["duplicate_question"]) && $_POST["duplicate_question"] == "confirmation")
+	{
+		//Variables from delete question form
+		$mlw_question_id = intval($_POST["duplicate_question_id"]);
+		$quiz_id = $_POST["quiz_id"];
+		
+		$mlw_original = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM ".$wpdb->prefix."mlw_questions WHERE question_id=%d", $mlw_question_id ), ARRAY_A );
+		
+		$results = $wpdb->insert( 
+						$wpdb->prefix."mlw_questions", 
+						array( 
+							'quiz_id' => $mlw_original['quiz_id'], 
+							'question_name' => $mlw_original['question_name'],
+							'answer_array' => $mlw_original['answer_array'], 
+							'answer_one' => $mlw_original['answer_one'],
+							'answer_one_points' => $mlw_original['answer_one_points'], 
+							'answer_two' => $mlw_original['answer_two'],
+							'answer_two_points' => $mlw_original['answer_two_points'], 
+							'answer_three' => $mlw_original['answer_three'],
+							'answer_three_points' => $mlw_original['answer_three_points'], 
+							'answer_four' => $mlw_original['answer_four'],
+							'answer_four_points' => $mlw_original['answer_four_points'], 
+							'answer_five' => $mlw_original['answer_five'],
+							'answer_five_points' => $mlw_original['answer_five_points'], 
+							'answer_six' => $mlw_original['answer_six'],
+							'answer_six_points' => $mlw_original['answer_six_points'], 
+							'correct_answer' => $mlw_original['correct_answer'],
+							'question_answer_info' => $mlw_original['question_answer_info'], 
+							'comments' => $mlw_original['comments'],
+							'hints' => $mlw_original['hints'], 
+							'question_order' => $mlw_original['question_order'],
+							'question_type' => $mlw_original['question_type'], 
+							'question_settings' => $mlw_original['question_settings'], 
+							'deleted' => $mlw_original['deleted']
+						), 
+						array( 
+							'%d', 
+							'%s',
+							'%s', 
+							'%s',
+							'%d', 
+							'%s',
+							'%d', 
+							'%s',
+							'%d', 
+							'%s',
+							'%d', 
+							'%s',
+							'%d', 
+							'%s',
+							'%d', 
+							'%d',
+							'%s',
+							'%d',
+							'%s',
+							'%d',
+							'%d',
+							'%s',
+							'%d'
+						) 
+					);
+		
+		if ($results != false)
+		{
+			$hasDuplicatedQuestion = true;
+		
+			//Insert Action Into Audit Trail
+			global $current_user;
+			get_currentuserinfo();
+			$table_name = $wpdb->prefix . "mlw_qm_audit_trail";
+			$insert = "INSERT INTO " . $table_name .
+				"(trail_id, action_user, action, time) " .
+				"VALUES (NULL , '" . $current_user->display_name . "' , 'Question Has Been Duplicated: ".$mlw_question_id."' , '" . date("h:i:s A m/d/Y") . "')";
+			$results = $wpdb->query( $insert );
+		}
+		else
+		{
+			$mlw_qmn_isQueryError = true;
+			$mlw_qmn_error_code = '0019';
+		}
+	}
+	
 
 	//Submit new question into database
 	if ( isset($_POST["create_question"]) && $_POST["create_question"] == "confirmation")
@@ -127,6 +225,9 @@ function mlw_generate_quiz_options()
 		$hint = htmlspecialchars($_POST["hint"], ENT_QUOTES);
 		$new_question_order = intval($_POST["new_question_order"]);
 		$mlw_answer_total = intval($_POST["new_question_answer_total"]);
+		$mlw_settings = array();
+		$mlw_settings['required'] = intval($_POST["required"]);
+		$mlw_settings = serialize($mlw_settings);
 		$i = 1;
 		$mlw_qmn_new_answer_array = array();
 		while ($i <= $mlw_answer_total)
@@ -147,7 +248,7 @@ function mlw_generate_quiz_options()
 		$quiz_id = $_POST["quiz_id"];
 		$table_name = $wpdb->prefix . "mlw_questions";
 		$insert = "INSERT INTO " . $table_name .
-			" (question_id, quiz_id, question_name, answer_array, question_answer_info, comments, hints, question_order, question_type, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '".$mlw_qmn_new_answer_array."', '".$question_answer_info."', '".$comments."', '".$hint."', ".$new_question_order.", '".$question_type."', 0)";
+			" (question_id, quiz_id, question_name, answer_array, question_answer_info, comments, hints, question_order, question_type, question_settings, deleted) VALUES (NULL , ".$quiz_id.", '" . $question_name . "' , '".$mlw_qmn_new_answer_array."', '".$question_answer_info."', '".$comments."', '".$hint."', ".$new_question_order.", '".$question_type."', '".$mlw_settings."',  0)";
 		$results = $wpdb->query( $insert );
 		if ($results != false)
 		{
@@ -712,24 +813,6 @@ function mlw_generate_quiz_options()
 		}	);
 		});
 		$j(function() {
-			$j('#options_help_dialog').dialog({
-				autoOpen: false,
-				show: 'blind',
-				width:700,
-				hide: 'explode',
-				buttons: {
-				Ok: function() {
-					$j(this).dialog('close');
-					}
-				}
-			});
-		
-			$j('#options_tab_help').click(function() {
-				$j('#options_help_dialog').dialog('open');
-				return false;
-		}	);
-		});
-		$j(function() {
 			$j('#leaderboard_help_dialog').dialog({
 				autoOpen: false,
 				show: 'blind',
@@ -808,7 +891,7 @@ function mlw_generate_quiz_options()
     			$j( "#tabs" ).tabs();
   		});
 		$j(function() {
-   			 $j( document ).tooltip();
+   			 //$j( document ).tooltip();
  		});
 		$j(function() {
 			$j("#accordion").accordion({
@@ -909,6 +992,21 @@ function mlw_generate_quiz_options()
 			idText.innerHTML = id;
 			idHidden.value = id;		
 		};
+		function duplicateQuestion(id){
+			$j("#duplicate_dialog").dialog({
+				autoOpen: false,
+				show: 'blind',
+				hide: 'explode',
+				buttons: {
+				Cancel: function() {
+					$j(this).dialog('close');
+					}
+				}
+			});
+			$j("#duplicate_dialog").dialog('open');
+			var idHidden = document.getElementById("duplicate_question_id");
+			idHidden.value = id;		
+		};
 		function editQuestion(id){
 			$j("#edit_question_dialog_"+id).dialog({
 				autoOpen: false,
@@ -955,6 +1053,17 @@ function mlw_generate_quiz_options()
 			
 		}
 	</script>
+	<style>
+		.linkOptions
+		{
+			color: green !important;
+			font-size: 14px !important;
+		}
+		.linkOptions:hover
+		{
+			background-color: black;
+		}
+	</style>
 	<div class="wrap">
 	<div class='mlw_quiz_options'>
 	<h2>Quiz Settings For <?php echo $mlw_quiz_options->quiz_name; ?><a id="opener" href="">(?)</a></h2>
@@ -967,8 +1076,7 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
-	?>
-	<?php if ($mlw_qmn_isQueryError)
+		if ($mlw_qmn_isQueryError)
 		{
 	?>
 		<div class="ui-state-error ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -986,8 +1094,7 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
-	?>
-	<?php if ($hasUpdatedTemplates)
+		if ($hasUpdatedTemplates)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -996,8 +1103,7 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
-	?>
-	<?php if ($hasUpdatedOptions)
+		if ($hasUpdatedOptions)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -1006,8 +1112,7 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
-	?>
-	<?php if ($hasDeletedQuestion)
+		if ($hasDeletedQuestion)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -1016,8 +1121,16 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
+		if ($hasDuplicatedQuestion)
+		{
 	?>
-	<?php if ($hasUpdatedQuestion)
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+		<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+		<strong>Success!</strong> The question has been duplicated.</p>
+	</div>
+	<?php
+		}
+		if ($hasUpdatedQuestion)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -1026,8 +1139,7 @@ function mlw_generate_quiz_options()
 	</div>
 	<?php
 		}
-	?>
-	<?php if ($mlw_hasResetQuizStats)
+		if ($mlw_hasResetQuizStats)
 		{
 	?>
 		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
@@ -1111,6 +1223,11 @@ function mlw_generate_quiz_options()
 			$display = "";
 			$alternate = "";
 			foreach($mlw_question_data as $mlw_question_info) {
+				$mlw_question_settings = @unserialize($mlw_question_info->question_settings);
+				if (!is_array($mlw_question_settings)) {
+					$mlw_question_settings = array();
+					$mlw_question_settings['required'] = 1;
+				}
 				$mlw_question_type_text = "";
 				switch ($mlw_question_info->question_type) {
 					case 0:
@@ -1134,6 +1251,12 @@ function mlw_generate_quiz_options()
 					case 6:
 						$mlw_question_type_text = "Text Block";
 						break;
+					case 7:
+						$mlw_question_type_text = "Number";
+						break;
+					case 8:
+						$mlw_question_type_text = "Accept";
+						break;
 					default:
 						$mlw_question_type_text = "Error Code ";
 				}
@@ -1142,7 +1265,7 @@ function mlw_generate_quiz_options()
 				$question_list .= "<tr{$alternate}>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_info->question_order . "</span></td>";
 				$question_list .= "<td><span style='font-size:16px;'>" . $mlw_question_type_text . "</span></td>";
-				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><span style='color:green;font-size:12px;'><a onclick=\"editQuestion('".$mlw_question_info->question_id."')\" href='#'>Edit</a> | <a onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a></span></div></td>";
+				$question_list .= "<td class='post-title column-title'><span style='font-size:16px;'>" . $mlw_question_info->question_name ."</span><div><a class='linkOptions' onclick=\"editQuestion('".$mlw_question_info->question_id."')\" href='#'>Edit</a> | <a class='linkOptions' onclick=\"deleteQuestion('".$mlw_question_info->question_id."')\" href='#'>Delete</a> | <a class='linkOptions' onclick=\"duplicateQuestion('".$mlw_question_info->question_id."')\" href='#'>Duplicate</a></span></div></td>";
 				$question_list .= "</tr>";
 				
 				
@@ -1230,6 +1353,8 @@ function mlw_generate_quiz_options()
 						<option value="5" <?php if ($mlw_question_info->question_type == 5) { echo 'selected="selected"'; } ?>>Open Answer (Large Text Input)</option>
 						<option value="4" <?php if ($mlw_question_info->question_type == 4) { echo 'selected="selected"'; } ?>>Multiple Response (Checkbox)</option>
 						<option value="6" <?php if ($mlw_question_info->question_type == 6) { echo 'selected="selected"'; } ?>>Text Block</option>
+						<option value="7" <?php if ($mlw_question_info->question_type == 7) { echo 'selected="selected"'; } ?>>Number</option>
+						<option value="8" <?php if ($mlw_question_info->question_type == 8) { echo 'selected="selected"'; } ?>>Accept</option>
 					</select>
 				</div></td>
 				</tr>
@@ -1248,6 +1373,15 @@ function mlw_generate_quiz_options()
 					color:#3300CC; 
 					cursor:hand;"/>
 				</td>
+				</tr>
+				<tr valign="top">
+				<td><span style='font-weight:bold;'>Required?</span></td>
+				<td colspan="3">
+					<select name="edit_required">
+						<option value="0" <?php if ($mlw_question_settings['required'] == 0) { echo 'selected="selected"'; } ?>>Yes</option>
+						<option value="1" <?php if ($mlw_question_settings['required'] == 1) { echo 'selected="selected"'; } ?>>No</option>
+					</select>
+				</div></td>
 				</tr>
 				</table>
 				<input type="hidden" name="question_<?php echo $mlw_question_info->question_id; ?>_answer_total" id="question_<?php echo $mlw_question_info->question_id; ?>_answer_total" value="<?php echo $mlw_answer_total; ?>" />
@@ -1373,6 +1507,8 @@ function mlw_generate_quiz_options()
 					<option value="5">Open Answer (Large Text Input)</option>
 					<option value="4">Multiple Response (Checkbox)</option>
 					<option value="6">Text Block</option>
+					<option value="7">Number</option>
+					<option value="8">Accept</option>
 				</select>
 			</div></td>
 			</tr>
@@ -1391,6 +1527,15 @@ function mlw_generate_quiz_options()
 				color:#3300CC; 
 				cursor:hand;"/>
 			</td>
+			</tr>
+			<tr valign="top">
+			<td><span style='font-weight:bold;'>Required?</span></td>
+			<td colspan="3">
+				<select name="required">
+					<option value="0" selected="selected">Yes</option>
+					<option value="1">No</option>
+				</select>
+			</div></td>
 			</tr>
 			</table>
 			<input type="hidden" name="new_question_answer_total" id="new_question_answer_total" value="<?php echo $mlw_answer_total; ?>" />
@@ -1585,7 +1730,7 @@ function mlw_generate_quiz_options()
 			<?php echo "</form>"; ?>
   		</div>
   		<div id="tabs-3">
-		<button id="save_options_button" onclick="javascript: document.quiz_options_form.submit();">Save Options</button><button id="options_tab_help">Help</button>
+		<button id="save_options_button" onclick="javascript: document.quiz_options_form.submit();">Save Options</button>
 		<?php
 		echo "<form action='' method='post' name='quiz_options_form'>";
 		echo "<input type='hidden' name='save_options' value='confirmation' />";
@@ -2266,24 +2411,21 @@ function mlw_generate_quiz_options()
 		?>
 	</div>
 	
+	<div id="duplicate_dialog" title="Duplicate Question?" style="display:none;">
+		<h3><b>Are you sure you want to duplicate this Question?</b></h3>
+		<?php
+		echo "<form action='' method='post'>";
+		echo "<input type='hidden' name='duplicate_question' value='confirmation' />";
+		echo "<input type='hidden' id='duplicate_question_id' name='duplicate_question_id' value='' />";
+		echo "<input type='hidden' name='quiz_id' value='".$quiz_id."' />";
+		echo "<p class='submit'><input type='submit' class='button-primary' value='Duplicate Question' /></p>";
+		echo "</form>";	
+		?>
+	</div>
+	
 	<div id="dialog" title="Help" style="display:none;">
 		<h3><b>Help</b></h3>
 		<p>Having trouble using this page? Be sure to check out our useful <a href='http://mylocalwebstop.com/plugin-documentation/' target="_blank" style="color:blue;">Plugin Documentation</a>!</p>
-	</div>
-	
-	<div id="options_help_dialog" title="Help" style="display:none;">
-		<p>This tab is used to edit the different options for the quiz.</p>
-		<p>The system option allows you to have the quiz be graded using a correct/incorrect system or the quiz can have each answer worth different amount of points.</p>
-		<p>Are the questions random? -> If set to yes, the questions will be random. If set to no, the questions will be shown in the order you have set using the Question Order option.</p>
-		<p>Would you like to ask for the contact information at the beginning or at the end of the quiz? -> This option will allow you to choose when to ask for contact information if asked.</p>
-		<p>Should we ask for -> The next four options asks whether you want the quiz to ask for the user's name, business, email, and phone number.</p>
-		<p>Would you like a place for the user to enter comments? -> If set to yes, a comment section will appear at the end of the quiz for the user to fill out. Customize the text shown above the field by editing 
-		the "Message Display Before Comment Box" field on the "Quiz Text" tab.</p>
-		<p>Send user email upon completion?-> If set to yes, the user will be sent an email after taking the quiz. To customize the text of the email, edit the "Email sent to user after completion" 
-		field on the "Quiz Text" tab.</p>
-		<p>Send admin email upon completion? -> If set to yes, the admin will be sent an email when a quiz has been taken. To customize the text of the email, edit the "Email sent to admin after completion" 
-		field on the "Quiz Text" tab.</p>
-		<p>What email should we send the admin email to? -> This field allows you to set what email address to send the admin emails to.</p>
 	</div>
 	
 	<div id="leaderboard_help_dialog" title="Help" style="display:none;">

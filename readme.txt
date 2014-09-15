@@ -2,9 +2,9 @@
 Contributors: fpcorso
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RTGYAETX36ZQJ
 Tags: quiz, test, score, exam, survey, contact, form, email, answer, question
-Requires at least: 3.7.1
-Tested up to: 3.9.2
-Stable tag: 3.0.1
+Requires at least: 3.8.1
+Tested up to: 4.0
+Stable tag: 3.1.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -103,6 +103,12 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 3.1.1 (September 15, 2014) =
+ * Added Ability To Duplicate Individual Questions
+ * Added Ability To Require Accept, Number, And Open Answer Question Types
+ * Added Number Question Type
+ * Added Accept Non-Question Type
 
 = 3.0.1 (August 28, 2014) =
  * Added New Style Manager
@@ -492,6 +498,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 3.1.1 =
+Upgrade for new Accept and Number question types. Also, now you have the ability to duplicate individual questions!
 
 = 3.0.1 =
 Upgrade for new style manager, new non-question types, text block question type, and various design/bug fixes!

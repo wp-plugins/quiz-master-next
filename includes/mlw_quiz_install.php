@@ -168,6 +168,8 @@ function mlw_quiz_activate()
 			question_order INT NOT NULL,
 			
 			question_type INT NOT NULL,
+			
+			question_settings TEXT NOT NULL,
 
 			deleted INT NOT NULL,
 
