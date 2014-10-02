@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, exam, survey, contact, form, email, answer, question
 Requires at least: 3.8.1
 Tested up to: 4.0
-Stable tag: 3.1.1
+Stable tag: 3.2.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -103,6 +103,11 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 3.2.1 (October 2, 2014) =
+ * Added New Captcha Question Type
+ * Fixed Number Question Type Validation Bug
+ * Fixed Validation Wrong Border Bug
 
 = 3.1.1 (September 15, 2014) =
  * Added Ability To Duplicate Individual Questions
@@ -498,6 +503,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 3.2.1 =
+Upgrade for new Captcha question types!
 
 = 3.1.1 =
 Upgrade for new Accept and Number question types. Also, now you have the ability to duplicate individual questions!

@@ -427,20 +427,32 @@ function mlw_quiz_shortcode($atts)
 				}
 				
 				jQuery('#quizForm *').filter(':input').each(function(){
+					jQuery(this).css("outline", "");
 					if (jQuery(this).attr('class'))
 					{
-						console.log('inside first if');
+						if(jQuery(this).attr('class').indexOf('mlwRequiredNumber') > -1 && this.value == "" && +this.value != NaN)
+						{
+							document.getElementById('mlw_error_message').innerHTML = '**This field must be a number!**';
+							document.getElementById('mlw_error_message_bottom').innerHTML = '**This field must be a number!**';
+							jQuery(this).css("outline", "2px solid red");
+							mlw_validateResult =  false;
+						}
 						if(jQuery(this).attr('class').indexOf('mlwRequiredText') > -1 && this.value == "")
 						{
-							console.log('inside text if');
 							document.getElementById('mlw_error_message').innerHTML = '**Please complete all required fields!**';
 							document.getElementById('mlw_error_message_bottom').innerHTML = '**Please complete all required fields!**';
 							jQuery(this).css("outline", "2px solid red");
 							mlw_validateResult =  false;
 						}
+						if(jQuery(this).attr('class').indexOf('mlwRequiredCaptcha') > -1 && this.value != mlw_code)
+						{
+							document.getElementById('mlw_error_message').innerHTML = '**The entered text is not correct!**';
+							document.getElementById('mlw_error_message_bottom').innerHTML = '**The entered text is not correct!**';
+							jQuery(this).css("outline", "2px solid red");
+							mlw_validateResult =  false;
+						}
 						if(jQuery(this).attr('class').indexOf('mlwRequiredCheck') > -1 && !this.checked)
 						{
-							console.log('inside check if');
 							document.getElementById('mlw_error_message').innerHTML = '**Please complete all required fields!**';
 							document.getElementById('mlw_error_message_bottom').innerHTML = '**Please complete all required fields!**';
 							jQuery(this).css("outline", "2px solid red");
@@ -464,7 +476,7 @@ function mlw_quiz_shortcode($atts)
 		
 		//Begin the quiz
 		$mlw_display .= "<div class='mlw_qmn_quiz'>";
-		$mlw_display .= "<form name='quizForm' id='quizForm' action='' method='post' class='mlw_quiz_form' onsubmit='return mlw_validateForm()' >";
+		$mlw_display .= "<form name='quizForm' id='quizForm' action='' method='post' class='mlw_quiz_form' onsubmit='return mlw_validateForm()' novalidate >";
 		$mlw_display .= "<span id='mlw_top_of_quiz'></span>";
 		$mlw_display .= "<div class='quiz_section  quiz_begin slide".$mlw_qmn_section_count."'>";
 		$mlw_message_before = htmlspecialchars_decode($mlw_quiz_options->message_before, ENT_QUOTES);
@@ -706,7 +718,7 @@ function mlw_quiz_shortcode($atts)
 				$mlw_qmn_total_questions = $mlw_qmn_total_questions + 1;
 				if ($mlw_quiz_options->question_numbering == 1) { $mlw_display .= $mlw_qmn_total_questions.") "; }
 				$mlw_display .= htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES)."</span><br />";
-				if ($mlw_question_settings['required'] == 0) {$mlw_requireClass = "mlwRequiredText";} else {$mlw_requireClass = "";}
+				if ($mlw_question_settings['required'] == 0) {$mlw_requireClass = "mlwRequiredNumber";} else {$mlw_requireClass = "";}
 				$mlw_display .= "<input type='number' class='mlw_answer_number $mlw_requireClass' name='question".$mlw_question->question_id."' />";
 				$mlw_display .= "<br />";
 			}
@@ -716,6 +728,35 @@ function mlw_quiz_shortcode($atts)
 				$mlw_display .= "<input type='checkbox' id='mlwAcceptance' class='$mlw_requireClass ' />";
 				$mlw_display .= "<label for='mlwAcceptance'><span class='mlw_qmn_question' style='font-weight:bold;'>".htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES)."</span></label>";
 				$mlw_display .= "<br />";
+			}
+			elseif ($mlw_question->question_type == 9)
+			{
+				if ($mlw_question_settings['required'] == 0) {$mlw_requireClass = "mlwRequiredCaptcha";} else {$mlw_requireClass = "";}
+				$mlw_display .= "<div class='mlw_captchaWrap'>";
+				$mlw_display .= "<canvas alt='' id='mlw_captcha' class='mlw_captcha' width='100' height='50'></canvas>";
+				$mlw_display .= "</div>";
+				$mlw_display .= "<span class='mlw_qmn_question' style='font-weight:bold;'>";
+		        $mlw_display .= htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES)."</span><br />";
+		        $mlw_display .= "<input type='text' class='mlw_answer_open_text $mlw_requireClass' id='mlw_captcha_text' name='mlw_user_captcha'/>";
+		        $mlw_display .= "<input type='hidden' name='mlw_code_captcha' id='mlw_code_captcha' value='none' />";
+				$mlw_display .= "<br />";
+				$mlw_display .= "<script>
+				var mlw_code = '';
+				var mlw_chars = '0123456789ABCDEFGHIJKL!@#$%^&*()MNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+				var mlw_code_length = 5;
+				for (var i=0; i<mlw_code_length; i++) {
+		            var rnum = Math.floor(Math.random() * mlw_chars.length);
+		            mlw_code += mlw_chars.substring(rnum,rnum+1);
+		        }
+		        var mlw_captchaCTX = document.getElementById('mlw_captcha').getContext('2d');
+		        mlw_captchaCTX.font = 'normal 24px Verdana';
+		        mlw_captchaCTX.strokeStyle = '#000000';
+		        mlw_captchaCTX.clearRect(0,0,100,50);
+		        mlw_captchaCTX.strokeText(mlw_code,10,30,70);
+		        mlw_captchaCTX.textBaseline = 'middle';
+		        document.getElementById('mlw_code_captcha').value = mlw_code;
+		        </script>
+		        ";
 			}
 			else
 			{
@@ -799,7 +840,7 @@ function mlw_quiz_shortcode($atts)
 			window.sessionStorage.setItem('mlw_started_quiz<?php echo $mlw_quiz_id; ?>', "no");
 		</script>
 		<?php
-		if (empty($mlw_spam_email) && $mlw_qmn_isAllowed)
+		if (empty($mlw_spam_email) && $mlw_qmn_isAllowed && ((!isset($_POST["mlw_code_captcha"])) || isset($_POST["mlw_code_captcha"]) && $_POST["mlw_user_captcha"] == $_POST["mlw_code_captcha"]))
 		{
 		
 		//Load questions
@@ -1402,6 +1443,10 @@ EOC;
 				$mlw_message = str_replace( "%USER_NAME%" , $current_user->display_name, $mlw_message);
 				$mlw_message = str_replace( "%CURRENT_DATE%" , date("F jS Y"), $mlw_message);
 				$mlw_display .= $mlw_message;
+			}
+			elseif (isset($_POST["mlw_code_captcha"]) && $_POST["mlw_user_captcha"] != $_POST["mlw_code_captcha"])
+			{
+				$mlw_display .= "There was an issue with the captcha verification. Please try again.";	
 			}
 			else { $mlw_display .= "Thank you.";	}
 		}

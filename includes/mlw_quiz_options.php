@@ -1257,6 +1257,9 @@ function mlw_generate_quiz_options()
 					case 8:
 						$mlw_question_type_text = "Accept";
 						break;
+					case 9:
+						$mlw_question_type_text = "Captcha";
+						break;
 					default:
 						$mlw_question_type_text = "Error Code ";
 				}
@@ -1355,6 +1358,7 @@ function mlw_generate_quiz_options()
 						<option value="6" <?php if ($mlw_question_info->question_type == 6) { echo 'selected="selected"'; } ?>>Text Block</option>
 						<option value="7" <?php if ($mlw_question_info->question_type == 7) { echo 'selected="selected"'; } ?>>Number</option>
 						<option value="8" <?php if ($mlw_question_info->question_type == 8) { echo 'selected="selected"'; } ?>>Accept</option>
+						<option value="9" <?php if ($mlw_question_info->question_type == 9) { echo 'selected="selected"'; } ?>>Captcha</option>
 					</select>
 				</div></td>
 				</tr>
@@ -1509,6 +1513,7 @@ function mlw_generate_quiz_options()
 					<option value="6">Text Block</option>
 					<option value="7">Number</option>
 					<option value="8">Accept</option>
+					<option value="9">Captcha</option>
 				</select>
 			</div></td>
 			</tr>
