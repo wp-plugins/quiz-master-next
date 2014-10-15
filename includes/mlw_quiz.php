@@ -583,9 +583,34 @@ function mlw_quiz_shortcode($atts)
 						$mlw_answer_total++;
 						if ($mlw_qmn_answer_each[0] != "")
 						{
-							$mlw_display .= "<input type='hidden' name='question".$mlw_question->question_id."' value='This value doesn't matter' />";
+							$mlw_display .= "<input type='hidden' name='question".$mlw_question->question_id."' value='This value does not matter' />";
 							$mlw_display .= "<input type='checkbox' name='question".$mlw_question->question_id."_".$mlw_answer_total."' id='question".$mlw_question->question_id."_".$mlw_answer_total."' value='".esc_attr($mlw_qmn_answer_each[0])."' /> <label for='question".$mlw_question->question_id."_".$mlw_answer_total."'>".htmlspecialchars_decode($mlw_qmn_answer_each[0], ENT_QUOTES)."</label>";
 							$mlw_display .= "<br />";
+						}
+					}
+				}
+			}
+			elseif ($mlw_question->question_type == 10)
+			{
+				$mlw_display .= "<span class='mlw_qmn_question' style='font-weight:bold;'>";
+				$mlw_qmn_total_questions = $mlw_qmn_total_questions + 1;
+				if ($mlw_quiz_options->question_numbering == 1) { $mlw_display .= $mlw_qmn_total_questions.") "; }
+				$mlw_display .= htmlspecialchars_decode($mlw_question->question_name, ENT_QUOTES)."</span><br />";
+				$mlw_qmn_answer_array = $mlw_qmn_answer_arrays[$mlw_question->question_id];
+				if (is_array($mlw_qmn_answer_array))
+				{
+					if ($mlw_quiz_options->randomness_order == 2)
+					{
+						shuffle($mlw_qmn_answer_array);
+					}
+					$mlw_answer_total = 0;
+					foreach($mlw_qmn_answer_array as $mlw_qmn_answer_each)
+					{
+						$mlw_answer_total++;
+						if ($mlw_qmn_answer_each[0] != "")
+						{
+							$mlw_display .= "<input type='hidden' name='question".$mlw_question->question_id."' value='This value does not matter' />";
+							$mlw_display .= "<span class='mlw_horizontal_multiple'><input type='checkbox' name='question".$mlw_question->question_id."_".$mlw_answer_total."' id='question".$mlw_question->question_id."_".$mlw_answer_total."' value='".esc_attr($mlw_qmn_answer_each[0])."' /> <label for='question".$mlw_question->question_id."_".$mlw_answer_total."'>".htmlspecialchars_decode($mlw_qmn_answer_each[0], ENT_QUOTES)."&nbsp;</label></span>";
 						}
 					}
 				}
@@ -928,7 +953,7 @@ function mlw_quiz_shortcode($atts)
 						}
 					}
 				}
-				elseif ( $mlw_question->question_type == 3 ||  $mlw_question->question_type == 5)
+				elseif ( $mlw_question->question_type == 3 ||  $mlw_question->question_type == 5 ||  $mlw_question->question_type == 7)
 				{
 					if (isset($_POST["question".$mlw_question->question_id]))
 					{
@@ -951,7 +976,7 @@ function mlw_quiz_shortcode($atts)
 						}
 					}
 				}
-				elseif ( $mlw_question->question_type == 4 )
+				elseif ( $mlw_question->question_type == 4 ||  $mlw_question->question_type == 10)
 				{
 					$mlw_qmn_user_correct_answers = 0;
 					$mlw_qmn_total_correct_answers = 0;

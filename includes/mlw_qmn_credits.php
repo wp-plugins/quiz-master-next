@@ -89,23 +89,32 @@ function mlw_generate_about_page()
 	<div class="mlw_qmn_icon_wrap">Version <?php echo $mlw_quiz_version; ?></div>
 	<h2 class="nav-tab-wrapper">
 		<a href="javascript:mlw_qmn_setTab(1);" id="mlw_qmn_tab_1" class="nav-tab nav-tab-active">
-			What&#8217;s New In 3.2</a>
+			What&#8217;s New In 3.3</a>
 		<a href="javascript:mlw_qmn_setTab(2);" id="mlw_qmn_tab_2" class="nav-tab">
 			Changelog For <?php echo $mlw_quiz_version; ?>	</a>
 		<a href="javascript:mlw_qmn_setTab(3);" id="mlw_qmn_tab_3" class="nav-tab">
 			Requested Features</a>
 	</h2>
 	<div id="mlw_quiz_what_new">
+	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Duplicate Questions With Quizzes</h2>
+	<p style="text-align: center;">You can now duplicate your questions with your quizzes when duplicating!</p>
+	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">New Question Type</h2>
-	<p style="text-align: center;">You can now use the captcha question type to help fight spam!</p>
+	<p style="text-align: center;">You can now use the new Horizontal Multiple Response type to have your multiple reponse check boxes go horizontally instead of vertically.</p>
 	<br />
 	<h2 style="margin: 1.1em 0 .2em;font-size: 2.4em;font-weight: 300;line-height: 1.3;text-align: center;">Our Premium Add-Ons!</h2>
 	<p style="text-align: center;">We have several new premium add-ons in our WordPress Store: MailPoet Integration (subscribes users to your MailPoet list), MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	</div>
 	<div id="mlw_quiz_changelog" style="display: none;">
-	<h3><?php echo $mlw_quiz_version; ?> (October 4, 2014)</h3>
+	<h3><?php echo $mlw_quiz_version; ?> (October 15, 2014)</h3>
 	<ul>
-		<li>* Minor Bug Fixes</li>
+		<li>* Added Horizontal Multiple Response Question Type</li>
+		<li>* Added Ability To Duplicate Questions When Duplicate Quizzes</li>
+		<li>* Added Last Modified Column To Table On Quizzes Page</li>
+		<li>* Fixed Number Question Type Grading Bug</li>
+		<li>* Fixed Missing theme_selected Column Installation Bug</li>
+		<li>* Fixed Missing theme_selected Column Duplication Bug</li>
+		<li>* Fixed Numerous Small Bugs</li>
 	</ul>
 	</div>
 	<div id="mlw_quiz_requested" style="display: none;">
@@ -122,7 +131,6 @@ function mlw_generate_about_page()
 		<li>More Social Media Integration</li>
 		<li>Show Question Amount On Pagination</li>
 		<li>Required Questions</li>
-		<li>Duplicate Question</li>
 		<li>Allow Quiz To Not Show Start Page</li>
 		<li>Progress Bar For Timer</li>
 		<li>Ability To Redirect User Instead Of Showing Results Page</li>
@@ -134,7 +142,9 @@ function mlw_generate_about_page()
 		<li>Enhanced Leaderboard</li>
 		<li>Different Social Media Sharing Text For Different Social Media</li>
 		<li>Ability To Highlight Incorrect Answers</li>
-		<li>Delete Multiple Results</li>
+		<li>Set Default Question Type</li>
+		<li>Show Pop-Up When Clicking Submit</li>
+		<li>Conditional Continuation To Next Quiz</li>
 	</ul>
 	</div>
 	</div>

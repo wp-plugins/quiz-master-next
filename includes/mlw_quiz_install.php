@@ -97,6 +97,10 @@ function mlw_quiz_activate()
 			question_numbering INT NOT NULL,
 			
 			quiz_settings TEXT NOT NULL,
+			
+			theme_selected TEXT NOT NULL,
+			
+			last_activity DATETIME NOT NULL,
 
 			quiz_views INT NOT NULL,
 

@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: quiz, test, score, exam, survey, contact, form, email, answer, question
 Requires at least: 3.8.1
 Tested up to: 4.0
-Stable tag: 3.2.2
+Stable tag: 3.3.1
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 The easiest and most flexible way to add multiple quizzes, tests, and surveys to your website.
@@ -20,7 +20,7 @@ Each of your quizzes can have **unlimited** questions and each of those question
 All the text your users see can be **customized**. Everything from the text blocks throughout the quiz to the submit button.
 
 = Different Types Of Questions =
-You can have **multiple choice** (radio buttons), **true and false**, **open answer** question, **drop down**, and **multiple response** (checkboxes). More types are being supported in future updates!
+You can have **multiple choice** (radio buttons), **true and false**, **open answer** question, **drop down**, **multiple response** (checkboxes), **number**, **captcha**, and **accept**. More types are being supported in future updates!
 
 = Mulitple Landing Pages For Each Quiz =
 Each quiz can have **unlimited** results pages that can be customized with your text. Show different results pages based on the users score!
@@ -103,6 +103,15 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 8. Example Quiz With Styling
 
 == Changelog ==
+
+= 3.3.1 (October 15, 2014) =
+ * Added Horizontal Multiple Response Question Type
+ * Added Ability To Duplicate Questions When Duplicate Quizzes
+ * Added Last Modified Column To Table On Quizzes Page
+ * Fixed Number Question Type Grading Bug
+ * Fixed Missing theme_selected Column Installation Bug
+ * Fixed Missing theme_selected Column Duplication Bug
+ * Fixed Numerous Small Bugs
 
 = 3.2.2 (October 4, 2014) =
  * Minor Bug Fixes
@@ -506,6 +515,9 @@ Feel free to use the widget on the quiz dashboard within the plugin or from the 
 * Added results page
 
 == Upgrade Notice ==
+
+= 3.3.1 =
+Upgrade for new Horizontal Multiple Response question type and to be able to duplicate questions when duplicating quizzes. Also, fixes several major and minor bugs.
 
 = 3.2.1 =
 Upgrade for new Captcha question types!

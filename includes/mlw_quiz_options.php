@@ -318,7 +318,7 @@ function mlw_generate_quiz_options()
 		$mlw_question_answer_template = htmlspecialchars($_POST["mlw_quiz_question_answer_template"], ENT_QUOTES);
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_pagination_field."' WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET message_before='".$mlw_before_message."', message_comment='".$mlw_before_comments."', message_end_template='".$mlw_qmn_message_end."', comment_field_text='".$mlw_comment_field_text."', email_from_text='".$mlw_email_from_text."', question_answer_template='".$mlw_question_answer_template."', submit_button_text='".$mlw_submit_button_text."', name_field_text='".$mlw_name_field_text."', business_field_text='".$mlw_business_field_text."', email_field_text='".$mlw_email_field_text."', phone_field_text='".$mlw_phone_field_text."', total_user_tries_text='".$mlw_user_tries_text."', social_media_text='".$mlw_qmn_social_medi_text."', pagination_text='".$mlw_qmn_pagination_field."', last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -369,7 +369,7 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_loggedin_contact = $_POST["loggedin_user_contact"];
 		$quiz_id = $_POST["quiz_id"];
 		
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total.", total_user_tries=".$mlw_total_user_tries.", social_media=".$mlw_qmn_social_media.", pagination=".$mlw_qmn_pagination.", timer_limit=".$mlw_qmn_timer.", question_numbering=".$mlw_qmn_question_numbering." WHERE quiz_id=".$quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET system='".$mlw_system."', send_user_email='".$mlw_send_user_email."', send_admin_email='".$mlw_send_admin_email."', loggedin_user_contact='".$mlw_qmn_loggedin_contact."', contact_info_location=".$mlw_contact_location.", user_name='".$mlw_user_name."', user_comp='".$mlw_user_comp."', user_email='".$mlw_user_email."', user_phone='".$mlw_user_phone."', admin_email='".$mlw_admin_email."', comment_section='".$mlw_comment_section."', randomness_order='".$mlw_randomness_order."', question_from_total=".$mlw_qmn_questions_from_total.", total_user_tries=".$mlw_total_user_tries.", social_media=".$mlw_qmn_social_media.", pagination=".$mlw_qmn_pagination.", timer_limit=".$mlw_qmn_timer.", question_numbering=".$mlw_qmn_question_numbering.", last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=".$quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -401,7 +401,7 @@ function mlw_generate_quiz_options()
 		///Variables for save leaderboard options form
 		$mlw_leaderboard_template = $_POST["mlw_quiz_leaderboard_template"];
 		$mlw_leaderboard_quiz_id = $_POST["leaderboard_quiz_id"];
-		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET leaderboard_template='".$mlw_leaderboard_template."' WHERE quiz_id=".$mlw_leaderboard_quiz_id;
+		$update = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET leaderboard_template='".$mlw_leaderboard_template."', last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=".$mlw_leaderboard_quiz_id;
 		$results = $wpdb->query( $update );
 		if ($results != false)
 		{
@@ -439,7 +439,7 @@ function mlw_generate_quiz_options()
 		$mlw_certificate = array($mlw_certificate_title, $mlw_certificate_text, $mlw_certificate_logo, $mlw_certificate_background, $mlw_enable_certificates);
 		$mlw_certificate_serialized = serialize($mlw_certificate);
 		
-		$mlw_certificate_sql_results = $wpdb->query( $wpdb->prepare( "UPDATE " . $wpdb->prefix . "mlw_quizzes SET certificate_template=%s WHERE quiz_id=%d", $mlw_certificate_serialized, $mlw_certificate_id  ) );
+		$mlw_certificate_sql_results = $wpdb->query( $wpdb->prepare( "UPDATE " . $wpdb->prefix . "mlw_quizzes SET certificate_template=%s, last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=%d", $mlw_certificate_serialized, $mlw_certificate_id  ) );
 		
 		
 		if ($mlw_certificate_sql_results != false)
@@ -490,7 +490,7 @@ function mlw_generate_quiz_options()
 			$mlw_qmn_email_array = serialize($mlw_qmn_email_array);
 		}
 		//Update message_after with new array then check to see if worked
-		$mlw_new_email_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET user_email_template='%s' WHERE quiz_id=%d", $mlw_qmn_email_array, $mlw_qmn_add_email_id ) );
+		$mlw_new_email_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET user_email_template='%s', last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=%d", $mlw_qmn_email_array, $mlw_qmn_add_email_id ) );
 		if ($mlw_new_email_results != false)
 		{
 			$mlw_hasAddedEmail = true;
@@ -532,7 +532,7 @@ function mlw_generate_quiz_options()
 			$i++;
 		}
 		$mlw_qmn_new_email_array = serialize($mlw_qmn_new_email_array);
-		$mlw_new_email_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET user_email_template='%s', admin_email_template='%s' WHERE quiz_id=%d", $mlw_qmn_new_email_array, $mlw_qmn_admin_email, $mlw_qmn_email_id ) );
+		$mlw_new_email_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET user_email_template='%s', admin_email_template='%s', last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=%d", $mlw_qmn_new_email_array, $mlw_qmn_admin_email, $mlw_qmn_email_id ) );
 		if ($mlw_new_email_results != false)
 		{
 			$mlw_hasSavedEmail = true;
@@ -581,7 +581,7 @@ function mlw_generate_quiz_options()
 		}
 		
 		//Update message_after with new array then check to see if worked
-		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after=%s WHERE quiz_id=%d", $mlw_qmn_landing_array, $mlw_qmn_landing_id ) );
+		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after=%s, last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=%d", $mlw_qmn_landing_array, $mlw_qmn_landing_id ) );
 		if ($mlw_new_landing_results != false)
 		{
 			$mlw_hasAddedLanding = true;
@@ -622,7 +622,7 @@ function mlw_generate_quiz_options()
 			$i++;
 		}
 		$mlw_qmn_new_landing_array = serialize($mlw_qmn_new_landing_array);
-		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after='%s' WHERE quiz_id=%d", $mlw_qmn_new_landing_array, $mlw_qmn_landing_id ) );
+		$mlw_new_landing_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET message_after='%s', last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=%d", $mlw_qmn_new_landing_array, $mlw_qmn_landing_id ) );
 		if ($mlw_new_landing_results != false)
 		{
 			$mlw_hasSavedLanding = true;
@@ -655,7 +655,7 @@ function mlw_generate_quiz_options()
 		$mlw_qmn_style = htmlspecialchars(stripslashes($_POST["quiz_css"]), ENT_QUOTES);
 		
 		//Save the new css
-		$mlw_save_stle_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET quiz_stye='%s', theme_selected='%s' WHERE quiz_id=%d", $mlw_qmn_style, $mlw_qmn_theme, $mlw_qmn_style_id ) );
+		$mlw_save_stle_results = $wpdb->query( $wpdb->prepare( "UPDATE ".$wpdb->prefix."mlw_quizzes SET quiz_stye='%s', theme_selected='%s', last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=%d", $mlw_qmn_style, $mlw_qmn_theme, $mlw_qmn_style_id ) );
 		if ($mlw_save_stle_results != false)
 		{
 			$mlw_hasSavedStyle = true;
@@ -686,7 +686,7 @@ function mlw_generate_quiz_options()
 	{
 		//Variables from reset stats form
 		$mlw_reset_stats_quiz_id = $_POST["mlw_reset_quiz_id"];
-		$mlw_reset_update_sql = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views=0, quiz_taken=0 WHERE quiz_id=".$mlw_reset_stats_quiz_id;
+		$mlw_reset_update_sql = "UPDATE " . $wpdb->prefix . "mlw_quizzes" . " SET quiz_views=0, quiz_taken=0, last_activity='".date("Y-m-d H:i:s")."' WHERE quiz_id=".$mlw_reset_stats_quiz_id;
 		$mlw_reset_sql_results = $wpdb->query( $mlw_reset_update_sql );
 		if ($mlw_reset_sql_results != false)
 		{
@@ -1260,6 +1260,9 @@ function mlw_generate_quiz_options()
 					case 9:
 						$mlw_question_type_text = "Captcha";
 						break;
+					case 10:
+						$mlw_question_type_text = "Horizontal Multiple Response";
+						break;
 					default:
 						$mlw_question_type_text = "Error Code ";
 				}
@@ -1355,6 +1358,7 @@ function mlw_generate_quiz_options()
 						<option value="3" <?php if ($mlw_question_info->question_type == 3) { echo 'selected="selected"'; } ?>>Open Answer (Text Input)</option>
 						<option value="5" <?php if ($mlw_question_info->question_type == 5) { echo 'selected="selected"'; } ?>>Open Answer (Large Text Input)</option>
 						<option value="4" <?php if ($mlw_question_info->question_type == 4) { echo 'selected="selected"'; } ?>>Multiple Response (Checkbox)</option>
+						<option value="10" <?php if ($mlw_question_info->question_type == 10) { echo 'selected="selected"'; } ?>>Horizontal Multiple Response (Checkbox)</option>
 						<option value="6" <?php if ($mlw_question_info->question_type == 6) { echo 'selected="selected"'; } ?>>Text Block</option>
 						<option value="7" <?php if ($mlw_question_info->question_type == 7) { echo 'selected="selected"'; } ?>>Number</option>
 						<option value="8" <?php if ($mlw_question_info->question_type == 8) { echo 'selected="selected"'; } ?>>Accept</option>
@@ -1388,6 +1392,7 @@ function mlw_generate_quiz_options()
 				</div></td>
 				</tr>
 				</table>
+				<p> *Required currently only works on open answer, number, and captcha question types</p>
 				<input type="hidden" name="question_<?php echo $mlw_question_info->question_id; ?>_answer_total" id="question_<?php echo $mlw_question_info->question_id; ?>_answer_total" value="<?php echo $mlw_answer_total; ?>" />
 				<p class='submit'><input type='submit' class='button-primary' value='Edit Question' /></p>
 				</form>
@@ -1510,6 +1515,7 @@ function mlw_generate_quiz_options()
 					<option value="3">Open Answer (Text Input)</option>
 					<option value="5">Open Answer (Large Text Input)</option>
 					<option value="4">Multiple Response (Checkbox)</option>
+					<option value="10">Horizontal Multiple Response (Checkbox)</option>
 					<option value="6">Text Block</option>
 					<option value="7">Number</option>
 					<option value="8">Accept</option>
@@ -1543,6 +1549,7 @@ function mlw_generate_quiz_options()
 			</div></td>
 			</tr>
 			</table>
+			<p> *Required currently only works on open answer, number, and captcha question types</p>
 			<input type="hidden" name="new_question_answer_total" id="new_question_answer_total" value="<?php echo $mlw_answer_total; ?>" />
 			<?php
 			echo "<p class='submit'><input type='submit' class='button-primary' value='Create Question' /></p>";
@@ -2328,6 +2335,7 @@ function mlw_generate_quiz_options()
 		<p>The message displayed at end of quiz is a span with class 'mlw_qmn_message_end'</p>
 		<p>Each button shown for pagination (i.e Next/Previous) is wrapped in class 'mlw_qmn_quiz_link'</p>
 		<p>Timer is wrapped in class 'mlw_qmn_timer'</p>
+		<p>Each horizontal multiple response is wrapped in a span with class 'mlw_horizontal_multiple'</p>
 		<button id="save_styles_button" onclick="javascript: document.quiz_style_form.submit();">Save Quiz Style</button>
 
 		<table class="form-table">

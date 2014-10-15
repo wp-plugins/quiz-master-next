@@ -6,7 +6,7 @@ function mlw_quiz_update()
 {
 	
 	//Update this variable each update. This is what is checked when the plugin is deciding to run the upgrade script or not.
-	$data = "3.2.2";
+	$data = "3.3.1";
 	if ( ! get_option('mlw_quiz_master_version'))
 	{
 		add_option('mlw_quiz_master_version' , $data);
@@ -242,6 +242,15 @@ function mlw_quiz_update()
 			$sql = "ALTER TABLE ".$table_name." ADD theme_selected TEXT NOT NULL AFTER quiz_settings";
 			$results = $wpdb->query( $sql );
 			$update_sql = "UPDATE ".$table_name." SET theme_selected='default'";
+			$results = $wpdb->query( $update_sql );
+		}
+		
+		//Update 3.3.1
+		if($wpdb->get_var("SHOW COLUMNS FROM ".$table_name." LIKE 'last_activity'") != "last_activity")
+		{
+			$sql = "ALTER TABLE ".$table_name." ADD last_activity DATETIME NOT NULL AFTER theme_selected";
+			$results = $wpdb->query( $sql );
+			$update_sql = "UPDATE ".$table_name." SET last_activity='".date("Y-m-d H:i:s")."'";
 			$results = $wpdb->query( $update_sql );
 		}
 		
