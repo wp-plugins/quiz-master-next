@@ -2056,8 +2056,8 @@ function mlw_generate_quiz_options()
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Score Greater Than</th>
-							<th>Score Less Than</th>
+							<th>Score Greater Than Or Equal To</th>
+							<th>Score Less Than Or Equal To</th>
 							<th>Subject</th>
 							<th>Email To Send</th>
 						</tr>
@@ -2122,8 +2122,8 @@ function mlw_generate_quiz_options()
 					<tfoot>
 						<tr>
 							<th>ID</th>
-							<th>Score Greater Than</th>
-							<th>Score Less Than</th>
+							<th>Score Greater Than Or Equal To</th>
+							<th>Score Less Than Or Equal To</th>
 							<th>Subject</th>
 							<th>Email To Send</th>
 						</tr>
@@ -2215,8 +2215,8 @@ function mlw_generate_quiz_options()
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>Score Greater Than</th>
-					<th>Score Less Than</th>
+					<th>Score Greater Than Or Equal To</th>
+					<th>Score Less Than Or Equal To</th>
 					<th>Results Page Shown</th>
 				</tr>
 			</thead>
@@ -2270,8 +2270,8 @@ function mlw_generate_quiz_options()
 			<tfoot>
 				<tr>
 					<th>ID</th>
-					<th>Score Greater Than</th>
-					<th>Score Less Than</th>
+					<th>Score Greater Than Or Equal To</th>
+					<th>Score Less Than Or Equal To</th>
 					<th>Results Page Shown</th>
 				</tr>
 			</tfoot>

@@ -106,15 +106,9 @@ function mlw_generate_about_page()
 	<p style="text-align: center;">We have several new premium add-ons in our WordPress Store: MailPoet Integration (subscribes users to your MailPoet list), MailChimp Integration (subscribes users to your Mailchimp list), Export Results (exports your quiz results), Extra Shortcodes (gives you extra shortcodes to use), User Dashboard (allow users to see the results from all the quizzes they have taken), and Advertisement Be Gone (gets rid of blue-border ads). Visit our <a href="http://mylocalwebstop.com/shop/">WordPress Store</a> for details! </p>
 	</div>
 	<div id="mlw_quiz_changelog" style="display: none;">
-	<h3><?php echo $mlw_quiz_version; ?> (October 15, 2014)</h3>
+	<h3><?php echo $mlw_quiz_version; ?> (October 26, 2014)</h3>
 	<ul>
-		<li>* Added Horizontal Multiple Response Question Type</li>
-		<li>* Added Ability To Duplicate Questions When Duplicate Quizzes</li>
-		<li>* Added Last Modified Column To Table On Quizzes Page</li>
-		<li>* Fixed Number Question Type Grading Bug</li>
-		<li>* Fixed Missing theme_selected Column Installation Bug</li>
-		<li>* Fixed Missing theme_selected Column Duplication Bug</li>
-		<li>* Fixed Numerous Small Bugs</li>
+		<li>* Minor Design Change To Quiz Options</li>
 	</ul>
 	</div>
 	<div id="mlw_quiz_requested" style="display: none;">
